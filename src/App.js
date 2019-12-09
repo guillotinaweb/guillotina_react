@@ -1,6 +1,6 @@
 import React from 'react';
 import {Layout} from './components/layout'
-import AuthService from './lib/auth'
+import {Auth} from './lib/auth'
 import {Guillotina} from './components/guillotina'
 import {Login} from './components/login'
 import {useState} from 'react'
@@ -8,8 +8,11 @@ import './scss/styles.sass'
 
 function App() {
 
-  const [isLogged, setLogged] = useState(AuthService.isLogged)
-  const auth = AuthService
+  const url = 'http://localhost:8080/'
+  const auth = new Auth(url)
+
+  const [isLogged, setLogged] = useState(auth.isLogged)
+
 
   const onLogin = () => {
     setLogged(true)
@@ -19,7 +22,7 @@ function App() {
   return (
 
       <Layout auth={auth} onLogout={onLogout}>
-        { isLogged && <Guillotina auth={auth} />}
+        { isLogged && <Guillotina auth={auth} url={url} />}
         { !isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">

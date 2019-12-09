@@ -1,16 +1,19 @@
 
 import jwt_decode from 'jwt-decode'
 
-export const GUILLO = "http://localhost:8080/db/crawler/"
 
-const url = (endpoint) => `${GUILLO}${endpoint}`
+export class Auth {
 
+  constructor(url) {
+    this.url = url
+  }
 
-class Auth {
-
+  getUrl(endpoint) {
+    return `${this.url}${endpoint}`
+  }
 
   async login(username, password) {
-      const data = await fetch(url('@login'), {
+      const data = await fetch(this.getUrl('@login'), {
         method: 'post',
         body: JSON.stringify({
           username: username,
@@ -51,7 +54,7 @@ class Auth {
   }
 
   storeAuth(data) {
-    console.log(jwt_decode(data.token))
+    console.log("Storing token", jwt_decode(data.token))
     localStorage.setItem('auth', data.token)
     localStorage.setItem('auth_expires', data.exp);
   }
@@ -62,7 +65,7 @@ class Auth {
   }
 
   async refreshToken() {
-    let data = await fetch(url('@login-refresh'), {
+    let data = await fetch(this.getUrl('@login-refresh'), {
       headers: this.getHeaders(),
       method: 'post',
     })
@@ -70,9 +73,18 @@ class Auth {
     return data.token
   }
 
+  willExpire(expiration) {
+    let now = new Date().getTime()
+    console.log("Will expire", parseInt(expiration)*1000, now + 600)
+    if ((parseInt(expiration)*1000)  < (now + 600)) {
+      return true
+    }
+    return false
+  }
+
   isExpired(expiration) {
     let now = new Date().getTime()
-    if (parseInt(expiration*1000) > now) {
+    if (parseInt(expiration)*1000 > now) {
       return false
     }
     return true
@@ -98,8 +110,12 @@ class Auth {
   }
 
   getHeaders() {
-    const [authToken,]  = this._getToken()
+    const [authToken, expires]  = this._getToken()
     if (!authToken) return false;
+    if (this.willExpire(expires)) {
+      this.refreshToken().resolve()
+    }
+
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -109,7 +125,4 @@ class Auth {
 
 }
 
-let AuthService = new Auth()
-
-export default AuthService;
 

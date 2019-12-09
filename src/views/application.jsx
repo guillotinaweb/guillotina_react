@@ -2,17 +2,13 @@ import React from 'react';
 
 import {Item} from '../components/item'
 import {ItemTitle} from '../components/item'
-import {Modal} from 'bloomer'
-import {ModalBackground} from 'bloomer'
-import {ModalContent} from 'bloomer'
-import {ModalClose} from 'bloomer'
-import {Box} from 'bloomer'
 import {Button} from 'bloomer'
 import {Notification} from 'bloomer'
 import {Label, Control, Input, Field} from 'bloomer'
 import {useState} from 'react'
 import {useContext} from 'react'
 import {FlashContext} from '../contexts'
+import {Modal} from '../components/modal'
 
 
 export function ApplicationCtx(props) {
@@ -93,7 +89,7 @@ function ModalAddContainer({isActive, setActive, client, state, setPath}) {
     }
     const res = await client.createObject(state.path, data)
     const result = await res.json()
-    if (res.status == 200) {
+    if (res.status === 200) {
       // TODO set flash message via context
       setPath(state.path)
       setId('')
@@ -110,10 +106,8 @@ function ModalAddContainer({isActive, setActive, client, state, setPath}) {
   }
 
   return (
-    <Modal isActive={isActive}>
-      <ModalBackground onClick={() => setActive(false)}  />
-      <ModalContent>
-        <Box>
+    <Modal isActive={isActive} setActive={setActive}>
+      <>
         {error && <Notification isColor='danger'>{error}</Notification>}
         <Field>
           <Label>Create Container</Label>
@@ -132,9 +126,7 @@ function ModalAddContainer({isActive, setActive, client, state, setPath}) {
                 onClick={createContainer}>Create</Button>
             </Control>
           </Field>
-        </Box>
-      </ModalContent>
-    <ModalClose onClick={() => setActive(false)} />
+      </>
   </Modal>
   )
 }

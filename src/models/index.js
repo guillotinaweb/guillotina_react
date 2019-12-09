@@ -22,6 +22,8 @@ export class ItemModel {
         return "fas fa-users-cog"
       case "UserManager":
         return "fas fa-user-cog"
+      case "Folder":
+        return "fas fa-folder"
       default:
         return "fas fa-file"
     }
@@ -33,6 +35,10 @@ export class ItemModel {
 
   get type() {
     return this.item["@type"]
+  }
+
+  get title() {
+    return this.item.title
   }
 
 }

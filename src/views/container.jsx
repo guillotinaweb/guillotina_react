@@ -1,10 +1,10 @@
 import React from 'react';
-
-
 import {RItem} from '../components/item'
 import {TabsPanel} from '../components/tabs'
 import {ContextToolbar} from '../components/context_toolbar'
-
+import {TraversalContext} from '../contexts'
+import {useContext} from 'react'
+import {formatDate} from '../lib/utils'
 
 const tabs = {
   Items: PanelItems,
@@ -24,15 +24,23 @@ export function Panel(props) {
 }
 
 export function PanelItems(props) {
-  console.info(props)
   const {context} = props.state
   const {setPath} = props
+
   return (
-    <table className="table is-fullwidth is-hoverable">
-      {context.items.map(item =>
-        <RItem item={item} setPath={setPath} key={item["@uid"]} />
-      )}
-    </table>
+    <>
+      <p className="has-text-right">
+        <strong>{context.length} items</strong>&nbsp;
+        Modified: {formatDate(context.modification_date)}
+      </p>
+      <table className="table is-fullwidth is-hoverable">
+        <tbody>
+        {context.items.map(item =>
+          <RItem item={item} setPath={setPath} key={item["@uid"]} />
+        )}
+        </tbody>
+      </table>
+    </>
   )
 }
 

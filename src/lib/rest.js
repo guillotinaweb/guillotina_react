@@ -48,7 +48,7 @@ export class RestClient {
     })
   }
 
-  async del(path) {
+  async delete(path) {
     return await this.request(path, {
       method: 'delete',
     })

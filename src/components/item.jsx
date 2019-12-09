@@ -1,19 +1,16 @@
 import React from 'react';
 
-import {Container, LevelLeft, LevelRight, LevelItem} from 'bloomer'
+import {LevelLeft, LevelRight, LevelItem} from 'bloomer'
 import {Delete} from 'bloomer'
 import {ItemModel} from '../models'
+import {TraversalContext} from '../contexts'
+import {useContext} from 'react'
 
 
 const styles = {
   borderBottom: '1px solid #eaeaea',
   cursor: 'pointer',
   padding: '0'
-}
-
-const stylesTitle = {
-  paddingBottom: '10px',
-  // backgroundColor: '#eaeaea'
 }
 
 export function Item({item, setPath, icon}) {
@@ -32,9 +29,9 @@ const smallcss = {
 
 export function RItem({item, setPath}) {
 
+  const traversal = useContext(TraversalContext)
   const model = new ItemModel(item)
   const link = () => setPath(model.path)
-  const icon = undefined
 
   return (
     <tr>
@@ -42,7 +39,7 @@ export function RItem({item, setPath}) {
       <td style={smallcss}><span className="tag">{model.type}</span></td>
       <td onClick={link}>{model.name}</td>
       <td style={smallcss}>
-        <Delete />
+        <Delete  onClick={() => traversal.doAction('removeItem', model) } />
       </td>
     </tr>
   )
