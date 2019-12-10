@@ -19,7 +19,7 @@ export function Path(props) {
     <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>
       {segments.map((item, indx) =>
-        (indx === 0) ?
+        ((indx === 0) ?
           <li key={indx}>
             <a onClick={() => ctx.setPath(links[indx])}>
               <span className="icon">
@@ -30,7 +30,7 @@ export function Path(props) {
           :
           <li key={indx}><a onClick={() => ctx.setPath(links[indx])}>
           {item}</a></li>
-      )}
+      ))}
       </ul>
     </nav>
   )
@@ -47,6 +47,7 @@ const buildPaths = (segments) => {
       current += item + "/"
     }
     results.push(current)
+    return item
   })
   return results
 }

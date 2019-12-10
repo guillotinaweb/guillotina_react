@@ -1,12 +1,10 @@
 import React from 'react'
 import {useContext} from 'react'
 import {useSetState} from 'react-use'
-import {formatDate} from '../../lib/utils'
 import {useEffect} from 'react'
 import {TraversalContext} from '../../contexts'
 import {RItem} from '../item'
 import {Pagination} from '../pagination'
-import {ItemModel} from '../../models'
 
 
 const initialState = {

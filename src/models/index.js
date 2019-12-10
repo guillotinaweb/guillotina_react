@@ -27,6 +27,10 @@ export class ItemModel {
         return "fas fa-users-cog"
       case "UserManager":
         return "fas fa-user-cog"
+      case "User":
+        return "fas fa-user"
+      case "Group":
+        return "fas fa-users"
       case "Folder":
         return "fas fa-folder"
       default:

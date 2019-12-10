@@ -14,9 +14,9 @@ const schema = {
 };
 
 
-const MyCustomWidget = (props) => {
+const BaseWidget = (props) => {
   return (
-    <input type="text"
+    <input type={props.type}
       className="input"
       value={props.value}
       required={props.required}
@@ -24,8 +24,14 @@ const MyCustomWidget = (props) => {
   );
 };
 
+const TextWidget = (props) => <BaseWidget type="text" {...props} />
+const PasswordWidget = (props) => <BaseWidget type="password" {...props} />
+const CheckboxWidget = (props) => <BaseWidget type="checkbox" {...props} />
+
 export const widgets = {
-  BaseInput: MyCustomWidget
+  TextWidget,
+  PasswordWidget,
+  CheckboxWidget
 };
 
 
@@ -79,3 +85,33 @@ export function BaseForm({onSubmit, onError, actionName, title}) {
   )
 
 }
+
+// const itemSchema = {
+//   type: "object",
+//   required: ["name"],
+//   properties: {
+// }
+
+
+// export function ItemForm({onSubmit, onError, actionName, title, formData}) {
+//   return (
+//     <>
+//       <h3
+//         className="title is-size-4 has-text-info">{title}</h3>
+//       <Form schema={schema}
+//           onSubmit={onSubmit}
+//           onError={onError}
+//           FieldTemplate={Tpl}
+//           widgets={widgets}
+//       >
+//         <div className="level level-right">
+//         <button type="submit"
+//           className="button is-success">
+//           {actionName || 'Add'}
+//         </button>
+//         </div>
+//       </Form>
+//     </>
+//   )
+
+// }

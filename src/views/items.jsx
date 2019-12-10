@@ -1,8 +1,6 @@
 import React from 'react';
-import {RItem} from '../components/item'
 import {TabsPanel} from '../components/tabs'
 import {ContextToolbar} from '../components/context_toolbar'
-import {formatDate} from '../lib/utils'
 import {PanelItems} from '../components/panel/items'
 
 const tabs = {

@@ -24,7 +24,8 @@ const schema = {
     },
     "password": {
       "type": "string",
-      "title": "Password"
+      "title": "Password",
+      "format": "password"
     },
     "disabled": {
       "type": "boolean",
@@ -34,18 +35,19 @@ const schema = {
 }
 
 
-export function AddUserForm({onSubmit, onError, actionName, type, title}) {
+export function AddUserForm({onSubmit, onError, actionName, formData, title}) {
 
 
   return (
     <>
-      <h3
-        className="title is-size-4 has-text-info">{title}</h3>
+      {title && <h3
+        className="title is-size-4 has-text-info">{title}</h3>}
       <Form schema={schema}
           onSubmit={onSubmit}
           onError={onError}
           FieldTemplate={Tpl}
           widgets={widgets}
+          formData={formData}
       >
         <div className="level level-right">
         <button type="submit"

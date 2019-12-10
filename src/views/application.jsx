@@ -12,7 +12,6 @@ import {Modal} from '../components/modal'
 
 
 export function ApplicationCtx(props) {
-  const Ctx = useContext(TraversalContext)
   const {databases} = props.state.context
   return (
     <>
