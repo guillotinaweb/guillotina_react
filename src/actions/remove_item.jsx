@@ -19,7 +19,7 @@ export function RemoveItem(props) {
 
   return (
     <Confirm
-      onCancel={Ctx.cancelAction}
+      onCancel={() => Ctx.cancelAction()}
       onConfirm={() => removeItem()}
       message={"Are you sure to remove: " + item["@name"] + "?"}
     />

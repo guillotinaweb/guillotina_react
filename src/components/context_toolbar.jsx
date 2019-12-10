@@ -6,6 +6,7 @@ import {useContext} from 'react'
 import {TraversalContext} from '../contexts'
 import {useClickAway} from 'react-use';
 
+/* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = {
   types: undefined,
   isActive: false
@@ -44,8 +45,8 @@ export function CreateButton(props) {
         <button className="button"
           onClick={()=>setState({isActive: !state.isActive})}
           aria-haspopup="true" aria-controls="dropdown-menu">
-          <span class="icon">
-            <i class="fas fa-plus"></i>
+          <span className="icon">
+            <i className="fas fa-plus"></i>
           </span>
         </button>
       </div>

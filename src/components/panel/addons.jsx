@@ -1,0 +1,99 @@
+
+import React from 'react'
+import { TraversalContext } from '../../contexts'
+import { useAsync } from 'react-use'
+
+
+const installAddon = async (Ctx, key) => {
+  const res = await Ctx.client.installAddon(Ctx.pathPrefix, key)
+  return res
+}
+
+const removeAddon = async (Ctx, key) => {
+  const res = await Ctx.client.removeAddon(Ctx.pathPrefix, key)
+  return res
+}
+
+
+export function PanelAddons(props) {
+  const Ctx = React.useContext(TraversalContext)
+  let action = false
+
+  const state = useAsync(async () => {
+    const response = await Ctx.client.getAddons(Ctx.pathPrefix)
+    const data = await response.json()
+    return prepareData(data)
+  }, [action])
+
+  return (
+    <>
+      {state.loading
+        ? <div>loading</div>
+          : state.error
+            ? <p>Error: {state.error.message}</p>
+          : (
+          <div className="columns">
+            <div className="column">
+              <h2 className="title is-size-4 has-text-primary">Available Addons</h2>
+              {state.value.available.length === 0 &&
+                <p>No Addon installed in this container</p>}
+              <hr />
+              <table className="table is-12">
+                <tbody>
+                {state.value.available.map(addon =>
+                  <tr>
+                    <td>{addon.title}</td>
+                    <td>
+                      <button className="button is-primary is-small"
+                        onClick={() => installAddon(Ctx, addon.id)}>
+                        Install
+                      </button>
+                    </td>
+                  </tr>
+                  )}
+                </tbody>
+              </table>
+          </div>
+          <div className="column">
+            <h2 className="title is-size-4 has-text-danger">Installed Addons</h2>
+            <hr />
+            {state.value.installed.length === 0 &&
+              <p>No Addon installed in this container</p>}
+              <table className="table is-12">
+              <tbody>
+              {state.value.installed.map(addon =>
+                <tr>
+                  <td>{addon.title}</td>
+                  <td>
+                    <button className="button is-danger is-small"
+                      onClick={() => removeAddon(Ctx, addon.id)}>
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+          )
+        }
+    </>
+  )
+
+}
+
+const prepareData = (result) => {
+  const addons = arrayToObject(result.available)
+  return {
+    available: result.available.filter(
+      item => result.installed.includes(item.id)),
+    installed: result.installed.map(id => addons[id])
+  }
+}
+
+const arrayToObject = (array) =>
+   array.reduce((obj, item) => {
+     obj[item.id] = item
+     return obj
+   }, {})

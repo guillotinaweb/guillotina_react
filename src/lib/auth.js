@@ -4,6 +4,9 @@ import jwt_decode from 'jwt-decode'
 
 export class Auth {
 
+  maxRetryRefresh = 1
+  retryRefresh = 0
+
   constructor(url) {
     this.url = url
   }
@@ -98,11 +101,12 @@ export class Auth {
   }
 
   async getToken() {
-    let [token, expires] = this._getToken()
+    let [token, _] = this._getToken()
 
-    if (this.isExpired(expires)) {
-      token = await this.refreshToken()
-    }
+    // if (this.isExpired(expires) && this.maxRetryRefresh < this.retryRefresh) {
+      // this.retryRefresh += 1
+      // token = await this.refreshToken()
+    // }
     if (token) {
       return token
     }
@@ -112,7 +116,7 @@ export class Auth {
   getHeaders() {
     const [authToken, expires]  = this._getToken()
     if (!authToken) return false;
-    if (this.willExpire(expires)) {
+    if (this.willExpire(expires) && this.maxRetryRefresh < this.retryRefresh) {
       this.refreshToken().resolve()
     }
 

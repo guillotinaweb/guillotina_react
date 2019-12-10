@@ -27,7 +27,9 @@ export function TabsPanel({tabs, currentTab, rightToolbar, ...props}) {
          {rightToolbar}
       </div>}
     </div>
-    <CurrentComp title={current} {...props} />
+    <div className="container">
+      <CurrentComp title={current} {...props} />
+    </div>
   </div>
   )
 }

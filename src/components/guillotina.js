@@ -1,105 +1,98 @@
 
 import React from 'react'
 import {useEffect} from 'react'
-import {useState} from 'react'
 import {getClient} from '../lib/client'
 import {getComponent} from '../lib/registry'
 import {getAction} from '../lib/registry'
-import {Notification} from 'bloomer'
-import {Delete} from 'bloomer'
-import {FlashContext} from '../contexts'
-import {TraversalContext} from '../contexts';
+import {Flash} from '../components/flash'
+import {TraversalProvider} from '../contexts'
 import {Path} from '../components/path'
-import {useSetState} from '../hooks/setstate'
+import {useSetState} from 'react-use'
+import {useSearchParam} from 'react-use'
 
+const PAGE_SIZE = 20
 
-const initialState = {
-  path: '/db/crawler/',
-  context: undefined
+let initialState = {
+  path: '',
+  context: undefined,
+  page:0,
+  flash: {
+    message: undefined, type:undefined
+  },
+  action: {
+    action: undefined,
+    params: undefined
+  }
 }
 
-const flashInitial = {
-  message: undefined, type:undefined
-}
 
-const actionsInitial = {
-  action: undefined,
-  params: undefined
-}
-
-export function Guillotina(props) {
+export function Guillotina({auth, ...props}) {
 
   const url = props.url || 'http://localhost:8080/'
-  const [state, setContext] = useState(initialState)
-  const [flash, setFlash] = useState(flashInitial)
-  const [action, doAction] = useState(actionsInitial)
+  // const isContainer = props.isContainer || false
 
-  const clearFlash = () => {
-    setFlash({message: undefined, type:undefined})
+  const searchPath = useSearchParam("path")
+  if (searchPath) {
+    initialState.path = searchPath
   }
 
-  const flashMessage = (message, type) =>
-    setFlash({message, type})
-
-  const {auth} = props
-  const client = getClient(url, props.auth)
+  const [state, setState] = useSetState(initialState)
+  const client = getClient(url, auth)
 
   async function fetchContext() {
-    const {path, refresh} = state
-    const data = await client.getContext(path)
-    const context = await data.json()
-    setContext({context, path, refresh})
-  }
-
-  const setPath = (path) => {
-    console.log("Path", path)
-    setContext({
-      context:state.context,
-      path,
-      refresh: Math.random()
-    })
+    const {path, refresh } = state
+    let data = await client.getContext(path)
+    let context = await data.json()
+    setState({context, refresh})
   }
 
   useEffect(() => {
     fetchContext()
   }, [state.path, state.refresh])
 
+
+  useEffect(() => {
+    window.history.pushState(
+      {}, '', window.location.pathname + '?path=' + state.path
+    )
+  }, [state.path])
+
+  useEffect(() => {
+    window.onpopstate = function (event) {
+      if (event.state) {
+        setState({path:searchPath})
+      }
+    }
+  }, [])
+
   const contextData = {
-    setPath,
+    url,
     client,
     auth,
-    path: state.path,
-    context: state.context,
-    doAction: (action, params) => doAction({action, params}),
-    cancelAction: () => doAction({action:undefined, params:undefined}),
-    flash: flashMessage,
-    refresh: () => setPath(state.path)
+    PAGE_SIZE,
+    state,
+    setState
   }
 
+  const {action} = state
   const Main = getComponent(state.context)
   const Action = action.action ? getAction(action.action) : null
 
   return (
-    <TraversalContext.Provider value={contextData}>
-      <FlashContext.Provider value={flashMessage}>
-        {action.action && <Action {...action.params} />}
-        <div className="level">
-          <div className="level-left">
-            <div className="level-item">
-              <Path path={state.path} setPath={setPath} />
-            </div>
+    <TraversalProvider {...contextData}>
+      {action.action && <Action {...action.params} />}
+      <div className="level">
+        <div className="level-left">
+          <div className="level-item">
+            <Path  />
           </div>
         </div>
-        {flash.message && (
-          <Notification isColor={flash.type}>
-            {flash.message}
-            <Delete onClick={clearFlash} />
-          </Notification>)}
-        {Main && <div className="box">
-          <Main state={state} setPath={setPath} client={client} />
-        </div>}
-        <p>Guillotina {JSON.stringify(state.context)}</p>
-      </FlashContext.Provider>
-    </TraversalContext.Provider>
+      </div>
+      <Flash />
+      {Main && <div className="box">
+        <Main state={state} />
+      </div>}
+      <p>Guillotina {JSON.stringify(state.context)}</p>
+    </TraversalProvider>
   )
 }

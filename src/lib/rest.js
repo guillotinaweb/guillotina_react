@@ -10,6 +10,7 @@ export class RestClient {
   async request(path, data) {
     data = data || {}
     data.headers = this.auth.getHeaders()
+    console.log("rest url:", `${this.url}${path}`)
     return await fetch(`${this.url}${path}`, data)
   }
 
@@ -48,9 +49,10 @@ export class RestClient {
     })
   }
 
-  async delete(path) {
+  async delete(path, data=undefined) {
     return await this.request(path, {
       method: 'delete',
+      body: JSON.stringify(data)
     })
   }
 }

@@ -7,8 +7,9 @@ let cacheSchemas = {}
 
 export class GuillotinaClient  {
 
-  constructor(rest) {
+  constructor(rest, isContainer) {
     this.rest = rest
+    this.isContainer = isContainer
   }
 
   async getContext(path) {
@@ -21,6 +22,14 @@ export class GuillotinaClient  {
           }
           return await this.rest.get(path)
     }
+  }
+
+  async getItems(path, start=0) {
+    if (path.startsWith("/")) {
+      path = path.slice(1)
+    }
+    const result = await this.rest.get(`${path}@search?depth=1&b_start=${start}&b_size=20`)
+    return await result.json()
   }
 
   async createObject(path, data) {
@@ -68,6 +77,18 @@ export class GuillotinaClient  {
     return cacheSchemas[name]
   }
 
+  async getAddons(path) {
+    return await this.rest.get(`${path}@addons`)
+  }
+
+  async installAddon(path, key) {
+    return await this.rest.post(`${path}@addons`, {id: key})
+  }
+
+  async removeAddon(path, key) {
+    return await this.rest.delete(`${path}@addons`, {id: key})
+  }
+
 }
 
 
@@ -81,6 +102,6 @@ const getContainerFromPath = (path) => {
 }
 
 
-export function getClient(url, auth) {
-  return new GuillotinaClient(new RestClient(url, auth))
+export function getClient(url, auth, isContainer=false) {
+  return new GuillotinaClient(new RestClient(url, auth), isContainer)
 }

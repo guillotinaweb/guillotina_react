@@ -7,14 +7,9 @@ import {TraversalContext} from '../contexts'
 import {useContext} from 'react'
 
 
-const styles = {
-  borderBottom: '1px solid #eaeaea',
-  cursor: 'pointer',
-  padding: '0'
-}
-
 export function Item({item, setPath, icon}) {
-  const link = () => setPath(item.path)
+  const Ctx = useContext(TraversalContext)
+  const link = () => Ctx.setPath(item.path)
   return (
     <tr>
       <td onClick={link} style={{width: '25px'}}>{icon && <Icon icon={icon} />}</td>
@@ -27,36 +22,29 @@ const smallcss = {
   width: '25px'
 }
 
-export function RItem({item, setPath}) {
+const mediumcss = {
+  width: '120px',
+}
+
+export function RItem({item}) {
 
   const traversal = useContext(TraversalContext)
-  const model = new ItemModel(item)
-  const link = () => setPath(model.path)
+  const model = new ItemModel(item, traversal.url, traversal.path)
+  const link = () => traversal.setPath(model.path)
 
   return (
     <tr>
-      <td onClick={link} style={smallcss}>{<Icon icon={model.icon} />}</td>
+      <td style={smallcss}>{<Icon icon={model.icon} />}</td>
       <td style={smallcss}><span className="tag">{model.type}</span></td>
       <td onClick={link}>{model.name}</td>
+      <td style={mediumcss} className="is-size-7 is-vcentered">{model.created}</td>
+      <td style={mediumcss} className="is-size-7 is-vcentered">{model.updated}</td>
       <td style={smallcss}>
         <Delete  onClick={() => traversal.doAction('removeItem', model) } />
       </td>
     </tr>
   )
 }
-
-export function Item2({item, setPath, icon}) {
-  return (
-    <div className="level" style={styles}>
-      <div className="tile" onClick={() => setPath(item.path)}>
-        {icon && <Icon icon={icon} />}
-        {item.id}
-      </div>
-      <div className="tile is-2"></div>
-    </div>
-  )
-}
-
 
 
 export function ItemTitle({title, actions}) {
@@ -80,7 +68,7 @@ export function ItemTitle({title, actions}) {
 export function Icon({icon}) {
   return (
     <span className="icon">
-        <i className={icon}></i>
+      <i className={icon}></i>
     </span>
   )
 }

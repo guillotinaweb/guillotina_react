@@ -4,6 +4,7 @@ import {ApplicationCtx} from '../views/application'
 import {DatabaseCtx} from '../views/application'
 import {ContainerCtx} from '../views/container'
 import {FolderCtx} from '../views/items'
+import {ItemCtx} from '../views/items'
 import {RemoveItem} from '../actions/remove_item'
 import {AddItem} from '../actions/add_item'
 import {BaseForm} from '../forms/base'
@@ -21,7 +22,8 @@ let registry = {
   'Container': ContainerCtx,
   'UserManager': ContainerCtx,
   'GroupManager': ContainerCtx,
-  'Folder': FolderCtx
+  'Folder': FolderCtx,
+  'Item': ItemCtx,
 }
 
 let actions = {
@@ -30,6 +32,8 @@ let actions = {
 }
 
 let forms = {
+  'UserManager': BaseForm,
+  'GroupManager': BaseForm,
   'Folder': BaseForm,
   'Item': BaseForm,
   'User': AddUserForm,

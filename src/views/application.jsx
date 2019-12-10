@@ -7,11 +7,12 @@ import {Notification} from 'bloomer'
 import {Label, Control, Input, Field} from 'bloomer'
 import {useState} from 'react'
 import {useContext} from 'react'
-import {FlashContext} from '../contexts'
+import {TraversalContext} from '../contexts'
 import {Modal} from '../components/modal'
 
 
 export function ApplicationCtx(props) {
+  const Ctx = useContext(TraversalContext)
   const {databases} = props.state.context
   return (
     <>
@@ -21,7 +22,7 @@ export function ApplicationCtx(props) {
       {databases.map(db =>
         <Item item={{'id': db, path: `/${db}/`}}
           key={db} icon={'fas fa-database'}
-          setPath={props.setPath} />
+         />
       )}
       </div>
     </>
@@ -30,19 +31,19 @@ export function ApplicationCtx(props) {
 
 
 export function DatabaseCtx({state, client, ...props}) {
+  const Ctx = useContext(TraversalContext)
   const {containers} = state.context
   const {path} = state
   return (
     <>
       <div className="container">
       <ItemTitle title="Containers"
-        actions={<CreateContainer
-          client={client} state={state} setPath={props.setPath} />} />
+        actions={<CreateContainer />} />
       <table className="table is-fullwidth is-hoverable">
       {containers.map(db =>
         <Item item={{'id': db, path: `${path}${db}/`}}
           key={db} icon={'fas fa-archive'}
-          setPath={props.setPath} />
+          setPath={Ctx.setPath} />
       )}
       </table>
       </div>
@@ -74,12 +75,13 @@ export function CreateContainer(props) {
 }
 
 
-function ModalAddContainer({isActive, setActive, client, state, setPath}) {
+function ModalAddContainer({isActive, setActive}) {
 
+  const Ctx = useContext(TraversalContext)
   const [isLoading, setLoading] = useState(false)
   const [idField, setId] = useState('')
   const [error, setError] = useState(undefined)
-  const flashMessage = useContext(FlashContext)
+  const traversal = useContext(TraversalContext)
 
   async function createContainer(ev) {
     setLoading(true)
@@ -87,15 +89,15 @@ function ModalAddContainer({isActive, setActive, client, state, setPath}) {
       "@type": 'Container',
       id: idField,
     }
-    const res = await client.createObject(state.path, data)
+    const res = await Ctx.client.createObject(Ctx.path, data)
     const result = await res.json()
     if (res.status === 200) {
       // TODO set flash message via context
-      setPath(state.path)
+      Ctx.refresh()
       setId('')
       setLoading(false)
       setActive(false)
-      flashMessage('Container created', 'primary')
+      traversal.flash('Container created', 'primary')
     } else {
       setId('')
       setLoading(false)
