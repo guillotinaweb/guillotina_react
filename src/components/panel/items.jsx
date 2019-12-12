@@ -20,6 +20,7 @@ export function PanelItems(props) {
 
   useEffect(() => {
     (async () => {
+      setState({loading:true})
       let data = await Ctx.client.getItems(Ctx.path, page*Ctx.PAGE_SIZE)
       setState({
         items: data.member,
@@ -32,33 +33,38 @@ export function PanelItems(props) {
 
   return (
     <>
-      <p className="has-text-right">
-        <strong>{Ctx.context.length} items</strong>&nbsp;
-      </p>
-      <table className="table is-fullwidth is-hoverable">
-        {!loading && <thead>
-          <tr>
-            <th></th>
-            <th>type</th>
-            <th>id/name</th>
-            <th>modified</th>
-            <th>created</th>
-            <th>actions</th>
-          </tr>
-        </thead>}
-        {!loading && <tbody>
-        {items.map(item =>
-          <RItem item={item} setPath={Ctx.setPath} key={item["@uid"]} />
-        )}
-        {items.length === 0 && <tr><td
-          colspan="6" className="has-text-centered">Anything here!</td></tr> }
-        </tbody>}
-      </table>
-      <Pagination current={state.page}
+      <div className="columns">
+        <div className="column"></div>
+        <div className="column">
+        <Pagination current={state.page}
           total={Ctx.context.length}
           doPaginate={doPaginate}
           pager={Ctx.PAGE_SIZE}
         />
+        </div>
+      </div>
+      {loading && <div className="progress-line"></div>}
+      {!loading &&
+        <table className="table is-fullwidth is-hoverable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>type</th>
+              <th>id/name</th>
+              <th>modified</th>
+              <th>created</th>
+              <th>actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          {items.map(item =>
+            <RItem item={item} setPath={Ctx.setPath} key={item["@uid"]} />
+          )}
+          {items.length === 0 && <tr><td
+            colspan="6" className="has-text-centered">Anything here!</td></tr> }
+          </tbody>
+        </table>
+      }
     </>
   )
 }

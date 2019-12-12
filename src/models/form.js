@@ -1,4 +1,4 @@
-
+import React from 'react'
 
 class BaseElement {
 
@@ -20,6 +20,20 @@ class BaseElement {
 
 }
 
+
+const Schema = [
+  {"field": "title", "widget": "TextInput", }
+]
+
+
+
+export function FF(props) {
+  return (
+    <Form schema={Schema} addExclusions={["title"]}>
+        <AddBehaviours />
+    </Form>
+  )
+}
 
 class Folder extends BaseElement {
 }

@@ -9,20 +9,29 @@ export function Pagination({current, total, doPaginate, pager}) {
   }
 
   return (
-    <nav className="pagination" role="navigation" aria-label="pagination">
-      <a className="pagination-previous"
+    <div>
+    <p className="level-right has-text-grey is-size-7">
+        <span className="has-text-black">{current+1}</span>/
+        <span className="has-text-black">{maxPages}</span>&nbsp;of {total} items</p>
+    <nav className="pagination is-size-7" role="navigation" aria-label="pagination">
+
+      <a className="pagination-previous is-small"
         disabled={current===0}
-        onClick={() => doPaginate(current-1)}
-        >Previous</a>
-      <a className="pagination-next"
+        onClick={() => (current>0) ? doPaginate(current-1) : null}>
+          <span className="icon">
+            <i className="fas fa-arrow-left"></i>
+          </span>
+        </a>
+      <a className="pagination-next is-small"
         disabled={current >= maxPages}
-        onClick={() => doPaginate(current+1)}>Next page</a>
-      {/* <ul className="pagination-list">
-        <li>
-          <a className="pagination-link" aria-label="Goto page 1">1</a>
-        </li>
-      </ul> */}
+        onClick={() => doPaginate(current+1)}>
+          <span className="icon">
+            <i className="fas fa-arrow-right"></i>
+          </span>
+        </a>
+
     </nav>
+    </div>
   )
 }
 

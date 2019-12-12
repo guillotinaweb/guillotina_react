@@ -40,7 +40,6 @@ export class GuillotinaClient  {
     if (!path.endsWith("/")) {
       path = `${path}/`
     }
-    console.log("Fetching types for", path)
     if (path.startsWith("http")) {
       path = path.replace(this.rest.url, "")
     }

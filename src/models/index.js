@@ -6,7 +6,6 @@ export class ItemModel {
     this.item = item
     this.url = url
     this._path = path
-    console.log(item)
   }
 
   get path() {

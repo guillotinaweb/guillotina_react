@@ -2,13 +2,14 @@ import React from 'react';
 
 import {Item} from '../components/item'
 import {ItemTitle} from '../components/item'
-import {Button} from 'bloomer'
+import {Button} from '../components/input/button'
 import {Notification} from 'bloomer'
-import {Label, Control, Input, Field} from 'bloomer'
 import {useState} from 'react'
 import {useContext} from 'react'
 import {TraversalContext} from '../contexts'
 import {Modal} from '../components/modal'
+import {Form} from '../components/input/form'
+import {Input} from '../components/input/input'
 
 
 export function ApplicationCtx(props) {
@@ -82,25 +83,31 @@ function ModalAddContainer({isActive, setActive}) {
   const [error, setError] = useState(undefined)
   const traversal = useContext(TraversalContext)
 
+
   async function createContainer(ev) {
     setLoading(true)
     const data = {
       "@type": 'Container',
       id: idField,
     }
-    const res = await Ctx.client.createObject(Ctx.path, data)
-    const result = await res.json()
-    if (res.status === 200) {
-      // TODO set flash message via context
-      Ctx.refresh()
-      setId('')
+    try {
+      const res = await Ctx.client.createObject(Ctx.path, data)
+      const result = await res.json()
+      if (res.status === 200) {
+        // TODO set flash message via context
+        Ctx.refresh()
+        setId('')
+        setLoading(false)
+        setActive(false)
+        traversal.flash('Container created', 'primary')
+      } else {
+        setId('')
+        setLoading(false)
+        setError(result.message)
+      }
+    } catch {
+      setError('Error-submitting-form')
       setLoading(false)
-      setActive(false)
-      traversal.flash('Container created', 'primary')
-    } else {
-      setId('')
-      setLoading(false)
-      setError(result.message)
     }
 
 
@@ -108,26 +115,23 @@ function ModalAddContainer({isActive, setActive}) {
 
   return (
     <Modal isActive={isActive} setActive={setActive}>
-      <>
-        {error && <Notification isColor='danger'>{error}</Notification>}
-        <Field>
-          <Label>Create Container</Label>
-            <Control>
-              <Input type="text"
-                placeholder='Container ID'
-                value={idField}
-                onChange={(ev) => setId(ev.target.value)}
-                onFocus={() => setError(undefined)} />
-            </Control>
-          </Field>
-          <Field>
-            <Control>
-              <Button isColor='primary'
-                isLoading={isLoading}
-                onClick={createContainer}>Create</Button>
-            </Control>
-          </Field>
-      </>
-  </Modal>
+      <Form onSubmit={createContainer}>
+        <div className="level">
+          <h1 className="title is-size-4">Add Container Name</h1>
+        </div>
+        {error && <div className="notification is-danger">
+          {error}
+        </div>}
+        <Input required
+          placeholder="Container Name"
+          onChange={(v) => setId(v.target.value)}
+          value={idField}
+          loading={isLoading}
+          autofocus
+          />
+        <Button loading={isLoading}>Add Container</Button>
+      </Form>
+    </Modal>
   )
 }
+

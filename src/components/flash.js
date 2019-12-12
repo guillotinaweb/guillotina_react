@@ -6,13 +6,14 @@ import {Delete} from 'bloomer'
 
 export function Flash() {
   const Ctx = React.useContext(TraversalContext)
+  const {flash} = Ctx.state
 
-  if (!Ctx.flash.message) return null
+  if (!flash.message) return null
 
   return (
-    <Notification isColor={Ctx.flash.type}>
-        {Ctx.flash.message}
-        <Delete onClick={Ctx.clearFlash} />
+    <Notification isColor={flash.type}>
+        {flash.message}
+        <Delete onClick={() => Ctx.clearFlash()} />
     </Notification>
   )
 

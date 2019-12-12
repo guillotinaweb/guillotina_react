@@ -34,10 +34,10 @@ export function PanelAddons(props) {
           : (
           <div className="columns">
             <div className="column">
-              <h2 className="title is-size-4 has-text-primary">Available Addons</h2>
-              {state.value.available.length === 0 &&
-                <p>No Addon installed in this container</p>}
+              <h2 className="title is-size-4 has-text-grey-dark">Available Addons</h2>
               <hr />
+              {state.value.available.length === 0 &&
+                <p>No Addon available in this container</p>}
               <table className="table is-12">
                 <tbody>
                 {state.value.available.map(addon =>
@@ -55,7 +55,7 @@ export function PanelAddons(props) {
               </table>
           </div>
           <div className="column">
-            <h2 className="title is-size-4 has-text-danger">Installed Addons</h2>
+            <h2 className="title is-size-4 has-text-grey-dark">Installed Addons</h2>
             <hr />
             {state.value.installed.length === 0 &&
               <p>No Addon installed in this container</p>}

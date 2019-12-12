@@ -22,7 +22,8 @@ let initialState = {
   action: {
     action: undefined,
     params: undefined
-  }
+  },
+  search: undefined
 }
 
 
@@ -32,7 +33,7 @@ export function Guillotina({auth, ...props}) {
   // const isContainer = props.isContainer || false
 
   const searchPath = useSearchParam("path")
-  if (searchPath) {
+  if (searchPath && searchPath !== '') {
     initialState.path = searchPath
   }
 

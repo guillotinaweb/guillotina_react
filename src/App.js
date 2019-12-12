@@ -6,18 +6,33 @@ import {Login} from './components/login'
 import {useState} from 'react'
 import './scss/styles.sass'
 
+/*
+
+This should be enought to scope guillotina
+to a container
+
+const schemas = [
+  "db/guillotina/",
+  "db/crawler/",
+  ""
+]
+
+Schemas should be passed to the login form
+*/
+
+const url = 'http://localhost:8080/'
+const auth = new Auth(url)
+
 function App() {
 
-  const url = 'http://localhost:8080/'
-  const auth = new Auth(url)
-
   const [isLogged, setLogged] = useState(auth.isLogged)
-
 
   const onLogin = () => {
     setLogged(true)
   }
   const onLogout = () => setLogged(false)
+
+  auth.onLogout = onLogout
 
   return (
 
@@ -33,5 +48,6 @@ function App() {
       </Layout>
   );
 }
+
 
 export default App;

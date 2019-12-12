@@ -46,11 +46,15 @@ let forms = {
 
 export const getComponent = (context) => {
   if (!context) return
-  return registry[context["@type"]]
+  return registry[context["@type"]] || defaultComponent(context)
 }
 
 export const registerComponent = (context, Component) => {
   registry[context] = Component
+}
+
+export const defaultComponent = (context) => {
+  return (context.is_folderish) ? FolderCtx : ItemCtx
 }
 
 export const getAction = (action) => {

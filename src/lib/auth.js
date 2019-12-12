@@ -1,11 +1,14 @@
 
 import jwt_decode from 'jwt-decode'
 
+const noop = () => {}
+
 
 export class Auth {
 
-  maxRetryRefresh = 1
+  maxRetry = 1
   retryRefresh = 0
+  events = {}
 
   constructor(url) {
     this.url = url
@@ -15,8 +18,14 @@ export class Auth {
     return `${this.url}${endpoint}`
   }
 
+  setAccount(account) {
+    this.url += account
+  }
+
   async login(username, password) {
-      const data = await fetch(this.getUrl('@login'), {
+    const url = this.getUrl('@login')
+    try {
+      const data = await fetch(url, {
         method: 'post',
         body: JSON.stringify({
           username: username,
@@ -28,9 +37,12 @@ export class Auth {
         this.storeAuth(credentials, username)
         return true
       }
-      localStorage.removeItem('auth');
-      localStorage.removeItem('auth_expires');
+    } catch {
       return false
+    }
+    localStorage.removeItem('auth');
+    localStorage.removeItem('auth_expires');
+    return false
   }
 
   get isLogged() {
@@ -53,33 +65,48 @@ export class Auth {
     }
     const [token] = this._getToken()
     const data = jwt_decode(token)
+    console.log(token)
     return data.id
   }
 
   storeAuth(data) {
-    console.log("Storing token", jwt_decode(data.token))
     localStorage.setItem('auth', data.token)
     localStorage.setItem('auth_expires', data.exp);
   }
 
-  logout() {
+  cleanAuth() {
     localStorage.removeItem("auth")
     localStorage.removeItem("auth_expires")
   }
 
+  logout() {
+    this.cleanAuth()
+  }
+
   async refreshToken() {
-    let data = await fetch(this.getUrl('@login-refresh'), {
+    console.log("refresh!!!")
+    this.retryRefresh++
+    let data = await fetch(this.getUrl('@login-renew'), {
       headers: this.getHeaders(),
       method: 'post',
     })
-    this.storeAuth(data)
+    if (data.status === 401) {
+      // invalid token
+      this.cleanAuth()
+      this.onLogout()
+      return
+    }
+    const res = await data.json()
+    console.log("refresh data", res)
+    this.storeAuth(res)
+    console.log("token refreshed")
+    this.retryRefresh = 0
     return data.token
   }
 
   willExpire(expiration) {
     let now = new Date().getTime()
-    console.log("Will expire", parseInt(expiration)*1000, now + 600)
-    if ((parseInt(expiration)*1000)  < (now + 600)) {
+    if ((parseInt(expiration)*1000)  < (now + 10*1000)) {
       return true
     }
     return false
@@ -100,24 +127,12 @@ export class Auth {
     ]
   }
 
-  async getToken() {
-    let [token, _] = this._getToken()
-
-    // if (this.isExpired(expires) && this.maxRetryRefresh < this.retryRefresh) {
-      // this.retryRefresh += 1
-      // token = await this.refreshToken()
-    // }
-    if (token) {
-      return token
-    }
-    return false;
-  }
-
   getHeaders() {
     const [authToken, expires]  = this._getToken()
     if (!authToken) return false;
-    if (this.willExpire(expires) && this.maxRetryRefresh < this.retryRefresh) {
-      this.refreshToken().resolve()
+
+    if (this.willExpire(expires) && this.retryRefresh < this.maxRetry) {
+      (async () => await this.refreshToken())()
     }
 
     return {
