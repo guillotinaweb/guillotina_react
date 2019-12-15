@@ -1,8 +1,10 @@
 
 import React from 'react'
 
-export const Icon = ({icon, css}) => (
-  <span className={'icon' + css}>
+
+
+export const Icon = ({icon}) => (
+  <span className={'icon is-right'}>
     <i className={icon}></i>
   </span>
 )

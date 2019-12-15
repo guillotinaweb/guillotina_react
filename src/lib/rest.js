@@ -44,7 +44,7 @@ export class RestClient {
 
   async patch(path, data) {
     return await this.request(path, {
-      method: 'patch',
+      method: 'PATCH',
       body: JSON.stringify(data)
     })
   }

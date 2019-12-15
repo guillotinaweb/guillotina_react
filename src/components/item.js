@@ -40,7 +40,8 @@ export function RItem({item}) {
       <td style={mediumcss} className="is-size-7 is-vcentered">{model.created}</td>
       <td style={mediumcss} className="is-size-7 is-vcentered">{model.updated}</td>
       <td style={smallcss}>
-        <Delete  onClick={() => traversal.doAction('removeItem', model) } />
+        {traversal.hasPerm("guillotina.DeleteContent") &&
+          <Delete  onClick={() => traversal.doAction('removeItem', model) } />}
       </td>
     </tr>
   )

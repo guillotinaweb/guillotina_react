@@ -1,5 +1,6 @@
 import React from 'react'
 import {createContext} from 'react'
+import {getContainerFromPath} from '../lib/client'
 
 export const AuthContext = createContext({});
 
@@ -33,6 +34,19 @@ class Traversal {
     return this.state.context
   }
 
+  get containerPath() {
+    return getContainerFromPath(this.path)
+  }
+
+  apply(data) {
+    const context = Object.assign({}, this.state.context, data)
+    this.setState({context})
+  }
+
+  setPermissions(permissions) {
+    this.setState({permissions})
+  }
+
   flash(message, type) {
     this.setState({flash:{message, type}})
   }
@@ -47,6 +61,23 @@ class Traversal {
 
   cancelAction() {
     this.setState({action:{action:undefined, params:undefined}})
+  }
+
+  hasPerm(permission) {
+    return this.state.permissions[permission] === true
+  }
+
+  filterTabs(tabs, tabsPermissions) {
+    const result = {}
+    Object.keys(tabs).forEach(item => {
+      const perm = tabsPermissions[item]
+      if(perm && this.hasPerm(perm)) {
+        result[item] = tabs[item]
+      } else if(!perm) {
+        result[item] = tabs[item]
+      }
+    })
+    return result
   }
 
 }

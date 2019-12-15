@@ -1,6 +1,7 @@
 import React from 'react'
 import {classnames} from '../../lib/helpers'
 
+const noop = () => {}
 
 export const Button = ({
   children,
@@ -8,6 +9,7 @@ export const Button = ({
   onClick,
   type = 'submit',
   loading = false,
+  disabled = false,
   ...rest
 }) => {
 
@@ -15,6 +17,7 @@ export const Button = ({
       'button', ...className.split(" "),
   )
   if (loading) css = css.concat('is-loading')
+  if (disabled) onClick = noop
 
   return (
     <p className="control">
@@ -22,6 +25,7 @@ export const Button = ({
         type={type}
         className={classnames(css)}
         onClick={onClick}
+        disabled={disabled}
         {...rest}
         >
         {children}

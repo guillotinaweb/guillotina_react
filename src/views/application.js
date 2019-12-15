@@ -3,7 +3,6 @@ import React from 'react';
 import {Item} from '../components/item'
 import {ItemTitle} from '../components/item'
 import {Button} from '../components/input/button'
-import {Notification} from 'bloomer'
 import {useState} from 'react'
 import {useContext} from 'react'
 import {TraversalContext} from '../contexts'
@@ -94,7 +93,6 @@ function ModalAddContainer({isActive, setActive}) {
       const res = await Ctx.client.createObject(Ctx.path, data)
       const result = await res.json()
       if (res.status === 200) {
-        // TODO set flash message via context
         Ctx.refresh()
         setId('')
         setLoading(false)
@@ -115,13 +113,9 @@ function ModalAddContainer({isActive, setActive}) {
 
   return (
     <Modal isActive={isActive} setActive={setActive}>
-      <Form onSubmit={createContainer}>
-        <div className="level">
-          <h1 className="title is-size-4">Add Container Name</h1>
-        </div>
-        {error && <div className="notification is-danger">
-          {error}
-        </div>}
+      <Form onSubmit={createContainer}
+            title="Add Container"
+            error={error}>
         <Input required
           placeholder="Container Name"
           onChange={(v) => setId(v.target.value)}

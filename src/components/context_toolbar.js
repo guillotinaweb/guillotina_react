@@ -1,10 +1,11 @@
 import React from 'react';
 import {useEffect} from 'react'
-import {useSetState} from '../hooks/setstate'
+import {useSetState} from 'react-use'
 import {useRef} from 'react'
 import {useContext} from 'react'
 import {TraversalContext} from '../contexts'
 import {useClickAway} from 'react-use';
+import {useConfig} from '../hooks/useConfig'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = {
@@ -17,11 +18,12 @@ export function CreateButton(props) {
   const ref = useRef(null)
   const [state, setState] = useSetState(initialState)
   const Ctx = useContext(TraversalContext)
+  const Config = useConfig()
 
   useEffect(() => {
     (async function anyNameFunction() {
       const types = await Ctx.client.getTypes(Ctx.context["@id"])
-      setState({types})
+      setState({types: types.filter((item => !Config.DisabledTypes.includes(item)))})
     })();
   }, [Ctx.context["@id"]])
 
@@ -35,7 +37,7 @@ export function CreateButton(props) {
     setState({isActive: false})
   }
 
-
+  console.log(state.types)
 
   const status = (state.isActive) ? 'dropdown is-right is-active' : 'dropdown is-right'
 
@@ -65,6 +67,7 @@ export function CreateButton(props) {
 
 
 export function ContextToolbar(props) {
+  const ctx = React.useContext(TraversalContext)
   return (
     <>
       <div className="level-item">
@@ -74,9 +77,9 @@ export function ContextToolbar(props) {
               placeholder="Search" />
         </form>
       </div>
-      <div className="level-item">
+      {ctx.hasPerm("guillotina.AddContent") && <div className="level-item">
         <CreateButton {... props} />
-      </div>
+      </div>}
     </>
   )
 }

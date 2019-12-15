@@ -19,9 +19,8 @@ export function AddItem(props) {
     Ctx.cancelAction()
   }
 
-  async function doSubmit(data) {
-
-    const form = Object.assign({}, {"@type": type}, data.formData)
+  async function doSubmit(data, oldData) {
+    const form = Object.assign({}, {"@type": type}, data)
     const client = Ctx.client
     const res = await client.create(Ctx.path, form)
     Ctx.flash("Content created!", 'success')

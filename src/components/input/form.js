@@ -10,6 +10,8 @@ export const Form = ({
   onSubmit = noop,
   onReset = noop,
   autoComplete = 'off',
+  title,
+  error,
   ...rest }
 ) => {
     const handleSubmit = (event) => {
@@ -17,15 +19,23 @@ export const Form = ({
         onSubmit(event);
     };
     return (
+      <>
+        {title && <div className="level">
+            <h1 className="title is-size-4">{title}</h1>
+        </div>}
+        {error && <div className="notification is-danger">
+          {error}
+        </div>}
         <form
-            onSubmit={handleSubmit}
-            onReset={onReset}
-            autoComplete={autoComplete}
-            className={classnames(['form', className])}
-            {...rest}
-        >
-            {children}
-        </form>
+              onSubmit={handleSubmit}
+              onReset={onReset}
+              autoComplete={autoComplete}
+              className={classnames(['form', className])}
+              {...rest}
+          >
+              {children}
+          </form>
+        </>
     );
 };
 

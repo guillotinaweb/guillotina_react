@@ -1,14 +1,11 @@
-/*
-Based on
-github.com/protonmail/react-components
-
-*/
-
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {classnames, generateUID} from '../../lib/helpers';
-import useInput from './useInput';
 import ErrorZone from '../error_zone';
+import useInput from '../../hooks/useInput'
+import { notEmpty } from "../../lib/validators";
+
+const noop = () => true
 
 
 /** @type any */
@@ -16,7 +13,7 @@ export const Input = React.forwardRef(
     (
       {
         icon,
-        iconPosition = '',
+        iconPosition = 'has-icons-right',
         error,
         errorZoneClassName,
         autoComplete = 'off',
@@ -31,33 +28,37 @@ export const Input = React.forwardRef(
         placeholder,
         value,
         autofocus = false,
+        onChange,
+        validator=noop,
+        errorMessage,
         ...rest
       },
       ref
     ) => {
-      const {
-        handlers,
-        statusClasses,
-        status
-      } = useInput({ onPressEnter, isSubmitted, ...rest });
+
+      if (required) {
+        validator = Array.isArray(validator) ?
+          validator.push(notEmpty) : [validator, notEmpty]
+      }
+
+      const {state, ...handlers} = useInput(onChange, value, validator)
 
       const [uid] = useState(generateUID('input'));
-      const errorZone = required && !value && !error ? "This field is required" : error;
-      const hasError = errorZone && (status.isDirty || isSubmitted);
-
       ref = ref || React.useRef()
+      const theError = state.hasError ? (errorMessage || 'invalid field') : ''
+      const statusClasses = state.hasError ? 'is-danger' : ''
 
       const cssControl = () => (icon) ? (
-        ['control'] + iconPosition
+        ['control', iconPosition]
       ) : (
         ['control']
       )
 
-      if (autofocus) {
-        React.useEffect(() => {
+      React.useEffect(() => {
+        if (autofocus) {
           ref.current.focus()
-        })
-      }
+        }
+      })
 
       return (
         <div className="field">
@@ -69,23 +70,23 @@ export const Input = React.forwardRef(
           <div className={classnames(cssControl())}>
             <input
               className={classnames([widget, className, statusClasses])}
-              aria-invalid={hasError}
+              aria-invalid={theError}
               aria-describedby={uid}
               id={id}
               ref={ref}
               type={type}
-              value={value}
+              value={state.value}
               placeholder={placeholder}
               autoComplete={autoComplete}
               disabled={loading || rest.disabled}
               required={required}
-              {...rest}
               {...handlers}
+              {...rest}
             />
             {icon && icon}
           </div>
           <ErrorZone className={errorZoneClassName} id={uid}>
-            {hasError ? errorZone : ''}
+            {state.hasError ? theError : ''}
           </ErrorZone>
         </div>
       );
@@ -105,9 +106,7 @@ Input.propTypes = {
   isSubmitted: PropTypes.bool,
   id: PropTypes.string,
   name: PropTypes.string,
-  onBlur: PropTypes.func,
   onChange: PropTypes.func,
-  onFocus: PropTypes.func,
   onKeyDown: PropTypes.func,
   onKeyUp: PropTypes.func,
   onPressEnter: PropTypes.func,

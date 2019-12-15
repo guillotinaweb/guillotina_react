@@ -4,20 +4,24 @@ import { TraversalContext } from '../../contexts'
 import { useAsync } from 'react-use'
 
 
-const installAddon = async (Ctx, key) => {
-  const res = await Ctx.client.installAddon(Ctx.pathPrefix, key)
-  return res
-}
 
-const removeAddon = async (Ctx, key) => {
-  const res = await Ctx.client.removeAddon(Ctx.pathPrefix, key)
-  return res
-}
 
 
 export function PanelAddons(props) {
   const Ctx = React.useContext(TraversalContext)
-  let action = false
+  let [action, setAction] = React.useState(false)
+
+  const installAddon = async (Ctx, key) => {
+    await Ctx.client.installAddon(Ctx.pathPrefix, key)
+    Ctx.flash(`Addon ${key} installed`, 'success')
+    setAction(!action)
+  }
+
+  const removeAddon = async (Ctx, key) => {
+    await Ctx.client.removeAddon(Ctx.pathPrefix, key)
+    Ctx.flash(`Addon ${key} removed`, 'success')
+    setAction(!action)
+  }
 
   const state = useAsync(async () => {
     const response = await Ctx.client.getAddons(Ctx.pathPrefix)
@@ -87,7 +91,7 @@ const prepareData = (result) => {
   const addons = arrayToObject(result.available)
   return {
     available: result.available.filter(
-      item => result.installed.includes(item.id)),
+      item => !result.installed.includes(item.id)),
     installed: result.installed.map(id => addons[id])
   }
 }
