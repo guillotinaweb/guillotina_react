@@ -3,10 +3,12 @@ import { TabsPanel } from "../components/tabs";
 import { ContextToolbar } from "../components/context_toolbar";
 import { PanelItems } from "../components/panel/items";
 import { TraversalContext } from "../contexts";
+import {PanelProperties} from '../components/panel/properties'
+
 
 const tabs = {
   Items: PanelItems,
-  Properties: Panel,
+  Properties: PanelProperties,
   Behaviors: Panel,
   Permissions: Panel
 };

@@ -6,9 +6,9 @@ import Form from 'react-jsonschema-form'
 
 const schema = {
   type: "object",
-  required: ["name"],
+  required: ["title"],
   properties: {
-    name: {type: "string", title: "Name"},
+    title: {type: "string", title: "Title"},
     id: {type: "string", title: "Id"}
   }
 };

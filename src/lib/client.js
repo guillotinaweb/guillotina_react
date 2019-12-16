@@ -22,6 +22,13 @@ export class GuillotinaClient {
     }
   }
 
+  async get(path) {
+    if (path.startsWith("/")) {
+      path = path.slice(1);
+    }
+    return await this.rest.get(path)
+  }
+
   async getItems(path, start = 0) {
     if (path.startsWith("/")) {
       path = path.slice(1);
@@ -32,14 +39,15 @@ export class GuillotinaClient {
     return await result.json();
   }
 
-  async search(path, params, container=false) {
+  async search(path, params, container=false, prepare=true, start=0) {
     if (path.startsWith("/")) {
       path = path.slice(1);
     }
     if (container) {
       path = getContainerFromPath(path)
     }
-    const url = `${path}@search?${toQueryString(params)}`;
+    let query = prepare ? toQueryString(params) : params
+    const url = `${path}@search?${query}&b_start=${start}&b_size=20`;
     return await this.rest.get(url);
   }
 

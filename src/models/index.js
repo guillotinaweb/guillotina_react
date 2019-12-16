@@ -8,11 +8,14 @@ export class ItemModel {
   }
 
   get path() {
-    if (this.item.path) {
-      let parts = this.item.path.slice(1).split("/");
-      return this._path + parts[parts.length - 1] + "/";
-    }
-    return `${this._path}${this.id}/`;
+    // if (this.item.path) {
+      // let parts = this.item.path.slice(1).split("/");
+      // return this._path + parts[parts.length - 1] + "/";
+      // return this._path + this.item.path.slice(1) + "/"
+    // }
+    // return `${this._path}${this.id}/`;
+    let path = this.item["@id"].split("//")[1].split("/").splice(1).join("/")
+    return `/${path}/`
   }
 
   get name() {

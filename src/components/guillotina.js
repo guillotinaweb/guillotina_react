@@ -10,8 +10,7 @@ import { useSetState } from "react-use";
 import { useSearchParam } from "react-use";
 import { NotAllowed } from "../components/notallowed";
 import { Permissions } from "../models";
-import {useConfig} from '../hooks/useConfig'
-
+import { useConfig } from "../hooks/useConfig";
 
 const PAGE_SIZE = 20;
 
@@ -28,6 +27,7 @@ let initialState = {
     params: undefined
   },
   search: undefined,
+  searchParsed: [],
   permissions: undefined,
   allowed: true
 };
@@ -36,7 +36,7 @@ export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080/";
   // const isContainer = props.isContainer || false
 
-  const Config = useConfig(props.config || {})
+  useConfig(props.config || {});
 
   const searchPath = useSearchParam("path");
   if (searchPath && searchPath !== "") {
@@ -54,9 +54,9 @@ export function Guillotina({ auth, ...props }) {
       return;
     }
     let context = await data.json();
-    const pr = await client.canido(path, Permissions)
-    const perms = await pr.json()
-    setState({ context, refresh, allowed: true, permissions:perms });
+    const pr = await client.canido(path, Permissions);
+    const perms = await pr.json();
+    setState({ context, refresh, allowed: true, permissions: perms });
   }
 
   useEffect(() => {
@@ -96,23 +96,25 @@ export function Guillotina({ auth, ...props }) {
     <>
       {allowed ? (
         <TraversalProvider {...contextData}>
-          {permissions && <>
-            {action.action && <Action {...action.params} />}
-            <div className="level">
-              <div className="level-left">
-                <div className="level-item">
-                  <Path />
+          {permissions && (
+            <>
+              {action.action && <Action {...action.params} />}
+              <div className="level">
+                <div className="level-left">
+                  <div className="level-item">
+                    <Path />
+                  </div>
                 </div>
               </div>
-            </div>
-            <Flash />
-            {Main && (
-              <div className="box main-panel">
-                <Main state={state} />
-              </div>
-            )}
-            <p>Guillotina {JSON.stringify(state.context)}</p>
-          </>}
+              <Flash />
+              {Main && (
+                <div className="box main-panel">
+                  <Main state={state} />
+                </div>
+              )}
+              {/* <p>Guillotina {JSON.stringify(state.context)}</p> */}
+            </>
+          )}
         </TraversalProvider>
       ) : (
         <NotAllowed />

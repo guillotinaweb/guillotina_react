@@ -15,7 +15,7 @@ export function TabsPanel({tabs, currentTab, rightToolbar, ...props}) {
         <div className="tabs">
           <ul>
             {Object.keys(tabs).map(tab =>
-              <li className={(tab === current) ? 'is-active' : ''}
+              <li className={ 'is-size-7 ' + ((tab === current) ? 'is-active' : '')}
                 key={tab}>
                 <a onClick={() => setTab(tab)}>{tab}</a>
               </li>

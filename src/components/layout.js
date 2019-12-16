@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
+import { Icon } from "./ui/icon";
 
-export function Layout({children, onLogout, auth}) {
-
-  const doLogout = (ev) => {
-    auth.logout()
-    onLogout()
-  }
+export function Layout({ children, onLogout, auth }) {
+  const doLogout = ev => {
+    auth.logout();
+    onLogout();
+  };
 
   return (
     <>
@@ -13,31 +13,38 @@ export function Layout({children, onLogout, auth}) {
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             <a className="navbar-item" href="/">
-              <img src={process.env.PUBLIC_URL + '/logo.svg'}
+              <img
+                src={process.env.PUBLIC_URL + "/logo.svg"}
                 alt="Guillotina logo"
                 height="80"
-                />
+              />
             </a>
-            <a id="burger"
+            <a
+              id="burger"
               href="/"
-              role="button" className="navbar-burger burger"
+              role="button"
+              className="navbar-burger burger"
               aria-label="menu"
               aria-expanded="false"
-              data-target="navbarmenu">
+              data-target="navbarmenu"
+            >
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </a>
           </div>
           <div id="navbarmenu" className="navbar-menu">
-            <div className="navbar-start">
-
-            </div>
+            <div className="navbar-start"></div>
             <div className="navbar-end">
               <div className="navbar-item">
-                <div className="buttons">
-                  {auth.isLogged && <button className="button" onClick={doLogout}>Logout</button>}
-                </div>
+                {auth.isLogged && (
+                  <div className="buttons">
+                    <button className="button is-size-7" onClick={doLogout}>
+                      <Icon icon="fas fa-sign-out-alt" size="is-size-7" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -45,9 +52,7 @@ export function Layout({children, onLogout, auth}) {
       </header>
       <section className="section main">
         <div className="container">
-          <div className="column">
-            {children}
-          </div>
+          <div className="column">{children}</div>
         </div>
       </section>
       <footer className="footer">
@@ -56,5 +61,5 @@ export function Layout({children, onLogout, auth}) {
         </div>
       </footer>
     </>
-  )
+  );
 }

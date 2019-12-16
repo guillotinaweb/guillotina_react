@@ -72,7 +72,7 @@ export class Login extends Component {
             <label className="label">Schema:</label>
             <div className="select">
               <select onChange={linkState(this, 'schema')}>
-              {schemas.map(s => <option value={s}>{s}</option>)}
+              {schemas.map(s => <option value={s} key={s}>{s}</option>)}
               </select>
             </div>
           </div>}

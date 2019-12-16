@@ -27,11 +27,18 @@ const patch = (sate, setState, Ctx) => async (data, endpoint) => {
   }
 };
 
-const del = async (state, setState, Ctx) => endpoint => {};
+const del =  (state, setState, Ctx) => async (endpoint) => {};
 
-const post = async (state, setState, Ctx) => (data, endpoint) => {};
+const post =  (state, setState, Ctx) => async (data, endpoint) => {};
 
-const get = async (state, setState, Ctx) => (data, endpoint) => {};
+const get =  (state, setState, Ctx) => async (endpoint) => {
+  setState({loading:true})
+  const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
+  const req = await Ctx.client.get(path)
+  const data = await req.json()
+  setState({loading: false, result:data})
+  return data
+};
 
 export function useCrudContext() {
   const Ctx = React.useContext(TraversalContext);
@@ -42,6 +49,7 @@ export function useCrudContext() {
     Ctx,
     patch: patch(state, setState, Ctx),
     del: del(state, setState, Ctx),
-    post: post(state, setState, Ctx)
+    post: post(state, setState, Ctx),
+    get: get(state, setState, Ctx),
   };
 }

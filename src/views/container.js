@@ -4,7 +4,7 @@ import {ContextToolbar} from '../components/context_toolbar'
 import {PanelItems} from '../components/panel/items'
 import {PanelAddons} from '../components/panel/addons'
 import {TraversalContext} from '../contexts'
-
+import {PanelDocs} from '../components/panel/docs'
 
 const tabs = {
   Items: PanelItems,
@@ -19,7 +19,7 @@ const tabsPermissions = {
   Addons: "guillotina.ManageAddons",
   Registry: "guillotina.ReadConfiguration",
   Behaviors: "guillotina.ModifyContent",
-  Permissions: "guillotina.SeePermissions"
+  Permissions: "guillotina.SeePermissions",
 }
 
 

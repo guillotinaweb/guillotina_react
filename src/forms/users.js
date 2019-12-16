@@ -1,5 +1,4 @@
 import React from 'react'
-import {Form} from '../components/input/form'
 import {FormBuilder} from '../components/input/form_builder'
 
 const schema = {
