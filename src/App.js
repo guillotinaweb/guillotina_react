@@ -1,15 +1,19 @@
 import React from 'react';
-import {Layout} from './components/layout'
-import {Auth} from './lib/auth'
-import {Guillotina} from './components/guillotina'
-import {Login} from './components/login'
+import {Layout} from './guillo-gmi'
+import {Auth} from './guillo-gmi'
+import {Guillotina} from './guillo-gmi'
+import {Login} from './guillo-gmi'
 import {useState} from 'react'
-import './scss/styles.sass'
+import './guillo-gmi/scss/styles.sass'
 
 /*
 
 This should be enought to scope guillotina
 to a container
+
+
+Schemas should be passed to the login form
+*/
 
 const schemas = [
   "db/guillotina/",
@@ -17,8 +21,6 @@ const schemas = [
   ""
 ]
 
-Schemas should be passed to the login form
-*/
 
 const url = 'http://localhost:8080/'
 const auth = new Auth(url)
@@ -41,7 +43,7 @@ function App() {
         { !isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth} />
+              <Login onLogin={onLogin} auth={auth} schemas={schemas} />
             </div>
           </div>
         )}
