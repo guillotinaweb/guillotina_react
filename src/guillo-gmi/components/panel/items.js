@@ -11,29 +11,37 @@ import { buildQs } from "../../lib/search";
 const initialState = {
   page: 0,
   items: [],
-  loading: true
+  loading: true,
+  total: 0
 };
 
 export function PanelItems(props) {
   const Ctx = useContext(TraversalContext);
   const [state, setState] = useSetState(initialState);
-  const { items, page, loading } = state;
-  const {search, searchParsed} = Ctx.state
+  const { items, page, loading, total } = state;
+  const { search, searchParsed } = Ctx.state;
 
   useEffect(() => {
     (async () => {
       let data;
-      setState({ loading: true });
+      setState({ loading: true, total: Ctx.context.length });
       if (search) {
         let qs = buildQs(searchParsed);
-        const res = await Ctx.client.search(Ctx.path, qs, false, false, page);
-        data = await res.json()
+        const res = await Ctx.client.search(
+          Ctx.path,
+          qs,
+          false,
+          false,
+          page * Ctx.PAGE_SIZE
+        );
+        data = await res.json();
       } else {
         data = await Ctx.client.getItems(Ctx.path, page * Ctx.PAGE_SIZE);
       }
       setState({
         items: data.member,
-        loading: false
+        loading: false,
+        total: search ? data.items_count : Ctx.context.length
       });
     })();
   }, [search, searchParsed, page, Ctx.context]);
@@ -49,7 +57,7 @@ export function PanelItems(props) {
         <div className="column">
           <Pagination
             current={state.page}
-            total={Ctx.context.length}
+            total={total}
             doPaginate={doPaginate}
             pager={Ctx.PAGE_SIZE}
           />
