@@ -1,5 +1,6 @@
 import { formatDate } from "../lib/utils";
 export * from './config'
+export * from './sharing'
 
 export class ItemModel {
   constructor(item, url, path) {

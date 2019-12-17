@@ -3,7 +3,7 @@ import { useSetState } from "react-use";
 import { TraversalContext } from "../contexts";
 
 const initial = {
-  loading: false,
+  loading: undefined,
   isError: false,
   errorMessage: undefined,
   result: undefined
@@ -27,7 +27,23 @@ const patch = (sate, setState, Ctx) => async (data, endpoint) => {
   }
 };
 
-const del =  (state, setState, Ctx) => async (endpoint) => {};
+const del =  (state, setState, Ctx) => async (data, endpoint) => {
+  setState({ loading: true });
+  try {
+    const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
+    const res = await Ctx.client.delete(path, data);
+    if (res.status < 400) {
+      // PATCH request has no body
+      const result = res.status;
+      setState({ result, loading: false });
+    } else {
+      setState({ isError: true, errorMessage: res.status, loading: false });
+    }
+  } catch (e) {
+    console.error("Error", e);
+    setState({ isError: true, errorMessage: "unhandled exception" });
+  }
+};
 
 const post =  (state, setState, Ctx) => async (data, endpoint) => {};
 

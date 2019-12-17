@@ -1,11 +1,14 @@
+import React from "react";
+import { classnames } from "../../lib/helpers";
 
-import React from 'react'
+export const Icon = ({ icon, className, align }) => {
+  const addClass = className ? className.split(" ") : [className];
 
+  align = align || "is-right";
 
-
-export const Icon = ({icon}) => (
-  <span className={'icon is-right'}>
-    <i className={icon}></i>
-  </span>
-)
-
+  return (
+    <span className={classnames(["icon", align, ...addClass])}>
+      <i className={icon}></i>
+    </span>
+  );
+};

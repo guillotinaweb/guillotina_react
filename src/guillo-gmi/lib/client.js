@@ -70,8 +70,8 @@ export class GuillotinaClient {
     return path.replace(this.rest.url, "");
   }
 
-  async delete(path) {
-    return await this.rest.delete(this.cleanPath(path));
+  async delete(path, data) {
+    return await this.rest.delete(this.cleanPath(path), data);
   }
 
   async create(path, data) {

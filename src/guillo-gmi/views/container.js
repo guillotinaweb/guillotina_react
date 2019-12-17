@@ -5,13 +5,16 @@ import { PanelItems } from "../components/panel/items";
 import { PanelAddons } from "../components/panel/addons";
 import { TraversalContext } from "../contexts";
 import { PanelNotImplemented } from "./base";
+import { PanelPermissions} from "../components"
+import { PanelBehaviors } from "../components";
+
 
 const tabs = {
   Items: PanelItems,
   Addons: PanelAddons,
   Registry: PanelNotImplemented,
-  Behaviors: PanelNotImplemented,
-  Permissions: PanelNotImplemented
+  Behaviors: PanelBehaviors,
+  Permissions: PanelPermissions
 };
 
 const tabsPermissions = {

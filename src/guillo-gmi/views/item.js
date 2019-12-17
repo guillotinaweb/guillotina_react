@@ -1,11 +1,15 @@
 import React from "react";
 import { TabsPanel } from "../components/tabs";
 import { TraversalContext } from "../contexts";
+import { PanelPermissions} from "../components"
+import { PanelBehaviors } from "../components";
+import { PanelProperties } from "../components";
+
 
 const tabs = {
-  Properties: Panel,
-  Behaviors: Panel,
-  Permissions: Panel
+  Properties: PanelProperties,
+  Behaviors: PanelBehaviors,
+  Permissions: PanelPermissions
 };
 
 const tabsPermissions = {
@@ -14,14 +18,7 @@ const tabsPermissions = {
   Permissions: "guillotina.SeePermissions"
 };
 
-function Panel(props) {
-  return (
-    <div className="container">
-      <h2 className="title">{props.title}</h2>
-      <p>Not implemented</p>
-    </div>
-  );
-}
+
 
 export function ItemCtx(props) {
   const ctx = React.useContext(TraversalContext);

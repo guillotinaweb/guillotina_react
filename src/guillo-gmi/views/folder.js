@@ -4,13 +4,15 @@ import { ContextToolbar } from "../components/context_toolbar";
 import { PanelItems } from "../components/panel/items";
 import { TraversalContext } from "../contexts";
 import { PanelProperties } from "../components/panel/properties";
-import { PanelNotImplemented } from "./base";
+import { PanelPermissions} from "../components"
+import { PanelBehaviors } from "../components";
+
 
 const tabs = {
   Items: PanelItems,
   Properties: PanelProperties,
-  Behaviors: PanelNotImplemented,
-  Permissions: PanelNotImplemented
+  Behaviors: PanelBehaviors,
+  Permissions: PanelPermissions
 };
 
 const tabsPermissions = {
@@ -33,13 +35,3 @@ export function FolderCtx(props) {
     />
   );
 }
-
-// const tabsItem = {
-//   Properties: PanelNotImplemented,
-//   Behaviors: PanelNotImplemented,
-//   Permissions: PanelNotImplemented
-// };
-
-// export function ItemCtx(props) {
-//   return <TabsPanel tabs={tabsItem} currentTab="Properties" {...props} />;
-// }
