@@ -38,7 +38,7 @@ export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080/";
   // const isContainer = props.isContainer || false
 
-  useConfig(props.config || {});
+  useConfig(props.config || undefined);
   const registry = useRegistry();
 
   const searchPath = useSearchParam("path");
