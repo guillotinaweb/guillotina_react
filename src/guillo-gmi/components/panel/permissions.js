@@ -3,16 +3,23 @@ import React from "react";
 import { Table } from "../ui/table";
 import { useCrudContext } from "../../hooks/useCrudContext";
 import { Sharing } from "../../models";
-import { Icon } from "../ui/icon"
+import { TraversalContext } from "../../contexts";
+import { useSetState } from "react-use";
+import { Select } from "../input/select";
+import { PermissionRoleperm } from "./permissions_roleperm";
+import { PermissionPrinperm } from "./permissions_prinperm";
+import { PermissionPrinrole } from "./permissions_prinrole";
 
 export function PanelPermissions(props) {
   const { get, result, loading } = useCrudContext();
+
+  const [reset, setReset] = React.useState(1);
 
   React.useEffect(() => {
     (async () => {
       await get("@sharing");
     })();
-  }, []);
+  }, [reset]);
 
   const perms = new Sharing(result);
 
@@ -27,7 +34,9 @@ export function PanelPermissions(props) {
             {perms.roles.map(role => (
               <React.Fragment>
                 <tr>
-                  <td colSpan="3" className="has-text-link">{role}</td>
+                  <td colSpan="3" className="has-text-link">
+                    {role}
+                  </td>
                   {/* <td>
                     <Icon icon="fas fa-ban" />
                     <span>Remove</span>
@@ -55,7 +64,9 @@ export function PanelPermissions(props) {
             {perms.principals.map(role => (
               <React.Fragment>
                 <tr>
-                  <td colSpan="3" className="has-text-link">{role}</td>
+                  <td colSpan="3" className="has-text-link">
+                    {role}
+                  </td>
                 </tr>
                 {Object.keys(perms.getPrincipals(role)).map(row => (
                   <tr>
@@ -79,7 +90,9 @@ export function PanelPermissions(props) {
             {perms.prinrole.map(role => (
               <React.Fragment>
                 <tr>
-                  <td colSpan="3" className="has-text-link">{role}</td>
+                  <td colSpan="3" className="has-text-link">
+                    {role}
+                  </td>
                 </tr>
                 {Object.keys(perms.getPrinroles(role)).map(row => (
                   <tr>
@@ -98,16 +111,89 @@ export function PanelPermissions(props) {
           </Table>
         </div>
       )}
-      <AddPermission />
+      <AddPermission refresh={setReset} />
     </div>
   );
 }
 
+const initial = {
+  permissions: undefined,
+  groups: undefined,
+  roles: [],
+  current: "",
+  currentObj: undefined
+};
 
-export function AddPermission() {
+const operations = [
+  { text: "Allow", value: "Allow" },
+  { text: "Deny", value: "Deny" },
+  { text: "AllowSingle", value: "AllowSingle" },
+  { text: "Unset", value: "Unset" }
+];
+
+const defaultOptions = [
+  { text: "Choose..", value: "" },
+  { text: "Role Permissions", value: "roleperm" },
+  { text: "Principal Permissions", value: "prinperm" },
+  { text: "Principal Roles", value: "prinrole" }
+];
+
+export function AddPermission({ refresh }) {
+  const Ctx = React.useContext(TraversalContext);
+  const [state, setState] = useSetState(initial);
+
+  React.useEffect(() => {
+    (async () => {
+      const permissions = (await Ctx.client.getAllPermissions(Ctx.path)).map(
+        perm => ({
+          text: perm,
+          value: perm
+        })
+      );
+      let req = await Ctx.client.getGroups(Ctx.path);
+      const groups = (await req.json()).map(group => ({
+        text: group.id,
+        value: group.id
+      }));
+      req = await Ctx.client.getRoles(Ctx.path);
+      const roles = (await req.json()).map(role => ({
+        text: role,
+        value: role
+      }));
+      setState({ permissions, groups, roles });
+    })();
+  }, []);
+
   return (
-    <div className="column is-4">
+    <div className="column is-4 is-size-7">
       <h1 className="title is-size-5">Add Permissions</h1>
+      <p>Select a type:</p>
+      <Select
+        options={defaultOptions}
+        onChange={v => setState({ current: v.target.value })}
+      />
+      <hr />
+      {state.current && state.current === "roleperm" && (
+        <PermissionRoleperm
+          {...state}
+          operations={operations}
+          refresh={refresh}
+        />
+      )}
+      {state.current && state.current === "prinperm" && (
+        <PermissionPrinperm
+          {...state}
+          operations={operations}
+          refresh={refresh}
+        />
+      )}
+      {state.current && state.current === "prinrole" && (
+        <PermissionPrinrole
+          {...state}
+          operations={operations}
+          refresh={refresh}
+        />
+      )}
     </div>
-  )
+  );
 }

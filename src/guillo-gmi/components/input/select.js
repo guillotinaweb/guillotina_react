@@ -16,20 +16,29 @@ export const Select = ({
     isSubmitted,
     onChange,
     resetOnChange,
+    appendDefault = false,
     ...rest
 }) => {
 
     const ref = React.useRef()
 
     const onUpdate = (ev) => {
-      onChange(ev)
+      if (ev.target.value === "") {
+        onChange(undefined)
+      } else {
+        onChange(ev)
+      }
       if (resetOnChange) {
         ref.current.value = ''
       }
     }
 
+    if (appendDefault) {
+      options = [{ text: "Choose..", value: "" }].concat(options)
+    }
+
     return (
-        <div className="select">
+        <div className={classnames(["select", (multiple ? 'is-multiple' :'')])}>
           <select
               className={classnames(['', className])}
               size={size}

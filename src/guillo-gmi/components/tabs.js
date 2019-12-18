@@ -1,12 +1,21 @@
 import React from 'react';
 import {useState} from 'react';
+import { TraversalContext } from '../contexts';
 
 
 export function TabsPanel({tabs, currentTab, rightToolbar, ...props}) {
 
+  const Ctx = React.useContext(TraversalContext)
+
   currentTab = currentTab || Object.keys(tabs)[0]
   const [current, setTab] = useState(currentTab)
   const CurrentComp = tabs[current]
+
+  React.useEffect(() => {
+    if (Object.keys(tabs).includes("Items")) {
+      setTab("Items")
+    }
+  }, [Ctx.state])
 
   return (
     <div className="container">

@@ -3,6 +3,8 @@ import { toQueryString } from "./helpers";
 
 let cacheTypes = {};
 let cacheSchemas = {};
+let cachePermissions = []
+
 
 export class GuillotinaClient {
   constructor(rest, isContainer) {
@@ -81,6 +83,10 @@ export class GuillotinaClient {
     return await this.rest.post(path, data);
   }
 
+  async post(path, data) {
+    return await this.create(path, data)
+  }
+
   async patch(path, data) {
     if (path.startsWith("/")) {
       path = path.substring(1);
@@ -120,6 +126,17 @@ export class GuillotinaClient {
     return await this.rest.get(endpoint);
   }
 
+  async getAllPermissions(path) {
+    if (!path.endsWith("/")) {
+      path = `${path}/`;
+    }
+    const req = await this.rest.get(path + "@all_permissions")
+    const resp = await req.json()
+    const permissions = Array.from(new Set(extractPermissions(resp)))
+    // permissions.sort()
+    return permissions
+  }
+
   async getTypes(path) {
     if (!path.endsWith("/")) {
       path = `${path}/`;
@@ -151,3 +168,38 @@ export const getContainerFromPath = path => {
   let parts = path.split("/");
   return `${parts[0]}/${parts[1]}/`;
 };
+
+
+// const extractPermissions = (data) => {
+//   let  permissions = []
+//   if (!Array.isArray(data) && data.permission) {
+//     permissions = permissions.concat([data.permission])
+//   } else if (Array.isArray(data)) {
+//     data.forEach(item => {
+//      permissions =permissions.concat(extractPermissions(item))
+//     })
+//   } else {
+//     const res = []
+//     Object.keys(data).map(key => {
+//       if(data[key].permission) {
+//         res = res.concat([])
+//       }
+//     })
+//     permissions.concat(res)
+//   }
+//   return permissions
+// }
+
+const extractPermissions = (data) => {
+  let result = []
+  if (typeof data !== "object") {
+
+  } else if (!Array.isArray(data) && data.permission) {
+    result = result.concat([data.permission])
+  } else if (!Array.isArray(data)) {
+    Object.keys(data).map(key=> result = result.concat(extractPermissions(data[key])))
+  } else if (Array.isArray(data)) {
+    data.map(item => result = result.concat(extractPermissions(item)))
+  }
+  return result
+}

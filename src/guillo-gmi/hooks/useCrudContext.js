@@ -45,7 +45,28 @@ const del =  (state, setState, Ctx) => async (data, endpoint) => {
   }
 };
 
-const post =  (state, setState, Ctx) => async (data, endpoint) => {};
+const post =  (state, setState, Ctx) => async (data, endpoint, body=true) => {
+  setState({ loading: true });
+  try {
+    const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
+    const res = await Ctx.client.post(path, data);
+    if (res.status < 400) {
+      let result
+      if (body) {
+        result = await res.json();
+      } else {
+        result = res.status
+      }
+      setState({ result, loading: false });
+    } else {
+      setState({ isError: true, errorMessage: res.status, loading: false });
+    }
+  } catch (e) {
+    console.error("Error", e);
+    setState({ isError: true, errorMessage: "unhandled exception" });
+  }
+
+};
 
 const get =  (state, setState, Ctx) => async (endpoint) => {
   setState({loading:true})

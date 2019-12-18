@@ -1,5 +1,5 @@
 const SEP = "=";
-const DEFAULT_FIELD = "nombre__in";
+const DEFAULT_FIELD = "title__in";
 const CLEANER = "||";
 
 export function parser(qs, defaultField = DEFAULT_FIELD) {

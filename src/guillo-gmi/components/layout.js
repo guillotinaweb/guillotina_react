@@ -55,11 +55,6 @@ export function Layout({ children, onLogout, auth }) {
           <div className="column">{children}</div>
         </div>
       </section>
-      <footer className="footer">
-        <div className="content has-text-centered">
-          <span>guillotina react</span>
-        </div>
-      </footer>
     </React.Fragment>
   );
 }
