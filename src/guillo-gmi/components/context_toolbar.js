@@ -40,7 +40,7 @@ export function CreateButton(props) {
     setState({ isActive: false });
   };
 
-  console.log(state.types);
+  // Implement some kind of filtering
 
   const status = state.isActive
     ? "dropdown is-right is-active"

@@ -10,7 +10,7 @@ export class RestClient {
   async request(path, data) {
     data = data || {}
     data.headers = this.auth.getHeaders()
-    console.log("rest url:", `${this.url}${path}`)
+    // console.log("rest url:", `${this.url}${path}`)
     return await fetch(`${this.url}${path}`, data)
   }
 

@@ -66,7 +66,7 @@ export function PanelItems(props) {
       {loading && <div className="progress-line"></div>}
       {!loading && (
         <table className="table is-fullwidth is-hoverable">
-          <thead class="is-size-7">
+          <thead className="is-size-7">
             <tr>
               <th></th>
               <th className="has-text-info">type</th>
@@ -82,7 +82,7 @@ export function PanelItems(props) {
             ))}
             {items.length === 0 && (
               <tr>
-                <td colspan="6" className="has-text-centered">
+                <td colSpan="6" className="has-text-centered">
                   Anything here!
                 </td>
               </tr>
