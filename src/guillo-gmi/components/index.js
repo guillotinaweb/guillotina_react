@@ -9,15 +9,21 @@ export * from "./input/input";
 export * from "./input/password";
 export * from "./input/select";
 
+// panels
 export * from "./panel/addons";
+export * from "./panel/behaviors";
 export * from "./panel/items";
 export * from "./panel/properties";
 export * from "./panel/permissions";
-export * from "./panel/behaviors";
+export * from "./panel/permissions_prinperm";
+export * from "./panel/permissions_prinrole";
+export * from "./panel/permissions_roleperm";
+
 
 export * from "./ui";
 export * from "./widgets";
 
+export * from "./behavior_view"
 export * from "./context_toolbar";
 export * from "./error_zone";
 export * from "./flash";

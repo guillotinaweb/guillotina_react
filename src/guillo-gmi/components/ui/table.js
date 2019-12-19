@@ -8,7 +8,7 @@ export function Table({ headers, children, className }) {
   return (
     <table className={classnames(["table", ...className])}>
       <thead>
-        <tr>{headers && headers.map(item => <th>{item}</th>)}</tr>
+        <tr>{headers && headers.map((item, idx) => <th key={item + idx}>{item}</th>)}</tr>
       </thead>
       <tbody>{children}</tbody>
     </table>

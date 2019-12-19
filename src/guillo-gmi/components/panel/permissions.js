@@ -31,8 +31,8 @@ export function PanelPermissions(props) {
             Role Permissions
           </h2>
           <Table headers={["Role", "Premission", "Setting"]}>
-            {perms.roles.map(role => (
-              <React.Fragment>
+            {perms.roles.map((role, idx) => (
+              <React.Fragment key={'ff' + idx}>
                 <tr>
                   <td colSpan="3" className="has-text-link">
                     {role}
@@ -42,8 +42,8 @@ export function PanelPermissions(props) {
                     <span>Remove</span>
                   </td> */}
                 </tr>
-                {Object.keys(perms.getRole(role)).map(row => (
-                  <tr>
+                {Object.keys(perms.getRole(role)).map((row, idx) => (
+                  <tr key={'k' + idx}>
                     <td></td>
                     <td>{row}</td>
                     <td>{perms.getRole(role)[row]}</td>
@@ -61,15 +61,15 @@ export function PanelPermissions(props) {
             Principal Permissions
           </h2>
           <Table headers={["Principal", "Premission", "Setting"]}>
-            {perms.principals.map(role => (
-              <React.Fragment>
+            {perms.principals.map((role, idx) => (
+              <React.Fragment key={'f2' + idx}>
                 <tr>
                   <td colSpan="3" className="has-text-link">
                     {role}
                   </td>
                 </tr>
-                {Object.keys(perms.getPrincipals(role)).map(row => (
-                  <tr>
+                {Object.keys(perms.getPrincipals(role)).map((row, idx) => (
+                  <tr key={"x" + idx}>
                     <td></td>
                     <td>{row}</td>
                     <td>{perms.getPrincipals(role)[row]}</td>
@@ -87,15 +87,15 @@ export function PanelPermissions(props) {
             Principal Roles
           </h2>
           <Table headers={["Principal", "Role", "Setting"]}>
-            {perms.prinrole.map(role => (
-              <React.Fragment>
+            {perms.prinrole.map((role, idx) => (
+              <React.Fragment key={role + idx}>
                 <tr>
                   <td colSpan="3" className="has-text-link">
                     {role}
                   </td>
                 </tr>
-                {Object.keys(perms.getPrinroles(role)).map(row => (
-                  <tr>
+                {Object.keys(perms.getPrinroles(role)).map((row, idx) => (
+                  <tr key={"xx" + idx}>
                     <td></td>
                     <td>{row}</td>
                     <td>{perms.getPrinroles(role)[row]}</td>

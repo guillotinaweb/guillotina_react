@@ -21,7 +21,6 @@ export function CreateButton(props) {
   const [state, setState] = useSetState(initialState);
   const Ctx = useContext(TraversalContext);
   const Config = useConfig();
-
   useEffect(() => {
     (async function anyNameFunction() {
       const types = await Ctx.client.getTypes(Ctx.context["@id"]);

@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { getClient } from "../lib/client";
 import { getComponent } from "../lib/registry";
 import { getAction } from "../lib/registry";
-import { Flash } from "../components/flash";
+import { Flash } from "./flash";
 import { TraversalProvider } from "../contexts";
-import { Path } from "../components/path";
+import { Path } from "./path";
 import { useSetState } from "react-use";
 import { useSearchParam } from "react-use";
-import { NotAllowed } from "../components/notallowed";
+import { NotAllowed } from "./notallowed";
+import { NotFound } from "./notfound";
 import { Permissions } from "../models";
 import { useConfig } from "../hooks/useConfig";
 import { useRegistry } from "../hooks/useRegistry";
@@ -30,7 +31,7 @@ let initialState = {
   search: undefined,
   searchParsed: [],
   permissions: undefined,
-  allowed: true,
+  errorStatus: undefined,
   registry: {}
 };
 
@@ -38,7 +39,7 @@ export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080/";
   // const isContainer = props.isContainer || false
 
-  useConfig(props.config || undefined);
+  useConfig(props.config || {});
   const registry = useRegistry();
 
   const searchPath = useSearchParam("path");
@@ -55,13 +56,16 @@ export function Guillotina({ auth, ...props }) {
       const { path, refresh } = state;
       let data = await client.getContext(path);
       if (data.status === 401) {
-        setState({ allowed: false });
+        setState({ errorStatus: 'notallowed' });
+        return;
+      } else if (data.status === 404) {
+        setState({errorStatus: 'notfound'})
         return;
       }
       let context = await data.json();
       const pr = await client.canido(path, Permissions);
       const perms = await pr.json();
-      setState({ context, refresh, allowed: true, permissions: perms });
+      setState({ context, refresh, errorStatus: undefined, permissions: perms });
     })();
   }, [state.path, state.refresh]);
 
@@ -91,13 +95,13 @@ export function Guillotina({ auth, ...props }) {
     registry
   };
 
-  const { action, allowed, permissions } = state;
+  const { action, errorStatus, permissions } = state;
   const Main = getComponent(state.context);
   const Action = action.action ? getAction(action.action) : null;
 
   return (
     <React.Fragment>
-      {allowed ? (
+      {!errorStatus && (
         <TraversalProvider {...contextData}>
           {permissions && (
             <React.Fragment>
@@ -119,9 +123,9 @@ export function Guillotina({ auth, ...props }) {
             </React.Fragment>
           )}
         </TraversalProvider>
-      ) : (
-        <NotAllowed />
       )}
+      {errorStatus === "notallowed" && <NotAllowed />}
+      {errorStatus === "notfound" && <NotFound />}
     </React.Fragment>
   );
 }

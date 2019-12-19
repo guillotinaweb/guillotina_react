@@ -3,7 +3,7 @@ import {Input} from './input';
 
 
 export const PasswordInput = ({ value = '', ...rest }) => {
-    return <Input type="email"
+    return <Input
       value={value}
       type="password"
       {...rest}
