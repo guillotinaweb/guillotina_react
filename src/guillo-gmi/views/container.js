@@ -5,16 +5,17 @@ import { PanelItems } from "../components/panel/items";
 import { PanelAddons } from "../components/panel/addons";
 import { TraversalContext } from "../contexts";
 import { PanelNotImplemented } from "./base";
-import { PanelPermissions} from "../components"
+import { PanelPermissions } from "../components";
 import { PanelBehaviors } from "../components";
-
+import { PanelRequester } from "../components";
 
 const tabs = {
   Items: PanelItems,
   Addons: PanelAddons,
   Registry: PanelNotImplemented,
   Behaviors: PanelBehaviors,
-  Permissions: PanelPermissions
+  Permissions: PanelPermissions,
+  Requester: PanelRequester
 };
 
 const tabsPermissions = {
@@ -22,9 +23,9 @@ const tabsPermissions = {
   Addons: "guillotina.ManageAddons",
   Registry: "guillotina.ReadConfiguration",
   Behaviors: "guillotina.ModifyContent",
-  Permissions: "guillotina.SeePermissions"
+  Permissions: "guillotina.SeePermissions",
+  Requester: "guillotina.swagger.View"
 };
-
 
 export function ContainerCtx(props) {
   const ctx = React.useContext(TraversalContext);
@@ -32,7 +33,7 @@ export function ContainerCtx(props) {
   return (
     <TabsPanel
       tabs={calculated}
-      currentTab="Items"
+      currentTab="Requester"
       rightToolbar={<ContextToolbar {...props} />}
       {...props}
     />

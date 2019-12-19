@@ -88,5 +88,6 @@ export const Permissions = [
   "guillotina.ReadConfiguration",
   "guillotina.RegisterConfigurations",
   "guillotina.WriteConfiguration",
-  "guillotina.ManageAddons"
+  "guillotina.ManageAddons",
+  "guillotina.swagger.View",
 ];

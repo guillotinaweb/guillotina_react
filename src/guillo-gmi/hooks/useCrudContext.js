@@ -6,7 +6,8 @@ const initial = {
   loading: undefined,
   isError: false,
   errorMessage: undefined,
-  result: undefined
+  result: undefined,
+  response: undefined
 };
 
 const patch = (sate, setState, Ctx) => async (data, endpoint) => {
@@ -17,7 +18,7 @@ const patch = (sate, setState, Ctx) => async (data, endpoint) => {
     if (res.status < 400) {
       // PATCH request has no body
       const result = res.status;
-      setState({ result, loading: false });
+      setState({ result, loading: false, response:res });
     } else {
       setState({ isError: true, errorMessage: res.status, loading: false });
     }
@@ -37,7 +38,7 @@ const del =  (state, setState, Ctx) => async (data, endpoint) => {
       const result = res.status;
       setState({ result, loading: false });
     } else {
-      setState({ isError: true, errorMessage: res.status, loading: false });
+      setState({ isError: true, errorMessage: res.status, loading: false, response:res });
     }
   } catch (e) {
     console.error("Error", e);
@@ -57,9 +58,9 @@ const post =  (state, setState, Ctx) => async (data, endpoint, body=true) => {
       } else {
         result = res.status
       }
-      setState({ result, loading: false });
+      setState({ result, loading: false, response:res });
     } else {
-      setState({ isError: true, errorMessage: res.status, loading: false });
+      setState({ isError: true, errorMessage: res.status, loading: false, response:res });
     }
   } catch (e) {
     console.error("Error", e);
@@ -73,7 +74,7 @@ const get =  (state, setState, Ctx) => async (endpoint) => {
   const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
   const req = await Ctx.client.get(path)
   const data = await req.json()
-  setState({loading: false, result:data})
+  setState({loading: false, result:data, response:req})
   return data
 };
 

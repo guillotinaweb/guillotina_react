@@ -15,9 +15,10 @@ const useInput = (onChange, value, validator) => {
   let [state, setState] = React.useState({ hasError: false, value: value });
 
   const onUpdate = ev => {
-    const value = ev.target.value;
+    const value = ev.target.value || ev.target || ev || '';
     setState({ value, hasError: false });
-    onChange(value);
+    if (onChange)
+      onChange(value);
   };
 
   const onBlur = ev => {

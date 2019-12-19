@@ -8,7 +8,6 @@ import { useClickAway } from "react-use";
 import { useConfig } from "../hooks/useConfig";
 import { Icon } from "./ui/icon";
 import { parser } from "../lib/search";
-import { useKey } from "react-use";
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = {
@@ -89,7 +88,7 @@ export function ContextToolbar(props) {
     ev.preventDefault()
   }
 
-  useKey("/", setFocus)
+  // useKey("/", setFocus)
 
   // cleanup form on state.search change
   React.useEffect(() => {
