@@ -11,12 +11,14 @@ export const Select = ({
     error,
     size = 1,
     className = '',
+    classWrap = '',
     multiple = false,
     loading = false,
     isSubmitted,
     onChange,
     resetOnChange,
     appendDefault = false,
+    style={},
     ...rest
 }) => {
 
@@ -37,8 +39,10 @@ export const Select = ({
       options = [{ text: "Choose..", value: "" }].concat(options)
     }
 
+    const cssWrap = ['select', (multiple ? 'is-multiple' :''), classWrap]
+
     return (
-        <div className={classnames(["select", (multiple ? 'is-multiple' :'')])}>
+        <div className={classnames(cssWrap)}>
           <select
               className={classnames(['', className])}
               size={size}
@@ -47,6 +51,7 @@ export const Select = ({
               onChange={onUpdate}
               {...rest}
               ref={ref}
+              style={style}
           >
               {options.map(({ text, ...rest }, index) => (
                 <option key={index.toString()} {...rest}>

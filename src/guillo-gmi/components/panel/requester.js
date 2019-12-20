@@ -6,13 +6,12 @@ import { Input } from "../input/input";
 import { useCrudContext } from "../../hooks/useCrudContext";
 
 import AceEditor from "react-ace";
-import brace from 'brace';
+import brace from "brace";
 import "brace/mode/json";
 
 const initial = {
   method: "get",
-  endpoint: "",
-  data: undefined
+  endpoint: ""
 };
 
 const methods = [
@@ -26,22 +25,33 @@ const methods = [
 export function PanelRequester() {
   const [state, setState] = useSetState(initial);
   const { get, post, del, patch, loading, isError, result } = useCrudContext();
+  const ref = React.useRef();
+
+  React.useEffect(() => {
+    if (ref.current) {
+      ref.current = "";
+    }
+  }, []);
 
   const doRequest = async () => {
-    const { method, endpoint, data } = state;
+    const ace =
+      ref.current && ref.current !== "" ? JSON.parse(ref.current) : undefined;
+    const { method, endpoint } = state;
     if (method === "get") {
       await get(endpoint);
     }
     if (method === "post") {
-      await post(data, endpoint);
+      await post(ace, endpoint);
     }
     if (method === "del") {
-      await del(endpoint, data);
+      await del(endpoint, ace);
     }
     if (method === "patch") {
-      await patch(data, endpoint);
+      await patch(ace, endpoint);
     }
   };
+
+  const onUpdate = value => (ref.current = value);
 
   return (
     <div className="container">
@@ -54,18 +64,21 @@ export function PanelRequester() {
             <Select
               options={methods}
               onChange={ev => setState({ method: ev.target.value })}
+              style={{ width: "100%" }}
+              classWrap="is-block"
             />
           </div>
         </div>
-        <div className="column">
+        <div className="column is-4">
           <div className="field">
-            <label className="label">Endpoing</label>
+            <label className="label">Endpoint</label>
             <Input
               placeholder="Default for context"
               type="text"
               onChange={value => setState({ endpoint: value })}
               className="is-small"
             />
+
           </div>
         </div>
         <div className="column">
@@ -80,8 +93,7 @@ export function PanelRequester() {
             </Button>
           </div>
         </div>
-        <div className="column"></div>
-        <div className="column"></div>
+        <div className="column is-6"></div>
       </div>
       <hr />
       <div className="columns">
@@ -89,16 +101,18 @@ export function PanelRequester() {
           <h2 className="title is-size-5">Body</h2>
           <AceEditor
             mode="json"
-            onChange={data => setState({ data })}
+            onChange={onUpdate}
+            value={ref.current}
             name="EDITOR"
             width="100%"
+            tabSize={2}
+            fontFamily="Menlo, Monaco"
             editorProps={{
               $blockScrolling: Infinity,
               enableBasicAutocompletion: false,
               enableLiveAutocompletion: false,
               enableSnippets: false,
-              showLineNumbers: true,
-              tabSize: 2,
+              showLineNumbers: true
             }}
           />
         </div>
@@ -109,6 +123,7 @@ export function PanelRequester() {
               mode="json"
               width="100%"
               name="VIEWER"
+              tabSize={2}
               fontFamily="Menlo, Consolas, Ubuntu Mono"
               value={JSON.stringify(result, null, 2)}
               editorProps={{
@@ -117,8 +132,7 @@ export function PanelRequester() {
                 enableLiveAutocompletion: false,
                 enableSnippets: false,
                 showLineNumbers: true,
-                tabSize: 2,
-
+                tabSize: 2
               }}
             />
           )}
