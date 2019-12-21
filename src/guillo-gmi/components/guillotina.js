@@ -13,6 +13,8 @@ import { NotFound } from "./notfound";
 import { Permissions } from "../models";
 import { useConfig } from "../hooks/useConfig";
 import { useRegistry } from "../hooks/useRegistry";
+import { useLocation } from "../hooks/useLocation";
+
 
 const PAGE_SIZE = 20;
 
@@ -42,7 +44,9 @@ export function Guillotina({ auth, ...props }) {
   useConfig(props.config || {});
   const registry = useRegistry();
 
-  const searchPath = useSearchParam("path");
+  const [location, setParams] = useLocation();
+
+  const searchPath = location.get("path");
   if (searchPath && searchPath !== "") {
     initialState.path = searchPath;
   }
@@ -50,6 +54,11 @@ export function Guillotina({ auth, ...props }) {
   const [state, setState] = useSetState(initialState);
   const client = getClient(url, auth);
 
+  const {path, refresh} = state
+
+  useEffect(() => {
+    setState({path: searchPath})
+  }, [searchPath])
 
   useEffect(() => {
     (async () => {
@@ -67,23 +76,8 @@ export function Guillotina({ auth, ...props }) {
       const perms = await pr.json();
       setState({ context, refresh, errorStatus: undefined, permissions: perms });
     })();
-  }, [state.path, state.refresh]);
+  }, [path, refresh]);
 
-  useEffect(() => {
-    window.history.pushState(
-      {},
-      "",
-      window.location.pathname + "?path=" + state.path
-    );
-  }, [state.path]);
-
-  useEffect(() => {
-    window.onpopstate = function(event) {
-      if (event.state) {
-        setState({ path: searchPath });
-      }
-    };
-  }, []);
 
   const contextData = {
     url,
@@ -92,12 +86,13 @@ export function Guillotina({ auth, ...props }) {
     PAGE_SIZE,
     state,
     setState,
-    registry
+    registry,
+    setParams
   };
 
   const { action, errorStatus, permissions } = state;
-  const Main = getComponent(state.context);
-  const Action = action.action ? getAction(action.action) : null;
+  const Main = registry.getComponent(state.context);
+  const Action = action.action ? registry.getAction(action.action) : null;
 
   return (
     <React.Fragment>

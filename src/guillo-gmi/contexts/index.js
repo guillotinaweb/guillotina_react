@@ -15,10 +15,11 @@ class Traversal {
     // window.history.pushState({}, "",
     // window.location.pathname = + "?path=" + path
     // )
-    this.setState({
-      path,
-      refresh: Math.random()
-    });
+    // this.setState({
+    //   path,
+    //   refresh: Math.random()
+    // });
+    this.setParams({path: path})
   }
 
   refresh() {

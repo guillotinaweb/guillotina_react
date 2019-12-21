@@ -1,12 +1,14 @@
 import React from 'react';
 import {TraversalContext} from '../contexts'
 import {useContext} from 'react'
+import {useLocation} from '../hooks/useLocation'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 
 export function Path(props) {
 
   const ctx = useContext(TraversalContext)
+  const [, navigate] = useLocation()
 
   let segments = ctx.path.replace(/\/$/, "").split("/")
   let links = buildPaths(segments)
@@ -14,21 +16,21 @@ export function Path(props) {
   if (segments.length === 1) {
     return false
   }
-
+  //ctx.setPath(links[indx])
   return (
     <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>
       {segments.map((item, indx) =>
         ((indx === 0) ?
           <li key={indx}>
-            <a onClick={() => ctx.setPath(links[indx])}>
+            <a onClick={() => navigate({path:links[indx]})}>
               <span className="icon">
                 <i className="fas fa-home"></i>
               </span>
             </a>
           </li>
           :
-          <li key={indx}><a onClick={() => ctx.setPath(links[indx])}>
+          <li key={indx}><a onClick={() => navigate({path:links[indx]})}>
           {item}</a></li>
       ))}
       </ul>
