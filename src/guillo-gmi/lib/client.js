@@ -94,6 +94,21 @@ export class GuillotinaClient {
     return await this.rest.patch(path, data);
   }
 
+  async upload(path, data, contentType, filename) {
+    if (path.startsWith("/")) {
+      path = path.substring(1);
+    }
+    return await this.rest.upload(path, data, contentType, filename);
+  }
+
+  async download(path) {
+    if (path.startsWith("/")) {
+      path = path.substring(1);
+    }
+    return await this.rest.get(path);
+  }
+
+
   async getTypeSchema(path, name) {
     if (!cacheSchemas[name]) {
       let url = getContainerFromPath(path);

@@ -23,6 +23,7 @@ class Traversal {
   }
 
   refresh() {
+    this.setState({refresh: Math.random()})
     this.setPath(this.state.path);
   }
 

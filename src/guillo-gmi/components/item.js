@@ -1,7 +1,6 @@
 import React from "react";
 
-import { LevelLeft, LevelRight, LevelItem } from "bloomer";
-import { Delete } from "bloomer";
+import { Delete } from "./ui";
 import { ItemModel } from "../models";
 import { TraversalContext } from "../contexts";
 import { useContext } from "react";
@@ -66,14 +65,14 @@ export function RItem({ item }) {
 export function ItemTitle({ title, actions }) {
   return (
     <nav className="level">
-      <LevelLeft>
-        <LevelItem>
+      <div className="level-left">
+        <div className="level-item">
           <h4 className="title has-text-primary is-size-5">{title}</h4>
-        </LevelItem>
-      </LevelLeft>
-      <LevelRight>
-        <LevelItem>{actions && actions}</LevelItem>
-      </LevelRight>
+        </div>
+      </div>
+      <div className="level-right">
+        <div className="level-item">{actions && actions}</div>
+      </div>
     </nav>
   );
 }

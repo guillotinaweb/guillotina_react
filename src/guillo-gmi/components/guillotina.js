@@ -1,13 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
 import { getClient } from "../lib/client";
-import { getComponent } from "../lib/registry";
-import { getAction } from "../lib/registry";
 import { Flash } from "./flash";
 import { TraversalProvider } from "../contexts";
 import { Path } from "./path";
 import { useSetState } from "react-use";
-import { useSearchParam } from "react-use";
 import { NotAllowed } from "./notallowed";
 import { NotFound } from "./notfound";
 import { Permissions } from "../models";
@@ -34,7 +31,8 @@ let initialState = {
   searchParsed: [],
   permissions: undefined,
   errorStatus: undefined,
-  registry: {}
+  registry: {},
+  refresh: undefined
 };
 
 export function Guillotina({ auth, ...props }) {
@@ -46,7 +44,7 @@ export function Guillotina({ auth, ...props }) {
 
   const [location, setParams] = useLocation();
 
-  const searchPath = location.get("path");
+  const searchPath = location.get("path") || '/';
   if (searchPath && searchPath !== "") {
     initialState.path = searchPath;
   }

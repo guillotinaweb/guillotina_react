@@ -1,9 +1,11 @@
 import React from "react";
 import { Table } from "./ui/table";
 import { Icon } from "./ui/icon";
+import { IAttachment } from "./behaviors/iattachment";
 
 const defregistry = {
-  "guillotina.behaviors.dublincore.IDublinCore": IDublinCore
+  "guillotina.behaviors.dublincore.IDublinCore": IDublinCore,
+  "guillotina.behaviors.attachment.IAttachment": IAttachment
 };
 
 export function BehaviorsView({ context, registry }) {
@@ -22,9 +24,13 @@ export function BehaviorsView({ context, registry }) {
       {behaviors.map(behavior => (
         <div className="container">
           <h3 className="title is-size-5">{behavior}</h3>
-          <Table columns={["Name", "Value"]}
-            className="is-striped is-fullwidth is-size-7">
-              {GetBehavior(behavior)}</Table>
+          <Table
+            columns={["Name", "Value", "action"]}
+            className="is-striped is-fullwidth is-size-7"
+          >
+            {GetBehavior(behavior)}
+          </Table>
+          <hr />
         </div>
       ))}
     </React.Fragment>
@@ -34,7 +40,7 @@ export function BehaviorsView({ context, registry }) {
 export function BehaviorNotImplemented() {
   return (
     <tr>
-      <td colSpan="2">Not Implemented</td>
+      <td colSpan="3">Not Implemented</td>
     </tr>
   );
 }
@@ -46,11 +52,14 @@ export function IDublinCore(props) {
         <tr>
           <td>{key}</td>
           <td>{props[key]}</td>
+          <td></td>
         </tr>
       ))}
     </React.Fragment>
   );
 }
+
+
 
 /*
 <tr>
@@ -68,3 +77,5 @@ export function Author({ name }) {
     </div>
   );
 }
+
+export * from './behaviors/iattachment'

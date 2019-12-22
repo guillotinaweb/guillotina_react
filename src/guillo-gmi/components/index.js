@@ -8,6 +8,7 @@ export * from "./input/form";
 export * from "./input/input";
 export * from "./input/password";
 export * from "./input/select";
+export * from "./input/upload";
 
 // panels
 export * from "./panel/addons";

@@ -1,7 +1,7 @@
 import React from 'react'
 import {TraversalContext} from '../contexts'
-import {Notification} from 'bloomer'
-import {Delete} from 'bloomer'
+import {Notification} from './ui/notification'
+import {Delete} from './ui/delete'
 
 
 export function Flash() {
