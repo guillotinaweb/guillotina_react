@@ -8,6 +8,7 @@ import { useClickAway } from "react-use";
 import { useConfig } from "../hooks/useConfig";
 import { Icon } from "./ui/icon";
 import { parser } from "../lib/search";
+import { useLocation } from "../hooks/useLocation";
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = {
@@ -73,29 +74,33 @@ export function CreateButton(props) {
 }
 
 export function ContextToolbar(props) {
+  const [location, setLocation] = useLocation();
   const ctx = React.useContext(TraversalContext);
   const ref = React.useRef(null);
 
+  const searchText = location.get("q")
+
   const onSearch = ev => {
-    let search = ev.target[0].value;
-    let searchParsed = parser(search);
-    ctx.setState({ search, searchParsed });
+    const search = ev.target[0].value;
+    setLocation({ q: search, tab: "Items" });
+    // let searchParsed = parser(search);
+    // ctx.setState({ search, searchParsed });
     ev.preventDefault();
   };
 
-  const setFocus = (ev) => {
-    ref.current.focus()
-    ev.preventDefault()
-  }
+  const setFocus = ev => {
+    ref.current.focus();
+    ev.preventDefault();
+  };
 
   // useKey("/", setFocus)
 
   // cleanup form on state.search change
   React.useEffect(() => {
-    if (!ctx.state.search) {
+    if (!searchText || searchText === "") {
       ref.current.value = "";
     }
-  }, [ctx.state.search]);
+  }, [searchText]);
 
   return (
     <React.Fragment>

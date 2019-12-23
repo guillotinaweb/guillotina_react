@@ -15,7 +15,7 @@ const useInput = (onChange, value, validator) => {
   let [state, setState] = React.useState({ hasError: false, value: value });
 
   const onUpdate = ev => {
-    const value = ev.target.value || ev.target || ev || '';
+    const value = (ev && ev.target) ? ev.target.value : (ev) ? ev : '';
     setState({ value, hasError: false });
     if (onChange)
       onChange(value);

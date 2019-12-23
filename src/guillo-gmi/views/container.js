@@ -33,7 +33,7 @@ export function ContainerCtx(props) {
   return (
     <TabsPanel
       tabs={calculated}
-      currentTab="Requester"
+      currentTab="Items"
       rightToolbar={<ContextToolbar {...props} />}
       {...props}
     />

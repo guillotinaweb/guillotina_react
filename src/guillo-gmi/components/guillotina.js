@@ -12,13 +12,9 @@ import { useConfig } from "../hooks/useConfig";
 import { useRegistry } from "../hooks/useRegistry";
 import { useLocation } from "../hooks/useLocation";
 
-
-const PAGE_SIZE = 20;
-
 let initialState = {
   path: "",
   context: undefined,
-  page: 0,
   flash: {
     message: undefined,
     type: undefined
@@ -27,8 +23,6 @@ let initialState = {
     action: undefined,
     params: undefined
   },
-  search: undefined,
-  searchParsed: [],
   permissions: undefined,
   errorStatus: undefined,
   registry: {},
@@ -37,14 +31,13 @@ let initialState = {
 
 export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080/";
-  // const isContainer = props.isContainer || false
 
   useConfig(props.config || {});
   const registry = useRegistry();
+  const [location, setRouterParam] = useLocation();
 
-  const [location, setParams] = useLocation();
-
-  const searchPath = location.get("path") || '/';
+  // if there is no path provided just go to root
+  const searchPath = location.get("path") || "/";
   if (searchPath && searchPath !== "") {
     initialState.path = searchPath;
   }
@@ -52,41 +45,47 @@ export function Guillotina({ auth, ...props }) {
   const [state, setState] = useSetState(initialState);
   const client = getClient(url, auth);
 
-  const {path, refresh} = state
+  const { path, refresh } = state;
 
   useEffect(() => {
-    setState({path: searchPath})
-  }, [searchPath])
+    setState({ path: searchPath });
+  }, [searchPath]);
 
   useEffect(() => {
     (async () => {
       const { path, refresh } = state;
+      console.log("refetching", path, refresh);
       let data = await client.getContext(path);
       if (data.status === 401) {
-        setState({ errorStatus: 'notallowed' });
+        setState({ errorStatus: "notallowed" });
         return;
       } else if (data.status === 404) {
-        setState({errorStatus: 'notfound'})
+        setState({ errorStatus: "notfound" });
         return;
       }
       let context = await data.json();
       const pr = await client.canido(path, Permissions);
       const perms = await pr.json();
-      setState({ context, refresh, errorStatus: undefined, permissions: perms });
+      setState({
+        context,
+        refresh,
+        errorStatus: undefined,
+        permissions: perms
+      });
     })();
   }, [path, refresh]);
-
 
   const contextData = {
     url,
     client,
     auth,
-    PAGE_SIZE,
     state,
     setState,
     registry,
-    setParams
+    setRouterParam
   };
+
+  console.log("repainting", state);
 
   const { action, errorStatus, permissions } = state;
   const Main = registry.getComponent(state.context);

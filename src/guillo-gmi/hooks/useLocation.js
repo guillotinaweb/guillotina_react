@@ -4,6 +4,21 @@ import { useEffect, useRef, useState, useCallback } from "react";
 // Mostly inspired from
 // https://github.com/molefrog/wouter
 
+
+const setURLParams = p =>
+    window.history["pushState"](
+      0,
+      0,
+      (window.history.pathname || '' ) + "?" + p.toString()
+    );
+
+  const clean = to => {
+    const current = new URLSearchParams();
+    Object.keys(to).forEach(_key => current.set(_key, to[_key]));
+    setURLParams(current);
+  };
+
+
 export const useLocation = ({ base = "" } = {}) => {
   const [path, update] = useState(currentSearchParams());
   const prevPath = useRef(path);
@@ -28,8 +43,11 @@ export const useLocation = ({ base = "" } = {}) => {
     // https://gist.github.com/bvaughn/e25397f70e8c65b0ae0d7c90b731b189
     checkForUpdates();
 
-    return () => events.map(e => window.removeEventListener(e, checkForUpdates));
+    return () =>
+      events.map(e => window.removeEventListener(e, checkForUpdates));
   }, []);
+
+
 
   // the 2nd argument of the `useLocation` return value is a function
   // that allows to perform a navigation.
@@ -38,18 +56,27 @@ export const useLocation = ({ base = "" } = {}) => {
   // it can be passed down as an element prop without any performance concerns.
   const navigate = useCallback(
     (to, replace) => {
+      if (replace) {
+        clean(to);
+        return;
+      }
+      let current = new URLSearchParams(path.toString());
+      Object.keys(to).forEach(_key => current.set(_key, to[_key]));
+      setURLParams(current);
+    },
+    [path]
+  );
 
-      let current = new URLSearchParams(path.toString())
-      Object.keys(to).forEach(_key => current.set(_key, to[_key]))
+  const remove = useCallback(
+    param => {
+      let current = new URLSearchParams(path.toString());
+      current.delete(param);
+      setURLParams(current);
+    },
+    [path]
+  );
 
-      window.history[replace ? "replaceState" : "pushState"](
-        0, 0,
-        window.location.pathname + "?" + current.toString()
-      )
-    }, []);
-
-
-  return [path, navigate];
+  return [path, navigate, remove];
 };
 
 // While History API does have `popstate` event, the only

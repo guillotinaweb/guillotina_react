@@ -1,14 +1,19 @@
 import React from "react";
 import { TraversalContext } from "../contexts";
 import { Tag } from "./ui/tag";
+import {useLocation} from '../hooks/useLocation'
 
 export function SearchLabels(props) {
+
+  const [location, setLocation, del] = useLocation()
   const ctx = React.useContext(TraversalContext);
-  let { search } = ctx.state;
-  let { setState } = ctx;
+  // let { search } = ctx.state;
+  // let { setState } = ctx;
+  const search = location.get("q")
 
   const clearSearch = () => {
-    setState({ search: undefined, searchParsed: [] });
+    del("q")
+    // setState({ search: undefined, searchParsed: [] });
   };
 
   return (

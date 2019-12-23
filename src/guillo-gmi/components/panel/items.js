@@ -7,6 +7,9 @@ import { RItem } from "../item";
 import { Pagination } from "../pagination";
 import { SearchLabels } from "../../components/searchLabels";
 import { buildQs } from "../../lib/search";
+import { useLocation } from "../../hooks/useLocation";
+import { parser } from "../../lib/search";
+import { useConfig } from "../../hooks/useConfig"
 
 const initialState = {
   page: 0,
@@ -16,10 +19,27 @@ const initialState = {
 };
 
 export function PanelItems(props) {
+  const [location, setLocation] = useLocation();
+  const {PageSize} = useConfig()
+
   const Ctx = useContext(TraversalContext);
   const [state, setState] = useSetState(initialState);
-  const { items, page, loading, total } = state;
-  const { search, searchParsed } = Ctx.state;
+  const { items, loading, total } = state;
+
+  let search = location.get("q");
+  let page;
+
+  try {
+    page = parseInt(location.get("page")) || 0;
+  } catch {
+    page = 0;
+  }
+
+  let searchParsed = undefined
+  if (search && search !== "") {
+    searchParsed = parser(search);
+  }
+  // const { search, searchParsed } = Ctx.state;
 
   useEffect(() => {
     (async () => {
@@ -32,21 +52,27 @@ export function PanelItems(props) {
           qs,
           false,
           false,
-          page * Ctx.PAGE_SIZE
+          page * PageSize,
+          PageSize
         );
         data = await res.json();
       } else {
-        data = await Ctx.client.getItems(Ctx.path, page * Ctx.PAGE_SIZE);
+        data = await Ctx.client.getItems(Ctx.path, page * PageSize, PageSize);
       }
       setState({
         items: data.member,
         loading: false,
-        total: search ? data.items_count : Ctx.context.length
+        total: data.items_count
       });
     })();
-  }, [search, searchParsed, page, Ctx.context]);
+  }, [search, Ctx.state.path, Ctx.state.refresh, page]);
 
-  const doPaginate = page => setState({ loading: true, page });
+  const doPaginate = page => {
+    setLocation({ page: page });
+    //setState({ loading: true, page });
+  };
+
+  console.log("Total pages", total)
 
   return (
     <React.Fragment>
@@ -56,10 +82,10 @@ export function PanelItems(props) {
         </div>
         <div className="column">
           <Pagination
-            current={state.page}
+            current={page}
             total={total}
             doPaginate={doPaginate}
-            pager={Ctx.PAGE_SIZE}
+            pager={PageSize}
           />
         </div>
       </div>
@@ -77,10 +103,11 @@ export function PanelItems(props) {
             </tr>
           </thead>
           <tbody>
-            {items.map(item => (
-              <RItem item={item} setPath={Ctx.setPath} key={item["@uid"]} />
-            ))}
-            {items.length === 0 && (
+            {items &&
+              items.map(item => (
+                <RItem item={item} setPath={Ctx.setPath} key={item["@uid"]} />
+              ))}
+            {items && items.length === 0 && (
               <tr>
                 <td colSpan="6" className="has-text-centered">
                   Anything here!
