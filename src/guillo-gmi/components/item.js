@@ -27,7 +27,7 @@ const mediumcss = {
   width: "120px"
 };
 
-export function RItem({ item }) {
+export function RItem({ item, search }) {
   const traversal = useContext(TraversalContext);
   const model = new ItemModel(item, traversal.url, traversal.path);
   const link = () => traversal.setPath(model.path);
@@ -40,7 +40,7 @@ export function RItem({ item }) {
       </td>
       <td onClick={link}>
         {model.name}
-        {traversal.state.search && (
+        {search && (
           <React.Fragment>
             <br />
             <span className="is-size-7 tag is-light">{model.path}</span>

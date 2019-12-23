@@ -39,7 +39,6 @@ export function PanelItems(props) {
   if (search && search !== "") {
     searchParsed = parser(search);
   }
-  // const { search, searchParsed } = Ctx.state;
 
   useEffect(() => {
     (async () => {
@@ -69,10 +68,7 @@ export function PanelItems(props) {
 
   const doPaginate = page => {
     setLocation({ page: page });
-    //setState({ loading: true, page });
   };
-
-  console.log("Total pages", total)
 
   return (
     <React.Fragment>
@@ -105,7 +101,11 @@ export function PanelItems(props) {
           <tbody>
             {items &&
               items.map(item => (
-                <RItem item={item} setPath={Ctx.setPath} key={item["@uid"]} />
+                <RItem item={item}
+                  setPath={Ctx.setPath}
+                  key={item["@uid"]}
+                  search={search}
+                  />
               ))}
             {items && items.length === 0 && (
               <tr>
