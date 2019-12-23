@@ -23,14 +23,14 @@ export function Path(props) {
       {segments.map((item, indx) =>
         ((indx === 0) ?
           <li key={indx}>
-            <a onClick={() => navigate({path:links[indx]})}>
+            <a onClick={() => navigate({path:links[indx]}, true)}>
               <span className="icon">
                 <i className="fas fa-home"></i>
               </span>
             </a>
           </li>
           :
-          <li key={indx}><a onClick={() => navigate({path:links[indx]})}>
+          <li key={indx}><a onClick={() => navigate({path:links[indx]}, true)}>
           {item}</a></li>
       ))}
       </ul>

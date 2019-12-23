@@ -10,7 +10,6 @@ export class RestClient {
   async request(path, data, headers) {
     data = data || {}
     data.headers = headers || this.auth.getHeaders()
-    // console.log("rest url:", `${this.url}${path}`)
     return await fetch(`${this.url}${path}`, data)
   }
 
@@ -49,15 +48,16 @@ export class RestClient {
     })
   }
 
-  async upload(path, data, contentType, filename) {
+  async upload(path, data) {
 
     const headers = this.auth.getHeaders()
     delete headers["Content-Type"]
-    headers["Content-Type"] = contentType
-    headers["X-UPLOAD-FILENAME"] = filename
-      return await this.request(path, {
+    headers["Content-Type"] = data["content-type"]
+    headers["X-UPLOAD-FILENAME"] = data.filename
+    headers["Content-Encoding"]= "base64"
+    return await this.request(path, {
       method: 'PATCH',
-      body: data
+      body: data.data
     }, headers)
   }
 

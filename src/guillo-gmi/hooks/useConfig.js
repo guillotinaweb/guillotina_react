@@ -1,5 +1,11 @@
 import React from "react";
-import { Config } from "../models/config";
+
+export const Config = {
+  DisabledTypes: ["UserManager", "GroupManager"],
+  PageSize: 10,
+}
+
+
 
 let calculated = Object.assign({}, Config);
 

@@ -1,97 +1,60 @@
 import React from "react";
 import { TraversalContext } from "../../contexts";
-import {FileUpload} from "../input/upload"
-import {Button} from "../input/button"
-import {readAsDataURL, readAsArrayBuffer} from 'promise-file-reader'
-
-
-/*
-
-readAsDataURL(file).then(data => {
-                  const fields = data.match(/^data:(.*);(.*),(.*)$/);
-                  onChange(id, {
-                    data: fields[3],
-                    encoding: fields[2],
-                    'content-type': fields[1],
-                    filename: file.name,
-                  });
-
-
-readAsDataURL(file).then(data => {
-  const fields = data.match(/^data:(.*);(.*),(.*)$/);
-  onChange(id, {
-    data: fields[3],
-    encoding: fields[2],
-    'content-type': fields[1],
-    filename: file.name,
-  });
-});
-*/
-
+import { FileUpload } from "../input/upload";
+import { Button } from "../input/button";
+import { base64ToArrayBuffer} from "../../lib/helpers"
 
 
 export function IAttachment(props) {
+  const ctx = React.useContext(TraversalContext);
+  const canModify = ctx.hasPerm("guillotina.ModifyContent");
 
-  const ctx = React.useContext(TraversalContext)
-  const canModify = ctx.hasPerm("guillotina.ModifyContent")
-
-  const uploadFile = async (file) => {
-    //formData.append('file', files[0])
-    const endpoint = `${ctx.path}@upload/file`
-    const req = await ctx.client.upload(
-      endpoint, file.data, file['content-type'], file.filename
-    )
+  const uploadFile = async file => {
+    const endpoint = `${ctx.path}@upload/file`;
+    const req = await ctx.client.upload(endpoint, file);
     // TODO handle errors and notifications
-    ctx.refresh()
-  }
+    ctx.refresh();
+  };
 
-  const downloadFile = (file) => async (event) => {
+  const downloadFile = (file, content_type) => async event => {
+    const endpoint = `${ctx.path}@download/file`;
+    const res = await ctx.client.download(endpoint);
+    const text = await res.text();
+    const blob = new Blob([base64ToArrayBuffer(text)], {
+      type: content_type
+    });
+    const url = window.URL.createObjectURL(blob);
 
-    const endpoint = `${ctx.path}@download/file`
-    const res = await ctx.client.download(endpoint)
-    const blob = await res.blob()
-    //Create blob link to download
-    const url = window.URL.createObjectURL(new Blob([blob]));
-    const link = document.createElement('a');
+    // //Create blob link to download
+    const link = document.createElement("a");
     link.href = url;
-    link.setAttribute('download', `${file.filename}`);
-    // 3. Append to html page
+    link.setAttribute("download", `${file.filename}`);
     document.body.appendChild(link);
-    // 4. Force download
     link.click();
-    // 5. Clean up and remove the link
     link.parentNode.removeChild(link);
-  }
-
+  };
 
   return (
     <tr>
       <td>File</td>
       <td>
-        {!props.file && 'undefined'}
-        {props.file &&
+        {!props.file && "undefined"}
+        {props.file && (
           <React.Fragment>
-            {props.file.filename} / {props.file.content_type} ({props.file.size})<br />
-            <Button onClick={downloadFile(props.file)}
-              className="is-small">Download</Button>
+            {props.file.filename} / {props.file.content_type} ({props.file.size}
+            )<br />
+            <Button
+              onClick={downloadFile(props.file, props.file.content_type)}
+              className="is-small"
+            >
+              Download
+            </Button>
           </React.Fragment>
-        }
-
+        )}
       </td>
-      <td>
-        {canModify && <FileUpload onChange={event=>{
-          const file = event.target.files[0];
-          readAsDataURL(file).then(data => {
-            const fields = data.match(/^data:(.*);(.*),(.*)$/);
-            uploadFile({
-              data: fields[3],
-              encoding: fields[2],
-              'content-type': fields[1],
-              filename: file.name,
-            });
-          });
-        }} /> }
-      </td>
+      <td>{canModify && <FileUpload onChange={uploadFile} />}</td>
     </tr>
-  )
+  );
 }
+
+

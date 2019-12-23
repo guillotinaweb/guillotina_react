@@ -3,8 +3,7 @@ import { toQueryString } from "./helpers";
 
 let cacheTypes = {};
 let cacheSchemas = {};
-let cachePermissions = []
-
+let cachePermissions = [];
 
 export class GuillotinaClient {
   constructor(rest, isContainer) {
@@ -31,17 +30,17 @@ export class GuillotinaClient {
     return await this.rest.get(path);
   }
 
-  async getItems(path, start = 0) {
+  async getItems(path, start = 0, pageSize=10) {
     if (path.startsWith("/")) {
       path = path.slice(1);
     }
     const result = await this.rest.get(
-      `${path}@search?depth=1&b_start=${start}&b_size=20`
+      `${path}@search?depth=1&b_start=${start}&b_size=${pageSize}`
     );
     return await result.json();
   }
 
-  async search(path, params, container = false, prepare = true, start = 0) {
+  async search(path, params, container = false, prepare = true, start = 0, pageSize=10) {
     if (path.startsWith("/")) {
       path = path.slice(1);
     }
@@ -49,7 +48,7 @@ export class GuillotinaClient {
       path = getContainerFromPath(path);
     }
     let query = prepare ? toQueryString(params) : params;
-    const url = `${path}@search?${query}&b_start=${start}&b_size=20`;
+    const url = `${path}@search?${query}&b_start=${start}&b_size=${pageSize}`;
     return await this.rest.get(url);
   }
 
@@ -84,7 +83,7 @@ export class GuillotinaClient {
   }
 
   async post(path, data) {
-    return await this.create(path, data)
+    return await this.create(path, data);
   }
 
   async patch(path, data) {
@@ -94,11 +93,11 @@ export class GuillotinaClient {
     return await this.rest.patch(path, data);
   }
 
-  async upload(path, data, contentType, filename) {
+  async upload(path, file) {
     if (path.startsWith("/")) {
       path = path.substring(1);
     }
-    return await this.rest.upload(path, data, contentType, filename);
+    return await this.rest.upload(path, file);
   }
 
   async download(path) {
@@ -107,7 +106,6 @@ export class GuillotinaClient {
     }
     return await this.rest.get(path);
   }
-
 
   async getTypeSchema(path, name) {
     if (!cacheSchemas[name]) {
@@ -145,11 +143,11 @@ export class GuillotinaClient {
     if (!path.endsWith("/")) {
       path = `${path}/`;
     }
-    const req = await this.rest.get(path + "@all_permissions")
-    const resp = await req.json()
-    const permissions = Array.from(new Set(extractPermissions(resp)))
+    const req = await this.rest.get(path + "@all_permissions");
+    const resp = await req.json();
+    const permissions = Array.from(new Set(extractPermissions(resp)));
     // permissions.sort()
-    return permissions
+    return permissions;
   }
 
   async getTypes(path) {
@@ -184,37 +182,33 @@ export const getContainerFromPath = path => {
   return `${parts[0]}/${parts[1]}/`;
 };
 
+export const lightFileReader = async (file) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onloadend = e => {
+      const fileData = btoa(e.target.result);
+      resolve({
+        filename: file.name,
+        data: fileData,
+        encoding: "base64",
+        "content-type": file.type
+      });
+    };
+  });
+};
 
-// const extractPermissions = (data) => {
-//   let  permissions = []
-//   if (!Array.isArray(data) && data.permission) {
-//     permissions = permissions.concat([data.permission])
-//   } else if (Array.isArray(data)) {
-//     data.forEach(item => {
-//      permissions =permissions.concat(extractPermissions(item))
-//     })
-//   } else {
-//     const res = []
-//     Object.keys(data).map(key => {
-//       if(data[key].permission) {
-//         res = res.concat([])
-//       }
-//     })
-//     permissions.concat(res)
-//   }
-//   return permissions
-// }
-
-const extractPermissions = (data) => {
-  let result = []
+const extractPermissions = data => {
+  let result = [];
   if (typeof data !== "object") {
-
   } else if (!Array.isArray(data) && data.permission) {
-    result = result.concat([data.permission])
+    result = result.concat([data.permission]);
   } else if (!Array.isArray(data)) {
-    Object.keys(data).map(key=> result = result.concat(extractPermissions(data[key])))
+    Object.keys(data).map(
+      key => (result = result.concat(extractPermissions(data[key])))
+    );
   } else if (Array.isArray(data)) {
-    data.map(item => result = result.concat(extractPermissions(item)))
+    data.map(item => (result = result.concat(extractPermissions(item))));
   }
-  return result
-}
+  return result;
+};

@@ -12,19 +12,14 @@ class Traversal {
   }
 
   setPath(path) {
-    // window.history.pushState({}, "",
-    // window.location.pathname = + "?path=" + path
-    // )
-    // this.setState({
-    //   path,
-    //   refresh: Math.random()
-    // });
-    this.setParams({path: path})
+    // This is like black magic, document it
+    // router interactions are hard
+    this.setRouterParam({path: path}, true)
   }
 
   refresh() {
     this.setState({refresh: Math.random()})
-    this.setPath(this.state.path);
+    // this.setPath(this.state.path);
   }
 
   get path() {
