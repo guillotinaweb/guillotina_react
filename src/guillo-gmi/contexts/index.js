@@ -14,12 +14,11 @@ class Traversal {
   setPath(path) {
     // This is like black magic, document it
     // router interactions are hard
-    this.setRouterParam({path: path}, true)
+    this.setRouterParam({ path: path }, true);
   }
 
   refresh() {
-    this.setState({refresh: Math.random()})
-    // this.setPath(this.state.path);
+    this.dispatch({ type: "REFRESH" });
   }
 
   get path() {
@@ -38,29 +37,20 @@ class Traversal {
     return getContainerFromPath(this.path);
   }
 
-  apply(data) {
-    const context = Object.assign({}, this.state.context, data);
-    this.setState({ context });
-  }
-
-  setPermissions(permissions) {
-    this.setState({ permissions });
-  }
-
   flash(message, type) {
-    this.setState({ flash: { message, type } });
+    this.dispatch({ type: "SET_FLASH", payload: { flash: { message, type } } });
   }
 
   clearFlash() {
-    this.setState({ flash: { message: undefined, type: undefined } });
+    this.dispatch({ type: "CLEAR_FLASH" });
   }
 
   doAction(action, params) {
-    this.setState({ action: { action, params } });
+    this.dispatch({ type: "SET_ACTION", payload: { action, params } });
   }
 
   cancelAction() {
-    this.setState({ action: { action: undefined, params: undefined } });
+    this.dispatch({ type: "CLEAR_ACTION" });
   }
 
   hasPerm(permission) {

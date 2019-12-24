@@ -1,37 +1,25 @@
 import React from "react";
+import { useReducer } from "react";
 import { useEffect } from "react";
+import { useRef } from "react";
 import { getClient } from "../lib/client";
 import { Flash } from "./flash";
 import { TraversalProvider } from "../contexts";
 import { Path } from "./path";
-import { useSetState } from "react-use";
 import { NotAllowed } from "./notallowed";
 import { NotFound } from "./notfound";
 import { Permissions } from "../models";
 import { useConfig } from "../hooks/useConfig";
 import { useRegistry } from "../hooks/useRegistry";
 import { useLocation } from "../hooks/useLocation";
+import { guillotinaReducer } from "../reducers/guillotina";
+import { initialState } from "../reducers/guillotina";
 
-let initialState = {
-  path: "",
-  context: undefined,
-  flash: {
-    message: undefined,
-    type: undefined
-  },
-  action: {
-    action: undefined,
-    params: undefined
-  },
-  permissions: undefined,
-  errorStatus: undefined,
-  registry: {},
-  refresh: undefined
-};
 
 export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080/";
 
+  const ref = useRef();
   useConfig(props.config || {});
   const registry = useRegistry();
   const [location, setRouterParam] = useLocation();
@@ -42,50 +30,46 @@ export function Guillotina({ auth, ...props }) {
     initialState.path = searchPath;
   }
 
-  const [state, setState] = useSetState(initialState);
-  const client = getClient(url, auth);
+  const [state, dispatch] = useReducer(guillotinaReducer, initialState);
+
+  // we store the client on a ref (refs are stable across renders)
+  if (!ref.current) {
+    ref.current = getClient(url, auth);
+  }
 
   const { path, refresh } = state;
+  const client = ref.current;
 
   useEffect(() => {
-    setState({ path: searchPath });
+    dispatch({ type: "SET_PATH", payload: searchPath });
   }, [searchPath]);
 
   useEffect(() => {
     (async () => {
-      const { path, refresh } = state;
-      console.log("refetching", path, refresh);
       let data = await client.getContext(path);
       if (data.status === 401) {
-        setState({ errorStatus: "notallowed" });
+        dispatch({ type: "SET_ERROR", payload: "notallowed" });
         return;
       } else if (data.status === 404) {
-        setState({ errorStatus: "notfound" });
+        dispatch({ type: "SET_ERROR", payload: "notfound" });
         return;
       }
       let context = await data.json();
       const pr = await client.canido(path, Permissions);
-      const perms = await pr.json();
-      setState({
-        context,
-        refresh,
-        errorStatus: undefined,
-        permissions: perms
-      });
+      const permissions = await pr.json();
+      dispatch({ type: "SET_CONTEXT", payload: { context, permissions } });
     })();
-  }, [path, refresh]);
+  }, [path, refresh, client]);
 
   const contextData = {
     url,
     client,
     auth,
     state,
-    setState,
+    dispatch,
     registry,
     setRouterParam
   };
-
-  console.log("repainting", state);
 
   const { action, errorStatus, permissions } = state;
   const Main = registry.getComponent(state.context);
