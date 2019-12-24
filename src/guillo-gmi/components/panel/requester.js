@@ -33,7 +33,12 @@ export function PanelRequester() {
     }
   }, []);
 
-  const doRequest = async () => {
+  const doRequest = async (ev) => {
+
+    if (ev) {
+      ev.preventDefault()
+    }
+
     const ace =
       ref.current && ref.current !== "" ? JSON.parse(ref.current) : undefined;
     const { method, endpoint } = state;
@@ -57,6 +62,7 @@ export function PanelRequester() {
     <div className="container">
       <h2 className="title is-size-5">JSON Context Requester</h2>
       <hr />
+      <form onSubmit={doRequest} className="form">
       <div className="columns is-size-7">
         <div className="column">
           <div className="field">
@@ -95,10 +101,10 @@ export function PanelRequester() {
         </div>
         <div className="column is-6"></div>
       </div>
-      <hr />
+      </form>
       <div className="columns">
         <div className="column">
-          <h2 className="title is-size-5">Body</h2>
+          <h2 className="title is-size-6">Body</h2>
           <AceEditor
             mode="json"
             onChange={onUpdate}
@@ -117,7 +123,7 @@ export function PanelRequester() {
           />
         </div>
         <div className="column">
-          <h2 className="title is-size-5">Response</h2>
+          <h2 className="title is-size-6">Response</h2>
           {result && (
             <AceEditor
               mode="json"

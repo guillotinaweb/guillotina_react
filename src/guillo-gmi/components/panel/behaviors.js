@@ -4,7 +4,7 @@ import { Table } from "../ui/table";
 import { Button } from "../input/button";
 
 export function PanelBehaviors() {
-  const { get, result, loading, isError } = useCrudContext();
+  const { Ctx, get, result, loading, isError } = useCrudContext();
   const ops = useCrudContext();
 
   const [state, setState] = React.useState(false);
@@ -12,11 +12,13 @@ export function PanelBehaviors() {
   const enableBehavior = behavior => async () => {
     await ops.patch({ behavior }, "@behaviors");
     setState(!state);
+    Ctx.refresh()
   };
 
   const disableBehavior = behavior => async () => {
     await ops.del({ behavior }, "@behaviors");
     setState(!state);
+    Ctx.refresh()
   };
 
   React.useEffect(() => {
