@@ -15,13 +15,15 @@ import { useLocation } from "../hooks/useLocation";
 import { guillotinaReducer } from "../reducers/guillotina";
 import { initialState } from "../reducers/guillotina";
 
-
 export function Guillotina({ auth, ...props }) {
-  const url = props.url || "http://localhost:8080/";
+  const url = props.url || "http://localhost:8080"; // without trailing slash
 
+  // Will hold client instance
   const ref = useRef();
+
   useConfig(props.config || {});
-  const registry = useRegistry();
+  const registry = useRegistry(props.registry || {});
+  // Location is cooked routing solution (only uses search params)
   const [location, setRouterParam] = useLocation();
 
   // if there is no path provided just go to root

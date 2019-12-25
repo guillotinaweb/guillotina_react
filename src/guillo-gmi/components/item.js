@@ -33,7 +33,7 @@ export function RItem({ item, search }) {
   const link = () => traversal.setPath(model.path);
 
   return (
-    <tr>
+    <tr key={item}>
       <td style={smallcss}>{<Icon icon={model.icon} />}</td>
       <td style={smallcss} onClick={link}>
         <span className="tag">{model.type}</span>

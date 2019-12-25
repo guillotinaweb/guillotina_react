@@ -1,21 +1,19 @@
 import React from "react";
 import { Table } from "./ui/table";
 import { Icon } from "./ui/icon";
-import { IAttachment } from "./behaviors/iattachment";
+import { useRegistry } from "../hooks/useRegistry";
 
-const defregistry = {
-  "guillotina.behaviors.dublincore.IDublinCore": IDublinCore,
-  "guillotina.behaviors.attachment.IAttachment": IAttachment
-};
 
-export function BehaviorsView({ context, registry }) {
-  registry = registry || defregistry;
+export function BehaviorsView({ context}) {
+
+  const {getBehavior} = useRegistry()
+
   const behaviors = [].concat(
     context.__behaviors__,
     context["@static_behaviors"]
   );
   const GetBehavior = b => {
-    const Cls = registry[b] ? registry[b] : BehaviorNotImplemented;
+    const Cls = getBehavior(b, BehaviorNotImplemented);
     return <Cls {...context[b]} />;
   };
 
@@ -45,19 +43,6 @@ export function BehaviorNotImplemented() {
   );
 }
 
-export function IDublinCore(props) {
-  return (
-    <React.Fragment>
-      {Object.keys(props).map(key => (
-        <tr>
-          <td>{key}</td>
-          <td>{props[key]}</td>
-          <td></td>
-        </tr>
-      ))}
-    </React.Fragment>
-  );
-}
 
 
 
@@ -69,13 +54,4 @@ export function IDublinCore(props) {
     )}</td>
 </tr> */
 
-export function Author({ name }) {
-  return (
-    <div className="container">
-      <Icon icon="fas fa-user" />
-      <span>{name}</span>
-    </div>
-  );
-}
 
-export * from './behaviors/iattachment'

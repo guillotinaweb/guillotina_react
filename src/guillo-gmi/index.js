@@ -14,7 +14,6 @@ export * from './hooks/useRemoteField'
 export * from './hooks/useRegistry'
 
 export * from './lib/helpers'
-export * from './lib/registry'
 export * from './lib/validators'
 export * from './lib/utils'
 export * from './lib/client'

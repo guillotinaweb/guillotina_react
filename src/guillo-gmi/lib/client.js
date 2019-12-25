@@ -5,6 +5,7 @@ let cacheTypes = {};
 let cacheSchemas = {};
 let cachePermissions = [];
 
+
 export class GuillotinaClient {
   constructor(rest, isContainer) {
     this.rest = rest;
@@ -151,15 +152,12 @@ export class GuillotinaClient {
   }
 
   async getTypes(path) {
-    if (!path.endsWith("/")) {
-      path = `${path}/`;
-    }
-    if (path.startsWith("http")) {
-      path = path.replace(this.rest.url, "");
+    if (path.startsWith("/")) {
+      path = path.slice(1);
     }
     if (!cacheTypes[path]) {
       const types = await this.rest.get(path + "@addable-types");
-      if (types.status === 401) {
+      if (types.status === 401 || types.status === 404) {
         cacheTypes[path] = [];
       } else {
         const res = await types.json();

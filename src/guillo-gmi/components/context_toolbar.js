@@ -7,7 +7,6 @@ import { TraversalContext } from "../contexts";
 import { useClickAway } from "react-use";
 import { useConfig } from "../hooks/useConfig";
 import { Icon } from "./ui/icon";
-import { parser } from "../lib/search";
 import { useLocation } from "../hooks/useLocation";
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
@@ -23,12 +22,12 @@ export function CreateButton(props) {
   const Config = useConfig();
   useEffect(() => {
     (async function anyNameFunction() {
-      const types = await Ctx.client.getTypes(Ctx.context["@id"]);
+      const types = await Ctx.client.getTypes(Ctx.path);
       setState({
         types: types.filter(item => !Config.DisabledTypes.includes(item))
       });
     })();
-  }, [Ctx.context["@id"]]);
+  }, [Ctx.path]);
 
   useClickAway(ref, () => {
     setState({ isActive: false });
@@ -78,7 +77,7 @@ export function ContextToolbar(props) {
   const ctx = React.useContext(TraversalContext);
   const ref = React.useRef(null);
 
-  const searchText = location.get("q")
+  const searchText = location.get("q");
 
   const onSearch = ev => {
     const search = ev.target[0].value;
