@@ -8,7 +8,7 @@ import { Textarea } from "../input/textarea";
 import { Input } from "../input/input";
 
 const Schema = {
-  editable: ["description"],
+  editable: ["title", "description", "effective_date", "expiration_date"],
   widgets: {
     description: Textarea
   }
