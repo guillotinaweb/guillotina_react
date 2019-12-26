@@ -11,6 +11,8 @@ import { BaseForm } from "../forms/base";
 import { UserForm } from "../forms/users";
 import { IAttachment } from "../components/behaviors/iattachment";
 import { IDublinCore } from "../components/behaviors/idublincore";
+import { IMultiAttachment } from "../components/behaviors/imultiattachment";
+
 
 let registry = {
   paths: {},
@@ -38,7 +40,8 @@ let registry = {
   },
   behaviors: {
     "guillotina.behaviors.dublincore.IDublinCore": IDublinCore,
-    "guillotina.behaviors.attachment.IAttachment": IAttachment
+    "guillotina.behaviors.attachment.IAttachment": IAttachment,
+    "guillotina.behaviors.attachment.IMultiAttachment": IMultiAttachment,
   }
 };
 

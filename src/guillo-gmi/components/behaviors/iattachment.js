@@ -40,7 +40,6 @@ export function IAttachment(props) {
 
   return (
     <tr>
-      <td>File</td>
       <td>
         {!props.file && "undefined"}
         {props.file && (

@@ -36,7 +36,6 @@ export function IDublinCore(props) {
               <RenderField value={props[key]} />
             )}
           </td>
-          <td></td>
         </tr>
       ))}
     </React.Fragment>

@@ -22,7 +22,7 @@ export function BehaviorsView({ context}) {
         <div className="container">
           <h3 className="title is-size-6 has-text-grey">{behavior}</h3>
           <Table
-            columns={["Name", "Value", "action"]}
+            headers={["Field", "Value"]}
             className="is-striped is-fullwidth is-size-7"
           >
             {GetBehavior(behavior)}
