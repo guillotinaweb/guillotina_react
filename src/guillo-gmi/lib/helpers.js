@@ -19,14 +19,13 @@ export const toQueryString = params => {
     .join("&");
 };
 
-
 export function base64ToArrayBuffer(base64) {
   const binaryString = window.atob(base64);
   const binaryLen = binaryString.length;
   const bytes = new Uint8Array(binaryLen);
   for (var i = 0; i < binaryLen; i++) {
-     var ascii = binaryString.charCodeAt(i);
-     bytes[i] = ascii;
+    var ascii = binaryString.charCodeAt(i);
+    bytes[i] = ascii;
   }
   return bytes;
 }

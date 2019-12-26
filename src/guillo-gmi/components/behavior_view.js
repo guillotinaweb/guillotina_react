@@ -1,6 +1,5 @@
 import React from "react";
 import { Table } from "./ui/table";
-import { Icon } from "./ui/icon";
 import { useRegistry } from "../hooks/useRegistry";
 
 
@@ -21,7 +20,7 @@ export function BehaviorsView({ context}) {
     <React.Fragment>
       {behaviors.map(behavior => (
         <div className="container">
-          <h3 className="title is-size-5">{behavior}</h3>
+          <h3 className="title is-size-6 has-text-grey">{behavior}</h3>
           <Table
             columns={["Name", "Value", "action"]}
             className="is-striped is-fullwidth is-size-7"

@@ -183,13 +183,12 @@ export const getContainerFromPath = path => {
 export const lightFileReader = async (file) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
     reader.onloadend = e => {
-      const fileData = btoa(e.target.result);
+      const fileData = e.target.result;
       resolve({
         filename: file.name,
         data: fileData,
-        encoding: "base64",
         "content-type": file.type
       });
     };

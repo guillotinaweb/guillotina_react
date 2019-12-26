@@ -2,30 +2,34 @@ import React from "react";
 import { TraversalContext } from "../../contexts";
 import { FileUpload } from "../input/upload";
 import { Button } from "../input/button";
-import { base64ToArrayBuffer} from "../../lib/helpers"
 
 
 export function IAttachment(props) {
   const ctx = React.useContext(TraversalContext);
   const canModify = ctx.hasPerm("guillotina.ModifyContent");
 
+
   const uploadFile = async file => {
     const endpoint = `${ctx.path}@upload/file`;
     const req = await ctx.client.upload(endpoint, file);
-    // TODO handle errors and notifications
+    if (req.status !== 200) {
+      ctx.flash("Failed to upload file", "error")
+      return
+    }
+    ctx.flash("file uploaded", "success")
     ctx.refresh();
   };
 
   const downloadFile = (file, content_type) => async event => {
     const endpoint = `${ctx.path}@download/file`;
     const res = await ctx.client.download(endpoint);
-    const text = await res.text();
-    const blob = new Blob([base64ToArrayBuffer(text)], {
+    const text = await res.blob();
+    const blob = new Blob([text], {
       type: content_type
     });
     const url = window.URL.createObjectURL(blob);
 
-    // //Create blob link to download
+    // Create blob link to download
     const link = document.createElement("a");
     link.href = url;
     link.setAttribute("download", `${file.filename}`);
