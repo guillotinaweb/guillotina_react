@@ -3,7 +3,6 @@ import { toQueryString } from "./helpers";
 
 let cacheTypes = {};
 let cacheSchemas = {};
-let cachePermissions = [];
 
 
 export class GuillotinaClient {
@@ -135,6 +134,21 @@ export class GuillotinaClient {
     return await this.rest.get(endpoint);
   }
 
+  async getUsers(path) {
+    const endpoint = `${getContainerFromPath(path)}@users`;
+    return await this.rest.get(endpoint);
+  }
+
+  async getPrincipals(path) {
+    const groups = this.getGroups(path)
+    const users = this.getUsers(path)
+    const [gr, usr] = await Promise.all(groups, users)
+    return {
+      groups: await gr.json(),
+      users: await usr.json()
+    }
+  }
+
   async getRoles(path) {
     const endpoint = `${getContainerFromPath(path)}@available-roles`;
     return await this.rest.get(endpoint);
@@ -147,7 +161,6 @@ export class GuillotinaClient {
     const req = await this.rest.get(path + "@all_permissions");
     const resp = await req.json();
     const permissions = Array.from(new Set(extractPermissions(resp)));
-    // permissions.sort()
     return permissions;
   }
 

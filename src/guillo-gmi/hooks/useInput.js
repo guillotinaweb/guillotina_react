@@ -32,6 +32,10 @@ const useInput = (onChange, value, validator) => {
     }
   };
 
+  React.useEffect(() => {
+      setState({ value, hasError: false })
+   }, [value])
+
   return {
     onChange: onUpdate,
     onFocus,

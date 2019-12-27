@@ -47,6 +47,9 @@ export function guillotinaReducer(state, action) {
     case "REFRESH":
       return {...state, refresh:Math.random()}
 
+    case "APPLY":
+      return {...state, context: {...state.context, ...action.payload}}
+
     default:
       return state;
   }

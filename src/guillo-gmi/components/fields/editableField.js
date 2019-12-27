@@ -42,7 +42,7 @@ export function EditableField({ field, value, Type=Input, ns }) {
           <form onSubmit={saveField}>
             <div className="control">
               <Type
-                value={val}
+                value={val || ''}
                 className="is-small"
                 onChange={ev => setValue(ev)}
                 ref={ref}

@@ -59,6 +59,7 @@ export function FormBuilder({
   const GetTag = ({ field }) => {
     const Tag =
       formComponents[properties[field].widget || properties[field].type];
+
     const props = {
       label: properties[field].title,
       value: initialState[field],
@@ -66,6 +67,7 @@ export function FormBuilder({
       placeholder: properties[field].title || "",
       id: generateUID()
     };
+
     if (required.includes(field)) {
       props.required = true;
       props.placeholder += " *";
@@ -79,7 +81,6 @@ export function FormBuilder({
   );
 
   const changes = () => {
-    // console.log("On submit", ref.current);
     onSubmit(ref.current, values);
   };
 

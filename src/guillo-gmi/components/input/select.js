@@ -26,7 +26,7 @@ export const Select = ({
 
     const onUpdate = (ev) => {
       if (ev.target.value === "") {
-        onChange(undefined)
+        onChange({target:{value:undefined}})
       } else {
         onChange(ev)
       }

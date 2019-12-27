@@ -19,7 +19,7 @@ export function RenderField({value, Widget}) {
   }
   if (type === "object") {
      if (Array.isArray(value)) {
-       return value.map(item => <div><RenderField value={item} /></div>)
+       return value.map(item => <div key={item}><RenderField value={item} /></div>)
      }
      return Object.keys(value).map(key =>
       <FieldValue field={key} value={value[key]} key={key} />

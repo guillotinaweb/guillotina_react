@@ -19,7 +19,7 @@ export function BehaviorsView({ context}) {
   return (
     <React.Fragment>
       {behaviors.map(behavior => (
-        <div className="container">
+        <div className="container" key={behavior}>
           <h3 className="title is-size-6 has-text-grey">{behavior}</h3>
           <Table
             headers={["Field", "Value"]}

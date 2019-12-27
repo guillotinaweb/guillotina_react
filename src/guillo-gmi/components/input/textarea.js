@@ -1,20 +1,30 @@
 import React from "react";
 
-export const Textarea = ({ value = "", rows = 5, className, onChange, ...rest }) => {
+export const Textarea = React.forwardRef(({
+  value = "",
+  rows = 5,
+  className,
+  onChange,
+  ...rest
+}, ref) => {
+  const css = "textarea " + className;
 
-  const css = "textarea " + className
-
-  const onUpdate = (ev) => {
+  const onUpdate = ev => {
     if (onChange) {
-      onChange(ev.target.value)
+      onChange(ev.target.value);
     }
-  }
+  };
 
   return (
     <div className="field">
-      <textarea className={css} rows={rows} onChange={onUpdate} {...rest}>
-        {value}
-      </textarea>
+      <textarea
+        className={css}
+        rows={rows}
+        onChange={onUpdate}
+        value={value}
+        {...rest}
+        ref={ref}
+      />
     </div>
   );
-};
+});

@@ -9,7 +9,7 @@ const setURLParams = p =>
     window.history["pushState"](
       0,
       0,
-      (window.history.pathname || '' ) + "?" + p.toString()
+      (window.history.pathname || '' ) + "?" + p.toString().replace(/%2F/g, "/")
     );
 
   const clean = to => {

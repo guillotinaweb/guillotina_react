@@ -111,7 +111,7 @@ export function PanelPermissions(props) {
           </Table>
         </div>
       )}
-      <AddPermission refresh={setReset} />
+      <AddPermission refresh={setReset} reset={reset} />
     </div>
   );
 }
@@ -138,7 +138,7 @@ const defaultOptions = [
   { text: "Principal Roles", value: "prinrole" }
 ];
 
-export function AddPermission({ refresh }) {
+export function AddPermission({ refresh, reset }) {
   const Ctx = React.useContext(TraversalContext);
   const [state, setState] = useSetState(initial);
 
@@ -162,7 +162,7 @@ export function AddPermission({ refresh }) {
       }));
       setState({ permissions, groups, roles });
     })();
-  }, []);
+  }, [reset]);
 
   return (
     <div className="column is-4 is-size-7">

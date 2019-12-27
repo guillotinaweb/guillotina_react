@@ -21,9 +21,9 @@ export function IDublinCore(props) {
   return (
     <React.Fragment>
       {Object.keys(props).map(key => (
-        <tr>
-          <td>{key}</td>
-          <td>
+        <tr key={'dublin_' + key}>
+          <td key={1}>{key}</td>
+          <td key={2}>
             {Schema.editable.includes(key) && modifyContent && (
               <EditableField
                 field={key}

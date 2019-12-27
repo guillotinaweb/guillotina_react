@@ -37,6 +37,11 @@ class Traversal {
     return getContainerFromPath(this.path);
   }
 
+  apply(data) {
+    // apply a optimistic update to context
+    this.dispatch({type: "APPLY", payload:data})
+  }
+
   flash(message, type) {
     this.dispatch({ type: "SET_FLASH", payload: { flash: { message, type } } });
   }

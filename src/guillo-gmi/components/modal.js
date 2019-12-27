@@ -5,7 +5,7 @@ export function Modal(props) {
   const { isActive, setActive, children } = props;
   const { Portal } = usePortal();
 
-  const css = "modal " + (isActive ? "is-active" : "");
+  const css = "modal " + (isActive ? "is-active " : "") + props.className;
   return (
     <Portal>
       <div className={css}>
@@ -26,9 +26,9 @@ export function Modal(props) {
 export function Confirm({ message, onCancel, onConfirm }) {
   const setActive = p => onCancel();
   return (
-    <Modal isActive setActive={setActive}>
+    <Modal isActive setActive={setActive} className="confirm">
       <React.Fragment>
-        <h1 className="title is-size-4">{message || "Are you Sure?"}</h1>
+        <h1 className="title is-size-5">{message || "Are you Sure?"}</h1>
         <div className="level" style={{ marginTop: "50px;" }}>
           <div className="level-left"></div>
           <div className="level-right">
