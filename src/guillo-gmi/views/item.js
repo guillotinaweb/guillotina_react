@@ -1,9 +1,9 @@
 import React from "react";
 import { TabsPanel } from "../components/tabs";
 import { TraversalContext } from "../contexts";
-import { PanelPermissions} from "../components"
-import { PanelBehaviors } from "../components";
-import { PanelProperties } from "../components";
+import { PanelPermissions} from "../components/panel/permissions"
+import { PanelBehaviors } from "../components/panel/behaviors";
+import { PanelProperties } from "../components/panel/properties";
 
 
 const tabs = {

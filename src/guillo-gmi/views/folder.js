@@ -4,9 +4,9 @@ import { ContextToolbar } from "../components/context_toolbar";
 import { PanelItems } from "../components/panel/items";
 import { TraversalContext } from "../contexts";
 import { PanelProperties } from "../components/panel/properties";
-import { PanelPermissions} from "../components"
-import { PanelBehaviors } from "../components";
-import { PanelRequester } from "../components";
+import { PanelPermissions} from "../components/panel/permissions"
+import { PanelBehaviors } from "../components/panel/behaviors";
+import { PanelRequester } from "../components/panel/requester";
 
 
 const tabs = {

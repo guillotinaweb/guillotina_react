@@ -1,6 +1,7 @@
 import React from "react";
-import { Input, Form } from "../components";
 import { useState } from "react";
+import { Input } from "../components/input/input";
+import { Form } from "../components/input/form";
 import { stringToSlug } from "../lib/helpers";
 
 export function BaseForm({ onSubmit, actionName, title }) {
@@ -13,7 +14,7 @@ export function BaseForm({ onSubmit, actionName, title }) {
       setError("This field is required");
       return;
     }
-    onSubmit({title: name, id});
+    onSubmit({ title: name, id });
   };
 
   const setTitle = value => {

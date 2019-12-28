@@ -2,12 +2,12 @@ import React from "react";
 import { useContext } from "react";
 import { TraversalContext } from "../contexts";
 import { Modal } from "../components/modal";
-import { useRegistry } from "../hooks/useRegistry";
 
 export function AddItem(props) {
-  const { getForm } = useRegistry();
+
   const Ctx = useContext(TraversalContext);
   const { type } = props;
+  const { getForm } = Ctx.registry;
 
   const Form = getForm(type);
 

@@ -1,29 +1,35 @@
 {
-  "name": "guillotina_react",
   "version": "0.1.0",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:guillotinaweb/guillotina_react.git"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "@babel/core": "^7.7.7",
     "brace": "^0.11.1",
     "bulma": "^0.8.0",
     "jwt-decode": "^2.2.0",
     "linkstate": "^1.1.1",
-    "node-sass": "^4.13.0",
     "react": "^16.12.0",
     "react-ace": "^8.0.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
     "react-use": "^13.11.0",
-    "react-useportal": "^1.0.13",
+    "react-useportal": "^1.0.13"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "microbundle": "^0.12.0-next.6",
+    "node-sass": "^4.13.0",
     "serialize-javascript": "^2.1.2"
   },
   "scripts": {
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "runpp": "lerna run start --parallel",
     "start": "react-scripts start"
   },
   "eslintConfig": {
@@ -41,7 +47,6 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "microbundle": "^0.12.0-next.6"
-  }
+  "author": "Jordi Collell <jordic@gmail.com> ",
+  "license": "MIT"
 }

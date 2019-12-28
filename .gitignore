@@ -10,6 +10,10 @@
 
 # production
 /build
+/dist
+examples/nextjs/.next
+examples/nextjs/node_modules
+package/node_modules
 
 # misc
 .DS_Store

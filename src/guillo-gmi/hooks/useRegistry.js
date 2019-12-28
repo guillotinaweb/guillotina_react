@@ -42,6 +42,9 @@ let registry = {
     "guillotina.behaviors.dublincore.IDublinCore": IDublinCore,
     "guillotina.behaviors.attachment.IAttachment": IAttachment,
     "guillotina.behaviors.attachment.IMultiAttachment": IMultiAttachment,
+  },
+  schemas: {
+
   }
 };
 

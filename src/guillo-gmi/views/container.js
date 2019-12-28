@@ -5,9 +5,9 @@ import { PanelItems } from "../components/panel/items";
 import { PanelAddons } from "../components/panel/addons";
 import { TraversalContext } from "../contexts";
 import { PanelNotImplemented } from "./base";
-import { PanelPermissions } from "../components";
-import { PanelBehaviors } from "../components";
-import { PanelRequester } from "../components";
+import { PanelPermissions } from "../components/panel/permissions";
+import { PanelBehaviors } from "../components/panel/behaviors";
+import { PanelRequester } from "../components/panel/requester";
 
 const tabs = {
   Items: PanelItems,

@@ -9,8 +9,8 @@ export * from "./hooks/useConfig";
 export * from "./hooks/useCrudContext";
 export * from "./hooks/useInput";
 export * from "./hooks/useRemoteField";
-export * from "./hooks/useRegistry";
 export * from "./hooks/useLocation";
+export * from "./hooks/useRegistry";
 
 export * from "./lib/helpers";
 export * from "./lib/validators";
