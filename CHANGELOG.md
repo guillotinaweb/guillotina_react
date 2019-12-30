@@ -3,6 +3,7 @@
 0.1.0alpha
 ---
 
+- Added initial view for editing group properties
 - Added microbundle to package the library as npm package
 - Added an integration example (still rude) of guillotina with
   next.js

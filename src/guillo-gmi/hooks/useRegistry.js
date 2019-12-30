@@ -12,6 +12,8 @@ import { UserForm } from "../forms/users";
 import { IAttachment } from "../components/behaviors/iattachment";
 import { IDublinCore } from "../components/behaviors/idublincore";
 import { IMultiAttachment } from "../components/behaviors/imultiattachment";
+import { GroupsCtx } from "../views/groups";
+import { GroupCtx } from "../views/groups"
 
 
 let registry = {
@@ -22,7 +24,8 @@ let registry = {
     Container: ContainerCtx,
     UserManager: UsersCtx,
     User: UserCtx,
-    GroupManager: FolderCtx,
+    Group: GroupCtx,
+    GroupManager: GroupsCtx,
     Folder: FolderCtx,
     Item: ItemCtx
   },
