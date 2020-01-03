@@ -2,13 +2,8 @@ import React from "react";
 import { TabsPanel } from "../components/tabs";
 import { PanelItems } from "../components/panel/items";
 import { TraversalContext } from "../contexts";
-import { UserForm } from "../forms/users";
-import { formatDate } from "../lib/utils";
 import { useCrudContext } from "../hooks/useCrudContext";
-import { TagsWidget } from "../components/widgets/tags";
 import { Icon } from "../components/ui/icon";
-import { Button } from "../components/input/button";
-import { useRemoteField } from "../hooks/useRemoteField";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Select } from "../components/input/select";
@@ -84,8 +79,21 @@ export function GroupCtx(props) {
     Ctx.refresh();
   };
 
+  const addUser = async ev => {
+    const user = ev.target.value;
+    await patch({ users: Ctx.context.users.concat(user) });
+    Ctx.flash(`User ${user} added to group!`, "success");
+    Ctx.refresh();
+  };
+
+  const removeUser = async user => {
+    await patch({ users: Ctx.context.users.filter(r => r !== user) });
+    Ctx.flash(`User ${user} removed from group`, "success");
+    Ctx.refresh();
+  };
+
   return (
-    <div className="container">
+    <div className="container group-view">
       <h2 className="title is-size-4">
         <Icon icon="fas fa-users"></Icon>
         <span>&nbsp;Group</span>
@@ -126,11 +134,17 @@ export function GroupCtx(props) {
               user => !Ctx.context.users.includes(user.value)
             )}
             appendDefault
-            resetOnChange
+            onChange={addUser}
           />
           <hr />
           {Ctx.context.users.map(user => (
-            <Tag name={user} onRemove={ev => alert("remove" + user)} />
+            <p className="control">
+              <Tag
+                name={user}
+                onRemove={ev => removeUser(user)}
+                size="is-small"
+              />
+            </p>
           ))}
         </div>
       </div>
