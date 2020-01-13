@@ -72,7 +72,7 @@ const getComponent = (context, path, fallback) => {
   return defaultComponent(context);
 };
 
-const getForm = (type, fallback) => {
+const getForm = (type, fallback=BaseForm) => {
   return registry.forms[type] || fallback;
 };
 

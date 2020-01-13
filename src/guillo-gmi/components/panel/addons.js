@@ -4,9 +4,7 @@ import { TraversalContext } from '../../contexts'
 import { useAsync } from 'react-use'
 
 
-
-
-
+// TODO: Refactor without useAsync... just crudContext
 export function PanelAddons(props) {
   const Ctx = React.useContext(TraversalContext)
   let [action, setAction] = React.useState(false)
