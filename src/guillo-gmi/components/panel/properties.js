@@ -3,7 +3,7 @@ import { TraversalContext } from "../../contexts";
 import { ItemModel } from "../../models";
 import { BehaviorsView } from "../behavior_view";
 import { Icon } from "../ui/icon";
-import { Button } from "../input/button";
+// import { Button } from "../input/button";
 import { EditableField } from "../fields/editableField";
 import { RenderField } from "../fields/renderField";
 
@@ -27,14 +27,14 @@ export function PanelProperties(props) {
           </h2>
         </div>
         <div className="level-right">
-          <Button className="is-small">
+          {/* <Button className="is-small">
             <Icon icon="fas fa-trash" />
             <span>Delete</span>
           </Button>
           <Button className="is-small">
             <Icon icon="fas fa-arrow-right" />
             <span>Move</span>
-          </Button>
+          </Button> */}
         </div>
       </div>
 

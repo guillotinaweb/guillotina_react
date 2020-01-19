@@ -13,16 +13,20 @@ to a container
 
 
 Schemas should be passed to the login form
-*/
+
 
 const schemas = [
+  "",
   "db/guillotina/",
   "db/crawler/",
-  ""
 ]
+*/
 
+let url = 'http://localhost:8080/'
+if (process.env.NODE_ENV !== 'production') {
+  url = '/'
+}
 
-const url = 'http://localhost:8080/'
 const auth = new Auth(url)
 
 function App() {
@@ -43,7 +47,7 @@ function App() {
         { !isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth} schemas={schemas} />
+              <Login onLogin={onLogin} auth={auth} />
             </div>
           </div>
         )}

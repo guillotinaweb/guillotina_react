@@ -1,9 +1,9 @@
 import React from 'react'
-import { Guillotina } from "guillo-gmi";
-import { Auth } from 'guillo-gmi'
-import {Login} from 'guillo-gmi'
+import { Guillotina } from "@guillotinaweb/react-gmi";
+import { Auth } from '@guillotinaweb/react-gmi'
+import {Login} from '@guillotinaweb/react-gmi'
 
-import '../node_modules/guillo-gmi/dist/css/style.css'
+import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
 
 
 const url = 'http://localhost:8080/'

@@ -3,6 +3,11 @@ import React from 'react';
 import {Component} from 'react';
 import linkState from 'linkstate';
 
+const ERRORS = {
+  "failed_to_fetch": "Failed to fetch data: Backend not running?",
+  "invalid_credentials": "Failed! Invalid credentials"
+}
+
 export class Login extends Component {
 
     state = {
@@ -32,8 +37,9 @@ export class Login extends Component {
         }
         const auth = this.props.auth
         const res = await auth.login(username, password)
+
         if (!res) {
-          this.setState({errors:'invalid_login', loading:false})
+          this.setState({errors:auth.errors, loading:false})
           return
         }
 
@@ -51,7 +57,7 @@ export class Login extends Component {
       const {schemas} = this.props
       return (
         <React.Fragment>
-        <form action="" onSubmit={this.doLogin}>
+        <form className="login__form" action="" onSubmit={this.doLogin}>
           <div className="field">
             <label className="label">Username:</label>
               <input type="text" className="input"
@@ -80,7 +86,7 @@ export class Login extends Component {
             <button className="button is-warning" type="submit">Login</button>
           </div>
           <div className="field">
-          {errors && <p className="has-text-danger">Invalid login credentials</p>}
+          {errors && <p className="has-text-danger">{ERRORS[errors] || 'Generic error'}</p>}
           </div>
         </form>
         </React.Fragment>

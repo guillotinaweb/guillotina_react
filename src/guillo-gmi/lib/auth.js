@@ -3,7 +3,6 @@ import jwt_decode from 'jwt-decode'
 
 const noop = () => {}
 
-
 export class Auth {
 
   maxRetry = 1
@@ -12,6 +11,8 @@ export class Auth {
 
   constructor(url) {
     this.url = url
+    this.base_url = url
+    this.errors = undefined
   }
 
   getUrl(endpoint) {
@@ -19,7 +20,7 @@ export class Auth {
   }
 
   setAccount(account) {
-    this.url += account
+    this.url = this.base_url + account
   }
 
   async login(username, password) {
@@ -36,8 +37,11 @@ export class Auth {
         const credentials = await data.json()
         this.storeAuth(credentials, username)
         return true
+      } else {
+        this.errors = "invalid_credentials"
       }
-    } catch {
+    } catch (e) {
+      this.errors = "failed_to_fetch"
       return false
     }
     localStorage.removeItem('auth');
