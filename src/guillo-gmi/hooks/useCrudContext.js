@@ -10,66 +10,67 @@ const initial = {
   response: undefined
 };
 
-const patch = (sate, setState, Ctx) => async (data, endpoint) => {
+const processResponse = async (res, ready_body=true) => {
+  if (res.status < 400)
+    return {
+      isError: false,
+      loading: false,
+      result: ready_body ? await res.json() : res.status,
+      response: res };
+  else
+    return {
+      isError: true,
+      loading: false,
+      errorMessage: res.status,
+      response: res };
+};
+
+const patch = (state, setState, Ctx) => async (data, endpoint, body=false) => {
   setState({ loading: true });
+  let newState = {};
   try {
     const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
     const res = await Ctx.client.patch(path, data);
-    if (res.status < 400) {
-      // PATCH request has no body
-      const result = res.status;
-      setState({ result, loading: false, response:res });
-    } else {
-      setState({ isError: true, errorMessage: res.status, loading: false });
-    }
+    newState = await processResponse(res, body)
   } catch (e) {
     console.error("Error", e);
-    setState({ isError: true, errorMessage: "unhandled exception" });
+    newState = { isError: true, errorMessage: "unhandled exception" };
   }
+  setState(newState);
+  return newState;
 };
 
-const del =  (state, setState, Ctx) => async (data, endpoint) => {
+const del = (state, setState, Ctx) => async (data, endpoint, body=false) => {
   setState({ loading: true });
+  let newState = {};
   try {
     const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
     const res = await Ctx.client.delete(path, data);
-    if (res.status < 400) {
-      // PATCH request has no body
-      const result = res.status;
-      setState({ result, loading: false });
-    } else {
-      setState({ isError: true, errorMessage: res.status, loading: false, response:res });
-    }
+    newState = await processResponse(res, body);
   } catch (e) {
     console.error("Error", e);
-    setState({ isError: true, errorMessage: "unhandled exception" });
+    newState = { isError: true, errorMessage: "unhandled exception" };
   }
+  setState(newState);
+  return newState;
 };
 
-const post =  (state, setState, Ctx) => async (data, endpoint, body=true) => {
+const post = (state, setState, Ctx) => async (data, endpoint, body=true) => {
   setState({ loading: true });
+  let newState = {};
   try {
     const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
     const res = await Ctx.client.post(path, data);
-    if (res.status < 400) {
-      let result
-      if (body) {
-        result = await res.json();
-      } else {
-        result = res.status
-      }
-      setState({ result, loading: false, response:res });
-    } else {
-      setState({ isError: true, errorMessage: res.status, loading: false, response:res });
-    }
+    newState = await processResponse(res, body);
   } catch (e) {
     console.error("Error", e);
-    setState({ isError: true, errorMessage: "unhandled exception" });
+    newState = { isError: true, errorMessage: "unhandled exception" };
   }
-
+  setState(newState);
+  return newState;
 };
 
-const get =  (state, setState, Ctx) => async (endpoint) => {
+const get = (state, setState, Ctx) => async (endpoint) => {
   setState({loading:true})
   const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
   const req = await Ctx.client.get(path)
