@@ -73,7 +73,7 @@ export function UserCtx(props) {
 
   const updateObject = async data => {
     Ctx.apply(data);
-    await patch(data);
+    const {isError, errorMessage} = await patch(data);
     if (isError) {
       Ctx.flash(`Update failed ${errorMessage}`, "danger");
     } else {
