@@ -14,6 +14,7 @@ import { useRegistry } from "../hooks/useRegistry";
 import { useLocation } from "../hooks/useLocation";
 import { guillotinaReducer } from "../reducers/guillotina";
 import { initialState } from "../reducers/guillotina";
+import { Loading } from './ui/loading'
 
 export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080"; // without trailing slash
@@ -36,7 +37,9 @@ export function Guillotina({ auth, ...props }) {
 
   // we store the client on a ref (refs are stable across renders)
   if (!ref.current) {
-    ref.current = getClient(url, auth);
+    // TODO: Refactor, we should be able to provide just a client
+    // this way is easy composable and extensible from outside.
+    ref.current = props.client || getClient(url, auth);
   }
 
   const { path, refresh } = state;
@@ -60,8 +63,10 @@ export function Guillotina({ auth, ...props }) {
       const pr = await client.canido(path, Permissions);
       const permissions = await pr.json();
       dispatch({ type: "SET_CONTEXT", payload: { context, permissions } });
+
     })();
   }, [path, refresh, client]);
+
 
   const contextData = {
     url,
@@ -74,7 +79,7 @@ export function Guillotina({ auth, ...props }) {
   };
 
   const { action, errorStatus, permissions } = state;
-  const Main = registry.getComponent(state.context);
+  const Main = registry.getComponent(state.context, path);
   const Action = action.action ? registry.getAction(action.action) : null;
 
   return (
@@ -84,7 +89,7 @@ export function Guillotina({ auth, ...props }) {
           {permissions && (
             <React.Fragment>
               {action.action && <Action {...action.params} />}
-              <div className="level">
+                <div className="level">
                 <div className="level-left">
                   <div className="level-item">
                     <Path />
@@ -94,7 +99,8 @@ export function Guillotina({ auth, ...props }) {
               <Flash />
               {Main && (
                 <div className="box main-panel">
-                  <Main state={state} />
+                  {state.loading && <Loading />}
+                  {!state.loading && <Main state={state} />}
                 </div>
               )}
               {/* <p>Guillotina {JSON.stringify(state.context)}</p> */}

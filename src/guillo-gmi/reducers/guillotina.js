@@ -1,6 +1,7 @@
 
 export const initialState = {
   path: "",
+  loading: false,
   context: undefined,
   flash: {
     message: undefined,
@@ -20,13 +21,13 @@ export const initialState = {
 export function guillotinaReducer(state, action) {
   switch (action.type) {
     case "SET_PATH":
-      return { ...state, path: action.payload };
+      return { ...state, path: action.payload, loading:true };
 
     case "SET_CONTEXT":
-      return { ...state, ...action.payload, errorStatus:undefined };
+      return { ...state, ...action.payload, errorStatus:undefined, loading:false };
 
     case "SET_ERROR":
-      return { ...state, errorStatus: action.payload };
+      return { ...state, errorStatus: action.payload, loading:false };
 
     case "SET_FLASH":
       return { ...state, ...action.payload };
@@ -45,7 +46,7 @@ export function guillotinaReducer(state, action) {
       return { ...state, action: { action: undefined, params: undefined } };
 
     case "REFRESH":
-      return {...state, refresh:Math.random()}
+      return {...state, refresh:Math.random(), loading:true}
 
     case "APPLY":
       return {...state, context: {...state.context, ...action.payload}}

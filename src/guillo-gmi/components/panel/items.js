@@ -41,6 +41,7 @@ export function PanelItems(props) {
   }
 
   useEffect(() => {
+    if(Ctx.state.loading) return
     (async () => {
       let data;
       setState({ loading: true, total: Ctx.context.length });
@@ -64,7 +65,8 @@ export function PanelItems(props) {
         total: data.items_count
       });
     })();
-  }, [search, Ctx.state.path, Ctx.state.refresh, page]);
+  }, [search, Ctx.state.refresh, page]);
+
 
   const doPaginate = page => {
     setLocation({ page: page });
