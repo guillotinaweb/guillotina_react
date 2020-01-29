@@ -32,7 +32,8 @@ export function useConfig(cfg) {
 
   if (cfg) {
     ref.current = addConfig(cfg, ref.current);
+    calculated = ref.current
+    console.log("Current config", cfg)
   }
-
   return ref.current;
 }

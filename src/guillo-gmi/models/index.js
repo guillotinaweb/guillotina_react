@@ -1,4 +1,6 @@
 import { formatDate } from "../lib/utils";
+import {useConfig} from '../hooks/useConfig';
+
 export * from './sharing'
 
 export class ItemModel {
@@ -25,10 +27,16 @@ export class ItemModel {
   }
 
   get name() {
-    return this.item["@name"];
+    return this.item.title || this.item["@name"];
   }
 
   get icon() {
+
+    const cfg = useConfig()
+    if (cfg.icons && cfg.icons[this.type]) {
+      return cfg.icons[this.type]
+    }
+
     switch (this.type) {
       case "GroupManager":
         return "fas fa-users-cog";
