@@ -1,4 +1,6 @@
 import { formatDate } from "../lib/utils";
+import {useConfig} from '../hooks/useConfig';
+
 export * from './sharing'
 
 export class ItemModel {
@@ -9,21 +11,32 @@ export class ItemModel {
   }
 
   get path() {
-    // if (this.item.path) {
-      // let parts = this.item.path.slice(1).split("/");
-      // return this._path + parts[parts.length - 1] + "/";
-      // return this._path + this.item.path.slice(1) + "/"
-    // }
-    // return `${this._path}${this.id}/`;
-    let path = this.item["@id"].split("//")[1].split("/").splice(1).join("/")
-    return `/${path}/`
+    // Compat
+    let item = (this.item["@id"]) ? this.item["@id"] : this.item["@absolute_url"]
+    let path = item.split("//")[1].split("/").splice(1).join("/")
+    path = `/${path}/`
+    if (this.url.length > 0) {
+      if (this.url.startsWith("/")) {
+        path = path.replace(this.url.substring(1), "")
+      } else {
+        path = path.replace(this.url, "")
+      }
+    }
+
+    return path
   }
 
   get name() {
-    return this.item["@name"];
+    return this.item.title || this.item["@name"];
   }
 
   get icon() {
+
+    const cfg = useConfig()
+    if (cfg.icons && cfg.icons[this.type]) {
+      return cfg.icons[this.type]
+    }
+
     switch (this.type) {
       case "GroupManager":
         return "fas fa-users-cog";

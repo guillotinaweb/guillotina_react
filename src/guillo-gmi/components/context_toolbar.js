@@ -72,7 +72,7 @@ export function CreateButton(props) {
   );
 }
 
-export function ContextToolbar(props) {
+export function ContextToolbar({AddButton, ...props}) {
   const [location, setLocation] = useLocation();
   const ctx = React.useContext(TraversalContext);
   const ref = React.useRef(null);
@@ -127,7 +127,7 @@ export function ContextToolbar(props) {
       </div>
       {ctx.hasPerm("guillotina.AddContent") && (
         <div className="level-item">
-          <CreateButton {...props} />
+          {AddButton!==undefined ? <AddButton /> : <CreateButton {...props} />}
         </div>
       )}
     </React.Fragment>

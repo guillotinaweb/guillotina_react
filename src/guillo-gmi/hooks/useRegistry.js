@@ -14,7 +14,7 @@ import { IDublinCore } from "../components/behaviors/idublincore";
 import { IMultiAttachment } from "../components/behaviors/imultiattachment";
 import { GroupsCtx } from "../views/groups";
 import { GroupCtx } from "../views/groups"
-
+import React from 'react'
 
 let registry = {
   paths: {},
@@ -58,6 +58,7 @@ const get = (key, param, fallback) => {
 
 const getComponent = (context, path, fallback) => {
   if (!context) return;
+  // console.log("Component for path", path)
   // lookup by path
   if (registry.paths[path]) {
     return registry.paths[path];
@@ -90,7 +91,10 @@ export const defaultComponent = context => {
 
 export function useRegistry(data) {
   // if data is provided we need to merge it into actual registry
-  if (data) {
+  const ref = React.useRef()
+  if (data && !ref.current) {
+    console.log("registry initialized")
+    ref.current = true
     Object.keys(data).map(
       key => (registry[key] = { ...registry[key], ...data[key] })
     );

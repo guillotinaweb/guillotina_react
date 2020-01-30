@@ -1,4 +1,10 @@
 
+0.2.2 alpha
+---
+- Fix issue on container creation
+- Be able to personalize icons for custom content types
+- Fix bug when providing custom config
+- Compat layer on serializer for G5
 
 0.1.0alpha
 ---
