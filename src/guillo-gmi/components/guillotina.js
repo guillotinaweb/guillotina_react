@@ -15,6 +15,7 @@ import { useLocation } from "../hooks/useLocation";
 import { guillotinaReducer } from "../reducers/guillotina";
 import { initialState } from "../reducers/guillotina";
 import { Loading } from './ui/loading'
+import ErrorBoundary from "./error_boundary";
 
 export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080"; // without trailing slash
@@ -83,7 +84,7 @@ export function Guillotina({ auth, ...props }) {
   const Action = action.action ? registry.getAction(action.action) : null;
 
   return (
-    <React.Fragment>
+    <ErrorBoundary>
       {!errorStatus && (
         <TraversalProvider {...contextData}>
           {permissions && (
@@ -98,10 +99,12 @@ export function Guillotina({ auth, ...props }) {
               </div>
               <Flash />
               {Main && (
-                <div className="box main-panel">
-                  {state.loading && <Loading />}
-                  {!state.loading && <Main state={state} />}
-                </div>
+                <ErrorBoundary>
+                  <div className="box main-panel">
+                    {state.loading && <Loading />}
+                    {!state.loading && <Main state={state} />}
+                  </div>
+                </ErrorBoundary>
               )}
               {/* <p>Guillotina {JSON.stringify(state.context)}</p> */}
             </React.Fragment>
@@ -110,6 +113,6 @@ export function Guillotina({ auth, ...props }) {
       )}
       {errorStatus === "notallowed" && <NotAllowed />}
       {errorStatus === "notfound" && <NotFound />}
-    </React.Fragment>
+    </ErrorBoundary>
   );
 }
