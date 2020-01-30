@@ -131,6 +131,11 @@ export class Auth {
     ]
   }
 
+  getToken() {
+    const [token,] = this._getToken()
+    return token
+  }
+
   getHeaders() {
     const [authToken, expires]  = this._getToken()
     if (!authToken) return false;

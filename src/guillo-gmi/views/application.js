@@ -5,6 +5,7 @@ import { ItemTitle } from "../components/item";
 import { Button } from "../components/input/button";
 import { useState } from "react";
 import { useContext } from "react";
+import { useRef } from 'react'
 import { TraversalContext } from "../contexts";
 import { Modal } from "../components/modal";
 import { Form } from "../components/input/form";
@@ -112,10 +113,11 @@ function ModalAddContainer({ isActive, setActive }) {
         <Input
           required
           placeholder="Container Name"
-          onChange={v => setId(v.target.value)}
+          onChange={v => {
+            setId(v)
+          }}
           value={idField}
           loading={isLoading}
-          autofocus
         />
         <Button loading={isLoading}>Add Container</Button>
       </Form>
