@@ -110,7 +110,6 @@ export function ItemsActions() {
 
   function disableOptionWhen(option) {
     const perms = permissions[option.value]
-    // if(!perms.length) return false
     return perms.some(perm => !traversal.hasPerm(perm))
   }
   
