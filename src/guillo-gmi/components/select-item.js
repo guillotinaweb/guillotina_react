@@ -1,10 +1,15 @@
 import React, { createContext, useState, useContext } from 'react'
 import Dropdown from './input/dropdown'
 import { Checkbox } from './input/checkbox'
+import { TraversalContext } from '../contexts'
 
-// Context
 const ItemsActionsCtx = createContext({})
 const [DELETE, MOVE, COPY] = [0, 1, 2]
+const permissions = {
+  [DELETE]: ['guillotina.DeleteContent'],
+  [MOVE]: ['guillotina.DeleteContent'],
+  [COPY]: [],
+}
 
 // Context provider
 export function ItemsActionsProvider({ items, children }) {
@@ -26,20 +31,22 @@ export function ItemsActionsProvider({ items, children }) {
   }
 
   function onDelete() {
-
+    console.log('onDelete')
   }
 
   function onMove() {
-
+    console.log('onMove')
   }
 
-  function onAction(e) {
-    console.log('onAction', e)
+  function onCopy() {
+    console.log('onCopy')
   }
 
   return (
     <ItemsActionsCtx.Provider value={{
-      onAction,
+      onCopy,
+      onDelete,
+      onMove,
       onSelectAllItems,
       onSelectOneItem,
       selected,
@@ -83,21 +90,37 @@ export function ItemCheckbox({ item }) {
 
 // traversal.hasPerm("guillotina.DeleteContent")
 export function ItemsActions() {
-  const { selected, onAction } = useContext(ItemsActionsCtx)
+  const traversal = useContext(TraversalContext);
+  const { selected, onDelete, onMove, onCopy } = useContext(ItemsActionsCtx)
   const disabled = Object.values(selected).every(v => !v)
   const options = [
     { text: 'Delete', value: DELETE },
     { text: 'Move to...', value: MOVE },
     { text: 'Copy to...', value: COPY },
   ]
+
+  function onAction(action) {
+    switch(action){
+      case DELETE: return onDelete()
+      case MOVE: return onMove()
+      case COPY: return onCopy()
+      default: return
+    }
+  }
+
+  function disableOptionWhen(option) {
+    const perms = permissions[option.value]
+    // if(!perms.length) return false
+    return perms.some(perm => !traversal.hasPerm(perm))
+  }
   
   return (
     <Dropdown 
-      disabled={disabled} 
+      disabled={disabled}
       id="items-actions" 
       onChange={onAction} 
+      optionDisabledWhen={disableOptionWhen}
       options={options}
-      style={{ marginLeft: 'auto' }} 
     >
       Choose action...
     </Dropdown>

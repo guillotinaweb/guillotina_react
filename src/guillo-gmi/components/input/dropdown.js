@@ -5,9 +5,10 @@ export default function Dropdown({
   children, 
   disabled,
   id, 
-  onChange,
   isRight,
-  options, 
+  onChange,
+  optionDisabledWhen,
+  options,
   ...props 
 }) {
   const ref = useRef(null);
@@ -35,16 +36,22 @@ export default function Dropdown({
       <div className="dropdown-menu" id={id} role="menu">
         <div className="dropdown-content">
           {
-            options.map(option => (
-              // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <a 
-               className="dropdown-item"
-               key={option.text} 
-               onClick={() => onChange(option.value)}
-               >
-                {option.text}
-              </a>
-            ))}
+            options.map(option => {
+              const disabled = typeof optionDisabledWhen === 'function' 
+              ? optionDisabledWhen(option)
+              : false
+              
+              return (
+                // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                <a 
+                  className={`dropdown-item ${disabled ? 'disabled' : ''}`}
+                  key={option.text}
+                  onClick={disabled ? undefined : () => onChange(option.value)}
+                >
+                  {option.text}
+                </a>
+              )}
+            )}
         </div>
       </div>
     </div>
