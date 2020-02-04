@@ -7,12 +7,16 @@ const ItemsActionsCtx = createContext({})
 const [DELETE, MOVE, COPY] = [0, 1, 2]
 const permissions = {
   [DELETE]: ['guillotina.DeleteContent'],
-  [MOVE]: ['guillotina.DeleteContent'],
-  [COPY]: [],
+  [MOVE]: ['guillotina.MoveContent'],
+  [COPY]: ['guillotina.AddContent'],
 }
 
-// Context provider
+/**
+ * Actions to apply after select some items
+ * Ex: Delete, Move, Copy...
+ */
 export function ItemsActionsProvider({ items, children }) {
+  const traversal = useContext(TraversalContext);
   const [selected, setSelected] = useState({})
 
   function onSelectAllItems(checked) {
@@ -30,15 +34,21 @@ export function ItemsActionsProvider({ items, children }) {
     }))
   }
 
+  function getActionItems() {
+    return items.filter(item => selected[item.id])
+  }
+
   function onDelete() {
-    console.log('onDelete')
+    traversal.doAction('removeItems', { items: getActionItems() })
   }
 
   function onMove() {
+    // @todo
     console.log('onMove')
   }
 
   function onCopy() {
+    // @todo
     console.log('onCopy')
   }
 
@@ -57,7 +67,8 @@ export function ItemsActionsProvider({ items, children }) {
 }
 
 /**
- * On select all items
+ * Checkbox component without props that consume the ItemsActionsContext 
+ * and it select/unselect all items of the page.
  */
 export function AllItemsCheckbox() {
   const { onSelectAllItems, selected } = useContext(ItemsActionsCtx)
@@ -73,7 +84,7 @@ export function AllItemsCheckbox() {
 }
 
 /**
- * On select one item
+ * Checkbox component to select ONE item.
  */
 export function ItemCheckbox({ item }) {
   const { selected, onSelectOneItem } = useContext(ItemsActionsCtx)
@@ -88,8 +99,10 @@ export function ItemCheckbox({ item }) {
   )
 }
 
-// traversal.hasPerm("guillotina.DeleteContent")
-export function ItemsActions() {
+/**
+ * Dropdown to choose some action to apply to the selected items.
+ */
+export function ItemsActionsDropdown() {
   const traversal = useContext(TraversalContext);
   const { selected, onDelete, onMove, onCopy } = useContext(ItemsActionsCtx)
   const disabled = Object.values(selected).every(v => !v)

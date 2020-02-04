@@ -5,7 +5,7 @@ import { DatabaseCtx } from "../views/application";
 import { ContainerCtx } from "../views/container";
 import { UsersCtx } from "../views/users";
 import { UserCtx } from "../views/users";
-import { RemoveItem } from "../actions/remove_item";
+import { RemoveItems } from "../actions/remove_items";
 import { AddItem } from "../actions/add_item";
 import { BaseForm } from "../forms/base";
 import { UserForm } from "../forms/users";
@@ -30,7 +30,7 @@ let registry = {
     Item: ItemCtx
   },
   actions: {
-    removeItem: RemoveItem,
+    removeItems: RemoveItems,
     addItem: AddItem
   },
   forms: {

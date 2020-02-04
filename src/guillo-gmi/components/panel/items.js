@@ -10,7 +10,7 @@ import { buildQs } from "../../lib/search";
 import { useLocation } from "../../hooks/useLocation";
 import { parser } from "../../lib/search";
 import { useConfig } from "../../hooks/useConfig"
-import { ItemsActionsProvider, AllItemsCheckbox, ItemsActions } from "../select-item"
+import { ItemsActionsProvider, AllItemsCheckbox, ItemsActionsDropdown } from "../selected_items_actions"
 
 const initialState = {
   page: 0,
@@ -75,7 +75,7 @@ export function PanelItems(props) {
 
   return (
     <ItemsActionsProvider items={items}>
-      <ItemsActions />
+      <ItemsActionsDropdown />
       <div className="columns">
         <div className="column">
           <SearchLabels />

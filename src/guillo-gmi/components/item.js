@@ -4,7 +4,7 @@ import { ItemModel } from "../models";
 import { TraversalContext } from "../contexts";
 import { useContext } from "react";
 import { Icon } from "./ui/icon";
-import { ItemCheckbox } from "./select-item";
+import { ItemCheckbox } from "./selected_items_actions";
 
 export function Item({ item, setPath, icon }) {
   const Ctx = useContext(TraversalContext);

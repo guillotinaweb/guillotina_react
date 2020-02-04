@@ -44,9 +44,17 @@ export default function Dropdown({
               return (
                 // eslint-disable-next-line jsx-a11y/anchor-is-valid
                 <a 
-                  className={`dropdown-item ${disabled ? 'disabled' : ''}`}
+                  className={
+                    disabled ? 'dropdown-item is-active' : 'dropdown-item'
+                  }
                   key={option.text}
                   onClick={disabled ? undefined : () => onChange(option.value)}
+                  style={disabled ? {
+                    cursor: 'not-allowed',
+                    color: 'black',
+                    opacity: 0.5,
+                    backgroundColor: '#eeeeee'
+                  } : {}}
                 >
                   {option.text}
                 </a>
