@@ -29,7 +29,7 @@ export function Confirm({ message, onCancel, onConfirm }) {
     <Modal isActive setActive={setActive} className="confirm">
       <React.Fragment>
         <h1 className="title is-size-5">{message || "Are you Sure?"}</h1>
-        <div className="level" style={{ marginTop: "50px;" }}>
+        <div className="level" style={{ marginTop: 50 }}>
           <div className="level-left"></div>
           <div className="level-right">
             <button className="button is-danger" onClick={() => onCancel()}>

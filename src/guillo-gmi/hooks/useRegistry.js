@@ -5,6 +5,8 @@ import { DatabaseCtx } from "../views/application";
 import { ContainerCtx } from "../views/container";
 import { UsersCtx } from "../views/users";
 import { UserCtx } from "../views/users";
+import { CopyItems } from "../actions/copy_items";
+import { MoveItems } from "../actions/move_items";
 import { RemoveItems } from "../actions/remove_items";
 import { AddItem } from "../actions/add_item";
 import { BaseForm } from "../forms/base";
@@ -30,8 +32,10 @@ let registry = {
     Item: ItemCtx
   },
   actions: {
+    addItem: AddItem,
+    copyItems: CopyItems,
+    moveItems: MoveItems,
     removeItems: RemoveItems,
-    addItem: AddItem
   },
   forms: {
     UserManager: BaseForm,

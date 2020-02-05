@@ -4,11 +4,22 @@ import { Checkbox } from './input/checkbox'
 import { TraversalContext } from '../contexts'
 
 const ItemsActionsCtx = createContext({})
-const [DELETE, MOVE, COPY] = [0, 1, 2]
-const permissions = {
-  [DELETE]: ['guillotina.DeleteContent'],
-  [MOVE]: ['guillotina.MoveContent'],
-  [COPY]: ['guillotina.AddContent'],
+const actions = {
+  DELETE: { 
+    text: 'Delete', 
+    perms: ['guillotina.DeleteContent'], 
+    action: 'removeItems' 
+  },
+  MOVE: {
+     text: 'Move to...', 
+     perms: ['guillotina.MoveContent'], 
+     action: 'moveItems' 
+  },
+  COPY: {
+    text: 'Copy to...',
+    perms: ['guillotina.AddContent'],
+    action: 'copyItems' 
+  },
 }
 
 /**
@@ -34,29 +45,15 @@ export function ItemsActionsProvider({ items, children }) {
     }))
   }
 
-  function getActionItems() {
-    return items.filter(item => selected[item.id])
-  }
-
-  function onDelete() {
-    traversal.doAction('removeItems', { items: getActionItems() })
-  }
-
-  function onMove() {
-    // @todo
-    console.log('onMove')
-  }
-
-  function onCopy() {
-    // @todo
-    console.log('onCopy')
+  function onAction(actionKey) {
+    traversal.doAction(actions[actionKey].action, { 
+      items: items.filter(item => selected[item.id])
+    })
   }
 
   return (
     <ItemsActionsCtx.Provider value={{
-      onCopy,
-      onDelete,
-      onMove,
+      onAction,
       onSelectAllItems,
       onSelectOneItem,
       selected,
@@ -104,34 +101,19 @@ export function ItemCheckbox({ item }) {
  */
 export function ItemsActionsDropdown() {
   const traversal = useContext(TraversalContext);
-  const { selected, onDelete, onMove, onCopy } = useContext(ItemsActionsCtx)
+  const { selected, onAction } = useContext(ItemsActionsCtx)
   const disabled = Object.values(selected).every(v => !v)
-  const options = [
-    { text: 'Delete', value: DELETE },
-    { text: 'Move to...', value: MOVE },
-    { text: 'Copy to...', value: COPY },
-  ]
+  const options = Object.keys(actions)
+    .map(action => ({ text: actions[action].text, value: action }))
 
-  function onAction(action) {
-    switch(action){
-      case DELETE: return onDelete()
-      case MOVE: return onMove()
-      case COPY: return onCopy()
-      default: return
-    }
-  }
-
-  function disableOptionWhen(option) {
-    const perms = permissions[option.value]
-    return perms.some(perm => !traversal.hasPerm(perm))
-  }
-  
   return (
     <Dropdown 
       disabled={disabled}
       id="items-actions" 
       onChange={onAction} 
-      optionDisabledWhen={disableOptionWhen}
+      optionDisabledWhen={
+        o => actions[o.value].perms.some(perm => !traversal.hasPerm(perm))
+      }
       options={options}
     >
       Choose action...
