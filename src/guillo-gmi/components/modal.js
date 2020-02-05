@@ -53,7 +53,7 @@ export function PathTree({ title, onConfirm, onCancel }){
       <h1>{title}</h1>
       <form onSubmit={e => {
           e.preventDefault()
-          onConfirm(Array.prototype.slice.call(e.target)[0].value)
+          onConfirm(e.target[0].value)
       }}>
         <input 
           className="input"
