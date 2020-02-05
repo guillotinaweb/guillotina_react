@@ -22,7 +22,6 @@ export function AddItem(props) {
       data.formData ? data.formData : data
     );
     const client = Ctx.client;
-    console.log(Ctx.path, form)
     const res = await client.create(Ctx.path, form);
     Ctx.flash("Content created!", "success");
     Ctx.cancelAction();
