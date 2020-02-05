@@ -17,7 +17,7 @@ const actions = {
   },
   COPY: {
     text: 'Copy to...',
-    perms: ['guillotina.AddContent'],
+    perms: ['guillotina.DuplicateContent'],
     action: 'copyItems' 
   },
 }

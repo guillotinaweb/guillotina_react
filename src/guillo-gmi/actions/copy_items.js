@@ -11,10 +11,9 @@ export function CopyItems(props) {
 
   async function copyItems(path) {   
     const responses = await Promise.all(items.map(item => {
-      return Ctx.client.create(path, {
-        '@type': item.type_name,
-        id: item['@name'],
-        title: item.title
+      return Ctx.client.post(`${Ctx.path}${item['@name']}/@duplicate`, {
+        destination: path,
+        new_id: item['@name']
       });
     }))
 

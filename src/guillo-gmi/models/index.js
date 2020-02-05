@@ -97,6 +97,7 @@ export const Permissions = [
   "guillotina.SeePermissions",
   "guillotina.ChangePermissions",
   "guillotina.MoveContent",
+  "guillotina.DuplicateContent",
   "guillotina.ReadConfiguration",
   "guillotina.RegisterConfigurations",
   "guillotina.WriteConfiguration",

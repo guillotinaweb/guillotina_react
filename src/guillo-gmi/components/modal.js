@@ -57,7 +57,7 @@ export function PathTree({ title, onConfirm, onCancel }){
       }}>
         <input 
           className="input"
-          placeholder="path"
+          placeholder="/folder (without /db/container on front)"
           style={{ margin: '20px 0'}}
           type="text" 
         />
