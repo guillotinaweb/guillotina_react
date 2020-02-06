@@ -1,4 +1,9 @@
 
+0.3.1
+----
+- Small UI improvements
+- Fix bug when search pagination it's not reset
+
 0.3.0
 ----
  - Move/copy/delete multiple items

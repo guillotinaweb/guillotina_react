@@ -45,7 +45,7 @@ export const Checkbox = ({
           onChange={updateState}
           {...rest}
         />
-        &nbsp;{children || placeholder}
+        {children || placeholder}
       </label>
     </div>
   );
