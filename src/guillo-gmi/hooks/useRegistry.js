@@ -43,7 +43,7 @@ let registry = {
     Folder: BaseForm,
     Item: BaseForm,
     User: UserForm,
-    Group: BaseForm
+    Group: BaseForm,
   },
   behaviors: {
     "guillotina.behaviors.dublincore.IDublinCore": IDublinCore,
