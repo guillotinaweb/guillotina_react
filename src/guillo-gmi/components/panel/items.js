@@ -10,6 +10,7 @@ import { buildQs } from "../../lib/search";
 import { useLocation } from "../../hooks/useLocation";
 import { parser } from "../../lib/search";
 import { useConfig } from "../../hooks/useConfig"
+import { ItemsActionsProvider, AllItemsCheckbox, ItemsActionsDropdown } from "../selected_items_actions"
 
 const initialState = {
   page: 0,
@@ -73,7 +74,8 @@ export function PanelItems(props) {
   };
 
   return (
-    <React.Fragment>
+    <ItemsActionsProvider items={items}>
+      <ItemsActionsDropdown />
       <div className="columns">
         <div className="column">
           <SearchLabels />
@@ -92,6 +94,7 @@ export function PanelItems(props) {
         <table className="table is-fullwidth is-hoverable">
           <thead className="is-size-7">
             <tr>
+              <th><AllItemsCheckbox /></th>
               <th></th>
               <th className="has-text-info">type</th>
               <th className="has-text-info">id/name</th>
@@ -119,6 +122,6 @@ export function PanelItems(props) {
           </tbody>
         </table>
       )}
-    </React.Fragment>
+    </ItemsActionsProvider>
   );
 }
