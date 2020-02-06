@@ -24,16 +24,17 @@ const addConfig = (additional, original) => {
 };
 
 export function useConfig(cfg) {
-  const ref = React.useRef(null);
-
-  if (!ref.current) {
-    ref.current = calculated;
-  }
-
+  const ref = React.useRef();
   if (cfg && !ref.current) {
-    ref.current = addConfig(cfg, ref.current);
-    calculated = ref.current
-    console.log("Current config", cfg)
+    console.log("cfg", cfg)
+    calculated = addConfig(cfg, calculated);
+    ref.current = calculated
   }
-  return ref.current;
+
+  // if (cfg && !ref.current) {
+  //   ref.current = addConfig(cfg, ref.current);
+  //   calculated = ref.current
+  //   console.log("Current config", cfg)
+  // }
+  return calculated
 }

@@ -3,6 +3,16 @@ import {Confirm} from '../components/modal'
 import {useContext} from 'react'
 import {TraversalContext} from '../contexts'
 
+
+// BBB guillotina 5
+const getId = (item) => {
+  if (item["@id"]) {
+    return item["@id"]
+  }
+  return item["@absolute_url"]
+}
+
+
 export function RemoveItems(props) {
   const Ctx = useContext(TraversalContext)
   const { items = [] } = props
@@ -14,7 +24,7 @@ export function RemoveItems(props) {
 
   async function removeItems() {
     await Promise.all(items.map(async item => {
-      await Ctx.client.delete(item["@id"])
+      await Ctx.client.delete(getId(item))
     }))
     Ctx.flash(`Items removed!`, 'success')
     Ctx.refresh()

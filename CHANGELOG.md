@@ -1,4 +1,11 @@
 
+0.3.0
+----
+ - Move/copy/delete multiple items
+   [aralroca]
+ - Some fixes
+   [jordic]
+
 0.2.2 alpha
 ---
 - Fix issue on container creation
