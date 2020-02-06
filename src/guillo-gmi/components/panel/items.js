@@ -75,8 +75,10 @@ export function PanelItems(props) {
 
   return (
     <ItemsActionsProvider items={items}>
-      <ItemsActionsDropdown />
       <div className="columns">
+        <div className="column is-2 is-size-7">
+          <ItemsActionsDropdown />
+        </div>
         <div className="column">
           <SearchLabels />
         </div>
@@ -100,7 +102,6 @@ export function PanelItems(props) {
               <th className="has-text-info">id/name</th>
               <th className="has-text-info">modified</th>
               <th className="has-text-info">created</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>

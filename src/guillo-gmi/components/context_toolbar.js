@@ -53,7 +53,7 @@ export function ContextToolbar({AddButton, ...props}) {
 
   const onSearch = ev => {
     const search = ev.target[0].value;
-    setLocation({ q: search, tab: "Items" });
+    setLocation({ q: search, tab: "Items", page:0 });
     // let searchParsed = parser(search);
     // ctx.setState({ search, searchParsed });
     ev.preventDefault();
