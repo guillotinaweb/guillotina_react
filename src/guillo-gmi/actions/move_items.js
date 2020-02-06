@@ -10,7 +10,6 @@ export function MoveItems(props) {
   const { items = [] } = props
 
   async function moveItems(path) {  
-    console.log(items) 
     const responses = await Promise.all(items.map(item => {
       return Ctx.client.post(`${Ctx.path}${item['@name']}/@move`, {
         destination: path,
