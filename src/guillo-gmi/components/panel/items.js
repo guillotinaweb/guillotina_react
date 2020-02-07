@@ -100,8 +100,8 @@ export function PanelItems(props) {
               <th></th>
               <th className="has-text-info">type</th>
               <th className="has-text-info">id/name</th>
-              <th className="has-text-info">modified</th>
               <th className="has-text-info">created</th>
+              <th className="has-text-info">modified</th>
             </tr>
           </thead>
           <tbody>

@@ -1,3 +1,8 @@
+0.3.3 unreleased
+----
+- If there is no @addable-type hide the button
+- Swap columns modified/created (are wrong)
+
 0.3.2
 ----
 - If there is only one @addable-type just show it (without dropdown)

@@ -39,6 +39,10 @@ export function CreateButton(props) {
     )
   }
 
+  if (state.types && state.types.length === 0) {
+    return null
+  }
+
   // Implement some kind of filtering
   return (
     <Dropdown
