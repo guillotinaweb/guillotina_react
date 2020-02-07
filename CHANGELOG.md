@@ -1,3 +1,6 @@
+0.3.2
+----
+- If there is only one @addable-type just show it (without dropdown)
 
 0.3.1
 ----

@@ -7,6 +7,7 @@ import { useConfig } from "../hooks/useConfig";
 import { Icon } from "./ui/icon";
 import { useLocation } from "../hooks/useLocation";
 import Dropdown from "./input/dropdown";
+import { Button } from "./input/button";
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = { types: undefined };
@@ -28,6 +29,15 @@ export function CreateButton(props) {
     Ctx.doAction("addItem", { type: item });
     setState({ isActive: false });
   };
+
+  if (state.types && state.types.length === 1) {
+    return (
+      <Button
+        className={'is-small is-success'}
+        onClick={ev => doAction(state.types[0]) }
+        >Add {state.types[0]}</Button>
+    )
+  }
 
   // Implement some kind of filtering
   return (
