@@ -2,6 +2,7 @@
 ----
 - If there is no @addable-type hide the button
 - Swap columns modified/created (are wrong)
+- Be able to customize properties view
 
 0.3.2
 ----

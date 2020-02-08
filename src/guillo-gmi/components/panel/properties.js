@@ -6,6 +6,9 @@ import { Icon } from "../ui/icon";
 // import { Button } from "../input/button";
 import { EditableField } from "../fields/editableField";
 import { RenderField } from "../fields/renderField";
+import { PropertiesButtonView } from '../properties_view';
+import { PropertiesView} from '../properties_view';
+
 
 const showProperties = ["@id", "@name", "@uid", "title"];
 const editable = ["title"];
@@ -23,18 +26,11 @@ export function PanelProperties(props) {
           <h2 className="title is-size-4 is-primary">
             <Icon icon={model.icon} align="is-left" className="has-text-grey" />{" "}
             &nbsp;
-            <span>{Ctx.context.title}</span>
+            <span>{Ctx.context.title || Ctx.context["@name"]}</span>
           </h2>
         </div>
         <div className="level-right">
-          {/* <Button className="is-small">
-            <Icon icon="fas fa-trash" />
-            <span>Delete</span>
-          </Button>
-          <Button className="is-small">
-            <Icon icon="fas fa-arrow-right" />
-            <span>Move</span>
-          </Button> */}
+          <PropertiesButtonView />
         </div>
       </div>
 
@@ -63,6 +59,7 @@ export function PanelProperties(props) {
               ))}
             </tbody>
           </table>
+          <PropertiesView />
           <BehaviorsView context={Ctx.context} />
         </div>
       </div>

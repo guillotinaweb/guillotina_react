@@ -50,9 +50,8 @@ let registry = {
     "guillotina.behaviors.attachment.IAttachment": IAttachment,
     "guillotina.behaviors.attachment.IMultiAttachment": IMultiAttachment,
   },
-  schemas: {
-
-  }
+  schemas: {},
+  properties: {}
 };
 
 const get = (key, param, fallback) => {
@@ -89,6 +88,10 @@ const getBehavior = (type, fallback) => {
   return registry.behaviors[type] || fallback;
 };
 
+const getProperties = (type) => {
+  return registry.properties[type] || {}
+}
+
 export const defaultComponent = context => {
   return context.is_folderish ? FolderCtx : ItemCtx;
 };
@@ -110,7 +113,8 @@ export function useRegistry(data) {
     getForm,
     getComponent,
     getAction,
-    getBehavior
+    getBehavior,
+    getProperties
   };
 }
 

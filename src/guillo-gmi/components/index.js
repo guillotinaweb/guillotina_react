@@ -33,7 +33,8 @@ export * from "./panel/requester";
 export * from "./ui";
 export * from "./widgets";
 
-export * from "./behavior_view"
+export * from "./behavior_view";
+export * from "./properties_view";
 export * from "./context_toolbar";
 export * from "./error_zone";
 export * from "./flash";
