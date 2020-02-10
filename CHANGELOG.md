@@ -1,4 +1,7 @@
-0.3.3 unreleased
+0.3.4 unreleased
+----
+
+0.3.3 
 ----
 - If there is no @addable-type hide the button
 - Swap columns modified/created (are wrong)
