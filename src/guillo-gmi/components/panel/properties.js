@@ -3,21 +3,25 @@ import { TraversalContext } from "../../contexts";
 import { ItemModel } from "../../models";
 import { BehaviorsView } from "../behavior_view";
 import { Icon } from "../ui/icon";
-// import { Button } from "../input/button";
 import { EditableField } from "../fields/editableField";
 import { RenderField } from "../fields/renderField";
 import { PropertiesButtonView } from '../properties_view';
 import { PropertiesView} from '../properties_view';
+import {useConfig} from '@guillotinaweb/react-gmi'
 
 
-const showProperties = ["@id", "@name", "@uid", "title"];
-const editable = ["title"];
+const _showProperties = ["@id", "@name", "@uid", "title"];
+const _editable = ["title"];
 
 export function PanelProperties(props) {
   const Ctx = React.useContext(TraversalContext);
   const modifyContent = Ctx.hasPerm("guillotina.ModifyContent");
+  const cfg = useConfig()
 
   const model = new ItemModel(Ctx.context);
+
+  const showProperties = cfg.properties_default || _showProperties
+  const editable = cfg.properties_editable || _editable
 
   return (
     <div className="container">

@@ -1,5 +1,6 @@
 0.3.4 unreleased
 ----
+- Be able to setup default properties showing on panel properties
 
 0.3.3 
 ----
