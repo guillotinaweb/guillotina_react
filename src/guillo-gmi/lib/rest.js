@@ -50,7 +50,7 @@ export class RestClient {
 
   async upload(path, data) {
 
-    const headers = this.auth.getHeaders()
+    const headers = this.getHeaders()
     delete headers["Content-Type"]
     headers["Content-Type"] = data["content-type"]
     headers["X-UPLOAD-FILENAME"] = data.filename

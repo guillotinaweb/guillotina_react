@@ -1,6 +1,10 @@
-0.3.4 unreleased
+0.3.5 unreleased
+----
+
+0.3.4
 ----
 - Be able to setup default properties showing on panel properties
+- Fix auth header on client
 
 0.3.3 
 ----
