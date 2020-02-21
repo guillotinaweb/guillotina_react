@@ -1,4 +1,4 @@
-describe('get container', function() {
+describe('check guillotina', function() {
 
   const api_url = 'http://localhost:8080/db'
   const headers = {
@@ -6,7 +6,7 @@ describe('get container', function() {
     'Content-Type': 'application/json',
   }
 
-  it('should 200', function() {
+  it('check container is created', function() {
     cy.request({
       method: 'GET',
       url: api_url,
@@ -14,11 +14,11 @@ describe('get container', function() {
     }).then( res => { console.log('Container exists')})
   })
 
-  it('should 200', function() {
+  it('check root user is created', function() {
     cy.request({
       method: 'GET',
       url: `${api_url}/container/users/root`,
       headers
-    }).then( res => { console.log('Container exists')})
+    }).then( res => { console.log('User exists')})
   })
 })
