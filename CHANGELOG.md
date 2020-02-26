@@ -1,5 +1,6 @@
 0.3.5 unreleased
 ----
+- e2e first test
 
 0.3.4
 ----

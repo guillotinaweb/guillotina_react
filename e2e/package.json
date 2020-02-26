@@ -1,0 +1,16 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "e2e for guillotina react",
+  "main": "index.js",
+  "author": "Pol Sanlorenzo",
+  "license": "MIT",
+  "dependencies": {
+    "cypress": "^4.0.2",
+    "eslint-plugin-cypress": "^2.10.1"
+  },
+  "scripts": {
+    "cypress:run:guillotina": "CYPRESS_API=guillotina cypress run",
+    "cypress:open:guillotina": "CYPRESS_API=guillotina cypress open"
+  }
+}
