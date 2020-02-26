@@ -16,6 +16,7 @@ describe('test login', function() {
     cy.get(passwordInput).type('root').should('have.value', 'root')
     cy.get(submit).click()
     cy.get(form).should('not.be.visible')
+    cy.get('.box > .container').should('be.visible')
   })
 
   it('test autologin', function() {

@@ -14,10 +14,10 @@ docker run \
     postgres:9.6
 
 # Run guillotina
-docker run -v <path to project>/e2e/g_conf/:/g_conf/ \
+docker run --rm -it -v $PWD/e2e/g_conf/:/g_conf/ \
     --link=postgres -p 127.0.0.1:8080:8080 \
-    guillotina/guillotina:latest \
-    g -c '{"databases": [{"db": {"storage": "postgresql", "dsn": "postgres://guillotina:@postgres/guillotina"}}], "root_user": {"password": "root"}}'
+    plone/guillotina:latest \
+    g -c /g_conf/config.yaml
 
 # Install modules
 yarn

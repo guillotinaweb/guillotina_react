@@ -1,4 +1,4 @@
-Cypress.commands.add('autologin', function({ username, password } = {}) {
+Cypress.Commands.add('autologin', function({ username, password } = {}) {
   const api_url = 'http://localhost:8080'
   const user = username || 'root'
   const pw = password || 'root'
