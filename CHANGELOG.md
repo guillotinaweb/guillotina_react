@@ -1,6 +1,8 @@
 0.3.5 unreleased
 ----
 - e2e first test
+- e2e github action
+  [psanlorenzo]
 
 0.3.4
 ----

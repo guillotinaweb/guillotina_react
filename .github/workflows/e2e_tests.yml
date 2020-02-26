@@ -1,0 +1,20 @@
+name: e2e tests
+on: [push]
+  branches:
+    - master
+jobs:
+  cypress-run:
+    runs-on: ubuntu:latest
+    steps:
+      - name: Run Postgres
+        run: docker run -it -e POSTGRES_DB=guillotina -e POSTGRES_USER=guillotina -p 127.0.0.1:5432:5432 --name postgres postgres:9.6
+      
+      - name: Run guillotina
+        run: docker run -it -v $PWD/e2e/g_conf/:/g_conf/ --link=postgres -p 127.0.0.1:8080:8080 plone/guillotina:latest g -c /g_conf/config.yaml
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        with:
+          build: yarn
+          start: yarn start
+          wait-on: 'http://localhost:3000'
