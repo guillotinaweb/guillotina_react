@@ -40,10 +40,8 @@ cors:
   allow_credentials: true
   max_age: 3660
 jwt:
-  secret: asupersecret$$123***
+  secret: secret
   algorithm: HS256
-jsapps:
-  +admin: guillotina:static/executioner
 loop_policy: uvloop.EventLoopPolicy
 redis:
   host: redis
