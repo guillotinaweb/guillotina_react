@@ -1,0 +1,53 @@
+applications:
+  - guillotina.contrib.dbusers
+  - guillotina.contrib.catalog.pg
+  - guillotina.contrib.swagger
+databases:
+  db:
+    storage: postgresql
+    dsn: postgres://guillotina:@postgres/guillotina
+    read_only: false
+    cache_strategy: redis
+    autovacuum: false
+    db_schema: guillotina
+    pool_size: 8
+host: 0.0.0.0
+port: 8080
+root_user:
+  password: root
+auth_extractors:
+  - guillotina.auth.extractors.BearerAuthPolicy
+  - guillotina.auth.extractors.BasicAuthPolicy
+  - guillotina.auth.extractors.WSTokenAuthPolicy
+auth_token_validators:
+  - guillotina.auth.validators.SaltedHashPasswordValidator
+  - guillotina.auth.validators.JWTValidator
+cors:
+  allow_origin:
+    - "*" # delegate to reverse proxy whichs domains to allow
+  allow_methods:
+    - GET
+    - POST
+    - DELETE
+    - HEAD
+    - PATCH
+    - PUT
+    - OPTIONS
+  allow_headers:
+    - "*"
+  expose_headers:
+    - "*"
+  allow_credentials: true
+  max_age: 3660
+jwt:
+  secret: secret
+  algorithm: HS256
+loop_policy: uvloop.EventLoopPolicy
+redis:
+  host: redis
+  port: 6379
+  ttl: 3600
+  memory_cache_size: 104857600 # 100 MB
+  pool:
+    minsize: 5
+    maxsize: 10

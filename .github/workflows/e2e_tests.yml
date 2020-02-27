@@ -1,0 +1,34 @@
+name: e2e tests
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  cypress-run:
+    runs-on: ubuntu-16.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Postgres
+        run: docker run -d -e POSTGRES_DB=guillotina -e POSTGRES_USER=guillotina -e POSTGRES_HOST_AUTH_METHOD=trust -p 127.0.0.1:5432:5432 --name postgres postgres:9.6
+      - name: guillotina
+        run: docker run -d -v /home/runner/work/guillotina_react/guillotina_react/e2e/g_conf/:/g_conf/ --link=postgres -p 0.0.0.0:8080:8080 plone/guillotina:latest g -c /g_conf/config.yaml
+
+      - name: Install server dependencies
+        run: yarn
+      - name: Install react-gmi
+        run: yarn add @guillotinaweb/react-gmi
+      - name: Start Server
+        run: yarn start &
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        with:
+          build: yarn
+          wait-on: 'http://localhost:3000'
+          working-directory: ./e2e
