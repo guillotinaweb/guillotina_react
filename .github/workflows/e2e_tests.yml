@@ -20,7 +20,7 @@ jobs:
         run: docker run -d -v /home/runner/work/guillotina_react/guillotina_react/e2e/g_conf/:/g_conf/ --link=postgres -p 0.0.0.0:8080:8080 plone/guillotina:latest g -c /g_conf/config.yaml
 
       - name: Install server dependencies
-        run: yarn
+        run: yarn & yarn add @guillotinaweb/react-gmi
       - name: Start Server
         run: yarn start &
 
