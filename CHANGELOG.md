@@ -1,15 +1,24 @@
-0.3.5 unreleased
+0.4.0
 ----
 - e2e first test
 - e2e github action
   [psanlorenzo]
+
+- Fix issue when selecting multiple items on different depths with same id
+- Return back the delete button (it's more ergonomic)
+- Fix compatibility with braking changes on Guillotina 6
+- Correctly report failed delete actions, showing a stringify version of the error
+- Add a preload spinner on delete.
+- Add a new config setting to be able to set a delay after delete
+  (That's mostly to workaround elastic delay index)
+  [jordic]
 
 0.3.4
 ----
 - Be able to setup default properties showing on panel properties
 - Fix auth header on client
 
-0.3.3 
+0.3.3
 ----
 - If there is no @addable-type hide the button
 - Swap columns modified/created (are wrong)

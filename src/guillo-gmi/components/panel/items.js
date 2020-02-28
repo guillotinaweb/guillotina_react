@@ -102,6 +102,7 @@ export function PanelItems(props) {
               <th className="has-text-info">id/name</th>
               <th className="has-text-info">created</th>
               <th className="has-text-info">modified</th>
+              <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody>

@@ -48,3 +48,12 @@ export function stringToSlug (str) {
 
   return str;
 }
+
+
+export function sleep(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(function() {
+      resolve()
+    }, ms)
+  })
+}

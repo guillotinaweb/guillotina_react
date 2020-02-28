@@ -5,6 +5,7 @@ import { TraversalContext } from "../contexts";
 import { useContext } from "react";
 import { Icon } from "./ui/icon";
 import { ItemCheckbox } from "./selected_items_actions";
+import { Delete } from "./ui";
 
 export function Item({ item, setPath, icon }) {
   const Ctx = useContext(TraversalContext);
@@ -55,6 +56,11 @@ export function RItem({ item, search }) {
       </td>
       <td style={mediumcss} className="is-size-7 is-vcentered">
         {model.updated}
+      </td>
+      <td style={smallcss}>
+        {traversal.hasPerm("guillotina.DeleteContent") && (
+          <Delete onClick={() => traversal.doAction("removeItems", {items:[model.item]})} />
+        )}
       </td>
     </tr>
   );
