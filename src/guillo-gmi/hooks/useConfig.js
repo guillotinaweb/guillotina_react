@@ -3,6 +3,7 @@ import React from "react";
 export const Config = {
   DisabledTypes: ["UserManager", "GroupManager"],
   PageSize: 10,
+  DelayActions: 200,
 }
 
 

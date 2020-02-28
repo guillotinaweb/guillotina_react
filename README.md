@@ -110,3 +110,10 @@ yarn start
 ![](screenshots/screen2.png)
 ![](screenshots/screen1.png)
 ![](screenshots/screen3.png)
+
+
+## Sponsors
+
+This project is sponsored by <a href="https://www.vinissimus.com">Vinissimus Wine Shop</a>
+
+<a href="https://www.vinissimus.com"><img src="https://cdn.vinissimus.com/front/static/images/vinissimus-logo.svg" /></a>

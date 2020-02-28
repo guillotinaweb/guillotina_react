@@ -1,5 +1,6 @@
 import React from "react";
 import usePortal from "react-useportal";
+import {Button} from './input/button'
 
 export function Modal(props) {
   const { isActive, setActive, children } = props;
@@ -23,7 +24,7 @@ export function Modal(props) {
   );
 }
 
-export function Confirm({ message, onCancel, onConfirm }) {
+export function Confirm({ message, onCancel, onConfirm, loading }) {
   const setActive = p => onCancel();
   return (
     <Modal isActive setActive={setActive} className="confirm">
@@ -36,9 +37,11 @@ export function Confirm({ message, onCancel, onConfirm }) {
               Cancel
             </button>
             &nbsp;&nbsp;
-            <button className="button is-success" onClick={() => onConfirm()}>
-              Confirm
-            </button>
+            <Button
+              loading={loading}
+              className="is-success"
+              onClick={() => onConfirm()}
+              >Confirm</Button>
           </div>
         </div>
       </React.Fragment>
@@ -55,11 +58,11 @@ export function PathTree({ title, onConfirm, onCancel }){
           e.preventDefault()
           onConfirm(e.target[0].value)
       }}>
-        <input 
+        <input
           className="input"
           placeholder="/folder (without /db/container on front)"
           style={{ margin: '20px 0'}}
-          type="text" 
+          type="text"
         />
         <div className="level-right">
           <button type="button" className="button is-danger" onClick={onCancel}>
