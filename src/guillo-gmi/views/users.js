@@ -59,7 +59,7 @@ export function UserCtx(props) {
         Ctx.client.search(Ctx.path, { type_name: "Group" }, true),
         Ctx.client.getRoles(Ctx.path)
       ]);
-      const groups = await res[0].json();
+      const groups = await res[0];
       const roles = await res[1].json();
       setState({
         roles: roles,

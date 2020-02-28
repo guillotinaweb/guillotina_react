@@ -48,7 +48,7 @@ export function PanelItems(props) {
       setState({ loading: true, total: Ctx.context.length });
       if (search) {
         let qs = buildQs(searchParsed);
-        const res = await Ctx.client.search(
+        data = await Ctx.client.search(
           Ctx.path,
           qs,
           false,
@@ -56,7 +56,7 @@ export function PanelItems(props) {
           page * PageSize,
           PageSize
         );
-        data = await res.json();
+
       } else {
         data = await Ctx.client.getItems(Ctx.path, page * PageSize, PageSize);
       }

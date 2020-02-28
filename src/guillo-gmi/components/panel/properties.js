@@ -7,7 +7,7 @@ import { EditableField } from "../fields/editableField";
 import { RenderField } from "../fields/renderField";
 import { PropertiesButtonView } from '../properties_view';
 import { PropertiesView} from '../properties_view';
-import {useConfig} from '@guillotinaweb/react-gmi'
+import {useConfig} from '../../hooks/useConfig'
 
 
 const _showProperties = ["@id", "@name", "@uid", "title"];

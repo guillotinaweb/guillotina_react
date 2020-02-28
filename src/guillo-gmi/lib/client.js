@@ -37,7 +37,15 @@ export class GuillotinaClient {
     const result = await this.rest.get(
       `${path}@search?depth=1&b_start=${start}&b_size=${pageSize}`
     );
-    return await result.json();
+    let data = await result.json();
+    return this.applyCompat(data)
+  }
+
+  // BBB API changes. Compat G5 and G6
+  applyCompat(data) {
+    data.member = data.items
+    data.items_count = data.items_total
+    return data
   }
 
   async search(path, params, container = false, prepare = true, start = 0, pageSize=10) {
@@ -49,7 +57,9 @@ export class GuillotinaClient {
     }
     let query = prepare ? toQueryString(params) : params;
     const url = `${path}@search?${query}&b_start=${start}&b_size=${pageSize}`;
-    return await this.rest.get(url);
+    let res = await this.rest.get(url)
+    let data = await res.json()
+    return this.applyCompat(data)
   }
 
   async canido(path, permissions) {

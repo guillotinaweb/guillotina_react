@@ -54,7 +54,8 @@ export const Select = ({
               style={style}
           >
               {options.map(({ text, ...rest }, index) => (
-                <option key={index.toString()} {...rest}>
+                <option
+                  key={index.toString()} {...rest}>
                   {text}
                 </option>
               ))}
