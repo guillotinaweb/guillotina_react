@@ -47,4 +47,29 @@ describe('test content', function() {
     cy.get('.level-right > .control > .button').click()
     cy.get('.notification').should('contain', 'Items removed!')
   })
+
+  it.only('creates a User as Admin, modifies it and delete it', function() {
+    cy.get('td:contains(UserManager)').click()
+
+    // Create User
+    cy.get('.level-right > .button').click()
+    cy.get('#id-0').type('Test User')
+    cy.get('#id-2').type('test-user@test.test')
+    cy.get('#id-4').type('Test Name')
+    cy.get('#id-6').type('TestPassword')
+    cy.get('p.control > .button').should('contain', 'Add User').click()
+    cy.get('.notification').should('contain', 'Content created!')
+
+    // Modify Item
+    cy.get('td:contains(Test User)').click()
+    cy.get('#id-81').clear().type('Test Modified User')
+    cy.get('p.control > .button').click()
+    cy.get('.notification').should('contain', 'Data updated')
+    cy.get('.breadcrumb a:contains(users)').click()
+
+    // Delete Item
+    cy.get('tr:contains(Test User) .delete').click()
+    cy.get('.level-right > .control > .button').click()
+    cy.get('.notification').should('contain', 'Items removed!')
+  })
 })
