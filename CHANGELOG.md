@@ -2,6 +2,7 @@
 ----
 - e2e first test
 - e2e github action
+- e2e test content
   [psanlorenzo]
 
 - Fix issue when selecting multiple items on different depths with same id
