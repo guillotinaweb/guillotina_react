@@ -30,7 +30,6 @@ export function setupGuillotina() {
       email: 'root@test.com'
     },
   }).then(response => console.log('dbusers addon added'));
-
 }
 
 export function tearDownGuillotina() {
@@ -39,6 +38,18 @@ export function tearDownGuillotina() {
     'Content-Type': 'application/json',
   };
   const api_url = 'http://localhost:8080/db';
+
+  cy.request({
+    method: 'DELETE',
+    url: `${api_url}/container/users`,
+    headers,
+  }).then(response => console.log('container deleted'));
+
+  cy.request({
+    method: 'DELETE',
+    url: `${api_url}/container/groups`,
+    headers,
+  }).then(response => console.log('container deleted'));
 
   cy.request({
     method: 'DELETE',
