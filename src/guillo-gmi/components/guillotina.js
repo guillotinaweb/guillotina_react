@@ -15,7 +15,6 @@ import { useLocation } from "../hooks/useLocation";
 import { guillotinaReducer } from "../reducers/guillotina";
 import { initialState } from "../reducers/guillotina";
 import { Loading } from './ui/loading'
-import ErrorBoundary from "./error_boundary";
 
 export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080"; // without trailing slash
@@ -68,6 +67,7 @@ export function Guillotina({ auth, ...props }) {
     })();
   }, [path, refresh, client]);
 
+  const ErrorBoundary = registry.views.ErrorBoundary;
 
   const contextData = {
     url,

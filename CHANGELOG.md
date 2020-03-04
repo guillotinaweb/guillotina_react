@@ -1,3 +1,8 @@
+0.4.1
+----
+- Add ErrorBoundary as view in registry that can be overwritten
+  [masipcat]
+
 0.4.0
 ----
 - e2e first test
