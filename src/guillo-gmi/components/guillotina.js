@@ -67,7 +67,7 @@ export function Guillotina({ auth, ...props }) {
     })();
   }, [path, refresh, client]);
 
-  const ErrorBoundary = registry.views.ErrorBoundary;
+  const ErrorBoundary = registry.get('views', 'ErrorBoundary');
 
   const contextData = {
     url,
