@@ -16,11 +16,13 @@ import { IDublinCore } from "../components/behaviors/idublincore";
 import { IMultiAttachment } from "../components/behaviors/imultiattachment";
 import { GroupsCtx } from "../views/groups";
 import { GroupCtx } from "../views/groups"
+import ErrorBoundary from "../components/error_boundary";
 import React from 'react'
 
 let registry = {
   paths: {},
   views: {
+    ErrorBoundary: ErrorBoundary,
     Application: ApplicationCtx,
     Database: DatabaseCtx,
     Container: ContainerCtx,
