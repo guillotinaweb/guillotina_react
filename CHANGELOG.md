@@ -2,6 +2,7 @@
 ----
 - Add ErrorBoundary as view in registry that can be overwritten
   [masipcat]
+- Remove panel requester (too much bundle size for what it provides)
 
 0.4.0
 ----
