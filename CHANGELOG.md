@@ -1,3 +1,7 @@
+0.4.2
+----
+- fix bug on behaviors change
+
 0.4.1
 ----
 - Add ErrorBoundary as view in registry that can be overwritten

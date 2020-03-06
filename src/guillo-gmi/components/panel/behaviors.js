@@ -25,7 +25,7 @@ export function PanelBehaviors() {
     (async () => {
       await get("@behaviors");
     })();
-  }, [state]);
+  }, []);
 
   return (
     <div className="columns behaviors">
