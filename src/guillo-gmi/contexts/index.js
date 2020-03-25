@@ -44,6 +44,7 @@ class Traversal {
 
   flash(message, type) {
     this.dispatch({ type: "SET_FLASH", payload: { flash: { message, type } } });
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }
 
   clearFlash() {
