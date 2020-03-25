@@ -1,3 +1,7 @@
+0.4.3
+----
+- Scroll to top after call to Ctx.flash
+
 0.4.2
 ----
 - fix bug on behaviors change
