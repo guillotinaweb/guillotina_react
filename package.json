@@ -53,6 +53,6 @@
     ]
   },
   "author": "Jordi Collell <jordic@gmail.com> ",
-  "license": "MIT"
-  ,"homepage": "http://localhost:8080/+manage"
+  "license": "MIT",
+  "homepage": "https://github.com/guillotinaweb/guillotina_react/"
 }
