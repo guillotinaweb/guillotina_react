@@ -1,3 +1,8 @@
+0.4.4
+----
+- Fix return value of rest.getHeaders() and auth.getHeadres() when not authenticated
+  [masipcat]
+
 0.4.3
 ----
 - Scroll to top after call to Ctx.flash

@@ -138,7 +138,7 @@ export class Auth {
 
   getHeaders() {
     const [authToken, expires]  = this._getToken()
-    if (!authToken) return false;
+    if (!authToken) return {};
 
     if (this.willExpire(expires) && this.retryRefresh < this.maxRetry) {
       (async () => await this.refreshToken())()

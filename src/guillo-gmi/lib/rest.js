@@ -15,7 +15,7 @@ export class RestClient {
 
   getHeaders() {
     const authToken  = this.auth.getToken()
-    if (!authToken) return false;
+    if (!authToken) return {};
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
