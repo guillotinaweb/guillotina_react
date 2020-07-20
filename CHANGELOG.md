@@ -1,3 +1,8 @@
+0.4.5
+----
+- Fix TabsPanel crash when 'current' tab doesn't exist in 'tabs'
+  [masipcat]
+
 0.4.4
 ----
 - Fix return value of rest.getHeaders() and auth.getHeadres() when not authenticated
