@@ -1,9 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import { TraversalContext } from "../contexts";
 import { useLocation } from "../hooks/useLocation";
 
-export function TabsPanel({ tabs, currentTab, rightToolbar, ...props }) {
+
+function FallbackTab({ title }) {
+  return (
+    <div>Tab '{title}' not found</div>
+  )
+}
+
+
+export function TabsPanel({ tabs, currentTab, rightToolbar, fallback = FallbackTab, ...props }) {
 
   const [location, setLocation] = useLocation();
 
@@ -21,7 +28,7 @@ export function TabsPanel({ tabs, currentTab, rightToolbar, ...props }) {
   }*/
 
   const [current, setTab] = useState(currentTab);
-  const CurrentComp = tabs[current];
+  const CurrentComp = tabs[current] || fallback;
 
   React.useEffect(() => {
     if (Object.keys(tabs).includes(currentTab)) {
