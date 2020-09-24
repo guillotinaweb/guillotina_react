@@ -21,11 +21,7 @@ export function Item({ item, setPath, icon }) {
 }
 
 const smallcss = {
-  width: "25px"
-};
-
-const mediumcss = {
-  width: "120px"
+  width: 25
 };
 
 export function RItem({ item, search, columns }) {
