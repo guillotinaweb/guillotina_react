@@ -26,7 +26,7 @@ export function PanelItems(props) {
   const Ctx = useContext(TraversalContext);
   const [state, setState] = useSetState(initialState);
   const { items, loading, total } = state;
-  const columns = Ctx.client.getItemsColumn(items)
+  const columns = Ctx.client.getItemsColumn(items, Ctx.path)
 
   let search = location.get("q");
   let page;
