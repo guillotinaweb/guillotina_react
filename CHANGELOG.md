@@ -1,3 +1,7 @@
+0.4.6
+----
+- Move column definition to GuillotinaClient to overwrite in an easier way [aralroca]
+
 0.4.5
 ----
 - Fix TabsPanel crash when 'current' tab doesn't exist in 'tabs'
