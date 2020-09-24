@@ -98,7 +98,6 @@ export function PanelItems(props) {
           <thead className="is-size-7">
             <tr>
               <th><AllItemsCheckbox /></th>
-              <th></th>
               {columns.map(i => (
                 <th key={i.label} className="has-text-info">{i.label}</th>
               ))}
