@@ -1,3 +1,7 @@
+0.4.6
+----
+- Fix duplicate items in same folder (add a suffix to the id)
+
 0.4.5
 ----
 - Fix TabsPanel crash when 'current' tab doesn't exist in 'tabs'
