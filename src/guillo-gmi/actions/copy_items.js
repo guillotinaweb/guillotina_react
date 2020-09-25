@@ -5,6 +5,16 @@ import {TraversalContext} from '../contexts'
 
 const withError = res => res.status >= 300
 
+function getNewId(id = '') {
+  const suffix = '-copy-'
+  const rgx = new RegExp(`($|${suffix}\\d*)`)
+
+  return id.replace(rgx, r => { 
+    const num = parseInt(r.replace(suffix, '') || '0')
+    return `${suffix}${num + 1}`
+  })
+}
+
 export function CopyItems(props) {
   const Ctx = useContext(TraversalContext)
   const { items = [] } = props
@@ -13,7 +23,7 @@ export function CopyItems(props) {
     const responses = await Promise.all(items.map(item => {
       return Ctx.client.post(`${Ctx.path}${item['@name']}/@duplicate`, {
         destination: path,
-        new_id: item['@name']
+        new_id: getNewId(item.id)
       });
     }))
 
