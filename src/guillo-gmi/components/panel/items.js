@@ -26,6 +26,7 @@ export function PanelItems(props) {
   const Ctx = useContext(TraversalContext);
   const [state, setState] = useSetState(initialState);
   const { items, loading, total } = state;
+  const columns = Ctx.client.getItemsColumn(items, Ctx.path)
 
   let search = location.get("q");
   let page;
@@ -97,11 +98,9 @@ export function PanelItems(props) {
           <thead className="is-size-7">
             <tr>
               <th><AllItemsCheckbox /></th>
-              <th></th>
-              <th className="has-text-info">type</th>
-              <th className="has-text-info">id/name</th>
-              <th className="has-text-info">created</th>
-              <th className="has-text-info">modified</th>
+              {columns.map(i => (
+                <th key={i.label} className="has-text-info">{i.label}</th>
+              ))}
               <th>&nbsp;</th>
             </tr>
           </thead>
@@ -112,6 +111,7 @@ export function PanelItems(props) {
                   setPath={Ctx.setPath}
                   key={item["@uid"]}
                   search={search}
+                  columns={columns}
                   />
               ))}
             {items && items.length === 0 && (

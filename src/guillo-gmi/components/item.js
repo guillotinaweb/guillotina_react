@@ -21,14 +21,10 @@ export function Item({ item, setPath, icon }) {
 }
 
 const smallcss = {
-  width: "25px"
+  width: 25
 };
 
-const mediumcss = {
-  width: "120px"
-};
-
-export function RItem({ item, search }) {
+export function RItem({ item, search, columns }) {
   const traversal = useContext(TraversalContext);
   const model = new ItemModel(item, traversal.url, traversal.path);
   const link = () => traversal.setPath(model.path);
@@ -38,25 +34,11 @@ export function RItem({ item, search }) {
       <td style={smallcss}>
         <ItemCheckbox item={item} />
       </td>
-      <td style={smallcss}>{<Icon icon={model.icon} />}</td>
-      <td style={smallcss} onClick={link}>
-        <span className="tag">{model.type}</span>
-      </td>
-      <td onClick={link}>
-        {model.name}
-        {search && (
-          <React.Fragment>
-            <br />
-            <span className="is-size-7 tag is-light">{model.path}</span>
-          </React.Fragment>
-        )}
-      </td>
-      <td style={mediumcss} className="is-size-7 is-vcentered">
-        {model.created}
-      </td>
-      <td style={mediumcss} className="is-size-7 is-vcentered">
-        {model.updated}
-      </td>
+      {columns.map(i => (
+        <React.Fragment key={i.label}>
+          {i.child(model, link, search)}
+        </React.Fragment>
+      ))}
       <td style={smallcss}>
         {traversal.hasPerm("guillotina.DeleteContent") && (
           <Delete onClick={() => traversal.doAction("removeItems", {items:[model.item]})} />

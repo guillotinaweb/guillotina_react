@@ -1,5 +1,7 @@
+import React from 'react'
 import { RestClient } from "./rest";
 import { toQueryString } from "./helpers";
+import { Icon } from "../components/ui";
 
 let cacheTypes = {};
 let cacheSchemas = {};
@@ -39,6 +41,56 @@ export class GuillotinaClient {
     );
     let data = await result.json();
     return this.applyCompat(data)
+  }
+
+  getItemsColumn() {
+    const smallcss = { width: 25 }
+    const mediumcss = { width: 120 }
+
+    return [
+      {
+        label: '',
+        child: (m) => <td style={smallcss}>{<Icon icon={m.icon} />}</td>,
+      },
+      {
+        label: 'type',
+        child: (m, navigate) => (
+          <td style={smallcss} onClick={navigate}>
+            <span className="tag">{m.type}</span>
+          </td>
+        ),
+      },
+      {
+        label: 'id/name',
+        child: (m, navigate, search) => (
+          <td onClick={navigate}>
+            {m.name}
+            {search && (
+              <React.Fragment>
+                <br />
+                <span className="is-size-7 tag is-light">{m.path}</span>
+              </React.Fragment>
+            )}
+          </td>
+        ),
+      },
+      {
+        label: 'created',
+        child: (m) => (
+          <td style={mediumcss} className="is-size-7 is-vcentered">
+            {m.created}
+          </td>
+        ),
+      },
+      {
+        label: 'modified',
+        child: (m) => (
+          <td style={mediumcss} className="is-size-7 is-vcentered">
+            {m.updated}
+          </td>
+        ),
+      },
+    ]
   }
 
   // BBB API changes. Compat G5 and G6

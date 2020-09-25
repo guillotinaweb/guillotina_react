@@ -1,6 +1,10 @@
+0.4.7
+----
+- Move column definition to GuillotinaClient to overwrite in an easier way [aralroca]
+
 0.4.6
 ----
-- Fix duplicate items in same folder (add a suffix to the id)
+- Fix duplicate items in same folder (add a suffix to the id) [aralroca]
 
 0.4.5
 ----
