@@ -1,3 +1,8 @@
+0.4.8
+----
+- Allow modify id copying items [aralroca]
+- Fill current path as default path when copying items [aralroca]
+
 0.4.7
 ----
 - Move column definition to GuillotinaClient to overwrite in an easier way [aralroca]
