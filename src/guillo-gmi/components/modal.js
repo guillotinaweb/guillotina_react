@@ -50,20 +50,22 @@ export function Confirm({ message, onCancel, onConfirm, loading }) {
 }
 
 // @todo Improve it... Replacing the inputText to a tree
-export function PathTree({ title, onConfirm, onCancel }){
+export function PathTree({ title, defaultPath, children, onConfirm, onCancel }){
   return (
     <Modal isActive setActive={onCancel}>
       <h1>{title}</h1>
       <form onSubmit={e => {
           e.preventDefault()
-          onConfirm(e.target[0].value)
+          onConfirm(e.target[0].value, e.target)
       }}>
         <input
           className="input"
           placeholder="/folder (without /db/container on front)"
           style={{ margin: '20px 0'}}
+          defaultValue={defaultPath}
           type="text"
         />
+        {children}
         <div className="level-right">
           <button type="button" className="button is-danger" onClick={onCancel}>
             Cancel
