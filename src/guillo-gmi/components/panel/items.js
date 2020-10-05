@@ -21,7 +21,7 @@ const initialState = {
 
 export function PanelItems(props) {
   const [location, setLocation] = useLocation();
-  const {PageSize} = useConfig()
+  const { PageSize } = useConfig()
 
   const Ctx = useContext(TraversalContext);
   const [state, setState] = useSetState(initialState);
@@ -43,7 +43,7 @@ export function PanelItems(props) {
   }
 
   useEffect(() => {
-    if(Ctx.state.loading) return
+    if (Ctx.state.loading) return
     (async () => {
       let data;
       setState({ loading: true, total: Ctx.context.length });
@@ -87,6 +87,7 @@ export function PanelItems(props) {
           <Pagination
             current={page}
             total={total}
+            key="pagination-top"
             doPaginate={doPaginate}
             pager={PageSize}
           />
@@ -112,7 +113,7 @@ export function PanelItems(props) {
                   key={item["@uid"]}
                   search={search}
                   columns={columns}
-                  />
+                />
               ))}
             {items && items.length === 0 && (
               <tr>
@@ -124,6 +125,15 @@ export function PanelItems(props) {
           </tbody>
         </table>
       )}
+      <div className="columns is-centered">
+        <Pagination
+          current={page}
+          key="pagination-bottom"
+          total={total}
+          doPaginate={doPaginate}
+          pager={PageSize}
+        />
+      </div>
     </ItemsActionsProvider>
   );
 }

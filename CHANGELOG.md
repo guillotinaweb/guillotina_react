@@ -1,3 +1,7 @@
+0.4.9
+----
+- Add pagination also in the bottom of the page [aralroca]
+
 0.4.8
 ----
 - Allow modify id copying items [aralroca]
