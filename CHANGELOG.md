@@ -1,3 +1,7 @@
+0.4.10
+----
+- Fix open breadcrumb links in a new browser tab [aralroca]
+
 0.4.9
 ----
 - Add pagination also in the bottom of the page [aralroca]

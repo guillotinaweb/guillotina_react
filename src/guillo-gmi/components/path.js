@@ -20,19 +20,30 @@ export function Path(props) {
   return (
     <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>
-      {segments.map((item, indx) =>
-        ((indx === 0) ?
-          <li key={indx}>
-            <a onClick={() => navigate({path:links[indx]}, true)}>
-              <span className="icon">
-                <i className="fas fa-home"></i>
-              </span>
-            </a>
-          </li>
-          :
-          <li key={indx}><a onClick={() => navigate({path:links[indx]}, true)}>
-          {item}</a></li>
-      ))}
+      {segments.map((item, indx) => {
+          const path = links[indx]
+          const onClick = (e) => {
+            if (window.event.ctrlKey || window.event.metaKey) return;
+            e.preventDefault();
+            navigate({ path }, true);
+          };
+
+          return indx === 0 ? (
+            <li key={indx}>
+              <a href={path} onClick={onClick}>
+                <span className="icon">
+                  <i className="fas fa-home"></i>
+                </span>
+              </a>
+            </li>
+          ) : (
+            <li key={indx}>
+              <a href={path} onClick={onClick}>
+                {item}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   )
