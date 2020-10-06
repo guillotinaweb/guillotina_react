@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {TraversalContext} from '../contexts'
 import {useContext} from 'react'
 import {useLocation} from '../hooks/useLocation'
@@ -23,10 +23,10 @@ export function Path(props) {
       {segments.map((item, indx) => {
           const path = links[indx]
           const onClick = (e) => {
-            if (window.event.ctrlKey || window.event.metaKey) return;
-            e.preventDefault();
-            navigate({ path }, true);
-          };
+            if (window.event.ctrlKey || window.event.metaKey) return
+            e.preventDefault()
+            navigate({ path }, true)
+          }
 
           return indx === 0 ? (
             <li key={indx}>
@@ -42,7 +42,7 @@ export function Path(props) {
                 {item}
               </a>
             </li>
-          );
+          )
         })}
       </ul>
     </nav>
