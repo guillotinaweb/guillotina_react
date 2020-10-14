@@ -1,3 +1,7 @@
+0.4.11
+----
+- Fix issue with React and microbundle
+
 0.4.10
 ----
 - Fix open breadcrumb links in a new browser tab [aralroca]

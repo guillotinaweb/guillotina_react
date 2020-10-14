@@ -21,11 +21,7 @@ export function PanelBehaviors() {
     Ctx.refresh()
   };
 
-  React.useEffect(() => {
-    (async () => {
-      await get("@behaviors");
-    })();
-  }, []);
+  React.useEffect(() => { get("@behaviors") }, []);
 
   return (
     <div className="columns behaviors">
