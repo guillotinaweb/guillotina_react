@@ -1,4 +1,4 @@
-0.4.11
+0.6.3
 ----
 - Fix issue with React and microbundle
 
