@@ -1,3 +1,7 @@
+0.4.11
+----
+- Allow to add a custom flash function on config
+
 0.4.10
 ----
 - Fix open breadcrumb links in a new browser tab [aralroca]

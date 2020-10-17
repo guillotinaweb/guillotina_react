@@ -7,8 +7,9 @@ export const AuthContext = createContext({});
 export const TraversalContext = createContext({});
 
 class Traversal {
-  constructor(props) {
+  constructor({ flash, ...props }) {
     Object.assign(this, props);
+    if(typeof flash === 'function') this.flash = flash;
   }
 
   setPath(path) {
