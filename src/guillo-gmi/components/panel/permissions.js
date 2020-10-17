@@ -15,11 +15,7 @@ export function PanelPermissions(props) {
 
   const [reset, setReset] = React.useState(1);
 
-  React.useEffect(() => {
-    (async () => {
-      await get("@sharing");
-    })();
-  }, [reset]);
+  React.useEffect(() => { get("@sharing") }, [reset]);
 
   const perms = new Sharing(result);
 
@@ -143,7 +139,7 @@ export function AddPermission({ refresh, reset }) {
   const [state, setState] = useSetState(initial);
 
   React.useEffect(() => {
-    (async () => {
+    async function init() {
       const permissions = (await Ctx.client.getAllPermissions(Ctx.path)).map(
         perm => ({
           text: perm,
@@ -161,7 +157,9 @@ export function AddPermission({ refresh, reset }) {
         value: role
       }));
       setState({ permissions, groups, roles });
-    })();
+    };
+
+    init();
   }, [reset]);
 
   return (
