@@ -1,4 +1,4 @@
-0.4.12
+0.6.4
 ------
 - Allow to add a custom flash function on config
 
