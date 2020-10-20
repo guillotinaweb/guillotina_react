@@ -18,11 +18,12 @@ import { Loading } from './ui/loading'
 
 export function Guillotina({ auth, ...props }) {
   const url = props.url || "http://localhost:8080"; // without trailing slash
+  const config = props.config || {}
 
   // Will hold client instance
   const ref = useRef();
 
-  useConfig(props.config || {});
+  useConfig(config);
   const registry = useRegistry(props.registry || {});
   // Location is cooked routing solution (only uses search params)
   const [location, setRouterParam] = useLocation();
@@ -76,7 +77,8 @@ export function Guillotina({ auth, ...props }) {
     state,
     dispatch,
     registry,
-    setRouterParam
+    setRouterParam,
+    flash: config.flash
   };
 
   const { action, errorStatus, permissions } = state;

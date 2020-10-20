@@ -1,4 +1,8 @@
-0.6.3
+0.6.4
+------
+- Allow to add a custom flash function on config
+
+0.4.11
 ----
 - Fix issue with React and microbundle
 
