@@ -1,5 +1,5 @@
 {
-  "version": "0.6.4",
+  "version": "0.6.5",
   "repository": {
     "type": "git",
     "url": "git@github.com:guillotinaweb/guillotina_react.git"
@@ -12,13 +12,9 @@
   "unpkg": "./dist/react-gmi.umd.js",
   "name": "@guillotinaweb/react-gmi",
   "dependencies": {
-    "@babel/core": "^7.7.7",
     "bulma": "^0.8.0",
     "jwt-decode": "^2.2.0",
     "linkstate": "^1.1.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0",
     "react-use": "^13.11.0",
     "react-useportal": "^1.0.13"
   },
