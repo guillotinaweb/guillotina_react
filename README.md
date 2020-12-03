@@ -8,7 +8,7 @@ Provides an interface to access all Guillotina content depending on user permiss
 All this with the flexibility to build it your way, adding your own content with your forms, your icons, etc. It's build around the idea to act as a framework,
 layer that could be extended from outside.
 
-## Prerequisites
+## Prerequisites
 
 - React +16.12.0
 
