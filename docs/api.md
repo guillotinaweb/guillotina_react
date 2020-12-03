@@ -21,6 +21,7 @@
     - [FileUpload](#fileupload)
   - [Loading](#loading)
 - [Utils](#utils)
+  - [RestClient](#restclient)
   - [classnames](#classnames)
   - [stringToSlug](#stringtoslug)
 - [Guillotina config](#guillotina-config)
