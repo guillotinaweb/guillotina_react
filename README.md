@@ -3,6 +3,15 @@
 
 It's build around the idea of a framework to roll you own GMI.
 
+Provides an interface to access all Guillotina content depending on user permissions and allowing you to apply actions like create/modify/remove content, UI interactions like displaying flash messages, etc.
+
+All this with the flexibility to build it your way, adding your own content with your forms, your icons, etc. It's build around the idea to act as a framework,
+layer that could be extended from outside.
+
+## Prerequisites
+
+- React +16.12.0
+
 ## Status
 
 Alpha version. The app is usable, but still needs some love.
