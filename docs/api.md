@@ -339,7 +339,7 @@ return <Loading />
 
 ## Utils
 
-### RestClient
+### RestClient
 
 Necessary for when we create the GuillotinaClient instance to indicate the url where the requests will go and the auth token to be used.
 
