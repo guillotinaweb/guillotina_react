@@ -23,7 +23,7 @@ jobs:
       - name: Install react-gmi
         run: yarn add @guillotinaweb/react-gmi
       - name: Start Server
-        run: yarn start &
+        run: node_modules/.bin/react-scripts start &
 
       - name: Cypress run
         uses: cypress-io/github-action@v1

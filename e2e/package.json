@@ -2,7 +2,6 @@
   "name": "e2e",
   "version": "1.0.0",
   "description": "e2e for guillotina react",
-  "main": "index.js",
   "author": "Pol Sanlorenzo",
   "license": "MIT",
   "dependencies": {
