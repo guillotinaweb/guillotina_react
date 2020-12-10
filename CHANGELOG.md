@@ -1,3 +1,7 @@
+0.6.5
+------
+- Install react dependencies on github action
+
 0.6.4
 ------
 - Allow to add a custom flash function on config

@@ -18,6 +18,8 @@ jobs:
 
       - name: Install server dependencies
         run: yarn
+      - name: Install react dependencies
+        run: yarn add react react-dom react-scripts
       - name: Install react-gmi
         run: yarn add @guillotinaweb/react-gmi
       - name: Start Server
