@@ -6,8 +6,6 @@ import { getClient } from "../lib/client";
 import { Flash } from "./flash";
 import { TraversalProvider } from "../contexts";
 import { Path } from "./path";
-import { NotAllowed } from "./notallowed";
-import { NotFound } from "./notfound";
 import { Permissions } from "../models";
 import { useConfig } from "../hooks/useConfig";
 import { useRegistry } from "../hooks/useRegistry";
@@ -69,6 +67,8 @@ export function Guillotina({ auth, ...props }) {
   }, [path, refresh, client]);
 
   const ErrorBoundary = registry.get('views', 'ErrorBoundary');
+  const NotAllowed = registry.get('views', 'NotAllowed');
+  const NotFound = registry.get('views', 'NotFound');
 
   const contextData = {
     url,
