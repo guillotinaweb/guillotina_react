@@ -18,11 +18,15 @@ import { GroupsCtx } from "../views/groups";
 import { GroupCtx } from "../views/groups"
 import ErrorBoundary from "../components/error_boundary";
 import React from 'react'
+import { NotAllowed } from "../components/notallowed";
+import { NotFound } from "../components/notfound";
 
 let registry = {
   paths: {},
   views: {
     ErrorBoundary: ErrorBoundary,
+    NotAllowed: NotAllowed,
+    NotFound: NotFound,
     Application: ApplicationCtx,
     Database: DatabaseCtx,
     Container: ContainerCtx,
