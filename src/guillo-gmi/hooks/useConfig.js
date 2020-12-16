@@ -1,12 +1,12 @@
 import React from "react";
+import { Permissions } from "../models";
 
 export const Config = {
   DisabledTypes: ["UserManager", "GroupManager"],
   PageSize: 10,
   DelayActions: 200,
+  Permissions: Permissions
 }
-
-
 
 let calculated = Object.assign({}, Config);
 
