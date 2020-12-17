@@ -6,7 +6,7 @@
     "version": "0.1.0",
     "dependencies": {
       "brace": "^0.11.1",
-      "bulma": "^0.8.0",
+      "bulma": "^0.9.1",
       "jwt-decode": "^2.2.0",
       "linkstate": "^1.1.1",
       "react-ace": "^8.0.0",
