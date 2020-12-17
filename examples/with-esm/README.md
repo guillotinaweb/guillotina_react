@@ -4,5 +4,5 @@ Example using React and Guillotina as module.
 
 ## Getting started:
 
-1. Run `npx serve src`
+1. Run `npx serve .`
 2. Open http://localhost:5000
