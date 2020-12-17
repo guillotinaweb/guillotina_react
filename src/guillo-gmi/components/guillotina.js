@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { getClient } from "../lib/client";
 import { Flash } from "./flash";
 import { TraversalProvider } from "../contexts";
-import { Permissions } from "../models";
 import { useConfig } from "../hooks/useConfig";
 import { useRegistry } from "../hooks/useRegistry";
 import { useLocation } from "../hooks/useLocation";
@@ -20,7 +19,7 @@ export function Guillotina({ auth, ...props }) {
   // Will hold client instance
   const ref = useRef();
 
-  useConfig(config);
+  const {Permissions} = useConfig(config);
   const registry = useRegistry(props.registry || {});
   // Location is cooked routing solution (only uses search params)
   const [location, setRouterParam] = useLocation();
