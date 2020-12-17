@@ -20,6 +20,7 @@ import ErrorBoundary from "../components/error_boundary";
 import React from 'react'
 import { NotAllowed } from "../components/notallowed";
 import { NotFound } from "../components/notfound";
+import { Path } from "../components/path";
 
 let registry = {
   paths: {},
@@ -57,7 +58,10 @@ let registry = {
     "guillotina.behaviors.attachment.IMultiAttachment": IMultiAttachment,
   },
   schemas: {},
-  properties: {}
+  properties: {},
+  components: {
+    Path: Path
+  }
 };
 
 const get = (key, param, fallback) => {
