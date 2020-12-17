@@ -4,8 +4,6 @@ import htm from 'https://cdn.skypack.dev/htm'
 import { Guillotina, Auth } from 'https://cdn.skypack.dev/@guillotinaweb/react-gmi'
 
 const html = htm.bind(React.createElement);
-const { render } = ReactDOM;
-
 const url = 'http://localhost:8080/'
 const auth = new Auth(url)
 
@@ -27,7 +25,7 @@ function App() {
   `
 }
 
-render(
+ReactDOM.render(
   html`<${App} />`,
   document.getElementById('root')
 );
