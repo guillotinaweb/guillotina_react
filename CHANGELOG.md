@@ -1,3 +1,7 @@
+0.7.1
+------
+- Install react dependencies on github action
+
 0.7.0
 ------
 - Package upgrades
