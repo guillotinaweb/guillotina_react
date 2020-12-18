@@ -1,12 +1,28 @@
 import React from "react";
 
+export const Permissions = [
+  "guillotina.AddContent",
+  "guillotina.ModifyContent",
+  "guillotina.ViewContent",
+  "guillotina.DeleteContent",
+  "guillotina.AccessContent",
+  "guillotina.SeePermissions",
+  "guillotina.ChangePermissions",
+  "guillotina.MoveContent",
+  "guillotina.DuplicateContent",
+  "guillotina.ReadConfiguration",
+  "guillotina.RegisterConfigurations",
+  "guillotina.WriteConfiguration",
+  "guillotina.ManageAddons",
+  "guillotina.swagger.View",
+];
+
 export const Config = {
   DisabledTypes: ["UserManager", "GroupManager"],
   PageSize: 10,
   DelayActions: 200,
+  Permissions: Permissions
 }
-
-
 
 let calculated = Object.assign({}, Config);
 

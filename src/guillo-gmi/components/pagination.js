@@ -23,7 +23,7 @@ export function Pagination({current, total, doPaginate, pager}) {
           </span>
         </a>
       <a className="pagination-next is-small"
-        disabled={current >= maxPages}
+        disabled={current >= maxPages - 1}
         onClick={() => doPaginate(current+1)}>
           <span className="icon">
             <i className="fas fa-arrow-right"></i>
