@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "start": "cd ../../package && yarn && yarn build && yarn build:css && cd ../e2e/example && yarn && yarn dev"
+    "build": "cd ../../package && yarn && yarn build && yarn build:css && cd ../e2e/example && yarn",
+    "start": "yarn dev"
   },
   "keywords": [],
   "author": "",
