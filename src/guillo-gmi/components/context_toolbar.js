@@ -1,13 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
-import { useSetState } from "react-use";
 import { useContext } from "react";
+
+import Dropdown from "./input/dropdown";
+import useSetState from "../hooks/useSetState";
+import { Button } from "./input/button";
+import { Icon } from "./ui/icon";
 import { TraversalContext } from "../contexts";
 import { useConfig } from "../hooks/useConfig";
-import { Icon } from "./ui/icon";
 import { useLocation } from "../hooks/useLocation";
-import Dropdown from "./input/dropdown";
-import { Button } from "./input/button";
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = { types: undefined };
@@ -34,8 +35,8 @@ export function CreateButton(props) {
     return (
       <Button
         className={'is-small is-success'}
-        onClick={ev => doAction(state.types[0]) }
-        >Add {state.types[0]}</Button>
+        onClick={ev => doAction(state.types[0])}
+      >Add {state.types[0]}</Button>
     )
   }
 
@@ -49,8 +50,8 @@ export function CreateButton(props) {
       id="dropdown-menu"
       isRight
       onChange={doAction}
-      options={(state.types || []).map(item => ({ text: item, value: item }))}
-     >
+      options={(state.types || []).map(item => ({ text: item, value: item }))}
+    >
       <span className="icon">
         <i className="fas fa-plus"></i>
       </span>
@@ -58,7 +59,7 @@ export function CreateButton(props) {
   )
 }
 
-export function ContextToolbar({AddButton, ...props}) {
+export function ContextToolbar({ AddButton, ...props }) {
   const [location, setLocation] = useLocation();
   const ctx = React.useContext(TraversalContext);
   const ref = React.useRef(null);
@@ -67,7 +68,7 @@ export function ContextToolbar({AddButton, ...props}) {
 
   const onSearch = ev => {
     const search = ev.target[0].value;
-    setLocation({ q: search, tab: "Items", page:0 });
+    setLocation({ q: search, tab: "Items", page: 0 });
     // let searchParsed = parser(search);
     // ctx.setState({ search, searchParsed });
     ev.preventDefault();
@@ -113,7 +114,7 @@ export function ContextToolbar({AddButton, ...props}) {
       </div>
       {ctx.hasPerm("guillotina.AddContent") && (
         <div className="level-item">
-          {AddButton!==undefined ? <AddButton /> : <CreateButton {...props} />}
+          {AddButton !== undefined ? <AddButton /> : <CreateButton {...props} />}
         </div>
       )}
     </React.Fragment>

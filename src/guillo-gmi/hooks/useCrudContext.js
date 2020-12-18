@@ -1,6 +1,6 @@
 import React from "react";
-import { useSetState } from "react-use";
-import { TraversalContext } from "../contexts";
+import { TraversalContext } from "../contexts"
+import useSetState from "./useSetState"
 
 const initial = {
   loading: undefined,
@@ -10,22 +10,24 @@ const initial = {
   response: undefined
 };
 
-const processResponse = async (res, ready_body=true) => {
+const processResponse = async (res, ready_body = true) => {
   if (res.status < 400)
     return {
       isError: false,
       loading: false,
       result: ready_body ? await res.json() : res.status,
-      response: res };
+      response: res
+    };
   else
     return {
       isError: true,
       loading: false,
       errorMessage: res.status,
-      response: res };
+      response: res
+    };
 };
 
-const patch = (state, setState, Ctx) => async (data, endpoint, body=false) => {
+const patch = (state, setState, Ctx) => async (data, endpoint, body = false) => {
   setState({ loading: true });
   let newState = {};
   try {
@@ -40,7 +42,7 @@ const patch = (state, setState, Ctx) => async (data, endpoint, body=false) => {
   return newState;
 };
 
-const del = (state, setState, Ctx) => async (data, endpoint, body=false) => {
+const del = (state, setState, Ctx) => async (data, endpoint, body = false) => {
   setState({ loading: true });
   let newState = {};
   try {
@@ -55,7 +57,7 @@ const del = (state, setState, Ctx) => async (data, endpoint, body=false) => {
   return newState;
 };
 
-const post = (state, setState, Ctx) => async (data, endpoint, body=true) => {
+const post = (state, setState, Ctx) => async (data, endpoint, body = true) => {
   setState({ loading: true });
   let newState = {};
   try {
@@ -71,11 +73,11 @@ const post = (state, setState, Ctx) => async (data, endpoint, body=true) => {
 };
 
 const get = (state, setState, Ctx) => async (endpoint) => {
-  setState({loading:true})
+  setState({ loading: true })
   const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path;
   const req = await Ctx.client.get(path)
   const data = await req.json()
-  setState({loading: false, result:data, response:req})
+  setState({ loading: false, result: data, response: req })
   return data
 };
 

@@ -15,7 +15,6 @@
     "bulma": "^0.9.1",
     "jwt-decode": "^2.2.0",
     "linkstate": "^1.1.1",
-    "react-use": "^13.11.0",
     "react-useportal": "^1.0.13"
   },
   "devDependencies": {

@@ -1,12 +1,13 @@
 import React from "react";
-import { useSetState } from "react-use";
-import { Select } from "../input/select";
-import { Button } from "../input/button";
-import { Input } from "../input/input";
-import { useCrudContext } from "../../hooks/useCrudContext";
-
 import AceEditor from "react-ace";
 import brace from "brace";
+
+import useSetState from "../../hooks/useSetState";
+import { Button } from "../input/button";
+import { Input } from "../input/input";
+import { Select } from "../input/select";
+import { useCrudContext } from "../../hooks/useCrudContext";
+
 import "brace/mode/json";
 
 const initial = {
@@ -63,44 +64,44 @@ export function PanelRequester() {
       <h2 className="title is-size-5">JSON Context Requester</h2>
       <hr />
       <form onSubmit={doRequest} className="form">
-      <div className="columns is-size-7">
-        <div className="column">
-          <div className="field">
-            <label className="label">Method</label>
-            <Select
-              options={methods}
-              onChange={ev => setState({ method: ev.target.value })}
-              style={{ width: "100%" }}
-              classWrap="is-block"
-            />
+        <div className="columns is-size-7">
+          <div className="column">
+            <div className="field">
+              <label className="label">Method</label>
+              <Select
+                options={methods}
+                onChange={ev => setState({ method: ev.target.value })}
+                style={{ width: "100%" }}
+                classWrap="is-block"
+              />
+            </div>
           </div>
-        </div>
-        <div className="column is-4">
-          <div className="field">
-            <label className="label">Endpoint</label>
-            <Input
-              placeholder="Default for context"
-              type="text"
-              onChange={value => setState({ endpoint: value })}
-              className="is-small"
-            />
+          <div className="column is-4">
+            <div className="field">
+              <label className="label">Endpoint</label>
+              <Input
+                placeholder="Default for context"
+                type="text"
+                onChange={value => setState({ endpoint: value })}
+                className="is-small"
+              />
 
+            </div>
           </div>
-        </div>
-        <div className="column">
-          <div className="field">
-            <label className="label">&nbsp;</label>
-            <Button
-              className="is-primary is-small"
-              loading={loading}
-              onClick={doRequest}
-            >
-              Send
+          <div className="column">
+            <div className="field">
+              <label className="label">&nbsp;</label>
+              <Button
+                className="is-primary is-small"
+                loading={loading}
+                onClick={doRequest}
+              >
+                Send
             </Button>
+            </div>
           </div>
+          <div className="column is-6"></div>
         </div>
-        <div className="column is-6"></div>
-      </div>
       </form>
       <div className="columns">
         <div className="column">

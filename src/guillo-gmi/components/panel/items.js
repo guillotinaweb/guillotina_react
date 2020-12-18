@@ -1,16 +1,17 @@
 import React from "react";
 import { useContext } from "react";
-import { useSetState } from "react-use";
-import { useEffect } from "react";
-import { TraversalContext } from "../../contexts";
-import { RItem } from "../item";
+
+import useSetState from "../../hooks/useSetState";
+import { ItemsActionsProvider, AllItemsCheckbox, ItemsActionsDropdown } from "../selected_items_actions"
 import { Pagination } from "../pagination";
+import { RItem } from "../item";
 import { SearchLabels } from "../../components/searchLabels";
+import { TraversalContext } from "../../contexts";
 import { buildQs } from "../../lib/search";
-import { useLocation } from "../../hooks/useLocation";
 import { parser } from "../../lib/search";
 import { useConfig } from "../../hooks/useConfig"
-import { ItemsActionsProvider, AllItemsCheckbox, ItemsActionsDropdown } from "../selected_items_actions"
+import { useEffect } from "react";
+import { useLocation } from "../../hooks/useLocation";
 
 const initialState = {
   page: 0,

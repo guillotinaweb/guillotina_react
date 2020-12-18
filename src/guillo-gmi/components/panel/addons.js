@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { TraversalContext } from '../../contexts'
-import { useAsync } from 'react-use'
+import useAsync from '../../hooks/useAsync'
 
 
 // TODO: Refactor without useAsync... just crudContext
@@ -31,55 +31,55 @@ export function PanelAddons(props) {
     <React.Fragment>
       {state.loading
         ? <div>loading</div>
-          : state.error
-            ? <p>Error: {state.error.message}</p>
+        : state.error
+          ? <p>Error: {state.error.message}</p>
           : (
-          <div className="columns">
-            <div className="column">
-              <h2 className="title is-size-4 has-text-grey-dark">Available Addons</h2>
-              <hr />
-              {state.value.available.length === 0 &&
-                <p>No Addon available in this container</p>}
-              <table className="table is-12">
-                <tbody>
-                {state.value.available.map(addon =>
-                  <tr>
-                    <td>{addon.title}</td>
-                    <td>
-                      <button className="button is-primary is-small"
-                        onClick={() => installAddon(Ctx, addon.id)}>
-                        Install
+            <div className="columns">
+              <div className="column">
+                <h2 className="title is-size-4 has-text-grey-dark">Available Addons</h2>
+                <hr />
+                {state.value.available.length === 0 &&
+                  <p>No Addon available in this container</p>}
+                <table className="table is-12">
+                  <tbody>
+                    {state.value.available.map(addon =>
+                      <tr>
+                        <td>{addon.title}</td>
+                        <td>
+                          <button className="button is-primary is-small"
+                            onClick={() => installAddon(Ctx, addon.id)}>
+                            Install
                       </button>
-                    </td>
-                  </tr>
-                  )}
-                </tbody>
-              </table>
-          </div>
-          <div className="column">
-            <h2 className="title is-size-4 has-text-grey-dark">Installed Addons</h2>
-            <hr />
-            {state.value.installed.length === 0 &&
-              <p>No Addon installed in this container</p>}
-              <table className="table is-12">
-              <tbody>
-              {state.value.installed.map(addon =>
-                <tr>
-                  <td>{addon.title}</td>
-                  <td>
-                    <button className="button is-danger is-small"
-                      onClick={() => removeAddon(Ctx, addon.id)}>
-                      Remove
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className="column">
+                <h2 className="title is-size-4 has-text-grey-dark">Installed Addons</h2>
+                <hr />
+                {state.value.installed.length === 0 &&
+                  <p>No Addon installed in this container</p>}
+                <table className="table is-12">
+                  <tbody>
+                    {state.value.installed.map(addon =>
+                      <tr>
+                        <td>{addon.title}</td>
+                        <td>
+                          <button className="button is-danger is-small"
+                            onClick={() => removeAddon(Ctx, addon.id)}>
+                            Remove
                     </button>
-                  </td>
-                </tr>
-              )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           )
-        }
+      }
     </React.Fragment>
   )
 
@@ -95,7 +95,7 @@ const prepareData = (result) => {
 }
 
 const arrayToObject = (array) =>
-   array.reduce((obj, item) => {
-     obj[item.id] = item
-     return obj
-   }, {})
+  array.reduce((obj, item) => {
+    obj[item.id] = item
+    return obj
+  }, {})
