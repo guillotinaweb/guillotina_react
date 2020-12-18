@@ -1,6 +1,6 @@
 # Guillotina with ESM (no webpack, parcel, rollup...)
 
-Example using React and Guillotina as module.
+Example using React and Guillotina as ESModule.
 
 ## Getting started:
 

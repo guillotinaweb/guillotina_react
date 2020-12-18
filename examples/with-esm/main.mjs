@@ -1,9 +1,12 @@
 import React from 'https://cdn.skypack.dev/react'
 import ReactDOM from 'https://cdn.skypack.dev/react-dom'
 import htm from 'https://cdn.skypack.dev/htm'
-import { Guillotina, Auth } from 'https://cdn.skypack.dev/@guillotinaweb/react-gmi'
+import {
+  Guillotina,
+  Auth,
+} from 'https://cdn.skypack.dev/@guillotinaweb/react-gmi'
 
-const html = htm.bind(React.createElement);
+const html = htm.bind(React.createElement)
 const url = 'http://localhost:8080/'
 const auth = new Auth(url)
 
@@ -15,7 +18,8 @@ function App() {
 
   return html`
     ${isLogged && html`<${Guillotina} auth=${auth} url=${url} />`}
-    ${!isLogged && html`
+    ${!isLogged &&
+    html`
       <div className="columns is-centered">
         <div className="columns is-half">
           <${Login} onLogin=${onLogin} auth=${auth} />
@@ -25,7 +29,4 @@ function App() {
   `
 }
 
-ReactDOM.render(
-  html`<${App} />`,
-  document.getElementById('root')
-);
+ReactDOM.render(html`<${App} />`, document.getElementById('root'))
