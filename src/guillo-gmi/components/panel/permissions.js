@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Table } from "../ui/table";
-import { useCrudContext } from "../../hooks/useCrudContext";
-import { Sharing } from "../../models";
-import { TraversalContext } from "../../contexts";
-import { useSetState } from "react-use";
-import { Select } from "../input/select";
-import { PermissionRoleperm } from "./permissions_roleperm";
+import useSetState from "../../hooks/useSetState";
 import { PermissionPrinperm } from "./permissions_prinperm";
 import { PermissionPrinrole } from "./permissions_prinrole";
+import { PermissionRoleperm } from "./permissions_roleperm";
+import { Select } from "../input/select";
+import { Sharing } from "../../models";
+import { Table } from "../ui/table";
+import { TraversalContext } from "../../contexts";
+import { useCrudContext } from "../../hooks/useCrudContext";
 
 export function PanelPermissions(props) {
   const { get, result, loading } = useCrudContext();

@@ -1,15 +1,15 @@
 import React, { useState, useRef } from 'react'
-import { useClickAway } from 'react-use';
+import useClickAway from '../../hooks/useClickAway';
 
-export default function Dropdown({ 
-  children, 
+export default function Dropdown({
+  children,
   disabled,
-  id, 
+  id,
   isRight,
   onChange,
   optionDisabledWhen,
   options,
-  ...props 
+  ...props
 }) {
   const ref = useRef(null);
   const [isActive, setIsActive] = useState(false)
@@ -37,13 +37,13 @@ export default function Dropdown({
         <div className="dropdown-content">
           {
             options.map(option => {
-              const disabled = typeof optionDisabledWhen === 'function' 
-              ? optionDisabledWhen(option)
-              : false
-              
+              const disabled = typeof optionDisabledWhen === 'function'
+                ? optionDisabledWhen(option)
+                : false
+
               return (
                 // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                <a 
+                <a
                   className={
                     disabled ? 'dropdown-item is-active' : 'dropdown-item'
                   }
@@ -58,7 +58,8 @@ export default function Dropdown({
                 >
                   {option.text}
                 </a>
-              )}
+              )
+            }
             )}
         </div>
       </div>
