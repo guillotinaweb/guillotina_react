@@ -1,0 +1,21 @@
+{
+  "name": "nextjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "cd ../../package && yarn && yarn build && yarn build:css && cd ../e2e/example && yarn && yarn dev -- -p 3001"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "next": "^9.1.6",
+    "react": "^17.0.1",
+    "react-dom": "^16.12.0",
+    "react-gmi": "link:../.."
+  }
+}
