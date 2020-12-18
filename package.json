@@ -25,9 +25,13 @@
     "@testing-library/user-event": "^7.1.2",
     "microbundle": "^0.12.0-next.6",
     "node-sass": "^4.13.1",
-    "serialize-javascript": "^3.1.0"
+    "serialize-javascript": "^3.1.0",
+    "husky": "4.3.6",
+    "prettier": "2.2.1",
+    "pretty-quick": "3.1.0"
   },
   "scripts": {
+    "format": "pretty-quick",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -47,6 +51,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
   },
   "author": "Jordi Collell <jordic@gmail.com> ",
   "license": "MIT",
