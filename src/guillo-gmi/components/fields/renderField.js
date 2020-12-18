@@ -1,12 +1,8 @@
 import React from 'react'
 
-const plain = [
-  "string", "number", "boolean"
-]
+const plain = ['string', 'number', 'boolean']
 
-
-export function RenderField({value, Widget}) {
-
+export function RenderField({ value, Widget }) {
   if (!value) return ''
 
   if (Widget) {
@@ -17,19 +13,22 @@ export function RenderField({value, Widget}) {
   if (plain.includes(type)) {
     return value
   }
-  if (type === "object") {
-     if (Array.isArray(value)) {
-       return value.map(item => <div key={item}><RenderField value={item} /></div>)
-     }
-     return Object.keys(value).map(key =>
+  if (type === 'object') {
+    if (Array.isArray(value)) {
+      return value.map((item) => (
+        <div key={item}>
+          <RenderField value={item} />
+        </div>
+      ))
+    }
+    return Object.keys(value).map((key) => (
       <FieldValue field={key} value={value[key]} key={key} />
-    )
+    ))
   }
   return <p>No render for {JSON.stringify(value)}</p>
 }
 
-
-const FieldValue = ({field, value}) => (
+const FieldValue = ({ field, value }) => (
   <div className="field">
     <div className="label">{field}</div>
     <div className="value">

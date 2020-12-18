@@ -1,12 +1,16 @@
-
 import React from 'react'
-import {classnames} from '../../lib/helpers'
+import { classnames } from '../../lib/helpers'
 
-export const Tag = ({name, onRemove, size='is-medium', color='is-warning'}) => (
-  <span className={classnames(["tag", color,  size])}>
+export const Tag = ({
+  name,
+  onRemove,
+  size = 'is-medium',
+  color = 'is-warning',
+}) => (
+  <span className={classnames(['tag', color, size])}>
     {name}
-    {onRemove!==undefined &&
-      <button className="delete is-small"
-        onClick={() => onRemove()}></button>}
+    {onRemove !== undefined && (
+      <button className="delete is-small" onClick={() => onRemove()}></button>
+    )}
   </span>
 )

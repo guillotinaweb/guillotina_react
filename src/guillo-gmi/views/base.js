@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export function PanelNotImplemented(props) {
   return (
@@ -6,5 +6,5 @@ export function PanelNotImplemented(props) {
       <h2 className="title">{props.title}</h2>
       <p>Not implemented</p>
     </div>
-  );
+  )
 }

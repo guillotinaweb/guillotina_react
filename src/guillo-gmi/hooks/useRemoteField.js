@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 /*
   This hook allows to bind (remote) fields on the DOM
@@ -17,15 +17,15 @@ import React from "react";
 
 */
 
-export const useRemoteField = initial => {
-  const [remotes, setRemote] = React.useState(initial);
+export const useRemoteField = (initial) => {
+  const [remotes, setRemote] = React.useState(initial)
 
-  const updateRemote = name => value => {
+  const updateRemote = (name) => (value) => {
     setRemote({
       ...remotes,
-      [name]: value
-    });
-  };
+      [name]: value,
+    })
+  }
 
-  return [remotes, updateRemote];
-};
+  return [remotes, updateRemote]
+}

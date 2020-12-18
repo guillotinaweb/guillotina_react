@@ -1,9 +1,7 @@
-import React from "react";
-import {lightFileReader} from '../../lib/client'
+import React from 'react'
+import { lightFileReader } from '../../lib/client'
 
-
-export function FileUpload({label, onChange, ...props}) {
-
+export function FileUpload({ label, onChange, ...props }) {
   const changed = async (event) => {
     const file = await lightFileReader(event.target.files[0])
     onChange(file)
@@ -12,12 +10,13 @@ export function FileUpload({label, onChange, ...props}) {
   return (
     <div className="file">
       <label className="file-label">
-        <input className="file-input"
+        <input
+          className="file-input"
           {...props}
           type="file"
           name="file"
           onChange={changed}
-          />
+        />
         <span className="file-cta">
           <span className="file-icon">
             <i className="fas fa-upload"></i>
@@ -26,5 +25,5 @@ export function FileUpload({label, onChange, ...props}) {
         </span>
       </label>
     </div>
-  );
+  )
 }

@@ -8,17 +8,17 @@ const actions = {
   DELETE: {
     text: 'Delete',
     perms: ['guillotina.DeleteContent'],
-    action: 'removeItems'
+    action: 'removeItems',
   },
   MOVE: {
-     text: 'Move to...',
-     perms: ['guillotina.MoveContent'],
-     action: 'moveItems'
+    text: 'Move to...',
+    perms: ['guillotina.MoveContent'],
+    action: 'moveItems',
   },
   COPY: {
     text: 'Copy to...',
     perms: ['guillotina.DuplicateContent'],
-    action: 'copyItems'
+    action: 'copyItems',
   },
 }
 
@@ -27,37 +27,44 @@ const actions = {
  * Ex: Delete, Move, Copy...
  */
 export function ItemsActionsProvider({ items, children }) {
-  const traversal = useContext(TraversalContext);
+  const traversal = useContext(TraversalContext)
   const [selected, setSelected] = useState({})
 
-  function onSelectAllItems(checked) {
-    setSelected(items.reduce((obj, item) => {
-      obj[`${item.path}/${item.id}`] = checked
-      return obj
-    } , { all: checked }))
+  function onSelectAllItems(checked) {
+    setSelected(
+      items.reduce(
+        (obj, item) => {
+          obj[`${item.path}/${item.id}`] = checked
+          return obj
+        },
+        { all: checked }
+      )
+    )
   }
 
   function onSelectOneItem(item) {
-    setSelected(state => ({
+    setSelected((state) => ({
       ...state,
       all: false,
-      [`${item.path}/${item.id}`]: !state[`${item.path}/${item.id}`]
+      [`${item.path}/${item.id}`]: !state[`${item.path}/${item.id}`],
     }))
   }
 
   function onAction(actionKey) {
     traversal.doAction(actions[actionKey].action, {
-      items: items.filter(item => selected[`${item.path}/${item.id}`])
+      items: items.filter((item) => selected[`${item.path}/${item.id}`]),
     })
   }
 
   return (
-    <ItemsActionsCtx.Provider value={{
-      onAction,
-      onSelectAllItems,
-      onSelectOneItem,
-      selected,
-    }}>
+    <ItemsActionsCtx.Provider
+      value={{
+        onAction,
+        onSelectAllItems,
+        onSelectOneItem,
+        selected,
+      }}
+    >
       {children}
     </ItemsActionsCtx.Provider>
   )
@@ -68,15 +75,15 @@ export function ItemsActionsProvider({ items, children }) {
  * and it select/unselect all items of the page.
  */
 export function AllItemsCheckbox() {
-  const { onSelectAllItems, selected } = useContext(ItemsActionsCtx)
+  const { onSelectAllItems, selected } = useContext(ItemsActionsCtx)
 
   return (
-     <Checkbox
+    <Checkbox
       key={selected.all}
       onChange={onSelectAllItems}
       style={{ marginLeft: 2 }}
       value={selected.all}
-     />
+    />
   )
 }
 
@@ -93,7 +100,7 @@ export function ItemCheckbox({ item }) {
       key={value}
       onChange={() => onSelectOneItem(item)}
       value={value}
-     />
+    />
   )
 }
 
@@ -101,19 +108,21 @@ export function ItemCheckbox({ item }) {
  * Dropdown to choose some action to apply to the selected items.
  */
 export function ItemsActionsDropdown() {
-  const traversal = useContext(TraversalContext);
+  const traversal = useContext(TraversalContext)
   const { selected, onAction } = useContext(ItemsActionsCtx)
-  const disabled = Object.values(selected).every(v => !v)
-  const options = Object.keys(actions)
-    .map(action => ({ text: actions[action].text, value: action }))
+  const disabled = Object.values(selected).every((v) => !v)
+  const options = Object.keys(actions).map((action) => ({
+    text: actions[action].text,
+    value: action,
+  }))
 
   return (
     <Dropdown
       disabled={disabled}
       id="items-actions"
       onChange={onAction}
-      optionDisabledWhen={
-        o => actions[o.value].perms.some(perm => !traversal.hasPerm(perm))
+      optionDisabledWhen={(o) =>
+        actions[o.value].perms.some((perm) => !traversal.hasPerm(perm))
       }
       options={options}
     >

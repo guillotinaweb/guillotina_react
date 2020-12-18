@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { classnames } from "../../lib/helpers";
+import React, { useEffect, useRef } from 'react'
+import { classnames } from '../../lib/helpers'
 
 export const Checkbox = ({
   id,
@@ -16,14 +16,14 @@ export const Checkbox = ({
   onChange,
   ...rest
 }) => {
-  const inputRef = useRef(null);
+  const inputRef = useRef(null)
   const [state, setState] = React.useState(value)
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.indeterminate = indeterminate;
+      inputRef.current.indeterminate = indeterminate
     }
-  }, [indeterminate]);
+  }, [indeterminate])
 
   const updateState = (ev) => {
     setState(ev.target.checked)
@@ -32,9 +32,7 @@ export const Checkbox = ({
 
   return (
     <div className="field">
-      <label htmlFor={id}
-        className={classnames(["checkbox", className])}
-        >
+      <label htmlFor={id} className={classnames(['checkbox', className])}>
         <input
           ref={inputRef}
           disabled={disabled || loading}
@@ -48,5 +46,5 @@ export const Checkbox = ({
         {children || placeholder}
       </label>
     </div>
-  );
-};
+  )
+}
