@@ -1,11 +1,11 @@
-import React from "react";
-import { Icon } from "./ui/icon";
+import React from 'react'
+import { Icon } from './ui/icon'
 
 export function Layout({ children, onLogout, auth }) {
-  const doLogout = ev => {
-    auth.logout();
-    onLogout();
-  };
+  const doLogout = (ev) => {
+    auth.logout()
+    onLogout()
+  }
 
   return (
     <React.Fragment>
@@ -14,7 +14,7 @@ export function Layout({ children, onLogout, auth }) {
           <div className="navbar-brand">
             <a className="navbar-item" href="/">
               <img
-                src={process.env.PUBLIC_URL + "/logo.svg"}
+                src={process.env.PUBLIC_URL + '/logo.svg'}
                 alt="Guillotina logo"
                 height="80"
               />
@@ -56,5 +56,5 @@ export function Layout({ children, onLogout, auth }) {
         </div>
       </section>
     </React.Fragment>
-  );
+  )
 }

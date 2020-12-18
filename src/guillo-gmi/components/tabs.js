@@ -1,25 +1,26 @@
-import React from "react";
-import { useState } from "react";
-import { useLocation } from "../hooks/useLocation";
-
+import React from 'react'
+import { useState } from 'react'
+import { useLocation } from '../hooks/useLocation'
 
 function FallbackTab({ title }) {
-  return (
-    <div>Tab '{title}' not found</div>
-  )
+  return <div>Tab '{title}' not found</div>
 }
 
-
-export function TabsPanel({ tabs, currentTab, rightToolbar, fallback = FallbackTab, ...props }) {
-
-  const [location, setLocation] = useLocation();
+export function TabsPanel({
+  tabs,
+  currentTab,
+  rightToolbar,
+  fallback = FallbackTab,
+  ...props
+}) {
+  const [location, setLocation] = useLocation()
 
   const defaultTab = currentTab
 
-  if (location.get("tab")) {
-    currentTab = location.get("tab");
+  if (location.get('tab')) {
+    currentTab = location.get('tab')
   } else {
-    currentTab = currentTab || Object.keys(tabs)[0];
+    currentTab = currentTab || Object.keys(tabs)[0]
   }
 
   /*if (!Object.keys(tabs).includes(currentTab)) {
@@ -27,19 +28,19 @@ export function TabsPanel({ tabs, currentTab, rightToolbar, fallback = FallbackT
     currentTab = defaultTab
   }*/
 
-  const [current, setTab] = useState(currentTab);
-  const CurrentComp = tabs[current] || fallback;
+  const [current, setTab] = useState(currentTab)
+  const CurrentComp = tabs[current] || fallback
 
   React.useEffect(() => {
     if (Object.keys(tabs).includes(currentTab)) {
-      setTab(currentTab);
+      setTab(currentTab)
       // setLocation({tab: currentTab})
     }
-  }, [currentTab, tabs]);
+  }, [currentTab, tabs])
 
-  const changeTab = tab => {
-    setLocation({ tab: tab });
-  };
+  const changeTab = (tab) => {
+    setLocation({ tab: tab })
+  }
 
   return (
     <div className="container">
@@ -47,10 +48,10 @@ export function TabsPanel({ tabs, currentTab, rightToolbar, fallback = FallbackT
         <div className="level-left">
           <div className="tabs">
             <ul>
-              {Object.keys(tabs).map(tab => (
+              {Object.keys(tabs).map((tab) => (
                 <li
                   className={
-                    "is-size-7 " + (tab === current ? "is-active" : "")
+                    'is-size-7 ' + (tab === current ? 'is-active' : '')
                   }
                   key={tab}
                 >
@@ -66,5 +67,5 @@ export function TabsPanel({ tabs, currentTab, rightToolbar, fallback = FallbackT
         <CurrentComp title={current} {...props} />
       </div>
     </div>
-  );
+  )
 }

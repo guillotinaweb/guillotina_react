@@ -1,50 +1,50 @@
-import React from "react";
+import React from 'react'
 
-import { Item } from "../components/item";
-import { ItemTitle } from "../components/item";
-import { Button } from "../components/input/button";
-import { useState } from "react";
-import { useContext } from "react";
+import { Item } from '../components/item'
+import { ItemTitle } from '../components/item'
+import { Button } from '../components/input/button'
+import { useState } from 'react'
+import { useContext } from 'react'
 import { useRef } from 'react'
-import { TraversalContext } from "../contexts";
-import { Modal } from "../components/modal";
-import { Form } from "../components/input/form";
-import { Input } from "../components/input/input";
+import { TraversalContext } from '../contexts'
+import { Modal } from '../components/modal'
+import { Form } from '../components/input/form'
+import { Input } from '../components/input/input'
 
 export function ApplicationCtx(props) {
-  const { databases } = props.state.context;
+  const { databases } = props.state.context
   return (
     <React.Fragment>
       <h3>Databases</h3>
       <div className="container">
         <ItemTitle title="Objects" />
-        {databases.map(db => (
+        {databases.map((db) => (
           <Item
             item={{ id: db, path: `/${db}/` }}
             key={db}
-            icon={"fas fa-database"}
+            icon={'fas fa-database'}
           />
         ))}
       </div>
     </React.Fragment>
-  );
+  )
 }
 
 export function DatabaseCtx({ state, client, ...props }) {
-  const Ctx = useContext(TraversalContext);
-  const { containers } = state.context;
-  const { path } = state;
+  const Ctx = useContext(TraversalContext)
+  const { containers } = state.context
+  const { path } = state
   return (
     <React.Fragment>
       <div className="container">
         <ItemTitle title="Containers" actions={<CreateContainer />} />
         <table className="table is-fullwidth is-hoverable">
           <tbody>
-            {containers.map(db => (
+            {containers.map((db) => (
               <Item
                 item={{ id: db, path: `${path}${db}/` }}
                 key={db}
-                icon={"fas fa-archive"}
+                icon={'fas fa-archive'}
                 setPath={Ctx.setPath}
               />
             ))}
@@ -52,11 +52,11 @@ export function DatabaseCtx({ state, client, ...props }) {
         </table>
       </div>
     </React.Fragment>
-  );
+  )
 }
 
 export function CreateContainer(props) {
-  const [isActive, setActive] = useState(false);
+  const [isActive, setActive] = useState(false)
 
   return (
     <React.Fragment>
@@ -71,39 +71,39 @@ export function CreateContainer(props) {
         <span>Create</span>
       </button>
     </React.Fragment>
-  );
+  )
 }
 
 function ModalAddContainer({ isActive, setActive }) {
-  const Ctx = useContext(TraversalContext);
-  const [isLoading, setLoading] = useState(false);
-  const [idField, setId] = useState("");
-  const [error, setError] = useState(undefined);
-  const traversal = useContext(TraversalContext);
+  const Ctx = useContext(TraversalContext)
+  const [isLoading, setLoading] = useState(false)
+  const [idField, setId] = useState('')
+  const [error, setError] = useState(undefined)
+  const traversal = useContext(TraversalContext)
 
   async function createContainer(ev) {
-    setLoading(true);
+    setLoading(true)
     const data = {
-      "@type": "Container",
-      id: idField
-    };
+      '@type': 'Container',
+      id: idField,
+    }
     try {
-      const res = await Ctx.client.createObject(Ctx.path, data);
-      const result = await res.json();
+      const res = await Ctx.client.createObject(Ctx.path, data)
+      const result = await res.json()
       if (res.status === 200) {
-        Ctx.refresh();
-        setId("");
-        setLoading(false);
-        setActive(false);
-        traversal.flash("Container created", "primary");
+        Ctx.refresh()
+        setId('')
+        setLoading(false)
+        setActive(false)
+        traversal.flash('Container created', 'primary')
       } else {
-        setId("");
-        setLoading(false);
-        setError(result.message);
+        setId('')
+        setLoading(false)
+        setError(result.message)
       }
     } catch {
-      setError("Error-submitting-form");
-      setLoading(false);
+      setError('Error-submitting-form')
+      setLoading(false)
     }
   }
 
@@ -113,7 +113,7 @@ function ModalAddContainer({ isActive, setActive }) {
         <Input
           required
           placeholder="Container Name"
-          onChange={v => {
+          onChange={(v) => {
             setId(v)
           }}
           value={idField}
@@ -122,5 +122,5 @@ function ModalAddContainer({ isActive, setActive }) {
         <Button loading={isLoading}>Add Container</Button>
       </Form>
     </Modal>
-  );
+  )
 }

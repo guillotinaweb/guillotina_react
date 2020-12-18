@@ -1,10 +1,5 @@
-import React from "react";
+import React from 'react'
 
-
-export function Notification({isColor='', children}) {
-  return (
-    <div className={"notification is-" + isColor}>
-      {children}
-    </div>
-  );
+export function Notification({ isColor = '', children }) {
+  return <div className={'notification is-' + isColor}>{children}</div>
 }

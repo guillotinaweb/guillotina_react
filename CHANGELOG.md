@@ -1,3 +1,8 @@
+0.7.0
+------
+- Package upgrades
+- More resource personalized from registry
+
 0.6.4
 ------
 - Allow to add a custom flash function on config

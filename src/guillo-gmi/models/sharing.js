@@ -1,12 +1,10 @@
-
-
 const base = {
   local: {
     roleperm: {},
     prinperm: {},
-    prinrole: {}
+    prinrole: {},
   },
-  inherit: {}
+  inherit: {},
 }
 
 export class Sharing {
@@ -37,6 +35,4 @@ export class Sharing {
   getPrinroles(role) {
     return this.local.prinrole[role]
   }
-
 }
-

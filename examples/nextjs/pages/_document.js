@@ -19,7 +19,10 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+          <script
+            defer
+            src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+          ></script>
         </body>
       </Html>
     )

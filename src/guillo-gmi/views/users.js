@@ -1,33 +1,33 @@
-import React from "react";
-import { TabsPanel } from "../components/tabs";
-import { PanelItems } from "../components/panel/items";
-import { TraversalContext } from "../contexts";
-import { UserForm } from "../forms/users";
-import { formatDate } from "../lib/utils";
-import { useCrudContext } from "../hooks/useCrudContext";
-import { TagsWidget } from "../components/widgets/tags";
-import { Icon } from "../components/ui/icon";
-import { Button } from "../components/input/button";
-import { useRemoteField } from "../hooks/useRemoteField";
+import React from 'react'
+import { TabsPanel } from '../components/tabs'
+import { PanelItems } from '../components/panel/items'
+import { TraversalContext } from '../contexts'
+import { UserForm } from '../forms/users'
+import { formatDate } from '../lib/utils'
+import { useCrudContext } from '../hooks/useCrudContext'
+import { TagsWidget } from '../components/widgets/tags'
+import { Icon } from '../components/ui/icon'
+import { Button } from '../components/input/button'
+import { useRemoteField } from '../hooks/useRemoteField'
 
 const tabs = {
-  Users: PanelItems
-};
+  Users: PanelItems,
+}
 
 export function UsersToolbar(props) {
-  const Ctx = React.useContext(TraversalContext);
+  const Ctx = React.useContext(TraversalContext)
 
   return (
     <button
       className="button is-primary"
-      onClick={() => Ctx.doAction("addItem", { type: "User" })}
+      onClick={() => Ctx.doAction('addItem', { type: 'User' })}
       aria-haspopup="true"
       aria-controls="dropdown-menu"
     >
       <Icon icon="fas fa-user" />
       <span>Add a User</span>
     </button>
-  );
+  )
 }
 
 export function UsersCtx(props) {
@@ -38,49 +38,49 @@ export function UsersCtx(props) {
       rightToolbar={<UsersToolbar />}
       {...props}
     />
-  );
+  )
 }
 
 export function UserCtx(props) {
-  const { Ctx, patch, loading, isError, errorMessage } = useCrudContext();
+  const { Ctx, patch, loading, isError, errorMessage } = useCrudContext()
 
-  const [state, setState] = React.useState({ roles: [], gorups: [] });
+  const [state, setState] = React.useState({ roles: [], gorups: [] })
 
   const fields = {
     user_groups: [],
-    user_roles: Ctx.context.user_roles
-  };
+    user_roles: Ctx.context.user_roles,
+  }
 
-  const [remotes, updateRemote] = useRemoteField(fields);
+  const [remotes, updateRemote] = useRemoteField(fields)
 
   React.useEffect(() => {
-    (async () => {
+    ;(async () => {
       const res = await Promise.all([
-        Ctx.client.search(Ctx.path, { type_name: "Group" }, true),
-        Ctx.client.getRoles(Ctx.path)
-      ]);
-      const groups = await res[0];
-      const roles = await res[1].json();
+        Ctx.client.search(Ctx.path, { type_name: 'Group' }, true),
+        Ctx.client.getRoles(Ctx.path),
+      ])
+      const groups = await res[0]
+      const roles = await res[1].json()
       setState({
         roles: roles,
-        groups: groups.member.map(item => ({
+        groups: groups.member.map((item) => ({
           value: item.id,
-          text: item["@name"]
-        }))
-      });
-    })();
-  }, []);
+          text: item['@name'],
+        })),
+      })
+    })()
+  }, [])
 
-  const updateObject = async data => {
-    Ctx.apply(data);
-    const {isError, errorMessage} = await patch(data);
+  const updateObject = async (data) => {
+    Ctx.apply(data)
+    const { isError, errorMessage } = await patch(data)
     if (isError) {
-      Ctx.flash(`Update failed ${errorMessage}`, "danger");
+      Ctx.flash(`Update failed ${errorMessage}`, 'danger')
     } else {
-      Ctx.flash("Data updated", "primary");
+      Ctx.flash('Data updated', 'primary')
     }
-    Ctx.refresh();
-  };
+    Ctx.refresh()
+  }
 
   return (
     <div className="container">
@@ -101,17 +101,17 @@ export function UserCtx(props) {
               <label> Created: </label> {formatDate(Ctx.context.creation_date)}
             </p>
             <p>
-              <label> Updated: </label>{" "}
+              <label> Updated: </label>{' '}
               {formatDate(Ctx.context.modification_date)}
             </p>
           </div>
           <hr />
           <UserForm
             actionName="Save"
-            onSubmit={ev => updateObject(ev)}
+            onSubmit={(ev) => updateObject(ev)}
             isEdit={true}
             formData={Ctx.context}
-            exclude={["password"]}
+            exclude={['password']}
             remotes={remotes}
             submitButton={false}
           >
@@ -120,7 +120,7 @@ export function UserCtx(props) {
         </div>
         <div className="column">
           <TagsWidget
-            onChange={updateRemote("user_groups")}
+            onChange={updateRemote('user_groups')}
             items={Ctx.context.user_groups}
             title="Groups"
             noData="There is no groups for this user"
@@ -128,7 +128,7 @@ export function UserCtx(props) {
           />
           <hr />
           <TagsWidget
-            onChange={updateRemote("user_roles")}
+            onChange={updateRemote('user_roles')}
             items={remotes.user_roles}
             title="Roles"
             noData="The user doesn't have any role"
@@ -137,5 +137,5 @@ export function UserCtx(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

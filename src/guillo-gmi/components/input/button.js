@@ -1,5 +1,5 @@
 import React from 'react'
-import {classnames} from '../../lib/helpers'
+import { classnames } from '../../lib/helpers'
 
 const noop = () => {}
 
@@ -12,10 +12,7 @@ export const Button = ({
   disabled = false,
   ...rest
 }) => {
-
-  let css = [].concat(
-      'button', ...className.split(" "),
-  )
+  let css = [].concat('button', ...className.split(' '))
   if (loading) css = css.concat('is-loading')
   if (disabled) onClick = noop
 
@@ -27,7 +24,7 @@ export const Button = ({
         onClick={onClick}
         disabled={disabled}
         {...rest}
-        >
+      >
         {children}
       </button>
     </p>

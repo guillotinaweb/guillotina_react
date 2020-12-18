@@ -1,4 +1,3 @@
 // @create-index
 
-export * from './tags';
-
+export * from './tags'

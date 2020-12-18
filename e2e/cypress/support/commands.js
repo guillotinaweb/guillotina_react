@@ -1,9 +1,9 @@
-import { setupGuillotina, tearDownGuillotina } from "./guillotina"
+import { setupGuillotina, tearDownGuillotina } from './guillotina'
 
-beforeEach('Setup guillotina', function() {
+beforeEach('Setup guillotina', function () {
   setupGuillotina()
 })
-afterEach('Teardown guillotina', function() {
+afterEach('Teardown guillotina', function () {
   tearDownGuillotina()
 })
 

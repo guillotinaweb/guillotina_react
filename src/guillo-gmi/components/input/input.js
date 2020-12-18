@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { classnames, generateUID } from "../../lib/helpers";
-import ErrorZone from "../error_zone";
-import useInput from "../../hooks/useInput";
-import { notEmpty } from "../../lib/validators";
-import { useEffect } from "react";
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { classnames, generateUID } from '../../lib/helpers'
+import ErrorZone from '../error_zone'
+import useInput from '../../hooks/useInput'
+import { notEmpty } from '../../lib/validators'
+import { useEffect } from 'react'
 
-const noop = () => true;
+const noop = () => true
 
 /** @type any */
 export const Input = React.forwardRef(
   (
     {
       icon,
-      iconPosition = "has-icons-right",
+      iconPosition = 'has-icons-right',
       error,
       errorZoneClassName,
-      autoComplete = "off",
-      className = "",
-      widget = "input",
-      type = "text",
+      autoComplete = 'off',
+      className = '',
+      widget = 'input',
+      type = 'text',
       onPressEnter,
       isSubmitted,
       loading = false,
@@ -38,28 +38,28 @@ export const Input = React.forwardRef(
     if (required) {
       validator = Array.isArray(validator)
         ? validator.push(notEmpty)
-        : [validator, notEmpty];
+        : [validator, notEmpty]
     }
 
-    const { state, ...handlers } = useInput(onChange, value, validator);
-    const [uid] = useState(generateUID("input"));
-    const [mounted, setMounted] = useState(false);
-    ref = ref || React.useRef();
+    const { state, ...handlers } = useInput(onChange, value, validator)
+    const [uid] = useState(generateUID('input'))
+    const [mounted, setMounted] = useState(false)
+    ref = ref || React.useRef()
 
     useEffect(() => {
-      setMounted(true);
-    }, []);
+      setMounted(true)
+    }, [])
 
     useEffect(() => {
       if (autofocus && !error) {
-        ref.current.focus();
+        ref.current.focus()
       }
-    }, [mounted, autofocus, ref, error]);
+    }, [mounted, autofocus, ref, error])
 
-    const theError = state.hasError ? errorMessage || "invalid field" : "";
-    const statusClasses = state.hasError ? "is-danger" : "";
+    const theError = state.hasError ? errorMessage || 'invalid field' : ''
+    const statusClasses = state.hasError ? 'is-danger' : ''
 
-    const cssControl = () => (icon ? ["control", iconPosition] : ["control"]);
+    const cssControl = () => (icon ? ['control', iconPosition] : ['control'])
 
     return (
       <div className="field">
@@ -87,17 +87,17 @@ export const Input = React.forwardRef(
           {icon && icon}
         </div>
         <ErrorZone className={errorZoneClassName} id={uid}>
-          {state.hasError ? theError : ""}
+          {state.hasError ? theError : ''}
         </ErrorZone>
       </div>
-    );
+    )
   }
-);
+)
 
 Input.propTypes = {
   icon: PropTypes.node,
   iconPosition: PropTypes.arrayOf(
-    PropTypes.oneOf(["has-icons-left", "has-icons-right", ""])
+    PropTypes.oneOf(['has-icons-left', 'has-icons-right', ''])
   ),
   error: PropTypes.string,
   errorZoneClassName: PropTypes.string,
@@ -120,6 +120,6 @@ Input.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
-  ])
-};
+    PropTypes.bool,
+  ]),
+}
