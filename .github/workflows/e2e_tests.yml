@@ -28,6 +28,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          build: yarn cache clean && yarn
+          build: yarn
           wait-on: 'http://localhost:3000'
           working-directory: ./e2e
