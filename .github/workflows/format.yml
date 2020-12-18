@@ -19,5 +19,5 @@ jobs:
           npm install -g yarn
       - name: check format
         run: |
-          yarn
+          yarn install --frozen-lockfile
           yarn format:check
