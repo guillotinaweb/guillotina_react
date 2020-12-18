@@ -1,41 +1,44 @@
-import React from "react";
-import { useEffect } from "react";
-import { useSetState } from "react-use";
-import { useContext } from "react";
-import { TraversalContext } from "../contexts";
-import { useConfig } from "../hooks/useConfig";
-import { Icon } from "./ui/icon";
-import { useLocation } from "../hooks/useLocation";
-import Dropdown from "./input/dropdown";
-import { Button } from "./input/button";
+import React from 'react'
+import { useEffect } from 'react'
+import { useContext } from 'react'
+
+import Dropdown from './input/dropdown'
+import useSetState from '../hooks/useSetState'
+import { Button } from './input/button'
+import { Icon } from './ui/icon'
+import { TraversalContext } from '../contexts'
+import { useConfig } from '../hooks/useConfig'
+import { useLocation } from '../hooks/useLocation'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
-const initialState = { types: undefined };
+const initialState = { types: undefined }
 
 export function CreateButton(props) {
-  const [state, setState] = useSetState(initialState);
-  const Ctx = useContext(TraversalContext);
-  const Config = useConfig();
+  const [state, setState] = useSetState(initialState)
+  const Ctx = useContext(TraversalContext)
+  const Config = useConfig()
   useEffect(() => {
-    (async function anyNameFunction() {
-      const types = await Ctx.client.getTypes(Ctx.path);
+    ;(async function anyNameFunction() {
+      const types = await Ctx.client.getTypes(Ctx.path)
       setState({
-        types: types.filter(item => !Config.DisabledTypes.includes(item))
-      });
-    })();
-  }, [Ctx.path]);
+        types: types.filter((item) => !Config.DisabledTypes.includes(item)),
+      })
+    })()
+  }, [Ctx.path])
 
-  const doAction = item => {
-    Ctx.doAction("addItem", { type: item });
-    setState({ isActive: false });
-  };
+  const doAction = (item) => {
+    Ctx.doAction('addItem', { type: item })
+    setState({ isActive: false })
+  }
 
   if (state.types && state.types.length === 1) {
     return (
       <Button
         className={'is-small is-success'}
-        onClick={ev => doAction(state.types[0]) }
-        >Add {state.types[0]}</Button>
+        onClick={(ev) => doAction(state.types[0])}
+      >
+        Add {state.types[0]}
+      </Button>
     )
   }
 
@@ -49,8 +52,8 @@ export function CreateButton(props) {
       id="dropdown-menu"
       isRight
       onChange={doAction}
-      options={(state.types || []).map(item => ({ text: item, value: item }))}
-     >
+      options={(state.types || []).map((item) => ({ text: item, value: item }))}
+    >
       <span className="icon">
         <i className="fas fa-plus"></i>
       </span>
@@ -58,34 +61,34 @@ export function CreateButton(props) {
   )
 }
 
-export function ContextToolbar({AddButton, ...props}) {
-  const [location, setLocation] = useLocation();
-  const ctx = React.useContext(TraversalContext);
-  const ref = React.useRef(null);
+export function ContextToolbar({ AddButton, ...props }) {
+  const [location, setLocation] = useLocation()
+  const ctx = React.useContext(TraversalContext)
+  const ref = React.useRef(null)
 
-  const searchText = location.get("q");
+  const searchText = location.get('q')
 
-  const onSearch = ev => {
-    const search = ev.target[0].value;
-    setLocation({ q: search, tab: "Items", page:0 });
+  const onSearch = (ev) => {
+    const search = ev.target[0].value
+    setLocation({ q: search, tab: 'Items', page: 0 })
     // let searchParsed = parser(search);
     // ctx.setState({ search, searchParsed });
-    ev.preventDefault();
-  };
+    ev.preventDefault()
+  }
 
-  const setFocus = ev => {
-    ref.current.focus();
-    ev.preventDefault();
-  };
+  const setFocus = (ev) => {
+    ref.current.focus()
+    ev.preventDefault()
+  }
 
   // useKey("/", setFocus)
 
   // cleanup form on state.search change
   React.useEffect(() => {
-    if (!searchText || searchText === "") {
-      ref.current.value = "";
+    if (!searchText || searchText === '') {
+      ref.current.value = ''
     }
-  }, [searchText]);
+  }, [searchText])
 
   return (
     <React.Fragment>
@@ -111,11 +114,15 @@ export function ContextToolbar({AddButton, ...props}) {
           </div>
         </form>
       </div>
-      {ctx.hasPerm("guillotina.AddContent") && (
+      {ctx.hasPerm('guillotina.AddContent') && (
         <div className="level-item">
-          {AddButton!==undefined ? <AddButton /> : <CreateButton {...props} />}
+          {AddButton !== undefined ? (
+            <AddButton />
+          ) : (
+            <CreateButton {...props} />
+          )}
         </div>
       )}
     </React.Fragment>
-  );
+  )
 }

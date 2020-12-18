@@ -1,23 +1,25 @@
-import React from "react";
+import React from 'react'
 
-import { Table } from "../ui/table";
-import { useCrudContext } from "../../hooks/useCrudContext";
-import { Sharing } from "../../models";
-import { TraversalContext } from "../../contexts";
-import { useSetState } from "react-use";
-import { Select } from "../input/select";
-import { PermissionRoleperm } from "./permissions_roleperm";
-import { PermissionPrinperm } from "./permissions_prinperm";
-import { PermissionPrinrole } from "./permissions_prinrole";
+import useSetState from '../../hooks/useSetState'
+import { PermissionPrinperm } from './permissions_prinperm'
+import { PermissionPrinrole } from './permissions_prinrole'
+import { PermissionRoleperm } from './permissions_roleperm'
+import { Select } from '../input/select'
+import { Sharing } from '../../models'
+import { Table } from '../ui/table'
+import { TraversalContext } from '../../contexts'
+import { useCrudContext } from '../../hooks/useCrudContext'
 
 export function PanelPermissions(props) {
-  const { get, result, loading } = useCrudContext();
+  const { get, result, loading } = useCrudContext()
 
-  const [reset, setReset] = React.useState(1);
+  const [reset, setReset] = React.useState(1)
 
-  React.useEffect(() => { get("@sharing") }, [reset]);
+  React.useEffect(() => {
+    get('@sharing')
+  }, [reset])
 
-  const perms = new Sharing(result);
+  const perms = new Sharing(result)
 
   return (
     <div className="columns">
@@ -26,7 +28,7 @@ export function PanelPermissions(props) {
           <h2 className="title is-size-5 has-text-grey-dark">
             Role Permissions
           </h2>
-          <Table headers={["Role", "Premission", "Setting"]}>
+          <Table headers={['Role', 'Premission', 'Setting']}>
             {perms.roles.map((role, idx) => (
               <React.Fragment key={'ff' + idx}>
                 <tr>
@@ -56,7 +58,7 @@ export function PanelPermissions(props) {
           <h2 className="title is-size-5 has-text-grey-dark">
             Principal Permissions
           </h2>
-          <Table headers={["Principal", "Premission", "Setting"]}>
+          <Table headers={['Principal', 'Premission', 'Setting']}>
             {perms.principals.map((role, idx) => (
               <React.Fragment key={'f2' + idx}>
                 <tr>
@@ -65,7 +67,7 @@ export function PanelPermissions(props) {
                   </td>
                 </tr>
                 {Object.keys(perms.getPrincipals(role)).map((row, idx) => (
-                  <tr key={"x" + idx}>
+                  <tr key={'x' + idx}>
                     <td></td>
                     <td>{row}</td>
                     <td>{perms.getPrincipals(role)[row]}</td>
@@ -82,7 +84,7 @@ export function PanelPermissions(props) {
           <h2 className="title is-size-5 has-text-grey-dark">
             Principal Roles
           </h2>
-          <Table headers={["Principal", "Role", "Setting"]}>
+          <Table headers={['Principal', 'Role', 'Setting']}>
             {perms.prinrole.map((role, idx) => (
               <React.Fragment key={role + idx}>
                 <tr>
@@ -91,7 +93,7 @@ export function PanelPermissions(props) {
                   </td>
                 </tr>
                 {Object.keys(perms.getPrinroles(role)).map((row, idx) => (
-                  <tr key={"xx" + idx}>
+                  <tr key={'xx' + idx}>
                     <td></td>
                     <td>{row}</td>
                     <td>{perms.getPrinroles(role)[row]}</td>
@@ -109,58 +111,58 @@ export function PanelPermissions(props) {
       )}
       <AddPermission refresh={setReset} reset={reset} />
     </div>
-  );
+  )
 }
 
 const initial = {
   permissions: undefined,
   groups: undefined,
   roles: [],
-  current: "",
-  currentObj: undefined
-};
+  current: '',
+  currentObj: undefined,
+}
 
 const operations = [
-  { text: "Allow", value: "Allow" },
-  { text: "Deny", value: "Deny" },
-  { text: "AllowSingle", value: "AllowSingle" },
-  { text: "Unset", value: "Unset" }
-];
+  { text: 'Allow', value: 'Allow' },
+  { text: 'Deny', value: 'Deny' },
+  { text: 'AllowSingle', value: 'AllowSingle' },
+  { text: 'Unset', value: 'Unset' },
+]
 
 const defaultOptions = [
-  { text: "Choose..", value: "" },
-  { text: "Role Permissions", value: "roleperm" },
-  { text: "Principal Permissions", value: "prinperm" },
-  { text: "Principal Roles", value: "prinrole" }
-];
+  { text: 'Choose..', value: '' },
+  { text: 'Role Permissions', value: 'roleperm' },
+  { text: 'Principal Permissions', value: 'prinperm' },
+  { text: 'Principal Roles', value: 'prinrole' },
+]
 
 export function AddPermission({ refresh, reset }) {
-  const Ctx = React.useContext(TraversalContext);
-  const [state, setState] = useSetState(initial);
+  const Ctx = React.useContext(TraversalContext)
+  const [state, setState] = useSetState(initial)
 
   React.useEffect(() => {
     async function init() {
       const permissions = (await Ctx.client.getAllPermissions(Ctx.path)).map(
-        perm => ({
+        (perm) => ({
           text: perm,
-          value: perm
+          value: perm,
         })
-      );
-      let req = await Ctx.client.getGroups(Ctx.path);
-      const groups = (await req.json()).map(group => ({
+      )
+      let req = await Ctx.client.getGroups(Ctx.path)
+      const groups = (await req.json()).map((group) => ({
         text: group.id,
-        value: group.id
-      }));
-      req = await Ctx.client.getRoles(Ctx.path);
-      const roles = (await req.json()).map(role => ({
+        value: group.id,
+      }))
+      req = await Ctx.client.getRoles(Ctx.path)
+      const roles = (await req.json()).map((role) => ({
         text: role,
-        value: role
-      }));
-      setState({ permissions, groups, roles });
-    };
+        value: role,
+      }))
+      setState({ permissions, groups, roles })
+    }
 
-    init();
-  }, [reset]);
+    init()
+  }, [reset])
 
   return (
     <div className="column is-4 is-size-7">
@@ -168,24 +170,24 @@ export function AddPermission({ refresh, reset }) {
       <p>Select a type:</p>
       <Select
         options={defaultOptions}
-        onChange={v => setState({ current: v.target.value })}
+        onChange={(v) => setState({ current: v.target.value })}
       />
       <hr />
-      {state.current && state.current === "roleperm" && (
+      {state.current && state.current === 'roleperm' && (
         <PermissionRoleperm
           {...state}
           operations={operations}
           refresh={refresh}
         />
       )}
-      {state.current && state.current === "prinperm" && (
+      {state.current && state.current === 'prinperm' && (
         <PermissionPrinperm
           {...state}
           operations={operations}
           refresh={refresh}
         />
       )}
-      {state.current && state.current === "prinrole" && (
+      {state.current && state.current === 'prinrole' && (
         <PermissionPrinrole
           {...state}
           operations={operations}
@@ -193,5 +195,5 @@ export function AddPermission({ refresh, reset }) {
         />
       )}
     </div>
-  );
+  )
 }
