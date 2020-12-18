@@ -18,11 +18,16 @@ import { GroupsCtx } from "../views/groups";
 import { GroupCtx } from "../views/groups"
 import ErrorBoundary from "../components/error_boundary";
 import React from 'react'
+import { NotAllowed } from "../components/notallowed";
+import { NotFound } from "../components/notfound";
+import { Path } from "../components/path";
 
 let registry = {
   paths: {},
   views: {
     ErrorBoundary: ErrorBoundary,
+    NotAllowed: NotAllowed,
+    NotFound: NotFound,
     Application: ApplicationCtx,
     Database: DatabaseCtx,
     Container: ContainerCtx,
@@ -53,7 +58,10 @@ let registry = {
     "guillotina.behaviors.attachment.IMultiAttachment": IMultiAttachment,
   },
   schemas: {},
-  properties: {}
+  properties: {},
+  components: {
+    Path: Path
+  }
 };
 
 const get = (key, param, fallback) => {
