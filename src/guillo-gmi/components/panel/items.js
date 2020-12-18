@@ -1,55 +1,59 @@
-import React from "react";
-import { useContext } from "react";
+import React from 'react'
+import { useContext } from 'react'
 
-import useSetState from "../../hooks/useSetState";
-import { ItemsActionsProvider, AllItemsCheckbox, ItemsActionsDropdown } from "../selected_items_actions"
-import { Pagination } from "../pagination";
-import { RItem } from "../item";
-import { SearchLabels } from "../../components/searchLabels";
-import { TraversalContext } from "../../contexts";
-import { buildQs } from "../../lib/search";
-import { parser } from "../../lib/search";
-import { useConfig } from "../../hooks/useConfig"
-import { useEffect } from "react";
-import { useLocation } from "../../hooks/useLocation";
+import useSetState from '../../hooks/useSetState'
+import {
+  ItemsActionsProvider,
+  AllItemsCheckbox,
+  ItemsActionsDropdown,
+} from '../selected_items_actions'
+import { Pagination } from '../pagination'
+import { RItem } from '../item'
+import { SearchLabels } from '../../components/searchLabels'
+import { TraversalContext } from '../../contexts'
+import { buildQs } from '../../lib/search'
+import { parser } from '../../lib/search'
+import { useConfig } from '../../hooks/useConfig'
+import { useEffect } from 'react'
+import { useLocation } from '../../hooks/useLocation'
 
 const initialState = {
   page: 0,
   items: [],
   loading: true,
-  total: 0
-};
+  total: 0,
+}
 
 export function PanelItems(props) {
-  const [location, setLocation] = useLocation();
+  const [location, setLocation] = useLocation()
   const { PageSize } = useConfig()
 
-  const Ctx = useContext(TraversalContext);
-  const [state, setState] = useSetState(initialState);
-  const { items, loading, total } = state;
+  const Ctx = useContext(TraversalContext)
+  const [state, setState] = useSetState(initialState)
+  const { items, loading, total } = state
   const columns = Ctx.client.getItemsColumn(items, Ctx.path)
 
-  let search = location.get("q");
-  let page;
+  let search = location.get('q')
+  let page
 
   try {
-    page = parseInt(location.get("page")) || 0;
+    page = parseInt(location.get('page')) || 0
   } catch {
-    page = 0;
+    page = 0
   }
 
   let searchParsed = undefined
-  if (search && search !== "") {
-    searchParsed = parser(search);
+  if (search && search !== '') {
+    searchParsed = parser(search)
   }
 
   useEffect(() => {
     if (Ctx.state.loading) return
-    (async () => {
-      let data;
-      setState({ loading: true, total: Ctx.context.length });
+    ;(async () => {
+      let data
+      setState({ loading: true, total: Ctx.context.length })
       if (search) {
-        let qs = buildQs(searchParsed);
+        let qs = buildQs(searchParsed)
         data = await Ctx.client.search(
           Ctx.path,
           qs,
@@ -57,23 +61,21 @@ export function PanelItems(props) {
           false,
           page * PageSize,
           PageSize
-        );
-
+        )
       } else {
-        data = await Ctx.client.getItems(Ctx.path, page * PageSize, PageSize);
+        data = await Ctx.client.getItems(Ctx.path, page * PageSize, PageSize)
       }
       setState({
         items: data.member,
         loading: false,
-        total: data.items_count
-      });
-    })();
-  }, [search, Ctx.state.refresh, page]);
+        total: data.items_count,
+      })
+    })()
+  }, [search, Ctx.state.refresh, page])
 
-
-  const doPaginate = page => {
-    setLocation({ page: page });
-  };
+  const doPaginate = (page) => {
+    setLocation({ page: page })
+  }
 
   return (
     <ItemsActionsProvider items={items}>
@@ -99,19 +101,24 @@ export function PanelItems(props) {
         <table className="table is-fullwidth is-hoverable">
           <thead className="is-size-7">
             <tr>
-              <th><AllItemsCheckbox /></th>
-              {columns.map(i => (
-                <th key={i.label} className="has-text-info">{i.label}</th>
+              <th>
+                <AllItemsCheckbox />
+              </th>
+              {columns.map((i) => (
+                <th key={i.label} className="has-text-info">
+                  {i.label}
+                </th>
               ))}
               <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
             {items &&
-              items.map(item => (
-                <RItem item={item}
+              items.map((item) => (
+                <RItem
+                  item={item}
                   setPath={Ctx.setPath}
-                  key={item["@uid"]}
+                  key={item['@uid']}
                   search={search}
                   columns={columns}
                 />
@@ -136,5 +143,5 @@ export function PanelItems(props) {
         />
       </div>
     </ItemsActionsProvider>
-  );
+  )
 }

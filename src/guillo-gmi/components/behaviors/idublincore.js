@@ -1,26 +1,26 @@
-import React from "react";
+import React from 'react'
 
-import { Icon } from "../ui/icon";
-import { RenderField } from "../fields/renderField";
-import { TraversalContext } from "../../contexts";
-import { EditableField } from "../fields/editableField";
-import { Textarea } from "../input/textarea";
-import { Input } from "../input/input";
+import { Icon } from '../ui/icon'
+import { RenderField } from '../fields/renderField'
+import { TraversalContext } from '../../contexts'
+import { EditableField } from '../fields/editableField'
+import { Textarea } from '../input/textarea'
+import { Input } from '../input/input'
 
 const Schema = {
-  editable: ["title", "description", "effective_date", "expiration_date"],
+  editable: ['title', 'description', 'effective_date', 'expiration_date'],
   widgets: {
-    description: Textarea
-  }
-};
+    description: Textarea,
+  },
+}
 
 export function IDublinCore(props) {
-  const Ctx = React.useContext(TraversalContext);
-  const modifyContent = Ctx.hasPerm("guillotina.ModifyContent");
+  const Ctx = React.useContext(TraversalContext)
+  const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
   return (
     <React.Fragment>
-      {Object.keys(props).map(key => (
+      {Object.keys(props).map((key) => (
         <tr key={'dublin_' + key}>
           <td key={1}>{key}</td>
           <td key={2}>
@@ -39,7 +39,7 @@ export function IDublinCore(props) {
         </tr>
       ))}
     </React.Fragment>
-  );
+  )
 }
 
 export function Author({ name }) {
@@ -48,5 +48,5 @@ export function Author({ name }) {
       <Icon icon="fas fa-user" />
       <span>{name}</span>
     </div>
-  );
+  )
 }

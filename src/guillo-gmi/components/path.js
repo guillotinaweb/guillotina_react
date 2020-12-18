@@ -1,16 +1,15 @@
 import React from 'react'
-import {TraversalContext} from '../contexts'
-import {useContext} from 'react'
-import {useLocation} from '../hooks/useLocation'
+import { TraversalContext } from '../contexts'
+import { useContext } from 'react'
+import { useLocation } from '../hooks/useLocation'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 
 export function Path(props) {
-
   const ctx = useContext(TraversalContext)
   const [, navigate] = useLocation()
 
-  let segments = ctx.path.replace(/\/$/, "").split("/")
+  let segments = ctx.path.replace(/\/$/, '').split('/')
   let links = buildPaths(segments)
 
   if (segments.length === 1) {
@@ -20,10 +19,10 @@ export function Path(props) {
   return (
     <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>
-      {segments.map((item, indx) => {
+        {segments.map((item, indx) => {
           const path = links[indx]
           const onClick = (e) => {
-            if (window.event.ctrlKey || window.event.metaKey) return
+            if (window.event.ctrlKey || window.event.metaKey) return
             e.preventDefault()
             navigate({ path }, true)
           }
@@ -47,17 +46,16 @@ export function Path(props) {
       </ul>
     </nav>
   )
-
 }
 
 const buildPaths = (segments) => {
-  let current = ""
+  let current = ''
   let results = []
   segments.map((item, indx) => {
     if (indx === 0) {
-      current += "/"
+      current += '/'
     } else {
-      current += item + "/"
+      current += item + '/'
     }
     results.push(current)
     return item

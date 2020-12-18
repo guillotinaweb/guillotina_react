@@ -6,10 +6,10 @@ export default class ErrorBoundary extends React.Component {
   state = {}
 
   componentDidCatch(error, errorInfo) {
-    this.setState({ 
-      hasError: true, 
+    this.setState({
+      hasError: true,
       errorMsg: error.message,
-      errorStack: errorInfo.componentStack
+      errorStack: errorInfo.componentStack,
     })
   }
 
@@ -20,12 +20,16 @@ export default class ErrorBoundary extends React.Component {
       return (
         <div className="box main-panel">
           <div style={style}>Something went wrong.</div>
-          {errorMsg && <p><b>{errorMsg}</b></p>}
+          {errorMsg && (
+            <p>
+              <b>{errorMsg}</b>
+            </p>
+          )}
           {errorStack && <p>{errorStack}</p>}
         </div>
-      );
+      )
     }
 
-    return this.props.children; 
+    return this.props.children
   }
 }

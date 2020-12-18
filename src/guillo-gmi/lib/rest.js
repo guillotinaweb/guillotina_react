@@ -1,7 +1,4 @@
-
-
 export class RestClient {
-
   constructor(url, auth) {
     this.auth = auth
     this.url = url
@@ -14,19 +11,19 @@ export class RestClient {
   }
 
   getHeaders() {
-    const authToken  = this.auth.getToken()
-    if (!authToken) return {};
+    const authToken = this.auth.getToken()
+    if (!authToken) return {}
     return {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + authToken
+      Authorization: 'Bearer ' + authToken,
     }
   }
 
   async post(path, data) {
     return await this.request(path, {
       method: 'post',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
   }
 
@@ -37,34 +34,37 @@ export class RestClient {
   async put(path, data) {
     return await this.request(path, {
       method: 'put',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
   }
 
   async patch(path, data) {
     return await this.request(path, {
       method: 'PATCH',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
   }
 
   async upload(path, data) {
-
     const headers = this.getHeaders()
-    delete headers["Content-Type"]
-    headers["Content-Type"] = data["content-type"]
-    headers["X-UPLOAD-FILENAME"] = data.filename
-    headers["Content-Encoding"]= "base64"
-    return await this.request(path, {
-      method: 'PATCH',
-      body: data.data
-    }, headers)
+    delete headers['Content-Type']
+    headers['Content-Type'] = data['content-type']
+    headers['X-UPLOAD-FILENAME'] = data.filename
+    headers['Content-Encoding'] = 'base64'
+    return await this.request(
+      path,
+      {
+        method: 'PATCH',
+        body: data.data,
+      },
+      headers
+    )
   }
 
-  async delete(path, data=undefined) {
+  async delete(path, data = undefined) {
     return await this.request(path, {
       method: 'delete',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
   }
 }

@@ -1,27 +1,29 @@
-import React from "react";
-import { useCrudContext } from "../../hooks/useCrudContext";
-import { Table } from "../ui/table";
-import { Button } from "../input/button";
+import React from 'react'
+import { useCrudContext } from '../../hooks/useCrudContext'
+import { Table } from '../ui/table'
+import { Button } from '../input/button'
 
 export function PanelBehaviors() {
-  const { Ctx, get, result, loading, isError } = useCrudContext();
-  const ops = useCrudContext();
+  const { Ctx, get, result, loading, isError } = useCrudContext()
+  const ops = useCrudContext()
 
-  const [state, setState] = React.useState(false);
+  const [state, setState] = React.useState(false)
 
-  const enableBehavior = behavior => async () => {
-    await ops.patch({ behavior }, "@behaviors");
-    setState(!state);
+  const enableBehavior = (behavior) => async () => {
+    await ops.patch({ behavior }, '@behaviors')
+    setState(!state)
     Ctx.refresh()
-  };
+  }
 
-  const disableBehavior = behavior => async () => {
-    await ops.del({ behavior }, "@behaviors");
-    setState(!state);
+  const disableBehavior = (behavior) => async () => {
+    await ops.del({ behavior }, '@behaviors')
+    setState(!state)
     Ctx.refresh()
-  };
+  }
 
-  React.useEffect(() => { get("@behaviors") }, []);
+  React.useEffect(() => {
+    get('@behaviors')
+  }, [])
 
   return (
     <div className="columns behaviors">
@@ -35,7 +37,7 @@ export function PanelBehaviors() {
                   <h3 className="title is-size-6">Static</h3>
                 </td>
               </tr>
-              {result.static.map(behavior => (
+              {result.static.map((behavior) => (
                 <tr key={behavior}>
                   <td>Static</td>
                   <td>{behavior}</td>
@@ -53,7 +55,7 @@ export function PanelBehaviors() {
                   <h3 className="title is-size-6">Enabled</h3>
                 </td>
               </tr>
-              {result.dynamic.map(behavior => (
+              {result.dynamic.map((behavior) => (
                 <tr key={behavior}>
                   <td>Enabled</td>
                   <td>{behavior}</td>
@@ -74,7 +76,7 @@ export function PanelBehaviors() {
                   <h3 className="title is-size-6">Available</h3>
                 </td>
               </tr>
-              {result.available.map(behavior => (
+              {result.available.map((behavior) => (
                 <tr key={behavior}>
                   <td>Available</td>
                   <td>{behavior}</td>
@@ -94,5 +96,5 @@ export function PanelBehaviors() {
       </div>
       <div className="column is-4"></div>
     </div>
-  );
+  )
 }

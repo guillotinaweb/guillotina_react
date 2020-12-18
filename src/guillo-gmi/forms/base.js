@@ -1,26 +1,26 @@
-import React from "react";
-import { useState } from "react";
-import { Input } from "../components/input/input";
-import { Form } from "../components/input/form";
-import { stringToSlug } from "../lib/helpers";
+import React from 'react'
+import { useState } from 'react'
+import { Input } from '../components/input/input'
+import { Form } from '../components/input/form'
+import { stringToSlug } from '../lib/helpers'
 
 export function BaseForm({ onSubmit, actionName, title }) {
-  const [name, setName] = useState("");
-  const [id, setId] = useState("");
-  const [error, setError] = useState(undefined);
+  const [name, setName] = useState('')
+  const [id, setId] = useState('')
+  const [error, setError] = useState(undefined)
 
-  const submit = values => {
-    if (name === "") {
-      setError("This field is required");
-      return;
+  const submit = (values) => {
+    if (name === '') {
+      setError('This field is required')
+      return
     }
-    onSubmit({ title: name, id });
-  };
+    onSubmit({ title: name, id })
+  }
 
-  const setTitle = value => {
-    setId(stringToSlug(value));
-    setName(value);
-  };
+  const setTitle = (value) => {
+    setId(stringToSlug(value))
+    setName(value)
+  }
 
   return (
     <Form title={title} onSubmit={submit}>
@@ -38,9 +38,9 @@ export function BaseForm({ onSubmit, actionName, title }) {
 
       <div className="level level-right">
         <button type="submit" className="button is-success">
-          {actionName || "Add"}
+          {actionName || 'Add'}
         </button>
       </div>
     </Form>
-  );
+  )
 }

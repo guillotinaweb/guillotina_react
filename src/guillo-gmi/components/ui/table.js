@@ -1,16 +1,19 @@
-import React from "react";
-import { classnames } from "../../lib/helpers";
+import React from 'react'
+import { classnames } from '../../lib/helpers'
 
 export function Table({ headers, children, className }) {
   className = className
-    ? className.split(" ")
-    : " is-full is-fullwidth is-narrow".split(" ");
+    ? className.split(' ')
+    : ' is-full is-fullwidth is-narrow'.split(' ')
   return (
-    <table className={classnames(["table", ...className])}>
+    <table className={classnames(['table', ...className])}>
       <thead>
-        <tr>{headers && headers.map((item, idx) => <th key={item + idx}>{item}</th>)}</tr>
+        <tr>
+          {headers &&
+            headers.map((item, idx) => <th key={item + idx}>{item}</th>)}
+        </tr>
       </thead>
       <tbody>{children}</tbody>
     </table>
-  );
+  )
 }

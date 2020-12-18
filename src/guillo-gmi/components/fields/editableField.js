@@ -1,32 +1,32 @@
-import React from "react";
-import { Input } from "../input/input";
-import { Button } from "../input/button";
-import { useCrudContext } from "../../hooks/useCrudContext";
-import { useState } from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { Icon } from "../ui";
+import React from 'react'
+import { Input } from '../input/input'
+import { Button } from '../input/button'
+import { useCrudContext } from '../../hooks/useCrudContext'
+import { useState } from 'react'
+import { useRef } from 'react'
+import { useEffect } from 'react'
+import { Icon } from '../ui'
 
-export function EditableField({ field, value, Type=Input, ns }) {
-  const ref = useRef();
-  const [isEdit, setEdit] = useState(false);
-  const {patch, loading, Ctx} = useCrudContext();
-  const [val, setValue] = useState(value);
+export function EditableField({ field, value, Type = Input, ns }) {
+  const ref = useRef()
+  const [isEdit, setEdit] = useState(false)
+  const { patch, loading, Ctx } = useCrudContext()
+  const [val, setValue] = useState(value)
 
-  const saveField = async ev => {
-    if (ev) ev.preventDefault();
-    const data = (ns) ? {[ns]: {[field]: val}} : { [field]: val }
-    await patch(data);
-    Ctx.flash(`Field ${field}, updated!`, "success");
-    Ctx.refresh();
-    setEdit(false);
-  };
+  const saveField = async (ev) => {
+    if (ev) ev.preventDefault()
+    const data = ns ? { [ns]: { [field]: val } } : { [field]: val }
+    await patch(data)
+    Ctx.flash(`Field ${field}, updated!`, 'success')
+    Ctx.refresh()
+    setEdit(false)
+  }
 
   useEffect(() => {
     if (isEdit && ref.current) {
-      ref.current.focus();
+      ref.current.focus()
     }
-  });
+  })
 
   return (
     <React.Fragment>
@@ -44,7 +44,7 @@ export function EditableField({ field, value, Type=Input, ns }) {
               <Type
                 value={val || ''}
                 className="is-small"
-                onChange={ev => setValue(ev)}
+                onChange={(ev) => setValue(ev)}
                 ref={ref}
               />
             </div>
@@ -68,5 +68,5 @@ export function EditableField({ field, value, Type=Input, ns }) {
         </div>
       )}
     </React.Fragment>
-  );
+  )
 }

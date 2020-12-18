@@ -1,63 +1,62 @@
-import React from "react";
-import AceEditor from "react-ace";
-import brace from "brace";
+import React from 'react'
+import AceEditor from 'react-ace'
+import brace from 'brace'
 
-import useSetState from "../../hooks/useSetState";
-import { Button } from "../input/button";
-import { Input } from "../input/input";
-import { Select } from "../input/select";
-import { useCrudContext } from "../../hooks/useCrudContext";
+import useSetState from '../../hooks/useSetState'
+import { Button } from '../input/button'
+import { Input } from '../input/input'
+import { Select } from '../input/select'
+import { useCrudContext } from '../../hooks/useCrudContext'
 
-import "brace/mode/json";
+import 'brace/mode/json'
 
 const initial = {
-  method: "get",
-  endpoint: ""
-};
+  method: 'get',
+  endpoint: '',
+}
 
 const methods = [
-  { text: "GET", value: "get" },
-  { text: "POST", value: "post" },
-  { text: "DELETE", value: "delete" },
-  { text: "PATCH", value: "patch" }
+  { text: 'GET', value: 'get' },
+  { text: 'POST', value: 'post' },
+  { text: 'DELETE', value: 'delete' },
+  { text: 'PATCH', value: 'patch' },
   // { text: "PUT", value: "put" }
-];
+]
 
 export function PanelRequester() {
-  const [state, setState] = useSetState(initial);
-  const { get, post, del, patch, loading, isError, result } = useCrudContext();
-  const ref = React.useRef();
+  const [state, setState] = useSetState(initial)
+  const { get, post, del, patch, loading, isError, result } = useCrudContext()
+  const ref = React.useRef()
 
   React.useEffect(() => {
     if (ref.current) {
-      ref.current = "";
+      ref.current = ''
     }
-  }, []);
+  }, [])
 
   const doRequest = async (ev) => {
-
     if (ev) {
       ev.preventDefault()
     }
 
     const ace =
-      ref.current && ref.current !== "" ? JSON.parse(ref.current) : undefined;
-    const { method, endpoint } = state;
-    if (method === "get") {
-      await get(endpoint);
+      ref.current && ref.current !== '' ? JSON.parse(ref.current) : undefined
+    const { method, endpoint } = state
+    if (method === 'get') {
+      await get(endpoint)
     }
-    if (method === "post") {
-      await post(ace, endpoint);
+    if (method === 'post') {
+      await post(ace, endpoint)
     }
-    if (method === "del") {
-      await del(endpoint, ace);
+    if (method === 'del') {
+      await del(endpoint, ace)
     }
-    if (method === "patch") {
-      await patch(ace, endpoint);
+    if (method === 'patch') {
+      await patch(ace, endpoint)
     }
-  };
+  }
 
-  const onUpdate = value => (ref.current = value);
+  const onUpdate = (value) => (ref.current = value)
 
   return (
     <div className="container">
@@ -70,8 +69,8 @@ export function PanelRequester() {
               <label className="label">Method</label>
               <Select
                 options={methods}
-                onChange={ev => setState({ method: ev.target.value })}
-                style={{ width: "100%" }}
+                onChange={(ev) => setState({ method: ev.target.value })}
+                style={{ width: '100%' }}
                 classWrap="is-block"
               />
             </div>
@@ -82,10 +81,9 @@ export function PanelRequester() {
               <Input
                 placeholder="Default for context"
                 type="text"
-                onChange={value => setState({ endpoint: value })}
+                onChange={(value) => setState({ endpoint: value })}
                 className="is-small"
               />
-
             </div>
           </div>
           <div className="column">
@@ -97,7 +95,7 @@ export function PanelRequester() {
                 onClick={doRequest}
               >
                 Send
-            </Button>
+              </Button>
             </div>
           </div>
           <div className="column is-6"></div>
@@ -119,7 +117,7 @@ export function PanelRequester() {
               enableBasicAutocompletion: false,
               enableLiveAutocompletion: false,
               enableSnippets: false,
-              showLineNumbers: true
+              showLineNumbers: true,
             }}
           />
         </div>
@@ -139,12 +137,12 @@ export function PanelRequester() {
                 enableLiveAutocompletion: false,
                 enableSnippets: false,
                 showLineNumbers: true,
-                tabSize: 2
+                tabSize: 2,
               }}
             />
           )}
         </div>
       </div>
     </div>
-  );
+  )
 }
