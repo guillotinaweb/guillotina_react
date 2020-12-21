@@ -7,6 +7,7 @@ import { RenderField } from '../fields/renderField'
 import { PropertiesButtonView } from '../properties_view'
 import { PropertiesView } from '../properties_view'
 import { useConfig } from '../../hooks/useConfig'
+import { useTraversal } from '../../contexts'
 
 const _showProperties = ['@id', '@name', '@uid', 'title']
 const _editable = ['title']
