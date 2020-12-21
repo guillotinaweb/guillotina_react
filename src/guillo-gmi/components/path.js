@@ -1,12 +1,11 @@
 import React from 'react'
-import { TraversalContext } from '../contexts'
-import { useContext } from 'react'
+import { useTraversal } from '../contexts'
 import { useLocation } from '../hooks/useLocation'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 
 export function Path(props) {
-  const ctx = useContext(TraversalContext)
+  const ctx = useTraversal()
   const [, navigate] = useLocation()
 
   let segments = ctx.path.replace(/\/$/, '').split('/')

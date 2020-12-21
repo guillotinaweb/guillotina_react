@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Icon } from '../ui/icon'
 import { RenderField } from '../fields/renderField'
-import { TraversalContext } from '../../contexts'
+import { useTraversal } from '../../contexts'
 import { EditableField } from '../fields/editableField'
 import { Textarea } from '../input/textarea'
 import { Input } from '../input/input'
@@ -15,7 +15,7 @@ const Schema = {
 }
 
 export function IDublinCore(props) {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
   return (

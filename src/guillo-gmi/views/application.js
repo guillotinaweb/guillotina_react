@@ -4,9 +4,7 @@ import { Item } from '../components/item'
 import { ItemTitle } from '../components/item'
 import { Button } from '../components/input/button'
 import { useState } from 'react'
-import { useContext } from 'react'
-import { useRef } from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
 import { Form } from '../components/input/form'
 import { Input } from '../components/input/input'
@@ -31,7 +29,7 @@ export function ApplicationCtx(props) {
 }
 
 export function DatabaseCtx({ state, client, ...props }) {
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const { containers } = state.context
   const { path } = state
   return (
@@ -75,11 +73,10 @@ export function CreateContainer(props) {
 }
 
 function ModalAddContainer({ isActive, setActive }) {
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const [isLoading, setLoading] = useState(false)
   const [idField, setId] = useState('')
   const [error, setError] = useState(undefined)
-  const traversal = useContext(TraversalContext)
 
   async function createContainer(ev) {
     setLoading(true)
@@ -95,7 +92,7 @@ function ModalAddContainer({ isActive, setActive }) {
         setId('')
         setLoading(false)
         setActive(false)
-        traversal.flash('Container created', 'primary')
+        Ctx.flash('Container created', 'primary')
       } else {
         setId('')
         setLoading(false)

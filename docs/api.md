@@ -1,4 +1,3 @@
-
 # Guillotina React API
 
 - [Architecture](#architecture)
@@ -33,46 +32,47 @@
   actions on screens. [Read here about traversal context](#traversal-context).
 
 - There is a "component registry" to be able to override components, on
-   installations. Actually it's just some maps where you can register,
-   component overrides
+  installations. Actually it's just some maps where you can register,
+  component overrides
 
-   - registry/
-     Acts as a base context screen registry,
+  - registry/
+    Acts as a base context screen registry,
     `getCompoment() and registerComponent() as API exposed
 
-   - actions/
-     - Actions are mostly UI interactions you trigger from buttons (remove item)
-     and when adding types (Context menu +)
-     - They mostly are based on a "modal" that proposes you something
-     - Actions can be dispatched, using the main Context
+  - actions/
 
-     ```
-     Ctx = useContext(TraversalContext)
-     Ctx.doAction("addItem" , "Folder")
-     ```
+    - Actions are mostly UI interactions you trigger from buttons (remove item)
+      and when adding types (Context menu +)
+    - They mostly are based on a "modal" that proposes you something
+    - Actions can be dispatched, using the main Context
 
-     will show a modal to add an item for a folder
+    ```
+    Ctx = useTraversal()
+    Ctx.doAction("addItem" , "Folder")
+    ```
 
-   - forms/
-     - Used throught actions to provide forms for <Forms>
+    will show a modal to add an item for a folder
 
+  - forms/
+    - Used throught actions to provide forms for <Forms>
 
 views/
-  - Stores views for contexts
+
+- Stores views for contexts
 
 ## Traversal Context
 
 @guillotinaweb/react-gmi mostly uses react.Context and hooks to manage state. Through the traversal context we have access to the Guillotina content and to some UI actions / helpers.
 
 ```jsx
-import { TraversalContext } from '@guillotinaweb/react-gmi'
+import { useTraversal } from '@guillotinaweb/react-gmi'
 // ...
-const Ctx = useContext(TraversalContext)
+const Ctx = useTraversal()
 // ...
-Ctx.setPath('/db/guillotina/')  // will navigate tracersal to the container
+Ctx.setPath('/db/guillotina/') // will navigate tracersal to the container
 Ctx.doAction // show an action
 Ctx.cancelAction // hide (terminate) the latest action. Used, when the process completes
-Ctx.flash  // Show a flash message on the main screen
+Ctx.flash // Show a flash message on the main screen
 Ctx.refresh // Force a refresh from the server for the current traversal context
 // Properties
 Ctx.path // exposes the current context path (without service url)
@@ -94,7 +94,7 @@ Under the hood it uses [wouter](https://github.com/molefrog/wouter).
 import { useLocation } from '@guillotinaweb/react-gmi'
 
 // ...
-  const [location, setLocation] = useLocation();
+const [location, setLocation] = useLocation()
 ```
 
 ## Components
@@ -102,7 +102,11 @@ import { useLocation } from '@guillotinaweb/react-gmi'
 ### Guillotina
 
 ```jsx
-import { Guillotina, GuillotinaClient, RestClient } from "@guillotinaweb/react-gmi"
+import {
+  Guillotina,
+  GuillotinaClient,
+  RestClient,
+} from '@guillotinaweb/react-gmi'
 // ...
 const client = new GuillotinaClient(new RestClient(url, auth))
 // ...
@@ -111,10 +115,10 @@ return (
     client={client}
     config={{
       icons: {
-        Banners: "fas fa-image",
-        Products: "fas fa-wine-glass",
-        Landings: "fas fa-receipt",
-        Newsletter: 'fas fa-envelope'
+        Banners: 'fas fa-image',
+        Products: 'fas fa-wine-glass',
+        Landings: 'fas fa-receipt',
+        Newsletter: 'fas fa-envelope',
       },
       PageSize: 30,
       DelayActions: 2000,
@@ -137,11 +141,10 @@ return (
         Products: {
           Buttons: null,
         },
-      }
+      },
     }}
   />
 )
-
 ```
 
 ### TabsPanel
@@ -149,9 +152,9 @@ return (
 It creates separate tabs, allowing you to add permissions to each tab if used in conjunction with `Ctx.filterTabs`.
 
 ```jsx
-import { TabsPanel } from "@guillotinaweb/react-gmi"
+import { useTraversal, TabsPanel } from '@guillotinaweb/react-gmi'
 // ...
-const Ctx = React.useContext(TraversalContext);
+const Ctx = useTraversal()
 
 return (
   <TabsPanel
@@ -162,12 +165,12 @@ return (
         AuditLog: AuditLogTab,
       },
       {
-        Data: "guillotina.ViewContent",
-        Sections: "guillotina.ModifyContent",
+        Data: 'guillotina.ViewContent',
+        Sections: 'guillotina.ModifyContent',
       }
     )}
     currentTab="Data"
-    editableTabs={["Data"]}
+    editableTabs={['Data']}
     rightToolbar={<ContextToolbar {...props} />}
     {...props}
   />
@@ -179,7 +182,7 @@ return (
 It is the bar where there is a content search engine along with the buttons with the different actions that the page has.
 
 ```jsx
-import { ContextToolbar } from "@guillotinaweb/react-gmi"
+import { ContextToolbar } from '@guillotinaweb/react-gmi'
 // ...
 return <ContextToolbar {...props} />
 ```
@@ -189,9 +192,9 @@ return <ContextToolbar {...props} />
 To be used in conjunction with the TabsPanel we have two ready-to-use panels already created: Permissions + Properties.
 
 ```jsx
-import { PanelPermissions } from "@guillotinaweb/react-gmi"
-import { PanelProperties } from "@guillotinaweb/react-gmi"
-import { PanelItems } from "@guillotinaweb/react-gmi"
+import { PanelPermissions } from '@guillotinaweb/react-gmi'
+import { PanelProperties } from '@guillotinaweb/react-gmi'
+import { PanelItems } from '@guillotinaweb/react-gmi'
 
 // ...
 const tabs = {
@@ -216,17 +219,13 @@ return <Icon icon="fas fa-angle-left" />
 
 ### Modal
 
-You can use the Modal component to put content over everything else in the document. 
+You can use the Modal component to put content over everything else in the document.
 
 ```jsx
-import { Modal } from "@guillotinaweb/react-gmi"
+import { Modal } from '@guillotinaweb/react-gmi'
 // ...
 return (
-  <Modal
-    className="modal-content"
-    isActive={isActive}
-    setActive={close}
-  >
+  <Modal className="modal-content" isActive={isActive} setActive={close}>
     {/* Modal content here */}
   </Modal>
 )
@@ -237,11 +236,11 @@ return (
 Wrapper of the html5 form but already designed to integrate with the form components we provide. Apart from that it has some more extra properties and there is no need to do e.preventDefault during the onSubmit.
 
 ```jsx
-import { Form } from "@guillotinaweb/react-gmi"
+import { Form } from '@guillotinaweb/react-gmi'
 // ...
 return (
   <Form onSubmit={submit} title="My form" error={errorMsg}>
-    {/* all form components here */}   
+    {/* all form components here */}
   </Form>
 )
 ```
@@ -250,14 +249,13 @@ return (
 
 Wrapper of the html5 input-text but already designed to integrate with the rest of the form components.
 
-
 ```jsx
-import { Input } from "@guillotinaweb/react-gmi"
+import { Input } from '@guillotinaweb/react-gmi'
 // ...
 return (
   <Input
     className="is-size-6"
-    onChange={text => setValue(text)}
+    onChange={(text) => setValue(text)}
     placeholder="Example"
     value={value}
   />
@@ -279,14 +277,17 @@ return <Textarea placeholder="Write here" value={text} onChange={onChange} />
 A custom Select component where you can pass the options as a prop.
 
 ```jsx
-import { Select } from "@guillotinaweb/react-gmi"
+import { Select } from '@guillotinaweb/react-gmi'
 // ...
 return (
   <Select
     value={value}
-    options={[{ text: "First", value: "1" }, { text: "Second", value: "2"}]}
+    options={[
+      { text: 'First', value: '1' },
+      { text: 'Second', value: '2' },
+    ]}
     appendDefault
-    onChange={e => setValue(e.target.value)}
+    onChange={(e) => setValue(e.target.value)}
     classWrap="is-small"
   />
 )
@@ -297,7 +298,7 @@ return (
 Wrapper of the html5 checkbox but already designed to integrate with the rest of the form components.
 
 ```jsx
-import { Checkbox } from "@guillotinaweb/react-gmi"
+import { Checkbox } from '@guillotinaweb/react-gmi'
 // ...
 return (
   <Checkbox
@@ -315,7 +316,11 @@ Wrapper of the button of html5 but already thought to integrate with the rest of
 ```jsx
 import { Button } from '@guillotinaweb/react-gmi'
 // ...
-return <Button className="is-warning" loading={loading}>Login</Button>
+return (
+  <Button className="is-warning" loading={loading}>
+    Login
+  </Button>
+)
 ```
 
 #### FileUpload
@@ -333,7 +338,7 @@ return <FileUpload onChange={uploadFile} accept="image/*" />
 Displays a loading bar indicating that the content is loading.
 
 ```jsx
-import { Loading } from "@guillotinaweb/react-gmi"
+import { Loading } from '@guillotinaweb/react-gmi'
 // ...
 return <Loading />
 ```
@@ -347,10 +352,14 @@ Necessary for when we create the GuillotinaClient instance to indicate the url w
 Underneath it uses `fetch`.
 
 ```jsx
-import { GuillotinaClient, RestClient } from "@guillotinaweb/react-gmi"
+import { GuillotinaClient, RestClient } from '@guillotinaweb/react-gmi'
 // ...
-const auth = { getToken: () => {/* ... */} , }
-const restClient = new RestClient("/db/guillotina", auth)
+const auth = {
+  getToken: () => {
+    /* ... */
+  },
+}
+const restClient = new RestClient('/db/guillotina', auth)
 const client = new GuillotinaClient(restClient)
 ```
 
@@ -359,7 +368,7 @@ const client = new GuillotinaClient(restClient)
 Compose CSS classes in a easy way:
 
 ```jsx
-import { classnames } from '@guillotinaweb/react-gmi';
+import { classnames } from '@guillotinaweb/react-gmi'
 // ...
 function Example({ className, children }) {
   return (
@@ -375,21 +384,20 @@ function Example({ className, children }) {
 Useful for creating content ids automatically from text but ensuring that it does not have weird characters.
 
 ```js
-import { stringToSlug } from "@guillotinaweb/react-gmi"
+import { stringToSlug } from '@guillotinaweb/react-gmi'
 // ...
-stringToSlug("This is an example!") // this-is-an-example
+stringToSlug('This is an example!') // this-is-an-example
 ```
 
 ## Guillotina config
 
-
-| Option            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Type                            | Default                                                                         |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | ------------------------------------------------------------------------------- | 
-| `icons`   | You can assign a fontawesome icon for each content.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `Object<string>`                        | `{}`                                                                          |
-| `PageSize`         | Elements to display in each page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `Number`                 | `10`                                                                            |
-| `DelayActions` | Applies a delay after actions such as refresh.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `Number`                        | `200`                                                                      |
-| `DisabledTypes`   | Disabled types.                                                                                                                                                                                                                                                                                                                                                                                                                                  | `string[]`                        | `["UserManager", "GroupManager"]`                                                                       |
-| `Permissions`   | List of permissions.                                                                                                                                                                                                                                                                                                                                                                                                                                   | `string[]`                        | `["guillotina.AddContent","guillotina.ModifyContent","guillotina.ViewContent","guillotina.DeleteContent","guillotina.AccessContent","guillotina.SeePermissions","guillotina.ChangePermissions","guillotina.MoveContent","guillotina.DuplicateContent","guillotina.ReadConfiguration","guillotina.RegisterConfigurations","guillotina.WriteConfiguration","guillotina.ManageAddons","guillotina.swagger.View"]`                                                                       |
-| `properties_default`     | Default content properties.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `string[]`                        | `["@id", "@name", "@uid", "title"]`                                                                     |
-| `properties_editable`         | Editable content properties.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `string[]`                       | `["title"]`                                                                         |
-| `flash`  | If defined, allows to customize the flash message.                                                                                                                                                                                                                                                                                                                                                                                                                                     | `function`                      | `undefined`                                                                          |
+| Option                | Description                                         | Type             | Default                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------------- | --------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `icons`               | You can assign a fontawesome icon for each content. | `Object<string>` | `{}`                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `PageSize`            | Elements to display in each page                    | `Number`         | `10`                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `DelayActions`        | Applies a delay after actions such as refresh.      | `Number`         | `200`                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `DisabledTypes`       | Disabled types.                                     | `string[]`       | `["UserManager", "GroupManager"]`                                                                                                                                                                                                                                                                                                                                                                              |
+| `Permissions`         | List of permissions.                                | `string[]`       | `["guillotina.AddContent","guillotina.ModifyContent","guillotina.ViewContent","guillotina.DeleteContent","guillotina.AccessContent","guillotina.SeePermissions","guillotina.ChangePermissions","guillotina.MoveContent","guillotina.DuplicateContent","guillotina.ReadConfiguration","guillotina.RegisterConfigurations","guillotina.WriteConfiguration","guillotina.ManageAddons","guillotina.swagger.View"]` |
+| `properties_default`  | Default content properties.                         | `string[]`       | `["@id", "@name", "@uid", "title"]`                                                                                                                                                                                                                                                                                                                                                                            |
+| `properties_editable` | Editable content properties.                        | `string[]`       | `["title"]`                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `flash`               | If defined, allows to customize the flash message.  | `function`       | `undefined`                                                                                                                                                                                                                                                                                                                                                                                                    |

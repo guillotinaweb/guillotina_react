@@ -1,10 +1,10 @@
 import React from 'react'
-import { TraversalContext } from '../../contexts'
+import { useTraversal } from '../../contexts'
 import { FileUpload } from '../input/upload'
 import { Button } from '../input/button'
 
 export function IAttachment(props) {
-  const ctx = React.useContext(TraversalContext)
+  const ctx = useTraversal()
   const canModify = ctx.hasPerm('guillotina.ModifyContent')
 
   const uploadFile = async (file) => {

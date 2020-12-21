@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react'
 import Dropdown from './input/dropdown'
 import { Checkbox } from './input/checkbox'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 
 const ItemsActionsCtx = createContext({})
 const actions = {
@@ -27,7 +27,7 @@ const actions = {
  * Ex: Delete, Move, Copy...
  */
 export function ItemsActionsProvider({ items, children }) {
-  const traversal = useContext(TraversalContext)
+  const traversal = useTraversal()
   const [selected, setSelected] = useState({})
 
   function onSelectAllItems(checked) {
@@ -108,7 +108,7 @@ export function ItemCheckbox({ item }) {
  * Dropdown to choose some action to apply to the selected items.
  */
 export function ItemsActionsDropdown() {
-  const traversal = useContext(TraversalContext)
+  const traversal = useTraversal()
   const { selected, onAction } = useContext(ItemsActionsCtx)
   const disabled = Object.values(selected).every((v) => !v)
   const options = Object.keys(actions).map((action) => ({

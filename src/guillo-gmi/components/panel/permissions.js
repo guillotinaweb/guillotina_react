@@ -7,7 +7,6 @@ import { PermissionRoleperm } from './permissions_roleperm'
 import { Select } from '../input/select'
 import { Sharing } from '../../models'
 import { Table } from '../ui/table'
-import { TraversalContext } from '../../contexts'
 import { useCrudContext } from '../../hooks/useCrudContext'
 
 export function PanelPermissions(props) {
@@ -137,7 +136,7 @@ const defaultOptions = [
 ]
 
 export function AddPermission({ refresh, reset }) {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
   const [state, setState] = useSetState(initial)
 
   React.useEffect(() => {

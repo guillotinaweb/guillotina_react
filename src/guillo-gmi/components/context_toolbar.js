@@ -1,12 +1,11 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { useContext } from 'react'
 
 import Dropdown from './input/dropdown'
 import useSetState from '../hooks/useSetState'
 import { Button } from './input/button'
 import { Icon } from './ui/icon'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { useConfig } from '../hooks/useConfig'
 import { useLocation } from '../hooks/useLocation'
 
@@ -15,7 +14,7 @@ const initialState = { types: undefined }
 
 export function CreateButton(props) {
   const [state, setState] = useSetState(initialState)
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const Config = useConfig()
   useEffect(() => {
     ;(async function anyNameFunction() {
@@ -63,7 +62,7 @@ export function CreateButton(props) {
 
 export function ContextToolbar({ AddButton, ...props }) {
   const [location, setLocation] = useLocation()
-  const ctx = React.useContext(TraversalContext)
+  const ctx = useTraversal()
   const ref = React.useRef(null)
 
   const searchText = location.get('q')

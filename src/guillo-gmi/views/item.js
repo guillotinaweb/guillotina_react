@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabsPanel } from '../components/tabs'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { PanelPermissions } from '../components/panel/permissions'
 import { PanelBehaviors } from '../components/panel/behaviors'
 import { PanelProperties } from '../components/panel/properties'
@@ -18,7 +18,7 @@ const tabsPermissions = {
 }
 
 export function ItemCtx(props) {
-  const ctx = React.useContext(TraversalContext)
+  const ctx = useTraversal()
   const calculated = ctx.filterTabs(tabs, tabsPermissions)
 
   return <TabsPanel tabs={calculated} currentTab="Properties" {...props} />
