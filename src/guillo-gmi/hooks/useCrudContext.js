@@ -1,5 +1,5 @@
 import React from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import useSetState from './useSetState'
 
 const initial = {
@@ -86,7 +86,7 @@ const get = (state, setState, Ctx) => async (endpoint) => {
 }
 
 export function useCrudContext() {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
   const [state, setState] = useSetState(initial)
 
   return {

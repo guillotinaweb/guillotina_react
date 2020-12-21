@@ -1,9 +1,9 @@
 import React from 'react'
 import { Table } from './ui/table'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 
 export function BehaviorsView({ context }) {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
   const { getBehavior } = Ctx.registry
 
   const behaviors = [].concat(

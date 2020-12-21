@@ -1,7 +1,7 @@
 import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { PanelItems } from '../components/panel/items'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { UserForm } from '../forms/users'
 import { formatDate } from '../lib/utils'
 import { useCrudContext } from '../hooks/useCrudContext'
@@ -15,7 +15,7 @@ const tabs = {
 }
 
 export function UsersToolbar(props) {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
 
   return (
     <button

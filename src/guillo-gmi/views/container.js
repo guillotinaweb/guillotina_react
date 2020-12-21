@@ -3,7 +3,7 @@ import { TabsPanel } from '../components/tabs'
 import { ContextToolbar } from '../components/context_toolbar'
 import { PanelItems } from '../components/panel/items'
 import { PanelAddons } from '../components/panel/addons'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { PanelNotImplemented } from './base'
 import { PanelPermissions } from '../components/panel/permissions'
 import { PanelBehaviors } from '../components/panel/behaviors'
@@ -28,7 +28,7 @@ const tabsPermissions = {
 }
 
 export function ContainerCtx(props) {
-  const ctx = React.useContext(TraversalContext)
+  const ctx = useTraversal()
   const calculated = ctx.filterTabs(tabs, tabsPermissions)
   return (
     <TabsPanel

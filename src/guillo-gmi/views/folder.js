@@ -2,7 +2,7 @@ import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { ContextToolbar } from '../components/context_toolbar'
 import { PanelItems } from '../components/panel/items'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { PanelProperties } from '../components/panel/properties'
 import { PanelPermissions } from '../components/panel/permissions'
 import { PanelBehaviors } from '../components/panel/behaviors'
@@ -25,7 +25,7 @@ const tabsPermissions = {
 }
 
 export function FolderCtx(props) {
-  const ctx = React.useContext(TraversalContext)
+  const ctx = useTraversal()
   const calculated = ctx.filterTabs(tabs, tabsPermissions)
 
   return (

@@ -1,14 +1,13 @@
 import React from 'react'
 
 import { ItemModel } from '../models'
-import { TraversalContext } from '../contexts'
-import { useContext } from 'react'
+import { useTraversal } from '../contexts'
 import { Icon } from './ui/icon'
 import { ItemCheckbox } from './selected_items_actions'
 import { Delete } from './ui'
 
 export function Item({ item, setPath, icon }) {
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const link = () => Ctx.setPath(item.path)
   return (
     <tr>
@@ -25,7 +24,7 @@ const smallcss = {
 }
 
 export function RItem({ item, search, columns }) {
-  const traversal = useContext(TraversalContext)
+  const traversal = useTraversal()
   const model = new ItemModel(item, traversal.url, traversal.path)
   const link = () => traversal.setPath(model.path)
 
