@@ -1,3 +1,8 @@
+0.7.1
+------
+- e2e test own project
+- fix github actions
+
 0.7.0
 ------
 - Package upgrades
