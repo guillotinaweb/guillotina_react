@@ -1,7 +1,7 @@
 import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { PanelItems } from '../components/panel/items'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { Icon } from '../components/ui/icon'
 import { useEffect } from 'react'
@@ -15,7 +15,7 @@ const tabs = {
 }
 
 export function GroupToolbar(props) {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
 
   return (
     <button

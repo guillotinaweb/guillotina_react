@@ -1,7 +1,6 @@
 import React from 'react'
 import { PathTree } from '../components/modal'
-import { useContext } from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 
 const withError = (res) => res.status >= 300
 
@@ -16,7 +15,7 @@ function getNewId(id = '') {
 }
 
 export function CopyItems(props) {
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const { items = [] } = props
 
   async function copyItems(path, form) {

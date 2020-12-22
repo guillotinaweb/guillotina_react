@@ -1,7 +1,6 @@
 import React from 'react'
 import { Confirm } from '../components/modal'
-import { useContext } from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { sleep } from '../lib/helpers'
 import { useConfig } from '../hooks/useConfig'
 
@@ -14,7 +13,7 @@ const getId = (item) => {
 }
 
 export function RemoveItems(props) {
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const cfg = useConfig()
   const [loading, setLoading] = React.useState(false)
   const { items = [] } = props

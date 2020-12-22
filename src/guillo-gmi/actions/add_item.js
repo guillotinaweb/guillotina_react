@@ -1,10 +1,9 @@
 import React from 'react'
-import { useContext } from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
 
 export function AddItem(props) {
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const { type } = props
   const { getForm } = Ctx.registry
 

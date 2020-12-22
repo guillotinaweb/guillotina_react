@@ -85,3 +85,7 @@ export function TraversalProvider({ children, ...props }) {
     </TraversalContext.Provider>
   )
 }
+
+export function useTraversal() {
+  return React.useContext(TraversalContext)
+}

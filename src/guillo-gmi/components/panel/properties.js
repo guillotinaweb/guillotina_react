@@ -1,5 +1,4 @@
 import React from 'react'
-import { TraversalContext } from '../../contexts'
 import { ItemModel } from '../../models'
 import { BehaviorsView } from '../behavior_view'
 import { Icon } from '../ui/icon'
@@ -8,12 +7,13 @@ import { RenderField } from '../fields/renderField'
 import { PropertiesButtonView } from '../properties_view'
 import { PropertiesView } from '../properties_view'
 import { useConfig } from '../../hooks/useConfig'
+import { useTraversal } from '../../contexts'
 
 const _showProperties = ['@id', '@name', '@uid', 'title']
 const _editable = ['title']
 
 export function PanelProperties(props) {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
   const cfg = useConfig()
 
