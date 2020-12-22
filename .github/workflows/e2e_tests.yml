@@ -16,6 +16,9 @@ jobs:
       - name: guillotina
         run: docker run -d -v /home/runner/work/guillotina_react/guillotina_react/e2e/g_conf/:/g_conf/ --link=postgres -p 0.0.0.0:8080:8080 plone/guillotina:latest g -c /g_conf/config.yaml
 
+      - name: Install base modules
+        run: yarn
+
       - name: Build dist
         run: yarn && yarn build && yarn build:css
         working-directory: package
