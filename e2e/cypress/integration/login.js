@@ -14,7 +14,7 @@ describe('test login', function () {
     cy.get(userInput).type('root').should('have.value', 'root')
     cy.get(passwordInput).type('root').should('have.value', 'root')
     cy.get(submit).click()
-    cy.get(form).should('not.be.visible')
+    cy.get(form).should('not.exist')
     cy.get('.box > .container').should('be.visible')
   })
 
