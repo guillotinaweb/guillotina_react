@@ -30,7 +30,7 @@
   },
   "scripts": {
     "format": "pretty-quick",
-    "format:check": "pretty-quick --check"
+    "format:check": "pretty-quick --pattern *.js --check"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,7 +49,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --pattern *.js --staged"
     }
   },
   "prettier": {
