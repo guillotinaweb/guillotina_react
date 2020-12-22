@@ -6,16 +6,14 @@
   "scripts": {
     "dev": "next",
     "build": "cd ../../package && yarn && yarn build && yarn build:css && cd ../e2e/example && yarn",
-    "start": "yarn dev"
+    "start": "cd ../../package && yarn && yarn build && yarn build:css && cd ../e2e/example && yarn && yarn dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
-    "next": "^9.1.6",
-    "react": "^17.0.1",
-    "react-dom": "^16.12.0",
+    "next": "^10.0.3",
     "react-gmi": "link:../.."
   }
 }
