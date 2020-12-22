@@ -21,7 +21,7 @@ jobs:
         working-directory: e2e/example
 
       - name: Cypress run
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           build: yarn
           wait-on: 'http://localhost:3000'
