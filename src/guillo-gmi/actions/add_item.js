@@ -13,7 +13,7 @@ export function AddItem(props) {
     Ctx.cancelAction()
   }
 
-  async function doSubmit(data, oldData) {
+  async function doSubmit(data) {
     const form = Object.assign(
       {},
       { '@type': type },
@@ -21,7 +21,13 @@ export function AddItem(props) {
     )
     const client = Ctx.client
     const res = await client.create(Ctx.path, form)
-    Ctx.flash('Content created!', 'success')
+    if(res.ok){
+      Ctx.flash('Content created!', 'success')
+    } else {
+      const data = await res.json()
+      Ctx.flash(`An error has ocurred: ${data.details ? data.details : ''}`, 'danger') 
+    }
+    
     Ctx.cancelAction()
     Ctx.refresh()
   }
