@@ -100,12 +100,20 @@ export function GroupCtx() {
 
   const addUser = async (ev) => {
     const user = ev.target.value
-    const { isError, errorMessage } =  await patch({ users: Ctx.context.users.concat(user) })
+    const data = {}
+    Ctx.context.users.forEach((user) => {
+      data[user] = false
+    })
+    const { isError, errorMessage } = await patch({ users: data })
     handleResponse(isError, `User ${user} added to group!`, errorMessage)
   }
 
   const removeUser = async (userToRemove) => {
-    const { isError, errorMessage } = await patch({ users: Ctx.context.users.filter((r) => r !== user) })
+    const data = {}
+    Ctx.context.users.forEach((user) => {
+      data[user] = userToRemove !== user
+    })
+    const { isError, errorMessage } = await patch({ users: data })
     handleResponse(
       isError,
       `User ${userToRemove} removed from group`,
