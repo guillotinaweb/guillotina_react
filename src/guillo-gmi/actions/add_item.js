@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
+import { getErrorMessage } from '../lib/utils'
 
 export function AddItem(props) {
   const Ctx = useTraversal()
@@ -25,7 +26,7 @@ export function AddItem(props) {
       Ctx.flash('Content created!', 'success')
     } else {
       const data = await res.json()
-      Ctx.flash(`An error has ocurred: ${data.details ? data.details : ''}`, 'danger') 
+      Ctx.flash(`An error has ocurred: ${getErrorMessage(data)}`, 'danger') 
     }
     
     Ctx.cancelAction()
