@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { useRef } from 'react'
 import { useEffect } from 'react'
 import { Icon } from '../ui'
-import {getErrorMessage} from '../../lib/utils'
 
 export function EditableField({ field, value, Type = Input, ns }) {
   const ref = useRef()
@@ -17,14 +16,13 @@ export function EditableField({ field, value, Type = Input, ns }) {
   const saveField = async (ev) => {
     if (ev) ev.preventDefault()
     const data = ns ? { [ns]: { [field]: val } } : { [field]: val }
-    const {response: responsePatch} = await patch(data)
-    if(responsePatch.ok){
+    const { isError, errorMessage } = await patch(data)
+    if (!isError) {
       Ctx.flash(`Field ${field}, updated!`, 'success')
     } else {
-      const data = await responsePatch.json()
-      Ctx.flash(`Failed to update file ${field}!: ${getErrorMessage(data)}`, "danger");
+      Ctx.flash(`Failed to update file ${field}!: ${errorMessage}`, 'danger')
     }
-    
+
     Ctx.refresh()
     setEdit(false)
   }

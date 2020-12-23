@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
-import { getErrorMessage } from '../lib/utils'
+import { useCrudContext } from '../hooks/useCrudContext'
 
 export function AddItem(props) {
   const Ctx = useTraversal()
+  const { post } = useCrudContext()
   const { type } = props
   const { getForm } = Ctx.registry
 
@@ -20,15 +21,14 @@ export function AddItem(props) {
       { '@type': type },
       data.formData ? data.formData : data
     )
-    const client = Ctx.client
-    const res = await client.create(Ctx.path, form)
-    if(res.ok){
+
+    const { isError, errorMessage } = await post(form)
+    if (!isError) {
       Ctx.flash('Content created!', 'success')
     } else {
-      const data = await res.json()
-      Ctx.flash(`An error has ocurred: ${getErrorMessage(data)}`, 'danger') 
+      Ctx.flash(`An error has ocurred: ${errorMessage}`, 'danger')
     }
-    
+
     Ctx.cancelAction()
     Ctx.refresh()
   }

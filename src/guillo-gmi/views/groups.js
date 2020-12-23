@@ -9,7 +9,6 @@ import { useState } from 'react'
 import { Select } from '../components/input/select'
 import { Tag } from '../components/ui/tag'
 import { EditableField } from '../components/fields/editableField'
-import { getErrorMessage } from '../lib/utils'
 
 const tabs = {
   Groups: PanelItems,
@@ -42,7 +41,7 @@ export function GroupsCtx(props) {
   )
 }
 
-export function GroupCtx(props) {
+export function GroupCtx() {
   const { Ctx, patch } = useCrudContext()
   const [roles, setRoles] = useState([])
   const [users, setUsers] = useState([])
@@ -51,18 +50,21 @@ export function GroupCtx(props) {
     ;(async () => {
       const getUsers = Ctx.client.getUsers(Ctx.path)
       const getRoles = Ctx.client.getRoles(Ctx.path)
-      const [requestGetUsers, requestGetRoles] = await Promise.all([getUsers, getRoles])
+      const [requestGetUsers, requestGetRoles] = await Promise.all([
+        getUsers,
+        getRoles,
+      ])
       let users = []
       let roles = []
-      
-      if(requestGetUsers.ok){
-        users =  (await requestGetUsers.json()).map((user) => ({
+
+      if (requestGetUsers.ok) {
+        users = (await requestGetUsers.json()).map((user) => ({
           text: user['@name'],
           value: user.id,
         }))
       }
-      if(requestGetRoles.ok){
-        roles  =(await req2.json()).map((role) => ({
+      if (requestGetRoles.ok) {
+        roles = (await requestGetRoles.json()).map((role) => ({
           text: role,
           value: role,
         }))
@@ -72,38 +74,43 @@ export function GroupCtx(props) {
     })()
   }, [])
 
-  const handleResponse = async (response, message) => {
-    if(response.ok){
-      Ctx.flash(message, "success")
+  const handleResponse = async (isError, message, errorMessage) => {
+    if (!isError) {
+      Ctx.flash(message, 'success')
       Ctx.refresh()
     } else {
-      const data = await response.json()
-      Ctx.flash(`Failed to update!: ${getErrorMessage(data)}`, "danger");
+      Ctx.flash(`Failed to update!: ${errorMessage}`, 'danger')
     }
   }
 
   const addRole = async (ev) => {
     const role = ev.target.value
-    const {response: responsePatch} = await patch({ user_roles: Ctx.context.user_roles.concat(role) })
-    handleResponse(responsePatch,`Role ${role} added to group`)
+    const { isError, errorMessage } = await patch({
+      user_roles: Ctx.context.user_roles.concat(role),
+    })
+    handleResponse(isError, `Role ${role} added to group`, errorMessage)
   }
 
   const removeRole = async (role) => {
-    const {response: responsePatch} = await patch({
+    const { isError, errorMessage } = await patch({
       user_roles: Ctx.context.user_roles.filter((r) => r !== role),
     })
-    handleResponse(responsePatch,`Role ${role} removed from group`)
+    handleResponse(isError, `Role ${role} removed from group`, errorMessage)
   }
 
   const addUser = async (ev) => {
     const user = ev.target.value
-    const {response: responsePatch} = await patch({ users: Ctx.context.users.concat(user) })
-    handleResponse(responsePatch,`User ${user} added to group!`)
+    const { isError, errorMessage } =  await patch({ users: Ctx.context.users.concat(user) })
+    handleResponse(isError, `User ${user} added to group!`, errorMessage)
   }
 
-  const removeUser = async (user) => {
-    const {response: responsePatch} = await patch({ users: Ctx.context.users.filter((r) => r !== user) })
-    handleResponse(responsePatch,`User ${user} removed from group`)
+  const removeUser = async (userToRemove) => {
+    const { isError, errorMessage } = await patch({ users: Ctx.context.users.filter((r) => r !== user) })
+    handleResponse(
+      isError,
+      `User ${userToRemove} removed from group`,
+      errorMessage
+    )
   }
 
   return (

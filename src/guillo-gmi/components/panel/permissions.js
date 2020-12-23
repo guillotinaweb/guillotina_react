@@ -12,7 +12,7 @@ import { useTraversal } from '../../contexts'
 
 export function PanelPermissions(props) {
   const { get, result, loading } = useCrudContext()
-  const ctx = useTraversal();
+  const ctx = useTraversal()
 
   const [reset, setReset] = React.useState(1)
 
@@ -110,8 +110,9 @@ export function PanelPermissions(props) {
           </Table>
         </div>
       )}
-      {ctx.hasPerm('guillotina.ChangePermissions') &&  <AddPermission refresh={setReset} reset={reset} />}
-      
+      {ctx.hasPerm('guillotina.ChangePermissions') && (
+        <AddPermission refresh={setReset} reset={reset} />
+      )}
     </div>
   )
 }
@@ -153,7 +154,7 @@ export function AddPermission({ refresh, reset }) {
       let req = await Ctx.client.getGroups(Ctx.path)
       let groups = []
       let roles = []
-      if(req.ok) {
+      if (req.ok) {
         groups = (await req.json()).map((group) => ({
           text: group.id,
           value: group.id,
@@ -161,7 +162,7 @@ export function AddPermission({ refresh, reset }) {
       }
 
       req = await Ctx.client.getRoles(Ctx.path)
-      if(req.ok){
+      if (req.ok) {
         roles = (await req.json()).map((role) => ({
           text: role,
           value: role,
