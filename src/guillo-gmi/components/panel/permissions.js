@@ -8,9 +8,11 @@ import { Select } from '../input/select'
 import { Sharing } from '../../models'
 import { Table } from '../ui/table'
 import { useCrudContext } from '../../hooks/useCrudContext'
+import { useTraversal } from '../../contexts'
 
 export function PanelPermissions(props) {
   const { get, result, loading } = useCrudContext()
+  const ctx = useTraversal()
 
   const [reset, setReset] = React.useState(1)
 
@@ -108,7 +110,9 @@ export function PanelPermissions(props) {
           </Table>
         </div>
       )}
-      <AddPermission refresh={setReset} reset={reset} />
+      {ctx.hasPerm('guillotina.ChangePermissions') && (
+        <AddPermission refresh={setReset} reset={reset} />
+      )}
     </div>
   )
 }
@@ -148,15 +152,22 @@ export function AddPermission({ refresh, reset }) {
         })
       )
       let req = await Ctx.client.getGroups(Ctx.path)
-      const groups = (await req.json()).map((group) => ({
-        text: group.id,
-        value: group.id,
-      }))
+      let groups = []
+      let roles = []
+      if (req.ok) {
+        groups = (await req.json()).map((group) => ({
+          text: group.id,
+          value: group.id,
+        }))
+      }
+
       req = await Ctx.client.getRoles(Ctx.path)
-      const roles = (await req.json()).map((role) => ({
-        text: role,
-        value: role,
-      }))
+      if (req.ok) {
+        roles = (await req.json()).map((role) => ({
+          text: role,
+          value: role,
+        }))
+      }
       setState({ permissions, groups, roles })
     }
 

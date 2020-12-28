@@ -41,7 +41,7 @@ export function GroupsCtx(props) {
   )
 }
 
-export function GroupCtx(props) {
+export function GroupCtx() {
   const { Ctx, patch } = useCrudContext()
   const [roles, setRoles] = useState([])
   const [users, setUsers] = useState([])
@@ -50,48 +50,75 @@ export function GroupCtx(props) {
     ;(async () => {
       const getUsers = Ctx.client.getUsers(Ctx.path)
       const getRoles = Ctx.client.getRoles(Ctx.path)
-      const [req, req2] = await Promise.all([getUsers, getRoles])
-      setRoles(
-        (await req2.json()).map((role) => ({
-          text: role,
-          value: role,
-        }))
-      )
-      setUsers(
-        (await req.json()).map((user) => ({
+      const [requestGetUsers, requestGetRoles] = await Promise.all([
+        getUsers,
+        getRoles,
+      ])
+      let users = []
+      let roles = []
+
+      if (requestGetUsers.ok) {
+        users = (await requestGetUsers.json()).map((user) => ({
           text: user['@name'],
           value: user.id,
         }))
-      )
+      }
+      if (requestGetRoles.ok) {
+        roles = (await requestGetRoles.json()).map((role) => ({
+          text: role,
+          value: role,
+        }))
+      }
+      setUsers(users)
+      setRoles(roles)
     })()
   }, [])
 
+  const handleResponse = async (isError, message, errorMessage) => {
+    if (!isError) {
+      Ctx.flash(message, 'success')
+      Ctx.refresh()
+    } else {
+      Ctx.flash(`Failed to update!: ${errorMessage}`, 'danger')
+    }
+  }
+
   const addRole = async (ev) => {
     const role = ev.target.value
-    await patch({ user_roles: Ctx.context.user_roles.concat(role) })
-    Ctx.flash(`Role ${role} added to group`, 'success')
-    Ctx.refresh()
+    const { isError, errorMessage } = await patch({
+      user_roles: Ctx.context.user_roles.concat(role),
+    })
+    handleResponse(isError, `Role ${role} added to group`, errorMessage)
   }
 
   const removeRole = async (role) => {
-    await patch({
+    const { isError, errorMessage } = await patch({
       user_roles: Ctx.context.user_roles.filter((r) => r !== role),
     })
-    Ctx.flash(`Role ${role} removed from group`, 'success')
-    Ctx.refresh()
+    handleResponse(isError, `Role ${role} removed from group`, errorMessage)
   }
 
   const addUser = async (ev) => {
     const user = ev.target.value
-    await patch({ users: Ctx.context.users.concat(user) })
-    Ctx.flash(`User ${user} added to group!`, 'success')
-    Ctx.refresh()
+    const data = {}
+    Ctx.context.users.forEach((user) => {
+      data[user] = false
+    })
+    const { isError, errorMessage } = await patch({ users: data })
+    handleResponse(isError, `User ${user} added to group!`, errorMessage)
   }
 
-  const removeUser = async (user) => {
-    await patch({ users: Ctx.context.users.filter((r) => r !== user) })
-    Ctx.flash(`User ${user} removed from group`, 'success')
-    Ctx.refresh()
+  const removeUser = async (userToRemove) => {
+    const data = {}
+    Ctx.context.users.forEach((user) => {
+      data[user] = userToRemove !== user
+    })
+    const { isError, errorMessage } = await patch({ users: data })
+    handleResponse(
+      isError,
+      `User ${userToRemove} removed from group`,
+      errorMessage
+    )
   }
 
   return (

@@ -55,15 +55,24 @@ export function UserCtx(props) {
 
   React.useEffect(() => {
     ;(async () => {
-      const res = await Promise.all([
+      const [requestGetGroups, requestGetRoles] = await Promise.all([
         Ctx.client.search(Ctx.path, { type_name: 'Group' }, true),
         Ctx.client.getRoles(Ctx.path),
       ])
-      const groups = await res[0]
-      const roles = await res[1].json()
+
+      let groups = []
+      let roles = []
+
+      if (requestGetGroups.ok) {
+        groups = await requestGetGroups.json()
+      }
+      if (requestGetRoles.ok) {
+        roles = await requestGetRoles.json()
+      }
+
       setState({
         roles: roles,
-        groups: groups.member.map((item) => ({
+        groups: groups.items.map((item) => ({
           value: item.id,
           text: item['@name'],
         })),
@@ -75,11 +84,11 @@ export function UserCtx(props) {
     Ctx.apply(data)
     const { isError, errorMessage } = await patch(data)
     if (isError) {
-      Ctx.flash(`Update failed ${errorMessage}`, 'danger')
+      Ctx.flash(`Update failed: ${errorMessage}`, 'danger')
     } else {
       Ctx.flash('Data updated', 'primary')
+      Ctx.refresh()
     }
-    Ctx.refresh()
   }
 
   return (

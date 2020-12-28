@@ -1,9 +1,11 @@
 import React from 'react'
 import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
+import { useCrudContext } from '../hooks/useCrudContext'
 
 export function AddItem(props) {
   const Ctx = useTraversal()
+  const { post } = useCrudContext()
   const { type } = props
   const { getForm } = Ctx.registry
 
@@ -13,15 +15,20 @@ export function AddItem(props) {
     Ctx.cancelAction()
   }
 
-  async function doSubmit(data, oldData) {
+  async function doSubmit(data) {
     const form = Object.assign(
       {},
       { '@type': type },
       data.formData ? data.formData : data
     )
-    const client = Ctx.client
-    const res = await client.create(Ctx.path, form)
-    Ctx.flash('Content created!', 'success')
+
+    const { isError, errorMessage } = await post(form)
+    if (!isError) {
+      Ctx.flash('Content created!', 'success')
+    } else {
+      Ctx.flash(`An error has ocurred: ${errorMessage}`, 'danger')
+    }
+
     Ctx.cancelAction()
     Ctx.refresh()
   }
