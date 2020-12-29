@@ -14,7 +14,7 @@ const tabs = {
   Groups: PanelItems,
 }
 
-export function GroupToolbar(props) {
+export function GroupToolbar() {
   const Ctx = useTraversal()
 
   return (
@@ -141,7 +141,6 @@ export function GroupCtx() {
               (role) => !Ctx.context.user_roles.includes(role.value)
             )}
             appendDefault
-            resetOnChange
             onChange={addRole}
           />
           <hr />
@@ -149,7 +148,7 @@ export function GroupCtx() {
             <p className="control">
               <Tag
                 name={urole}
-                onRemove={(ev) => removeRole(urole)}
+                onRemove={() => removeRole(urole)}
                 size="is-small"
               />
             </p>
@@ -170,7 +169,7 @@ export function GroupCtx() {
             <p className="control">
               <Tag
                 name={user}
-                onRemove={(ev) => removeUser(user)}
+                onRemove={() => removeUser(user)}
                 size="is-small"
               />
             </p>

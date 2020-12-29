@@ -6,7 +6,7 @@ import { classnames } from '../../lib/helpers'
 // @ TODO implement hasErrors
 
 /** @type any */
-export const Select = ({
+export const Select =React.forwardRef(({
   options,
   error,
   size = 1,
@@ -16,21 +16,15 @@ export const Select = ({
   loading = false,
   isSubmitted,
   onChange,
-  resetOnChange,
   appendDefault = false,
   style = {},
   ...rest
-}) => {
-  const ref = React.useRef()
-
+}, ref) => {
   const onUpdate = (ev) => {
     if (ev.target.value === '') {
       onChange({ target: { value: undefined } })
     } else {
       onChange(ev)
-    }
-    if (resetOnChange) {
-      ref.current.value = ''
     }
   }
 
@@ -60,7 +54,7 @@ export const Select = ({
       </select>
     </div>
   )
-}
+}) 
 
 Select.propTypes = {
   error: PropTypes.string,
