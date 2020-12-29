@@ -3,7 +3,7 @@ import React from 'react'
 const plain = ['string', 'number', 'boolean']
 
 export function RenderField({ value, Widget }) {
-  if (!value) return ''
+  if (value === null || value === undefined) return ''
 
   if (Widget) {
     return <Widget value={value} />
