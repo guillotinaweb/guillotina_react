@@ -96,7 +96,11 @@ export function GroupCtx() {
     })
     data[newUser.id] = true
     const { isError, errorMessage } = await patch({ users: data })
-    handleResponse(isError, `User ${newUser.title} added to group!`, errorMessage)
+    handleResponse(
+      isError,
+      `User ${newUser.title} added to group!`,
+      errorMessage
+    )
   }
 
   const removeUser = async (userToRemove) => {
@@ -149,12 +153,12 @@ export function GroupCtx() {
           <h3 className="title is-size-6">Users</h3>
           <p>Add a User</p>
           <SearchInput
-              path={getContainerFromPath(Ctx.path)}
-              qs={[...searchParsed, ...sortParsed]}
-              client={Ctx.client}
-              onChange={addUser}
-              btnClass="is-small"
-            />
+            path={getContainerFromPath(Ctx.path)}
+            qs={[...searchParsed, ...sortParsed]}
+            client={Ctx.client}
+            onChange={addUser}
+            btnClass="is-small"
+          />
           <hr />
           {Ctx.context.users.map((user) => (
             <p className="control" key={`user_${user}`}>

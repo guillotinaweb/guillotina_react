@@ -45,7 +45,9 @@ export const SearchInput = ({
     if (wrapperRef && wrapperRef.current) {
       return {
         maxHeight: `${
-          window.innerHeight - wrapperRef.current.getBoundingClientRect().top - 100
+          window.innerHeight -
+          wrapperRef.current.getBoundingClientRect().top -
+          100
         }px`,
       }
     }
@@ -213,5 +215,5 @@ SearchInput.propTypes = {
   client: PropTypes.object,
   path: PropTypes.string,
   PageSize: PropTypes.number,
-  btnClass: PropTypes.string
+  btnClass: PropTypes.string,
 }
