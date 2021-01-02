@@ -22,6 +22,8 @@ export function TagsWidget({
   onChange,
   loading,
 }) {
+  const selectRef = React.useRef()
+
   const [result, setResult] = React.useState(items)
   available = prepareAvailable(available || [], result, title)
 
@@ -55,8 +57,11 @@ export function TagsWidget({
           <li className="widget-list-add select is-small">
             <Select
               options={available}
-              resetOnChange
-              onChange={(ev) => addItem(ev.target.value)}
+              ref={selectRef}
+              onChange={(ev) => {
+                addItem(ev.target.value)
+                selectRef.current.value = ''
+              }}
             />
           </li>
         )}
