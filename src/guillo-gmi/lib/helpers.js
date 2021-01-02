@@ -47,7 +47,7 @@ export function stringToSlug(str) {
 }
 
 export function sleep(ms) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(function () {
       resolve()
     }, ms)

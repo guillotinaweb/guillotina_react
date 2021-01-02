@@ -28,8 +28,7 @@ export function ApplicationCtx(props) {
   )
 }
 
-export function DatabaseCtx({ state, client, ...props }) {
-  const Ctx = useTraversal()
+export function DatabaseCtx({ state }) {
   const { containers } = state.context
   const { path } = state
   return (
@@ -43,7 +42,6 @@ export function DatabaseCtx({ state, client, ...props }) {
                 item={{ id: db, path: `${path}${db}/` }}
                 key={db}
                 icon={'fas fa-archive'}
-                setPath={Ctx.setPath}
               />
             ))}
           </tbody>
@@ -78,7 +76,7 @@ function ModalAddContainer({ isActive, setActive }) {
   const [idField, setId] = useState('')
   const [error, setError] = useState(undefined)
 
-  async function createContainer(ev) {
+  async function createContainer() {
     setLoading(true)
     const data = {
       '@type': 'Container',

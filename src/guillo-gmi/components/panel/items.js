@@ -23,7 +23,7 @@ const initialState = {
   total: 0,
 }
 
-export function PanelItems(props) {
+export function PanelItems() {
   const [location, setLocation] = useLocation()
   const { PageSize } = useConfig()
 

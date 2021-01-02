@@ -12,7 +12,7 @@ import { useLocation } from '../hooks/useLocation'
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = { types: undefined }
 
-export function CreateButton(props) {
+export function CreateButton() {
   const [state, setState] = useSetState(initialState)
   const Ctx = useTraversal()
   const Config = useConfig()
@@ -34,7 +34,7 @@ export function CreateButton(props) {
     return (
       <Button
         className={'is-small is-success'}
-        onClick={(ev) => doAction(state.types[0])}
+        onClick={() => doAction(state.types[0])}
       >
         Add {state.types[0]}
       </Button>
@@ -74,13 +74,6 @@ export function ContextToolbar({ AddButton, ...props }) {
     // ctx.setState({ search, searchParsed });
     ev.preventDefault()
   }
-
-  const setFocus = (ev) => {
-    ref.current.focus()
-    ev.preventDefault()
-  }
-
-  // useKey("/", setFocus)
 
   // cleanup form on state.search change
   React.useEffect(() => {

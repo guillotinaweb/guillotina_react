@@ -86,7 +86,7 @@ export function FormBuilder({
 
   return (
     <Form onSubmit={changes} {...rest}>
-      {fields.map((field, i) => (
+      {fields.map((field) => (
         <GetTag field={field} key={field} />
       ))}
       {children_}
