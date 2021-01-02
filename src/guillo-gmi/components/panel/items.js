@@ -116,7 +116,6 @@ export function PanelItems(props) {
               items.map((item) => (
                 <RItem
                   item={item}
-                  setPath={Ctx.setPath}
                   key={item['@uid']}
                   search={search}
                   columns={columns}

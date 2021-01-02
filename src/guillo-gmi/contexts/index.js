@@ -12,12 +12,6 @@ class Traversal {
     if (typeof flash === 'function') this.flash = flash
   }
 
-  setPath(path) {
-    // This is like black magic, document it
-    // router interactions are hard
-    this.setRouterParam({ path: path }, true)
-  }
-
   refresh() {
     this.dispatch({ type: 'REFRESH' })
   }

@@ -22,7 +22,7 @@ export function Guillotina({ auth, ...props }) {
   const { Permissions } = useConfig(config)
   const registry = useRegistry(props.registry || {})
   // Location is cooked routing solution (only uses search params)
-  const [location, setRouterParam] = useLocation()
+  const [location] = useLocation()
 
   // if there is no path provided just go to root
   const searchPath = location.get('path') || '/'
@@ -75,7 +75,6 @@ export function Guillotina({ auth, ...props }) {
     state,
     dispatch,
     registry,
-    setRouterParam,
     flash: config.flash,
   }
 
