@@ -1,3 +1,5 @@
+import {USER_FORM_SELECTORS} from '../elements/user-form-selectors'
+
 describe('test content', function () {
   beforeEach('clear', function () {
     cy.clearLocalStorage()
@@ -55,22 +57,23 @@ describe('test content', function () {
 
     // Create User
     cy.get('.level-right > .button').click()
-    cy.get('#id-0').type('Test User')
-    cy.get('#id-2').type('test-user@test.test')
-    cy.get('#id-4').type('Test Name')
-    cy.get('#id-6').type('TestPassword')
+    cy.get(USER_FORM_SELECTORS.username).type('test-user')
+    cy.get(USER_FORM_SELECTORS.email).type('test-user@test.test')
+    cy.get(USER_FORM_SELECTORS.name).type('Test Name')
+    cy.get(USER_FORM_SELECTORS.password).type('TestPassword')
     cy.get('p.control > .button').should('contain', 'Add User').click()
     cy.get('.notification').should('contain', 'Content created!')
 
     // Modify Item
-    cy.get('td:contains(Test User)').click()
-    cy.get('#id-81').clear().type('Test Modified User')
+    cy.get('td:contains(test-user)').click()
+    cy.get(USER_FORM_SELECTORS.username).type('Test Modified User', { force: true })
+
     cy.get('p.control > .button').click()
     cy.get('.notification').should('contain', 'Data updated')
     cy.get('.breadcrumb a:contains(users)').click()
 
     // Delete Item
-    cy.get('tr:contains(Test User) .delete').click()
+    cy.get('tr:contains(test-user) .delete').click()
     cy.get('.level-right > .control > .button').click()
     cy.get('.notification').should('contain', 'Items removed!')
   })
