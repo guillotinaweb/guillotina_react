@@ -32,18 +32,21 @@ yarn add @guillotinaweb/react-gmi
 
 App.js
 ```jsx
-import React from 'react';
-import {Layout} from '@guillotinaweb/react-gmi'
-import {Auth} from '@guillotinaweb/react-gmi'
-import {Guillotina} from '@guillotinaweb/react-gmi'
-import {Login} from '@guillotinaweb/react-gmi'
-import {useState} from 'react'
+import React from 'react'
+import { Layout } from '@guillotinaweb/react-gmi'
+import { Auth } from '@guillotinaweb/react-gmi'
+import { Guillotina } from '@guillotinaweb/react-gmi'
+import { Login } from '@guillotinaweb/react-gmi'
+import { getClient } from '@guillotinaweb/react-gmi'
+import { ClientProvider } from '@guillotinaweb/react-gmi'
+import { useState } from 'react'
 import '@guillotinaweb/react-gmi/dist/css/style.css'
 
 // guillotina url
 let url = 'http://localhost:8080/'
 
 const auth = new Auth(url)
+const client = getClient(url, auth)
 
 function App() {
 
@@ -60,7 +63,7 @@ function App() {
   auth.onLogout = onLogout
 
   return (
-
+    <ClientProvider client={client}>
       <Layout auth={auth} onLogout={onLogout}>
         { isLogged && <Guillotina auth={auth} url={url} />}
         { !isLogged && (
@@ -71,6 +74,7 @@ function App() {
           </div>
         )}
       </Layout>
+    </ClientProvider>
   );
 }
 

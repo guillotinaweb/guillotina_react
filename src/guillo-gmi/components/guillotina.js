@@ -1,10 +1,8 @@
 import React from 'react'
 import { useReducer } from 'react'
 import { useEffect } from 'react'
-import { useRef } from 'react'
-import { getClient } from '../lib/client'
 import { Flash } from './flash'
-import { TraversalProvider } from '../contexts'
+import { TraversalProvider, useGuillotinaClient } from '../contexts'
 import { useConfig } from '../hooks/useConfig'
 import { useRegistry } from '../hooks/useRegistry'
 import { useLocation } from '../hooks/useLocation'
@@ -15,9 +13,7 @@ import { Loading } from './ui/loading'
 export function Guillotina({ auth, ...props }) {
   const url = props.url || 'http://localhost:8080' // without trailing slash
   const config = props.config || {}
-
-  // Will hold client instance
-  const ref = useRef()
+  const client = useGuillotinaClient()
 
   const { Permissions } = useConfig(config)
   const registry = useRegistry(props.registry || {})
@@ -32,15 +28,7 @@ export function Guillotina({ auth, ...props }) {
 
   const [state, dispatch] = useReducer(guillotinaReducer, initialState)
 
-  // we store the client on a ref (refs are stable across renders)
-  if (!ref.current) {
-    // TODO: Refactor, we should be able to provide just a client
-    // this way is easy composable and extensible from outside.
-    ref.current = props.client || getClient(url, auth)
-  }
-
   const { path, refresh } = state
-  const client = ref.current
 
   useEffect(() => {
     dispatch({ type: 'SET_PATH', payload: searchPath })

@@ -4,6 +4,8 @@ import { getContainerFromPath } from '../lib/client'
 
 export const AuthContext = createContext({})
 
+export const ClientContext = createContext({})
+
 export const TraversalContext = createContext({})
 
 class Traversal {
@@ -82,4 +84,14 @@ export function TraversalProvider({ children, ...props }) {
 
 export function useTraversal() {
   return React.useContext(TraversalContext)
+}
+
+export function ClientProvider({ children, client }) {
+  return (
+    <ClientContext.Provider value={client}>{children}</ClientContext.Provider>
+  )
+}
+
+export function useGuillotinaClient() {
+  return React.useContext(ClientContext)
 }
