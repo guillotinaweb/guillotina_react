@@ -9,7 +9,7 @@ import { Delete } from './ui'
 
 export function Item({ item, icon }) {
   const [, navigate] = useLocation()
-  const link = () => navigate({path: model.path}, true)
+  const link = () => navigate({path: item.path}, true)
   return (
     <tr>
       <td onClick={link} style={{ width: '25px' }}>
