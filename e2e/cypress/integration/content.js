@@ -52,7 +52,7 @@ describe('test content', function () {
     cy.get('.notification').should('contain', 'Items removed!')
   })
 
-  it.only('creates a User as Admin, modifies it and delete it', function () {
+  it('creates a User as Admin, modifies it and delete it', function () {
     cy.get('td:contains(UserManager)').click()
 
     // Create User
