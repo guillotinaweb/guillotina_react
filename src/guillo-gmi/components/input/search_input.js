@@ -80,14 +80,14 @@ export const SearchInput = ({
       PageSize
     )
     const newItems =
-        options.items && concat ? [...options.items, ...data.items] : data.items
+      options.items && concat ? [...options.items, ...data.items] : data.items
 
-      setOptions({
-        items: newItems,
-        loading: false,
-        items_total: data.items_total,
-        page: page,
-      })
+    setOptions({
+      items: newItems,
+      loading: false,
+      items_total: data.items_total,
+      page: page,
+    })
   }
 
   React.useEffect(() => {

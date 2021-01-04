@@ -66,7 +66,7 @@ export function UserCtx() {
       if (requestGetRoles.ok) {
         roles = await requestGetRoles.json()
       }
-      
+
       setState({
         roles: roles,
         groups: groups.items.map((item) => ({

@@ -1,4 +1,4 @@
-import {USER_FORM_SELECTORS} from '../elements/user-form-selectors'
+import { USER_FORM_SELECTORS } from '../elements/user-form-selectors'
 
 describe('test content', function () {
   beforeEach('clear', function () {
@@ -66,7 +66,9 @@ describe('test content', function () {
 
     // Modify Item
     cy.get('td:contains(test-user)').click()
-    cy.get(USER_FORM_SELECTORS.username).type('Test Modified User', { force: true })
+    cy.get(USER_FORM_SELECTORS.username).type('Test Modified User', {
+      force: true,
+    })
 
     cy.get('p.control > .button').click()
     cy.get('.notification').should('contain', 'Data updated')

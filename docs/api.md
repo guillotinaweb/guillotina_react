@@ -101,9 +101,7 @@ const [location, setLocation] = useLocation()
 ### Guillotina
 
 ```jsx
-import {
-  Guillotina
-} from '@guillotinaweb/react-gmi'
+import { Guillotina } from '@guillotinaweb/react-gmi'
 // ...
 return (
   <Guillotina
