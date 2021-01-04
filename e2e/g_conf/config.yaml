@@ -8,7 +8,7 @@ databases:
     dsn: postgres://guillotina:@postgres/guillotina
     read_only: false
     cache_strategy: redis
-    autovacuum: false
+    autovacuum: true
     db_schema: guillotina
     pool_size: 8
 host: 0.0.0.0
