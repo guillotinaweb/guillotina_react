@@ -25,7 +25,7 @@ const methods = [
 
 export function PanelRequester() {
   const [state, setState] = useSetState(initial)
-  const { get, post, del, patch, loading, isError, result } = useCrudContext()
+  const { get, post, del, patch, loading, result } = useCrudContext()
   const ref = React.useRef()
 
   React.useEffect(() => {

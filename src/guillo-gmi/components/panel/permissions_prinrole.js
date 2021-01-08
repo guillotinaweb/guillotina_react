@@ -23,7 +23,7 @@ export function PermissionPrinrole({ groups, roles, operations, refresh }) {
     setter({ [field]: values })
   }
 
-  const savePermission = async (ev) => {
+  const savePermission = async () => {
     if (!state.principal || !state.setting || state.roles.length === 0) {
       setState({ error: 'Invalid form' })
       return

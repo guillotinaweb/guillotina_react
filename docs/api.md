@@ -69,7 +69,6 @@ import { useTraversal } from '@guillotinaweb/react-gmi'
 // ...
 const Ctx = useTraversal()
 // ...
-Ctx.setPath('/db/guillotina/') // will navigate tracersal to the container
 Ctx.doAction // show an action
 Ctx.cancelAction // hide (terminate) the latest action. Used, when the process completes
 Ctx.flash // Show a flash message on the main screen
@@ -102,17 +101,10 @@ const [location, setLocation] = useLocation()
 ### Guillotina
 
 ```jsx
-import {
-  Guillotina,
-  GuillotinaClient,
-  RestClient,
-} from '@guillotinaweb/react-gmi'
-// ...
-const client = new GuillotinaClient(new RestClient(url, auth))
+import { Guillotina } from '@guillotinaweb/react-gmi'
 // ...
 return (
   <Guillotina
-    client={client}
     config={{
       icons: {
         Banners: 'fas fa-image',

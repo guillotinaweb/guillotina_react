@@ -10,17 +10,17 @@ describe('check guillotina', function () {
       method: 'GET',
       url: api_url,
       headers,
-    }).then((res) => {
+    }).then(() => {
       console.log('Container exists')
     })
   })
 
-  it('check root user is created', function () {
+  it('check default is created', function () {
     cy.request({
       method: 'GET',
-      url: `${api_url}/container/users/root`,
+      url: `${api_url}/container/users/default`,
       headers,
-    }).then((res) => {
+    }).then(() => {
       console.log('User exists')
     })
   })

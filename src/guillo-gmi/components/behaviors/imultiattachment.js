@@ -34,7 +34,7 @@ export function IMultiAttachment(props) {
     Ctx.refresh()
   }
 
-  const downloadFile = (file, content_type, fileName) => async (event) => {
+  const downloadFile = (file, content_type, fileName) => async () => {
     const endpoint = `${Ctx.path}@download/files/${file}`
     const res = await Ctx.client.download(endpoint)
     const text = await res.blob()

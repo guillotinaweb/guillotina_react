@@ -64,14 +64,14 @@ export const SearchInput = ({
     let searchTermQs = []
     let searchTermParsed = []
     if (value !== '') {
-      searchTermParsed = parser(`title__in=${value}`)
+      searchTermParsed = parser(`id__in=${value}`)
     }
 
     if (qs.length > 0 || searchTermParsed.length > 0) {
       searchTermQs = buildQs([...qs, ...searchTermParsed])
     }
 
-    const res = await client.search(
+    const data = await client.search(
       path,
       searchTermQs,
       false,
@@ -79,24 +79,15 @@ export const SearchInput = ({
       page * PageSize,
       PageSize
     )
-    if (res.status === 401) {
-      setOptions({
-        loading: false,
-        items: [],
-        page: page,
-      })
-    } else {
-      const data = await res.json()
-      const newItems =
-        options.items && concat ? [...options.items, ...data.items] : data.items
+    const newItems =
+      options.items && concat ? [...options.items, ...data.items] : data.items
 
-      setOptions({
-        items: newItems,
-        loading: false,
-        items_total: data.items_total,
-        page: page,
-      })
-    }
+    setOptions({
+      items: newItems,
+      loading: false,
+      items_total: data.items_total,
+      page: page,
+    })
   }
 
   React.useEffect(() => {

@@ -1,14 +1,15 @@
 import React from 'react'
 
 import { ItemModel } from '../models'
+import { useLocation } from '../hooks/useLocation'
 import { useTraversal } from '../contexts'
 import { Icon } from './ui/icon'
 import { ItemCheckbox } from './selected_items_actions'
 import { Delete } from './ui'
 
-export function Item({ item, setPath, icon }) {
-  const Ctx = useTraversal()
-  const link = () => Ctx.setPath(item.path)
+export function Item({ item, icon }) {
+  const [, navigate] = useLocation()
+  const link = () => navigate({ path: item.path }, true)
   return (
     <tr>
       <td onClick={link} style={{ width: '25px' }}>
@@ -24,9 +25,10 @@ const smallcss = {
 }
 
 export function RItem({ item, search, columns }) {
+  const [, navigate] = useLocation()
   const traversal = useTraversal()
   const model = new ItemModel(item, traversal.url, traversal.path)
-  const link = () => traversal.setPath(model.path)
+  const link = () => navigate({ path: model.path }, true)
 
   return (
     <tr key={item}>

@@ -10,7 +10,7 @@ import { Table } from '../ui/table'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { useTraversal } from '../../contexts'
 
-export function PanelPermissions(props) {
+export function PanelPermissions() {
   const { get, result, loading } = useCrudContext()
   const ctx = useTraversal()
 

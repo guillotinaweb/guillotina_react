@@ -20,12 +20,12 @@ const useInput = (onChange, value, validator) => {
     if (onChange) onChange(value)
   }
 
-  const onBlur = (ev) => {
+  const onBlur = () => {
     const hasError = applyValidators(state.value, validator) === false
     if (hasError) setState({ value: state.value, hasError })
   }
 
-  const onFocus = (ev) => {
+  const onFocus = () => {
     if (state.hasError) {
       setState({ value: state.value, hasError: false })
     }

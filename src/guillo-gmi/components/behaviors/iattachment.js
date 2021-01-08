@@ -18,7 +18,7 @@ export function IAttachment(props) {
     ctx.refresh()
   }
 
-  const downloadFile = (file, content_type) => async (event) => {
+  const downloadFile = (file, content_type) => async () => {
     const endpoint = `${ctx.path}@download/file`
     const res = await ctx.client.download(endpoint)
     const text = await res.blob()

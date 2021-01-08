@@ -12,7 +12,7 @@ import { useTraversal } from '../../contexts'
 const _showProperties = ['@id', '@name', '@uid', 'title']
 const _editable = ['title']
 
-export function PanelProperties(props) {
+export function PanelProperties() {
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
   const cfg = useConfig()

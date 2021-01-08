@@ -4,7 +4,7 @@ import { useLocation } from '../hooks/useLocation'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 
-export function Path(props) {
+export function Path() {
   const ctx = useTraversal()
   const [, navigate] = useLocation()
 
@@ -14,7 +14,7 @@ export function Path(props) {
   if (segments.length === 1) {
     return false
   }
-  //ctx.setPath(links[indx])
+
   return (
     <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>

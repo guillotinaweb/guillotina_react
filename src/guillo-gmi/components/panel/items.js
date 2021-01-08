@@ -23,7 +23,7 @@ const initialState = {
   total: 0,
 }
 
-export function PanelItems(props) {
+export function PanelItems() {
   const [location, setLocation] = useLocation()
   const { PageSize } = useConfig()
 
@@ -116,7 +116,6 @@ export function PanelItems(props) {
               items.map((item) => (
                 <RItem
                   item={item}
-                  setPath={Ctx.setPath}
                   key={item['@uid']}
                   search={search}
                   columns={columns}

@@ -41,8 +41,8 @@ export function UsersCtx(props) {
   )
 }
 
-export function UserCtx(props) {
-  const { Ctx, patch, loading, isError, errorMessage } = useCrudContext()
+export function UserCtx() {
+  const { Ctx, patch, loading } = useCrudContext()
 
   const [state, setState] = React.useState({ roles: [], gorups: [] })
 
@@ -60,12 +60,9 @@ export function UserCtx(props) {
         Ctx.client.getRoles(Ctx.path),
       ])
 
-      let groups = []
+      let groups = requestGetGroups
       let roles = []
 
-      if (requestGetGroups.ok) {
-        groups = await requestGetGroups.json()
-      }
       if (requestGetRoles.ok) {
         roles = await requestGetRoles.json()
       }
