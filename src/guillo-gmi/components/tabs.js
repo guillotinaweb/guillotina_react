@@ -15,8 +15,6 @@ export function TabsPanel({
 }) {
   const [location, setLocation] = useLocation()
 
-  const defaultTab = currentTab
-
   if (location.get('tab')) {
     currentTab = location.get('tab')
   } else {

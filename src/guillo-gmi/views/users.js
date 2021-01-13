@@ -1,7 +1,7 @@
 import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { PanelItems } from '../components/panel/items'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { UserForm } from '../forms/users'
 import { formatDate } from '../lib/utils'
 import { useCrudContext } from '../hooks/useCrudContext'
@@ -15,7 +15,7 @@ const tabs = {
 }
 
 export function UsersToolbar(props) {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
 
   return (
     <button
@@ -41,8 +41,8 @@ export function UsersCtx(props) {
   )
 }
 
-export function UserCtx(props) {
-  const { Ctx, patch, loading, isError, errorMessage } = useCrudContext()
+export function UserCtx() {
+  const { Ctx, patch, loading } = useCrudContext()
 
   const [state, setState] = React.useState({ roles: [], gorups: [] })
 
@@ -55,15 +55,21 @@ export function UserCtx(props) {
 
   React.useEffect(() => {
     ;(async () => {
-      const res = await Promise.all([
+      const [requestGetGroups, requestGetRoles] = await Promise.all([
         Ctx.client.search(Ctx.path, { type_name: 'Group' }, true),
         Ctx.client.getRoles(Ctx.path),
       ])
-      const groups = await res[0]
-      const roles = await res[1].json()
+
+      let groups = requestGetGroups
+      let roles = []
+
+      if (requestGetRoles.ok) {
+        roles = await requestGetRoles.json()
+      }
+
       setState({
         roles: roles,
-        groups: groups.member.map((item) => ({
+        groups: groups.items.map((item) => ({
           value: item.id,
           text: item['@name'],
         })),
@@ -75,11 +81,11 @@ export function UserCtx(props) {
     Ctx.apply(data)
     const { isError, errorMessage } = await patch(data)
     if (isError) {
-      Ctx.flash(`Update failed ${errorMessage}`, 'danger')
+      Ctx.flash(`Update failed: ${errorMessage}`, 'danger')
     } else {
       Ctx.flash('Data updated', 'primary')
+      Ctx.refresh()
     }
-    Ctx.refresh()
   }
 
   return (

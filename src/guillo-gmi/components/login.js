@@ -1,6 +1,5 @@
 import React from 'react'
 import { Component } from 'react'
-import linkState from 'linkstate'
 
 const ERRORS = {
   failed_to_fetch: 'Failed to fetch data: Backend not running?',
@@ -62,7 +61,7 @@ export class Login extends Component {
               type="text"
               className="input"
               placeholder="Username"
-              onChange={linkState(this, 'username')}
+              onChange={(e) => this.setState({ username: e.target.value })}
               value={username}
               ref={this.ref}
             />
@@ -72,7 +71,7 @@ export class Login extends Component {
             <input
               type="password"
               className="input"
-              onChange={linkState(this, 'password')}
+              onChange={(e) => this.setState({ password: e.target.value })}
               value={password}
             />
           </div>
@@ -80,7 +79,9 @@ export class Login extends Component {
             <div className="field">
               <label className="label">Schema:</label>
               <div className="select">
-                <select onChange={linkState(this, 'schema')}>
+                <select
+                  onChange={(e) => this.setState({ schema: e.target.value })}
+                >
                   {schemas.map((s) => (
                     <option value={s} key={s}>
                       {s}

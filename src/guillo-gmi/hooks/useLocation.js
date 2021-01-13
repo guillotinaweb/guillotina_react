@@ -1,4 +1,3 @@
-import React from 'react'
 import { useEffect, useRef, useState, useCallback } from 'react'
 
 // Mostly inspired from
@@ -17,7 +16,7 @@ const clean = (to) => {
   setURLParams(current)
 }
 
-export const useLocation = ({ base = '' } = {}) => {
+export const useLocation = () => {
   const [path, update] = useState(currentSearchParams())
   const prevPath = useRef(path)
 

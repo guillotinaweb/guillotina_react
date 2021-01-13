@@ -28,7 +28,7 @@ export function PermissionRoleperm({
     setter({ [field]: values })
   }
 
-  const savePermission = async (ev) => {
+  const savePermission = async () => {
     if (!state.role || !state.setting || state.permission.length === 0) {
       console.log(state)
       setState({ error: 'Invalid form' })

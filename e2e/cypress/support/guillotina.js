@@ -10,14 +10,14 @@ export function setupGuillotina() {
     url: api_url,
     headers,
     body: { '@type': 'Container', id: 'container' },
-  }).then((response) => console.log('container created'))
+  }).then(() => console.log('container created'))
 
   cy.request({
     method: 'POST',
     url: `${api_url}/container/@addons`,
     headers,
     body: { id: 'dbusers' },
-  }).then((response) => console.log('dbusers addon added'))
+  }).then(() => console.log('dbusers addon added'))
 
   cy.request({
     method: 'POST',
@@ -25,11 +25,11 @@ export function setupGuillotina() {
     headers,
     body: {
       '@type': 'User',
-      username: 'root',
-      password: 'root',
-      email: 'root@test.com',
+      username: 'default',
+      password: 'default',
+      email: 'default@test.com',
     },
-  }).then((response) => console.log('dbusers addon added'))
+  }).then(() => console.log('default user added'))
 }
 
 export function tearDownGuillotina() {
@@ -41,19 +41,25 @@ export function tearDownGuillotina() {
 
   cy.request({
     method: 'DELETE',
+    url: `${api_url}/container/users/default`,
+    headers,
+  }).then(() => console.log('default user deleted'))
+
+  cy.request({
+    method: 'DELETE',
     url: `${api_url}/container/users`,
     headers,
-  }).then((response) => console.log('container deleted'))
+  }).then(() => console.log('users deleted'))
 
   cy.request({
     method: 'DELETE',
     url: `${api_url}/container/groups`,
     headers,
-  }).then((response) => console.log('container deleted'))
+  }).then(() => console.log('groups deleted'))
 
   cy.request({
     method: 'DELETE',
     url: `${api_url}/container`,
     headers,
-  }).then((response) => console.log('container deleted'))
+  }).then(() => console.log('container deleted'))
 }

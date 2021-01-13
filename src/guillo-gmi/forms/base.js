@@ -9,7 +9,7 @@ export function BaseForm({ onSubmit, actionName, title }) {
   const [id, setId] = useState('')
   const [error, setError] = useState(undefined)
 
-  const submit = (values) => {
+  const submit = () => {
     if (name === '') {
       setError('This field is required')
       return

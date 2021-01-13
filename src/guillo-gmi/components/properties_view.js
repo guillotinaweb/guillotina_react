@@ -1,8 +1,8 @@
 import React from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 
-export function PropertiesButtonView(properties) {
-  const Ctx = React.useContext(TraversalContext)
+export function PropertiesButtonView() {
+  const Ctx = useTraversal()
   const { getProperties } = Ctx.registry
 
   const Props = getProperties(Ctx.context['@type'])
@@ -14,8 +14,8 @@ export function PropertiesButtonView(properties) {
   return null
 }
 
-export function PropertiesView(props) {
-  const Ctx = React.useContext(TraversalContext)
+export function PropertiesView() {
+  const Ctx = useTraversal()
   const { getProperties } = Ctx.registry
   const Props = getProperties(Ctx.context['@type'])
 

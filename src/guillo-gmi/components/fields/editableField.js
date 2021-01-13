@@ -16,8 +16,13 @@ export function EditableField({ field, value, Type = Input, ns }) {
   const saveField = async (ev) => {
     if (ev) ev.preventDefault()
     const data = ns ? { [ns]: { [field]: val } } : { [field]: val }
-    await patch(data)
-    Ctx.flash(`Field ${field}, updated!`, 'success')
+    const { isError, errorMessage } = await patch(data)
+    if (!isError) {
+      Ctx.flash(`Field ${field}, updated!`, 'success')
+    } else {
+      Ctx.flash(`Failed to update file ${field}!: ${errorMessage}`, 'danger')
+    }
+
     Ctx.refresh()
     setEdit(false)
   }

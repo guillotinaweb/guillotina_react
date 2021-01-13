@@ -10,6 +10,7 @@ export * from './input/password'
 export * from './input/select'
 export * from './input/upload'
 export * from './input/textarea'
+export * from './input/search_input'
 
 export * from './fields/editableField'
 export * from './fields/renderField'

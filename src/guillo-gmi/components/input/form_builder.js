@@ -66,6 +66,7 @@ export function FormBuilder({
       onChange: onUpdate(field),
       placeholder: properties[field].title || '',
       id: generateUID(),
+      testid: `${field}TestInput`,
     }
 
     if (required.includes(field)) {
@@ -86,7 +87,7 @@ export function FormBuilder({
 
   return (
     <Form onSubmit={changes} {...rest}>
-      {fields.map((field, i) => (
+      {fields.map((field) => (
         <GetTag field={field} key={field} />
       ))}
       {children_}

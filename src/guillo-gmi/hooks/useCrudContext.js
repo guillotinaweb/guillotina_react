@@ -1,5 +1,4 @@
-import React from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import useSetState from './useSetState'
 
 const initial = {
@@ -8,6 +7,15 @@ const initial = {
   errorMessage: undefined,
   result: undefined,
   response: undefined,
+}
+
+const getErrorMessage = (dataError, defaultValue) => {
+  if (dataError && dataError.details) {
+    return dataError.details
+  } else if (dataError && dataError.reason) {
+    return dataError.reason
+  }
+  return defaultValue
 }
 
 const processResponse = async (res, ready_body = true) => {
@@ -22,16 +30,12 @@ const processResponse = async (res, ready_body = true) => {
     return {
       isError: true,
       loading: false,
-      errorMessage: res.status,
+      errorMessage: getErrorMessage(await res.json(), res.status),
       response: res,
     }
 }
 
-const patch = (state, setState, Ctx) => async (
-  data,
-  endpoint,
-  body = false
-) => {
+const patch = (setState, Ctx) => async (data, endpoint, body = false) => {
   setState({ loading: true })
   let newState = {}
   try {
@@ -46,7 +50,7 @@ const patch = (state, setState, Ctx) => async (
   return newState
 }
 
-const del = (state, setState, Ctx) => async (data, endpoint, body = false) => {
+const del = (setState, Ctx) => async (data, endpoint, body = false) => {
   setState({ loading: true })
   let newState = {}
   try {
@@ -61,7 +65,7 @@ const del = (state, setState, Ctx) => async (data, endpoint, body = false) => {
   return newState
 }
 
-const post = (state, setState, Ctx) => async (data, endpoint, body = true) => {
+const post = (setState, Ctx) => async (data, endpoint, body = true) => {
   setState({ loading: true })
   let newState = {}
   try {
@@ -76,7 +80,7 @@ const post = (state, setState, Ctx) => async (data, endpoint, body = true) => {
   return newState
 }
 
-const get = (state, setState, Ctx) => async (endpoint) => {
+const get = (setState, Ctx) => async (endpoint) => {
   setState({ loading: true })
   const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
   const req = await Ctx.client.get(path)
@@ -86,15 +90,15 @@ const get = (state, setState, Ctx) => async (endpoint) => {
 }
 
 export function useCrudContext() {
-  const Ctx = React.useContext(TraversalContext)
+  const Ctx = useTraversal()
   const [state, setState] = useSetState(initial)
 
   return {
     ...state,
     Ctx,
-    patch: patch(state, setState, Ctx),
-    del: del(state, setState, Ctx),
-    post: post(state, setState, Ctx),
-    get: get(state, setState, Ctx),
+    patch: patch(setState, Ctx),
+    del: del(setState, Ctx),
+    post: post(setState, Ctx),
+    get: get(setState, Ctx),
   }
 }

@@ -4,18 +4,14 @@ import { getContainerFromPath } from '../lib/client'
 
 export const AuthContext = createContext({})
 
+export const ClientContext = createContext({})
+
 export const TraversalContext = createContext({})
 
 class Traversal {
   constructor({ flash, ...props }) {
     Object.assign(this, props)
     if (typeof flash === 'function') this.flash = flash
-  }
-
-  setPath(path) {
-    // This is like black magic, document it
-    // router interactions are hard
-    this.setRouterParam({ path: path }, true)
   }
 
   refresh() {
@@ -84,4 +80,18 @@ export function TraversalProvider({ children, ...props }) {
       {children}
     </TraversalContext.Provider>
   )
+}
+
+export function useTraversal() {
+  return React.useContext(TraversalContext)
+}
+
+export function ClientProvider({ children, client }) {
+  return (
+    <ClientContext.Provider value={client}>{children}</ClientContext.Provider>
+  )
+}
+
+export function useGuillotinaClient() {
+  return React.useContext(ClientContext)
 }

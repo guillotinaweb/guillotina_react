@@ -1,7 +1,5 @@
 import jwt_decode from 'jwt-decode'
 
-const noop = () => {}
-
 export class Auth {
   maxRetry = 1
   retryRefresh = 0

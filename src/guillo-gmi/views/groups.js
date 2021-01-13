@@ -1,21 +1,23 @@
 import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { PanelItems } from '../components/panel/items'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { Icon } from '../components/ui/icon'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Select } from '../components/input/select'
+import { SearchInput } from '../components/input/search_input'
 import { Tag } from '../components/ui/tag'
+import { parser } from '../lib/search'
 import { EditableField } from '../components/fields/editableField'
-
+import { getContainerFromPath } from '../lib/client'
 const tabs = {
   Groups: PanelItems,
 }
 
-export function GroupToolbar(props) {
-  const Ctx = React.useContext(TraversalContext)
+export function GroupToolbar() {
+  const Ctx = useTraversal()
 
   return (
     <button
@@ -41,57 +43,77 @@ export function GroupsCtx(props) {
   )
 }
 
-export function GroupCtx(props) {
+let sortParsed = parser(`_sort_asc=title`)
+let searchParsed = parser('type_name=User')
+
+export function GroupCtx() {
   const { Ctx, patch } = useCrudContext()
   const [roles, setRoles] = useState([])
-  const [users, setUsers] = useState([])
 
   useEffect(() => {
     ;(async () => {
-      const getUsers = Ctx.client.getUsers(Ctx.path)
-      const getRoles = Ctx.client.getRoles(Ctx.path)
-      const [req, req2] = await Promise.all([getUsers, getRoles])
-      setRoles(
-        (await req2.json()).map((role) => ({
+      const requestGetRoles = await Ctx.client.getRoles(Ctx.path)
+      let roles = []
+
+      if (requestGetRoles.ok) {
+        roles = (await requestGetRoles.json()).map((role) => ({
           text: role,
           value: role,
         }))
-      )
-      setUsers(
-        (await req.json()).map((user) => ({
-          text: user['@name'],
-          value: user.id,
-        }))
-      )
+      }
+      setRoles(roles)
     })()
   }, [])
 
+  const handleResponse = async (isError, message, errorMessage) => {
+    if (!isError) {
+      Ctx.flash(message, 'success')
+      Ctx.refresh()
+    } else {
+      Ctx.flash(`Failed to update!: ${errorMessage}`, 'danger')
+    }
+  }
+
   const addRole = async (ev) => {
     const role = ev.target.value
-    await patch({ user_roles: Ctx.context.user_roles.concat(role) })
-    Ctx.flash(`Role ${role} added to group`, 'success')
-    Ctx.refresh()
+    const { isError, errorMessage } = await patch({
+      user_roles: Ctx.context.user_roles.concat(role),
+    })
+    handleResponse(isError, `Role ${role} added to group`, errorMessage)
   }
 
   const removeRole = async (role) => {
-    await patch({
+    const { isError, errorMessage } = await patch({
       user_roles: Ctx.context.user_roles.filter((r) => r !== role),
     })
-    Ctx.flash(`Role ${role} removed from group`, 'success')
-    Ctx.refresh()
+    handleResponse(isError, `Role ${role} removed from group`, errorMessage)
   }
 
-  const addUser = async (ev) => {
-    const user = ev.target.value
-    await patch({ users: Ctx.context.users.concat(user) })
-    Ctx.flash(`User ${user} added to group!`, 'success')
-    Ctx.refresh()
+  const addUser = async (newUser) => {
+    const data = {}
+    Ctx.context.users.forEach((user) => {
+      data[user] = true
+    })
+    data[newUser.id] = true
+    const { isError, errorMessage } = await patch({ users: data })
+    handleResponse(
+      isError,
+      `User ${newUser.title} added to group!`,
+      errorMessage
+    )
   }
 
-  const removeUser = async (user) => {
-    await patch({ users: Ctx.context.users.filter((r) => r !== user) })
-    Ctx.flash(`User ${user} removed from group`, 'success')
-    Ctx.refresh()
+  const removeUser = async (userToRemove) => {
+    const data = {}
+    Ctx.context.users.forEach((user) => {
+      data[user] = userToRemove !== user
+    })
+    const { isError, errorMessage } = await patch({ users: data })
+    handleResponse(
+      isError,
+      `User ${userToRemove} removed from group`,
+      errorMessage
+    )
   }
 
   return (
@@ -114,15 +136,14 @@ export function GroupCtx(props) {
               (role) => !Ctx.context.user_roles.includes(role.value)
             )}
             appendDefault
-            resetOnChange
             onChange={addRole}
           />
           <hr />
           {Ctx.context.user_roles.map((urole) => (
-            <p className="control">
+            <p className="control" key={`roles_${urole}`}>
               <Tag
                 name={urole}
-                onRemove={(ev) => removeRole(urole)}
+                onRemove={() => removeRole(urole)}
                 size="is-small"
               />
             </p>
@@ -131,19 +152,19 @@ export function GroupCtx(props) {
         <div className="column is-4 is-size-7">
           <h3 className="title is-size-6">Users</h3>
           <p>Add a User</p>
-          <Select
-            options={users.filter(
-              (user) => !Ctx.context.users.includes(user.value)
-            )}
-            appendDefault
+          <SearchInput
+            path={getContainerFromPath(Ctx.path)}
+            qs={[...searchParsed, ...sortParsed]}
+            client={Ctx.client}
             onChange={addUser}
+            btnClass="is-small"
           />
           <hr />
           {Ctx.context.users.map((user) => (
-            <p className="control">
+            <p className="control" key={`user_${user}`}>
               <Tag
                 name={user}
-                onRemove={(ev) => removeUser(user)}
+                onRemove={() => removeUser(user)}
                 size="is-small"
               />
             </p>

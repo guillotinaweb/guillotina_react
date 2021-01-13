@@ -1,5 +1,8 @@
 name: e2e tests
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -16,16 +19,20 @@ jobs:
       - name: guillotina
         run: docker run -d -v /home/runner/work/guillotina_react/guillotina_react/e2e/g_conf/:/g_conf/ --link=postgres -p 0.0.0.0:8080:8080 plone/guillotina:latest g -c /g_conf/config.yaml
 
-      - name: Install server dependencies
+      - name: Install base modules
         run: yarn
-      - name: Install react-gmi
-        run: yarn add @guillotinaweb/react-gmi
+
+      - name: Build dist
+        run: yarn && yarn build && yarn build:css
+        working-directory: package
+
       - name: Start Server
         run: yarn start &
+        working-directory: e2e/example
 
       - name: Cypress run
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           build: yarn
           wait-on: 'http://localhost:3000'
-          working-directory: ./e2e
+          working-directory: e2e

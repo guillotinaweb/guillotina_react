@@ -1,5 +1,4 @@
 import React from 'react'
-import { useContext } from 'react'
 
 import useSetState from '../../hooks/useSetState'
 import {
@@ -10,7 +9,7 @@ import {
 import { Pagination } from '../pagination'
 import { RItem } from '../item'
 import { SearchLabels } from '../../components/searchLabels'
-import { TraversalContext } from '../../contexts'
+import { useTraversal } from '../../contexts'
 import { buildQs } from '../../lib/search'
 import { parser } from '../../lib/search'
 import { useConfig } from '../../hooks/useConfig'
@@ -24,11 +23,11 @@ const initialState = {
   total: 0,
 }
 
-export function PanelItems(props) {
+export function PanelItems() {
   const [location, setLocation] = useLocation()
   const { PageSize } = useConfig()
 
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const [state, setState] = useSetState(initialState)
   const { items, loading, total } = state
   const columns = Ctx.client.getItemsColumn(items, Ctx.path)
@@ -117,7 +116,6 @@ export function PanelItems(props) {
               items.map((item) => (
                 <RItem
                   item={item}
-                  setPath={Ctx.setPath}
                   key={item['@uid']}
                   search={search}
                   columns={columns}

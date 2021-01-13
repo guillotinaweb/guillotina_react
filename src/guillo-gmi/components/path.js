@@ -1,12 +1,11 @@
 import React from 'react'
-import { TraversalContext } from '../contexts'
-import { useContext } from 'react'
+import { useTraversal } from '../contexts'
 import { useLocation } from '../hooks/useLocation'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 
-export function Path(props) {
-  const ctx = useContext(TraversalContext)
+export function Path() {
+  const ctx = useTraversal()
   const [, navigate] = useLocation()
 
   let segments = ctx.path.replace(/\/$/, '').split('/')
@@ -15,7 +14,7 @@ export function Path(props) {
   if (segments.length === 1) {
     return false
   }
-  //ctx.setPath(links[indx])
+
   return (
     <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>

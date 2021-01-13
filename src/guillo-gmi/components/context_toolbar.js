@@ -1,21 +1,20 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { useContext } from 'react'
 
 import Dropdown from './input/dropdown'
 import useSetState from '../hooks/useSetState'
 import { Button } from './input/button'
 import { Icon } from './ui/icon'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 import { useConfig } from '../hooks/useConfig'
 import { useLocation } from '../hooks/useLocation'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = { types: undefined }
 
-export function CreateButton(props) {
+export function CreateButton() {
   const [state, setState] = useSetState(initialState)
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const Config = useConfig()
   useEffect(() => {
     ;(async function anyNameFunction() {
@@ -35,7 +34,7 @@ export function CreateButton(props) {
     return (
       <Button
         className={'is-small is-success'}
-        onClick={(ev) => doAction(state.types[0])}
+        onClick={() => doAction(state.types[0])}
       >
         Add {state.types[0]}
       </Button>
@@ -63,7 +62,7 @@ export function CreateButton(props) {
 
 export function ContextToolbar({ AddButton, ...props }) {
   const [location, setLocation] = useLocation()
-  const ctx = React.useContext(TraversalContext)
+  const ctx = useTraversal()
   const ref = React.useRef(null)
 
   const searchText = location.get('q')
@@ -75,13 +74,6 @@ export function ContextToolbar({ AddButton, ...props }) {
     // ctx.setState({ search, searchParsed });
     ev.preventDefault()
   }
-
-  const setFocus = (ev) => {
-    ref.current.focus()
-    ev.preventDefault()
-  }
-
-  // useKey("/", setFocus)
 
   // cleanup form on state.search change
   React.useEffect(() => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { Tag } from './ui/tag'
 import { useLocation } from '../hooks/useLocation'
 
-export function SearchLabels(props) {
+export function SearchLabels() {
   const [location, , del] = useLocation()
   const search = location.get('q')
 

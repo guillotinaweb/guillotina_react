@@ -1,12 +1,11 @@
 import React from 'react'
 import { PathTree } from '../components/modal'
-import { useContext } from 'react'
-import { TraversalContext } from '../contexts'
+import { useTraversal } from '../contexts'
 
 const withError = (res) => res.status >= 300
 
 export function MoveItems(props) {
-  const Ctx = useContext(TraversalContext)
+  const Ctx = useTraversal()
   const { items = [] } = props
 
   async function moveItems(path) {
