@@ -4,6 +4,7 @@ import htm from 'https://cdn.skypack.dev/htm'
 import {
   Guillotina,
   Auth,
+  Login,
 } from 'https://cdn.skypack.dev/@guillotinaweb/react-gmi'
 
 const html = htm.bind(React.createElement)
