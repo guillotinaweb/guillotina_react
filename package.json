@@ -30,7 +30,7 @@
   },
   "scripts": {
     "format": "pretty-quick",
-    "format:check": "pretty-quick --pattern *.js --check"
+    "format:check": "prettier --check \"src/**/*.js\""
   },
   "eslintConfig": {
     "extends": "react-app"
