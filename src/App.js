@@ -37,7 +37,7 @@ function App() {
   const [isLogged, setLogged] = useState(auth.isLogged)
 
   const onLogin = () => {
-    setLogged(true)
+setLogged(true)
   }
   const onLogout = () => setLogged(false)
 
