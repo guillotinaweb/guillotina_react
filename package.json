@@ -41,7 +41,7 @@
     "format": "prettier --write \"src/**/*.js\"",
     "format:check": "prettier --check \"src/**/*.js\"",
     "build": "yarn build:js && yarn build:css",
-    "build:js": "rm -rf ./dist && microbundle --jsx React.createElement",
+    "build:js": "rm -rf ./dist && microbundle --jsx React.createElement --no-compress --sourcemap",
     "build:css": "rm -rf ./dist/css && mkdir ./dist/css && node-sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
     "prepublish": "yarn build"
   },
