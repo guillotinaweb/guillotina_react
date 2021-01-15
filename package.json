@@ -9,15 +9,25 @@
   ],
   "source": "./src/guillo-gmi/index.js",
   "main": "./dist/react-gmi.js",
+  "exports": "./dist/react-gmi.modern.js",
+  "types": "./dist/index.d.ts",
   "unpkg": "./dist/react-gmi.umd.js",
   "name": "@guillotinaweb/react-gmi",
   "dependencies": {
+    "brace": "0.11.1",
     "bulma": "0.9.1",
     "jwt-decode": "3.1.2",
-    "react-useportal": "^1.0.13"
+    "prop-types": "15.7.2",
+    "react-ace": "9.2.1",
+    "react-useportal": "1.0.13"
+  },
+  "peerDependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "devDependencies": {
     "@babel/cli": "7.12.10",
+    "@babel/core": "7.12.10",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.6.0",
@@ -25,12 +35,15 @@
     "node-sass": "5.0.0",
     "serialize-javascript": "5.0.1",
     "husky": "4.3.6",
-    "prettier": "2.2.1",
-    "pretty-quick": "3.1.0"
+    "prettier": "2.2.1"
   },
   "scripts": {
-    "format": "pretty-quick",
-    "format:check": "prettier --check \"src/**/*.js\""
+    "format": "prettier --write \"src/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.js\"",
+    "build": "yarn build:js && yarn build:css",
+    "build:js": "rm -rf ./dist && microbundle --jsx React.createElement --no-compress --sourcemap",
+    "build:css": "rm -rf ./dist/css && mkdir ./dist/css && node-sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
+    "prepublish": "yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,7 +62,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --pattern *.js --staged"
+      "pre-commit": "prettier --write \"src/**/*.js\""
     }
   },
   "prettier": {

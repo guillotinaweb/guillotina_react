@@ -23,8 +23,8 @@ jobs:
         run: yarn
 
       - name: Build dist
-        run: yarn && yarn build && yarn build:css
-        working-directory: package
+        run: yarn
+        working-directory: "."
 
       - name: Start Server
         run: yarn start &
