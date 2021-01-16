@@ -1,8 +1,9 @@
 import React from 'react'
 import { Table } from './ui/table'
 import { useTraversal } from '../contexts'
+import { get } from '../lib/utils'
 
-export function BehaviorsView({ context }) {
+export function BehaviorsView({ context, schema }) {
   const Ctx = useTraversal()
   const { getBehavior } = Ctx.registry
 
@@ -12,7 +13,12 @@ export function BehaviorsView({ context }) {
   )
   const GetBehavior = (b) => {
     const Cls = getBehavior(b, BehaviorNotImplemented)
-    return <Cls {...context[b]} />
+    return (
+      <Cls
+        values={context[b]}
+        properties={get(schema, ['definitions', b, 'properties'], {})}
+      />
+    )
   }
 
   return (
@@ -40,11 +46,3 @@ export function BehaviorNotImplemented() {
     </tr>
   )
 }
-
-/*
-<tr>
-  <td>Creators</td>
-  <td>{Ctx.context.creators.map(item =>
-    <Author name={item}  key={'a' + item} />
-    )}</td>
-</tr> */
