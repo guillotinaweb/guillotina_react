@@ -5,6 +5,9 @@ import { FileUpload } from '../input/upload'
 import { Select } from '../input/select'
 import { Input } from '../input/input'
 import { get } from '../../lib/utils'
+import DatePicker from 'react-datepicker'
+
+
 export const EditComponent = React.forwardRef(
   ({ schema, val, setValue }, ref) => {
     if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
@@ -30,6 +33,21 @@ export const EditComponent = React.forwardRef(
         <FileUpload
           onChange={(ev) => setValue(ev)}
           label={get(val, 'filename', null)}
+        />
+      )
+    } else if (schema?.type === 'datetime') {
+      return (
+        <DatePicker
+          showTimeInput
+          timeInputLabel="Time:"
+          dateFormat="dd/MM/yyyy h:mm aa"
+          className="input"
+          selected={val ? new Date(val) : new Date()}
+          onChange={(ev) => {
+            if (ev) {
+              setValue(ev)
+            }
+          }}
         />
       )
     } else if (schema?.widget === 'select') {

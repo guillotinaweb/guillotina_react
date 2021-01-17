@@ -19,6 +19,7 @@
     "jwt-decode": "3.1.2",
     "prop-types": "15.7.2",
     "react-ace": "9.2.1",
+    "react-datepicker": "^3.4.1",
     "react-useportal": "1.0.13"
   },
   "peerDependencies": {
@@ -31,11 +32,11 @@
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.6.0",
+    "husky": "4.3.6",
     "microbundle": "0.13.0",
     "node-sass": "5.0.0",
-    "serialize-javascript": "5.0.1",
-    "husky": "4.3.6",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "serialize-javascript": "5.0.1"
   },
   "scripts": {
     "format": "prettier --write \"src/**/*.js\"",

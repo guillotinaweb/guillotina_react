@@ -54,9 +54,9 @@ export function EditableField({
       renderProps['Widget'] = DownloadField
     } else if (schema?.type === 'boolean') {
       renderProps['value'] = val?.toString() ?? renderProps['value']
+    } else if (val && schema?.type === 'datetime') {
+      renderProps['value'] = new Date(val).toLocaleString()
     }
-
-    console.log('getRenderProps',field, renderProps, val)
     return renderProps
   }
 
