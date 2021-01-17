@@ -5,7 +5,6 @@ import { FileUpload } from '../input/upload'
 import { Select } from '../input/select'
 import { Input } from '../input/input'
 import { get } from '../../lib/utils'
-import DatePicker from 'react-datepicker'
 
 export const EditComponent = React.forwardRef(
   ({ schema, val, setValue }, ref) => {
@@ -34,21 +33,6 @@ export const EditComponent = React.forwardRef(
           label={get(val, 'filename', null)}
         />
       )
-    } else if (schema?.type === 'datetime') {
-      return (
-        <DatePicker
-          showTimeInput
-          timeInputLabel="Time:"
-          dateFormat="dd/MM/yyyy h:mm aa"
-          className="input"
-          selected={val ? new Date(val) : new Date()}
-          onChange={(ev) => {
-            if (ev) {
-              setValue(ev)
-            }
-          }}
-        />
-      )
     } else if (schema?.widget === 'select') {
       return (
         <Select
@@ -68,13 +52,23 @@ export const EditComponent = React.forwardRef(
         />
       )
     }
+    const getInputType = () => {
+      switch (schema?.type) {
+        case 'integer':
+          return 'number'
+        case 'datetime':
+          return 'datetime-local'
+        default:
+          return 'text'
+      }
+    }
     return (
       <Input
         value={val || ''}
         className="is-small"
         onChange={(ev) => setValue(ev)}
         ref={ref}
-        type={schema?.type === 'integer' ? 'number' : 'text'}
+        type={getInputType()}
       />
     )
   }

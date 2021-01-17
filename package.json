@@ -19,7 +19,6 @@
     "jwt-decode": "3.1.2",
     "prop-types": "15.7.2",
     "react-ace": "9.2.1",
-    "react-datepicker": "^3.4.1",
     "react-useportal": "1.0.13"
   },
   "peerDependencies": {
