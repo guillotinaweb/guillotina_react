@@ -7,7 +7,6 @@ import { Input } from '../input/input'
 import { get } from '../../lib/utils'
 import DatePicker from 'react-datepicker'
 
-
 export const EditComponent = React.forwardRef(
   ({ schema, val, setValue }, ref) => {
     if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
@@ -75,6 +74,7 @@ export const EditComponent = React.forwardRef(
         className="is-small"
         onChange={(ev) => setValue(ev)}
         ref={ref}
+        type={schema?.type === 'integer' ? 'number' : 'text'}
       />
     )
   }
