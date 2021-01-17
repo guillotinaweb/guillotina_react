@@ -19,7 +19,7 @@ export const EditComponent = React.forwardRef(
     } else if (schema?.type === 'boolean') {
       return (
         <Checkbox
-          value={val || ''}
+          value={!!val}
           className="is-small"
           onChange={(ev) => setValue(ev)}
           ref={ref}

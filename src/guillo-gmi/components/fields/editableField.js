@@ -52,8 +52,11 @@ export function EditableField({
         field: field,
       }
       renderProps['Widget'] = DownloadField
+    } else if (schema?.type === 'boolean') {
+      renderProps['value'] = val?.toString() ?? renderProps['value']
     }
 
+    console.log('getRenderProps',field, renderProps, val)
     return renderProps
   }
 

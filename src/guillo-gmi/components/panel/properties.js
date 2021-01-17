@@ -11,7 +11,15 @@ import { useTraversal } from '../../contexts'
 import { get } from '../../lib/utils'
 
 const _showProperties = ['@id', '@name', '@uid']
-const _ignoreFields = []
+const _ignoreFields = [
+  'guillotina.behaviors.dublincore.IDublinCore',
+  '__behaviors__',
+  'type_name',
+  'creation_date',
+  'modification_date',
+  'uuid'
+]
+
 export function PanelProperties() {
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
@@ -100,7 +108,7 @@ export function PanelProperties() {
                         <td>
                           <EditableField
                             field={key}
-                            value={model[key]}
+                            value={Ctx.context[key]}
                             schema={value}
                             modifyContent={modifyContent}
                             required={get(schema.data, 'required', []).includes(
