@@ -17,7 +17,7 @@ const _ignoreFields = [
   'type_name',
   'creation_date',
   'modification_date',
-  'uuid'
+  'uuid',
 ]
 
 export function PanelProperties() {
