@@ -25,6 +25,7 @@ export const DownloadField = ({ value }) => {
 
     document.body.appendChild(link)
     link.click()
+    window.URL.revokeObjectURL(url)
     link.parentNode?.removeChild(link)
   }
 
