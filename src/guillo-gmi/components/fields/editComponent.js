@@ -4,6 +4,7 @@ import { Checkbox } from '../input/checkbox'
 import { FileUpload } from '../input/upload'
 import { Select } from '../input/select'
 import { Input } from '../input/input'
+import { InputList } from '../input/input_list'
 import { get } from '../../lib/utils'
 
 export const EditComponent = React.forwardRef(
@@ -21,6 +22,15 @@ export const EditComponent = React.forwardRef(
       return (
         <Checkbox
           value={!!val}
+          className="is-small"
+          onChange={(ev) => setValue(ev)}
+          ref={ref}
+        />
+      )
+    } else if (schema?.type === 'array') {
+      return (
+        <InputList
+          value={val || []}
           className="is-small"
           onChange={(ev) => setValue(ev)}
           ref={ref}

@@ -123,7 +123,6 @@ export function EditableField({
       setValue([])
     }
   }
-
   return (
     <React.Fragment>
       {!isEdit && (
@@ -140,39 +139,37 @@ export function EditableField({
 
       {isEdit && (
         <div className="field">
-          <form onSubmit={saveField}>
+          <div className="control">
+            <EditComponent
+              ref={ref}
+              schema={schema}
+              val={val}
+              setValue={setValue}
+            />
+          </div>
+          <div className="field is-grouped">
             <div className="control">
-              <EditComponent
-                ref={ref}
-                schema={schema}
-                val={val}
-                setValue={setValue}
-              />
+              <Button
+                className="is-small is-primary"
+                loading={loading}
+                onClick={saveField}
+              >
+                Save
+              </Button>
             </div>
-            <div className="field is-grouped">
+            <div className="control">
+              <Button className="is-small" onClick={() => setEdit(false)}>
+                Cancel
+              </Button>
+            </div>
+            {!required && haveDeleteBtn && (
               <div className="control">
-                <Button
-                  className="is-small is-primary"
-                  loading={loading}
-                  type="submit"
-                >
-                  Save
+                <Button className="is-small is-danger" onClick={deleteField}>
+                  Delete
                 </Button>
               </div>
-              <div className="control">
-                <Button className="is-small" onClick={() => setEdit(false)}>
-                  Cancel
-                </Button>
-              </div>
-              {!required && haveDeleteBtn && (
-                <div className="control">
-                  <Button className="is-small is-danger" onClick={deleteField}>
-                    Delete
-                  </Button>
-                </div>
-              )}
-            </div>
-          </form>
+            )}
+          </div>
         </div>
       )}
     </React.Fragment>
