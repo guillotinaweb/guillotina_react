@@ -1,6 +1,4 @@
 import React from 'react'
-
-import { Icon } from '../ui/icon'
 import { useTraversal } from '../../contexts'
 import { EditableField } from '../fields/editableField'
 
