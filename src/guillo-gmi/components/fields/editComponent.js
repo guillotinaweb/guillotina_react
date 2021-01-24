@@ -8,7 +8,7 @@ import { InputList } from '../input/input_list'
 import { get } from '../../lib/utils'
 
 export const EditComponent = React.forwardRef(
-  ({ schema, val, setValue , dataTest}, ref) => {
+  ({ schema, val, setValue, dataTest }, ref) => {
     if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
       return (
         <Textarea

@@ -35,10 +35,20 @@ export function BaseForm({ onSubmit, actionName, title, dataTest }) {
         dataTest="titleTestInput"
       />
 
-      <Input id="id" placeholder="Id" value={id} onChange={setId} dataTest="idTestInput"/>
+      <Input
+        id="id"
+        placeholder="Id"
+        value={id}
+        onChange={setId}
+        dataTest="idTestInput"
+      />
 
       <div className="level level-right">
-        <button type="submit" className="button is-success" data-test="formBaseBtnTestSubmit">
+        <button
+          type="submit"
+          className="button is-success"
+          data-test="formBaseBtnTestSubmit"
+        >
           {actionName || 'Add'}
         </button>
       </div>

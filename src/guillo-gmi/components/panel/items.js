@@ -97,7 +97,10 @@ export function PanelItems() {
       </div>
       {loading && <div className="progress-line"></div>}
       {!loading && (
-        <table className="table is-fullwidth is-hoverable" data-test="itemPanelTableTest">
+        <table
+          className="table is-fullwidth is-hoverable"
+          data-test="itemPanelTableTest"
+        >
           <thead className="is-size-7">
             <tr>
               <th>

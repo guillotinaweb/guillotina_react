@@ -134,7 +134,7 @@ export function EditableField({
           data-test={`editableFieldTest-${field}`}
         >
           <RenderField {...getRenderProps()} />
-          {canModified && <Icon icon="fas fa-edit"/>}
+          {canModified && <Icon icon="fas fa-edit" />}
         </div>
       )}
 
@@ -161,13 +161,21 @@ export function EditableField({
               </Button>
             </div>
             <div className="control">
-              <Button className="is-small" onClick={() => setEdit(false)} dataTest="editableFieldBtnCancelTest">
+              <Button
+                className="is-small"
+                onClick={() => setEdit(false)}
+                dataTest="editableFieldBtnCancelTest"
+              >
                 Cancel
               </Button>
             </div>
             {!required && haveDeleteBtn && (
               <div className="control">
-                <Button className="is-small is-danger" onClick={deleteField} dataTest="editableFieldBtnDeleteTest">
+                <Button
+                  className="is-small is-danger"
+                  onClick={deleteField}
+                  dataTest="editableFieldBtnDeleteTest"
+                >
                   Delete
                 </Button>
               </div>
