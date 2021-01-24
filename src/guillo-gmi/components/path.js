@@ -36,7 +36,7 @@ export function Path() {
             </li>
           ) : (
             <li key={indx}>
-              <a href={path} onClick={onClick}>
+              <a href={path} onClick={onClick} data-test={`breadcrumbItemTest-${item.toLowerCase()}`}>
                 {item}
               </a>
             </li>

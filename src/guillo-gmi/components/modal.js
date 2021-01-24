@@ -41,6 +41,7 @@ export function Confirm({ message, onCancel, onConfirm, loading }) {
               loading={loading}
               className="is-success"
               onClick={() => onConfirm()}
+              dataTest="btnConfirmModalTest"
             >
               Confirm
             </Button>

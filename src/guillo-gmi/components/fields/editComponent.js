@@ -8,7 +8,7 @@ import { InputList } from '../input/input_list'
 import { get } from '../../lib/utils'
 
 export const EditComponent = React.forwardRef(
-  ({ schema, val, setValue }, ref) => {
+  ({ schema, val, setValue , dataTest}, ref) => {
     if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
       return (
         <Textarea
@@ -16,6 +16,7 @@ export const EditComponent = React.forwardRef(
           className="is-small"
           onChange={(ev) => setValue(ev)}
           ref={ref}
+          dataTest={dataTest}
         />
       )
     } else if (schema?.type === 'boolean') {
@@ -25,6 +26,7 @@ export const EditComponent = React.forwardRef(
           className="is-small"
           onChange={(ev) => setValue(ev)}
           ref={ref}
+          dataTest={dataTest}
         />
       )
     } else if (schema?.type === 'array') {
@@ -34,6 +36,7 @@ export const EditComponent = React.forwardRef(
           className="is-small"
           onChange={(ev) => setValue(ev)}
           ref={ref}
+          dataTest={dataTest}
         />
       )
     } else if (schema?.widget === 'file') {
@@ -41,6 +44,7 @@ export const EditComponent = React.forwardRef(
         <FileUpload
           onChange={(ev) => setValue(ev)}
           label={get(val, 'filename', null)}
+          dataTest={dataTest}
         />
       )
     } else if (schema?.widget === 'select') {
@@ -49,6 +53,7 @@ export const EditComponent = React.forwardRef(
           value={val || ''}
           className="is-small"
           appendDefault
+          dataTest={dataTest}
           options={schema?.vocabulary.map((item) => {
             return {
               text: item,
@@ -76,6 +81,7 @@ export const EditComponent = React.forwardRef(
       <Input
         value={val || ''}
         className="is-small"
+        dataTest={dataTest}
         onChange={(ev) => setValue(ev)}
         ref={ref}
         type={getInputType()}

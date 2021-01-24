@@ -131,20 +131,22 @@ export function EditableField({
           onClick={() => {
             setEdit(!!canModified)
           }}
+          data-test={`editableFieldTest-${field}`}
         >
           <RenderField {...getRenderProps()} />
-          {canModified && <Icon icon="fas fa-edit" />}
+          {canModified && <Icon icon="fas fa-edit"/>}
         </div>
       )}
 
       {isEdit && (
-        <div className="field">
+        <div className="field" data-test={`editableFieldTest-${field}`}>
           <div className="control">
             <EditComponent
               ref={ref}
               schema={schema}
               val={val}
               setValue={setValue}
+              dataTest={`editableFieldEditTest`}
             />
           </div>
           <div className="field is-grouped">
@@ -153,18 +155,19 @@ export function EditableField({
                 className="is-small is-primary"
                 loading={loading}
                 onClick={saveField}
+                dataTest="editableFieldBtnSaveTest"
               >
                 Save
               </Button>
             </div>
             <div className="control">
-              <Button className="is-small" onClick={() => setEdit(false)}>
+              <Button className="is-small" onClick={() => setEdit(false)} dataTest="editableFieldBtnCancelTest">
                 Cancel
               </Button>
             </div>
             {!required && haveDeleteBtn && (
               <div className="control">
-                <Button className="is-small is-danger" onClick={deleteField}>
+                <Button className="is-small is-danger" onClick={deleteField} dataTest="editableFieldBtnDeleteTest">
                   Delete
                 </Button>
               </div>

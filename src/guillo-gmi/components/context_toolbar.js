@@ -53,7 +53,7 @@ export function CreateButton() {
       onChange={doAction}
       options={(state.types || []).map((item) => ({ text: item, value: item }))}
     >
-      <span className="icon">
+      <span className="icon" data-test="itemAddTypeTest">
         <i className="fas fa-plus"></i>
       </span>
     </Dropdown>

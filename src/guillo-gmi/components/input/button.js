@@ -10,6 +10,7 @@ export const Button = ({
   type = 'submit',
   loading = false,
   disabled = false,
+  dataTest,
   ...rest
 }) => {
   let css = [].concat('button', ...className.split(' '))
@@ -24,6 +25,7 @@ export const Button = ({
         onClick={onClick}
         disabled={disabled}
         {...rest}
+        data-test={dataTest}
       >
         {children}
       </button>

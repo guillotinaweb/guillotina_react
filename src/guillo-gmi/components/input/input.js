@@ -31,7 +31,7 @@ export const Input = React.forwardRef(
       onChange,
       validator = noop,
       errorMessage,
-      testid = 'input-test',
+      dataTest = 'testInput',
       ...rest
     },
     ref
@@ -82,7 +82,7 @@ export const Input = React.forwardRef(
             autoComplete={autoComplete}
             disabled={loading || rest.disabled}
             required={required}
-            data-test={testid}
+            data-test={dataTest}
             {...handlers}
             {...rest}
           />
