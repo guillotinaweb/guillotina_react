@@ -25,9 +25,8 @@ export function ChangePassword(props) {
   }
 
   async function doSubmit(data) {
-
     if (state.pass1 === '') {
-      setPerror("provide a password")
+      setPerror('provide a password')
       return
     }
 
@@ -39,7 +38,7 @@ export function ChangePassword(props) {
     setPerror(undefined)
 
     let form = {
-      password: state.pass1
+      password: state.pass1,
     }
 
     const { isError, errorMessage } = await patch(form)
@@ -53,7 +52,6 @@ export function ChangePassword(props) {
     Ctx.refresh()
   }
 
-
   const setPass = (field) => (val) => {
     let n = {}
     n[field] = val
@@ -63,19 +61,18 @@ export function ChangePassword(props) {
 
   return (
     <Modal isActive={true} setActive={setActive}>
-
       <Form
         onSubmit={doSubmit}
         onError={(err) => console.log(err)}
         actionName={'Change'}
         title={'Change Password'}
       >
-        {perror &&
+        {perror && (
           <div className="notification is-danger is-size-7">
-          <button className="delete"></button>
-          {perror}
+            <button className="delete"></button>
+            {perror}
           </div>
-        }
+        )}
         <Input
           id="pass"
           placeholder="New Password"

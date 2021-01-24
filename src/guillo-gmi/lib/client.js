@@ -136,12 +136,12 @@ export class GuillotinaClient {
   }
 
   cleanPath(path) {
-    let url = path.split("/").slice(3)
-    return `${url.join("/")}`
+    let url = path.split('/').slice(3)
+    return `${url.join('/')}`
   }
 
   async delete(path, data) {
-    console.log("path", path, this.cleanPath(path))
+    console.log('path', path, this.cleanPath(path))
     return await this.rest.delete(this.cleanPath(path), data)
   }
 
@@ -226,7 +226,7 @@ export class GuillotinaClient {
 
   async getAllPermissions(path) {
     // paths used to query the API always has to start without a "/"
-    if (path.startsWith("/")) {
+    if (path.startsWith('/')) {
       path = path.slice(1)
     }
     if (!path.endsWith('/')) {

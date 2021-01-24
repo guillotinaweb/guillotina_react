@@ -9,7 +9,7 @@ import { CopyItems } from '../actions/copy_items'
 import { MoveItems } from '../actions/move_items'
 import { RemoveItems } from '../actions/remove_items'
 import { AddItem } from '../actions/add_item'
-import {ChangePassword} from "../actions/change_pass"
+import { ChangePassword } from '../actions/change_pass'
 import { BaseForm } from '../forms/base'
 import { UserForm } from '../forms/users'
 import { IAttachment } from '../components/behaviors/iattachment'
