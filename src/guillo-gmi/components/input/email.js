@@ -3,7 +3,7 @@ import { Input } from './input'
 import { isEmail } from '../../lib/validators'
 import { Icon } from '../ui/icon'
 
-export const EmailInput = ({ value = '',dataTest, ...rest }) => {
+export const EmailInput = ({ value = '', dataTest, ...rest }) => {
   return (
     <Input
       type="email"
