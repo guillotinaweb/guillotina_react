@@ -9,3 +9,7 @@ export const CONTEXT_TOOLBAR_SELECTORS = {
   btnAddItem: "[data-test='dropdownItemTest-item']",
   btnAddGMI: "[data-test='dropdownItemTest-gmi']"
 }
+
+export const TABS_PANEL_SELECTOS = {
+  prefixTabs: "tabTest"
+}

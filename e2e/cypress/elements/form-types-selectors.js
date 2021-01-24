@@ -2,6 +2,7 @@ export const FORM_SELECTORS = {
   containerFolder: "[data-test='formAddFolderTest']",
   containerItem: "[data-test='formAddItemTest']",
   containerUser: "[data-test='formAddUserTest']",
+  containerGMI: "[data-test='formAddGMITest']",
 }
 
 export const FORM_BASE_SELECTORS = {

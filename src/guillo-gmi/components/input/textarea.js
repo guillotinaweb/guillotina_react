@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const Textarea = React.forwardRef(
-  ({ value = '', rows = 5, className, onChange, ...rest }, ref) => {
+  ({ value = '', rows = 5, className, onChange,dataTest, ...rest }, ref) => {
     const css = 'textarea ' + className
 
     const onUpdate = (ev) => {
@@ -17,6 +17,7 @@ export const Textarea = React.forwardRef(
           rows={rows}
           onChange={onUpdate}
           value={value}
+          data-test={dataTest}
           {...rest}
           ref={ref}
         />

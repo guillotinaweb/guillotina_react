@@ -33,7 +33,7 @@ describe('test content', function () {
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 
     // Delete Folder
-    cy.get("[data-test='itemTest-test-folder']").within(() => {
+    cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-folder']`).within(() => {
       cy.get(ACTION_SELECTORS.delete).click()
     })
     cy.get(ACTION_SELECTORS.confirmModal).click()

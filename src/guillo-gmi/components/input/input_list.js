@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Input } from './input'
 
-export const InputList = React.forwardRef(({ value, onChange }, ref) => {
+export const InputList = React.forwardRef(({ value, onChange, dataTest }, ref) => {
   const [inputValue, setInputValue] = React.useState('')
   const addTags = (event) => {
     if (event.key === 'Enter' && event.target.value !== '') {
@@ -36,6 +36,7 @@ export const InputList = React.forwardRef(({ value, onChange }, ref) => {
         onKeyUp={(event) => addTags(event)}
         value={inputValue}
         ref={ref}
+        dataTest={dataTest}
         onChange={(value) => {
           if (value !== '') {
             setInputValue(value)

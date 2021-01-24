@@ -20,6 +20,7 @@ export const Select = React.forwardRef(
       onChange,
       appendDefault = false,
       style = {},
+      dataTest,
       ...rest
     },
     ref
@@ -49,6 +50,7 @@ export const Select = React.forwardRef(
           {...rest}
           ref={ref}
           style={style}
+          data-test={dataTest}
         >
           {options.map(({ text, ...rest }, index) => (
             <option key={index.toString()} {...rest}>

@@ -53,7 +53,7 @@ export function TabsPanel({
                   }
                   key={tab}
                 >
-                  <a onClick={() => changeTab(tab)}>{tab}</a>
+                  <a data-test={`tabTest-${tab.toLowerCase()}`} onClick={() => changeTab(tab)}>{tab}</a>
                 </li>
               ))}
             </ul>
