@@ -1,5 +1,4 @@
 import {LOGIN_SELECTORS} from '../elements/login-selectors'
-import {BREADCRUMB_SELECTORS} from '../elements/breadcrumb-selectors'
 
 describe('test login', function () {
   beforeEach('clear', function () {
@@ -7,14 +6,14 @@ describe('test login', function () {
     cy.clearCookies()
   })
   it('test manual login', function () {
-
+    cy.intercept('POST',`/@login`).as('login')
     cy.visit('/')
     cy.get(LOGIN_SELECTORS.form).should('be.visible')
     cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')
     cy.get(LOGIN_SELECTORS.password).type('root').should('have.value', 'root')
     cy.get(LOGIN_SELECTORS.form).submit()
+    cy.wait('@login')
     cy.get(LOGIN_SELECTORS.form).should('not.exist')
-    cy.get(`[data-test='${BREADCRUMB_SELECTORS.prefixItem}-container']`).should('be.visible')
   })
 
   it('test autologin', function () {
