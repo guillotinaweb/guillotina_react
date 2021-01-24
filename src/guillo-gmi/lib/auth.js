@@ -20,7 +20,7 @@ export class Auth {
   }
 
   async login(username, password) {
-    const url = this.getUrl('/db/container-test/@login')
+    const url = this.getUrl('@login')
     try {
       const data = await fetch(url, {
         method: 'post',
