@@ -84,7 +84,6 @@ contents:
       text_field:
         type: guillotina.schema.Text
         title: Text field
-        required: true
         index:
           type: searchabletext
       text_line_field:
