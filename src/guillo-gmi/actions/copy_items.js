@@ -1,6 +1,7 @@
 import React from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
+import { getContainerFromPath } from '../lib/client'
 
 const withError = (res) => res.status >= 300
 
@@ -48,7 +49,7 @@ export function CopyItems(props) {
   return (
     <PathTree
       title="Copy to..."
-      defaultPath={Ctx.path}
+      defaultPath={`/${Ctx.path.split(getContainerFromPath(Ctx.path))[1]}`}
       onConfirm={copyItems}
       onCancel={() => Ctx.cancelAction()}
     >
