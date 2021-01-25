@@ -1,3 +1,28 @@
+0.11.0
+------
+ - add actions panel in container folder and item types (#99)
+
+0.10.0
+------
+ - Improve build (#95)
+
+
+0.9.0
+------
+ - Isolate client (#91)
+ - Improvement fields (#90)
+
+
+0.8.0
+------
+
+- Replace react-use to own hooks (#82)
+- Add prettier (#83)
+- Add LICENSE and CONTRIBUTING.md (#86)
+- e2e test own project (#84)
+- Some fixes (#88)
+- CI run workflows (#89)
+
 0.7.1
 ------
 - e2e test own project

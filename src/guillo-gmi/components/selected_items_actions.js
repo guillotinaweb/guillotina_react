@@ -4,7 +4,8 @@ import { Checkbox } from './input/checkbox'
 import { useTraversal } from '../contexts'
 
 const ItemsActionsCtx = createContext({})
-const actions = {
+
+export const actions = {
   DELETE: {
     text: 'Delete',
     perms: ['guillotina.DeleteContent'],

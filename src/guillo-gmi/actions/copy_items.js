@@ -1,19 +1,10 @@
 import React from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
+import { getContainerFromPath } from '../lib/client'
+import { getNewId } from '../lib/utils'
 
 const withError = (res) => res.status >= 300
-
-function getNewId(id = '') {
-  const suffix = '-copy-'
-  const rgx = new RegExp(`($|${suffix}\\d*)`)
-
-  return id.replace(rgx, (r) => {
-    const num = parseInt(r.replace(suffix, '') || '0')
-    return `${suffix}${num + 1}`
-  })
-}
-
 export function CopyItems(props) {
   const Ctx = useTraversal()
   const { items = [] } = props
@@ -48,7 +39,7 @@ export function CopyItems(props) {
   return (
     <PathTree
       title="Copy to..."
-      defaultPath={Ctx.path}
+      defaultPath={`/${Ctx.path.split(getContainerFromPath(Ctx.path))[1]}`}
       onConfirm={copyItems}
       onCancel={() => Ctx.cancelAction()}
     >
