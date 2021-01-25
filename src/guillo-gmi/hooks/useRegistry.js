@@ -6,8 +6,11 @@ import { ContainerCtx } from '../views/container'
 import { UsersCtx } from '../views/users'
 import { UserCtx } from '../views/users'
 import { CopyItems } from '../actions/copy_items'
+import { CopyItem } from '../actions/copy_item'
 import { MoveItems } from '../actions/move_items'
+import { MoveItem } from '../actions/move_item'
 import { RemoveItems } from '../actions/remove_items'
+import { RemoveItem } from '../actions/remove_item'
 import { AddItem } from '../actions/add_item'
 import { BaseForm } from '../forms/base'
 import { UserForm } from '../forms/users'
@@ -41,8 +44,11 @@ let registry = {
   actions: {
     addItem: AddItem,
     copyItems: CopyItems,
+    copyItem: CopyItem,
     moveItems: MoveItems,
+    moveItem: MoveItem,
     removeItems: RemoveItems,
+    removeItem: RemoveItem,
   },
   forms: {
     UserManager: BaseForm,

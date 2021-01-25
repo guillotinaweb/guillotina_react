@@ -17,3 +17,13 @@ export const get = (obj, path, defValue) => {
     pathArray.reduce((prevObj, key) => prevObj && prevObj[key], obj) || defValue
   )
 }
+
+export function getNewId(id = '') {
+  const suffix = '-copy-'
+  const rgx = new RegExp(`($|${suffix}\\d*)`)
+
+  return id.replace(rgx, (r) => {
+    const num = parseInt(r.replace(suffix, '') || '0')
+    return `${suffix}${num + 1}`
+  })
+}
