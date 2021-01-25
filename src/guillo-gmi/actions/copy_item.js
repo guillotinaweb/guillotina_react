@@ -2,16 +2,7 @@ import React from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
-
-function getNewId(id = '') {
-  const suffix = '-copy-'
-  const rgx = new RegExp(`($|${suffix}\\d*)`)
-
-  return id.replace(rgx, (r) => {
-    const num = parseInt(r.replace(suffix, '') || '0')
-    return `${suffix}${num + 1}`
-  })
-}
+import { getNewId } from '../lib/utils'
 
 export function CopyItem(props) {
   const Ctx = useTraversal()
