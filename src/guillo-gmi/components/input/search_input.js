@@ -31,7 +31,7 @@ export const SearchInput = ({
   client = null,
   path = null,
   qs = [],
-  queryCondition = "id__in",
+  queryCondition = 'id__in',
   value,
   btnClass = '',
   PageSize = 10,
