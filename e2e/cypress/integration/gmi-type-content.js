@@ -6,8 +6,7 @@ import {
 import { 
   FORM_BASE_SELECTORS, 
   EDITABLE_FORM_SELECTORS, 
-  FORM_SELECTORS,
-  USER_FORM_SELECTORS
+  FORM_SELECTORS
 } from '../elements/form-types-selectors'
 import { NOTIFICATION_SELECTOR } from '../elements/notification-selectors'
 import { ACTION_SELECTORS } from '../elements/actions-selectors'
@@ -31,8 +30,10 @@ describe('test GMI type', function () {
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddGMI).click()
     cy.get(FORM_SELECTORS.containerGMI).should('contain', 'Add GMI')
-    cy.get(FORM_BASE_SELECTORS.title).type('Test GMI item')
-    cy.get(FORM_BASE_SELECTORS.id).should('have.value', 'test-gmi-item')
+    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type('Test GMI item')
+    cy.get(`[data-test='uuid${FORM_BASE_SELECTORS.prefixField}']`).should('have.value', 'test-gmi-item')
+    cy.get(`[data-test='number_field${FORM_BASE_SELECTORS.prefixField}']`).type('5')
+    cy.get(`[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`).select('plone')
     cy.get(FORM_BASE_SELECTORS.btn).click()
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 

@@ -8,35 +8,38 @@ import { InputList } from '../input/input_list'
 import { get } from '../../lib/utils'
 
 export const EditComponent = React.forwardRef(
-  ({ schema, val, setValue, dataTest }, ref) => {
+  ({ schema, val, setValue, dataTest, className, ...rest }, ref) => {
     if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
       return (
         <Textarea
           value={val || ''}
-          className="is-small"
+          className={className}
           onChange={(ev) => setValue(ev)}
           ref={ref}
           dataTest={dataTest}
+          {...rest}
         />
       )
     } else if (schema?.type === 'boolean') {
       return (
         <Checkbox
           value={!!val}
-          className="is-small"
+          className={className}
           onChange={(ev) => setValue(ev)}
           ref={ref}
           dataTest={dataTest}
+          {...rest}
         />
       )
     } else if (schema?.type === 'array') {
       return (
         <InputList
           value={val || []}
-          className="is-small"
+          className={className}
           onChange={(ev) => setValue(ev)}
           ref={ref}
           dataTest={dataTest}
+          {...rest}
         />
       )
     } else if (schema?.widget === 'file') {
@@ -45,15 +48,18 @@ export const EditComponent = React.forwardRef(
           onChange={(ev) => setValue(ev)}
           label={get(val, 'filename', null)}
           dataTest={dataTest}
+          {...rest}
         />
       )
     } else if (schema?.widget === 'select') {
       return (
         <Select
           value={val || ''}
-          className="is-small"
+          className={className}
           appendDefault
+          classWrap="is-fullwidth"
           dataTest={dataTest}
+          {...rest}
           options={schema?.vocabulary.map((item) => {
             return {
               text: item,
@@ -80,11 +86,12 @@ export const EditComponent = React.forwardRef(
     return (
       <Input
         value={val || ''}
-        className="is-small"
+        className={className}
         dataTest={dataTest}
         onChange={(ev) => setValue(ev)}
         ref={ref}
         type={getInputType()}
+        {...rest}
       />
     )
   }

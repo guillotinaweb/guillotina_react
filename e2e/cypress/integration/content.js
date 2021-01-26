@@ -27,8 +27,8 @@ describe('test content', function () {
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddFolder).click()
     cy.get(FORM_SELECTORS.containerFolder).should('contain', 'Add Folder')
-    cy.get(FORM_BASE_SELECTORS.title).type('Test Folder')
-    cy.get(FORM_BASE_SELECTORS.id).should('have.value', 'test-folder')
+    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type('Test Folder')
+    cy.get(`[data-test='id${FORM_BASE_SELECTORS.prefixField}']`).should('have.value', 'test-folder')
     cy.get(FORM_BASE_SELECTORS.btn).click()
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 
@@ -48,8 +48,8 @@ describe('test content', function () {
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddItem).click()
     cy.get(FORM_SELECTORS.containerItem).should('contain', 'Add Item')
-    cy.get(FORM_BASE_SELECTORS.title).type('Test Item')
-    cy.get(FORM_BASE_SELECTORS.id).should('have.value', 'test-item')
+    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type('Test Item')
+    cy.get(`[data-test='id${FORM_BASE_SELECTORS.prefixField}']`).should('have.value', 'test-item')
     cy.get(FORM_BASE_SELECTORS.btn).click()
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 

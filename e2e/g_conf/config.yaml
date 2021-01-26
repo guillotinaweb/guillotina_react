@@ -6,7 +6,7 @@ applications:
 databases:
   db:
     storage: postgresql
-    dsn: postgres://guillotina:@postgres/guillotina
+    dsn: postgres://guillotina:guillotina@postgres_guillotina_react/guillotina
     read_only: false
     cache_strategy: redis
     autovacuum: true
@@ -92,9 +92,11 @@ contents:
       number_field:
         type: guillotina.schema.Int
         title: Number field
+        required: true
       choice_field:
         type: guillotina.schema.Choice
         title: Choice field
+        required: true
         vocabulary: 
           plone: Plone text
           guillotina: Guillotina text

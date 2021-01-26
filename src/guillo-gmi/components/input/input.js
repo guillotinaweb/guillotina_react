@@ -42,7 +42,7 @@ export const Input = React.forwardRef(
         : [validator, notEmpty]
     }
 
-    const { state, ...handlers } = useInput(onChange, value, validator)
+    const { state, ...handlers } = useInput(onChange, value ?? '', validator)
     const [uid] = useState(generateUID('input'))
     const [mounted, setMounted] = useState(false)
     ref = ref || React.useRef()

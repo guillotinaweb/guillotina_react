@@ -6,8 +6,7 @@ export const FORM_SELECTORS = {
 }
 
 export const FORM_BASE_SELECTORS = {
-  title: "[data-test='titleTestInput']",
-  id: "[data-test='idTestInput']",
+  prefixField: "TestInput",
   btn: "[data-test='formBaseBtnTestSubmit']",
 }
 
