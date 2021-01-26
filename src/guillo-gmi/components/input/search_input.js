@@ -31,6 +31,7 @@ export const SearchInput = ({
   client = null,
   path = null,
   qs = [],
+  queryCondition = "id__in",
   value,
   btnClass = '',
   PageSize = 10,
@@ -64,7 +65,7 @@ export const SearchInput = ({
     let searchTermQs = []
     let searchTermParsed = []
     if (value !== '') {
-      searchTermParsed = parser(`id__in=${value}`)
+      searchTermParsed = parser(`${queryCondition}=${value}`)
     }
 
     if (qs.length > 0 || searchTermParsed.length > 0) {
