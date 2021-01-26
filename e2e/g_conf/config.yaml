@@ -6,7 +6,7 @@ applications:
 databases:
   db:
     storage: postgresql
-    dsn: postgres://guillotina:guillotina@postgres_guillotina_react/guillotina
+    dsn: postgres://guillotina:@postgres/guillotina
     read_only: false
     cache_strategy: redis
     autovacuum: true
