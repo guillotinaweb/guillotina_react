@@ -24,6 +24,7 @@ import React from 'react'
 import { NotAllowed } from '../components/notallowed'
 import { NotFound } from '../components/notfound'
 import { Path } from '../components/path'
+import { EditComponent } from '../components/fields/editComponent'
 
 let registry = {
   paths: {},
@@ -67,6 +68,7 @@ let registry = {
   properties: {},
   components: {
     Path: Path,
+    EditComponent: EditComponent,
   },
 }
 

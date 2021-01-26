@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { useRef } from 'react'
 import { useEffect } from 'react'
 import { Icon } from '../ui'
-import { EditComponent } from './editComponent'
 import { RenderField } from './renderField'
 import { get } from '../../lib/utils'
 import { DownloadField } from './downloadField'
@@ -25,6 +24,8 @@ export function EditableField({
   const [isEdit, setEdit] = useState(false)
   const [val, setValue] = useState(value)
   const { patch, loading, Ctx } = useCrudContext()
+
+  const EditComponent = Ctx.registry.get('components', 'EditComponent')
 
   useEffect(() => {
     if (isEdit && ref.current) {

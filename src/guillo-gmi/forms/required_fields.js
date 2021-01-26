@@ -4,13 +4,20 @@ import { Form } from '../components/input/form'
 import { stringToSlug } from '../lib/helpers'
 import { useTraversal } from '../contexts'
 import useSetState from '../hooks/useSetState'
-import { EditComponent } from '../components/fields/editComponent'
 
 const ignoreFiels = []
 const extraFields = ['title']
 
-export function RequiredFieldsForm({ onSubmit, actionName, title, dataTest, type }) {
+export function RequiredFieldsForm({
+  onSubmit,
+  actionName,
+  title,
+  dataTest,
+  type,
+}) {
   const Ctx = useTraversal()
+
+  const EditComponent = Ctx.registry.get('components', 'EditComponent')
 
   const [formData, setFormData] = useState({})
   const [errors, setErrors] = useState({})
