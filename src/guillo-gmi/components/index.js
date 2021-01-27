@@ -22,6 +22,7 @@ export * from './behaviors/imultiattachment'
 export * from './behaviors/idublincore'
 
 // panels
+export * from './panel/actions'
 export * from './panel/addons'
 export * from './panel/behaviors'
 export * from './panel/items'
