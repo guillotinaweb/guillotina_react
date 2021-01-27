@@ -126,7 +126,11 @@ export function GroupCtx() {
       <div className="columns">
         <div className="column is-4">
           <label className="label">Title: </label>
-          <EditableField field="title" value={Ctx.context.title} />
+          <EditableField
+            field="title"
+            modifyContent
+            value={Ctx.context.title}
+          />
         </div>
         <div className="column is-4 is-size-7">
           <h3 className="title is-size-6">Roles</h3>

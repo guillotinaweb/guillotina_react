@@ -41,6 +41,7 @@ export function AddItem(props) {
         actionName={'Add ' + type}
         title={'Add ' + type}
         type={type}
+        dataTest={`formAdd${type}Test`}
       />
     </Modal>
   )

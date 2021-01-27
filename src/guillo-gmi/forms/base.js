@@ -4,7 +4,7 @@ import { Input } from '../components/input/input'
 import { Form } from '../components/input/form'
 import { stringToSlug } from '../lib/helpers'
 
-export function BaseForm({ onSubmit, actionName, title }) {
+export function BaseForm({ onSubmit, actionName, title, dataTest }) {
   const [name, setName] = useState('')
   const [id, setId] = useState('')
   const [error, setError] = useState(undefined)
@@ -23,7 +23,7 @@ export function BaseForm({ onSubmit, actionName, title }) {
   }
 
   return (
-    <Form title={title} onSubmit={submit}>
+    <Form title={title} onSubmit={submit} dataTest={dataTest}>
       <Input
         id="title"
         placeholder="Title"
@@ -32,12 +32,23 @@ export function BaseForm({ onSubmit, actionName, title }) {
         onChange={setTitle}
         autofocus
         error={error}
+        dataTest="titleTestInput"
       />
 
-      <Input id="id" placeholder="Id" value={id} onChange={setId} />
+      <Input
+        id="id"
+        placeholder="Id"
+        value={id}
+        onChange={setId}
+        dataTest="idTestInput"
+      />
 
       <div className="level level-right">
-        <button type="submit" className="button is-success">
+        <button
+          type="submit"
+          className="button is-success"
+          data-test="formBaseBtnTestSubmit"
+        >
           {actionName || 'Add'}
         </button>
       </div>

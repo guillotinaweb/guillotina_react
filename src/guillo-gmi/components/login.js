@@ -54,7 +54,12 @@ export class Login extends Component {
     const { schemas } = this.props
     return (
       <React.Fragment>
-        <form className="login__form" action="" onSubmit={this.doLogin}>
+        <form
+          className="login__form"
+          action=""
+          onSubmit={this.doLogin}
+          data-test="formLoginTest"
+        >
           <div className="field">
             <label className="label">Username:</label>
             <input
@@ -64,6 +69,7 @@ export class Login extends Component {
               onChange={(e) => this.setState({ username: e.target.value })}
               value={username}
               ref={this.ref}
+              data-test="inputUsernameLoginTest"
             />
           </div>
           <div className="field">
@@ -73,6 +79,7 @@ export class Login extends Component {
               className="input"
               onChange={(e) => this.setState({ password: e.target.value })}
               value={password}
+              data-test="inputPasswordLoginTest"
             />
           </div>
           {schemas && (
@@ -92,7 +99,11 @@ export class Login extends Component {
             </div>
           )}
           <div className="field">
-            <button className="button is-warning" type="submit">
+            <button
+              className="button is-warning"
+              type="submit"
+              data-test="btnLoginTest"
+            >
               Login
             </button>
           </div>

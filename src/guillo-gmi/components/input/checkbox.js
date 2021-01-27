@@ -14,6 +14,7 @@ export const Checkbox = ({
   children,
   placeholder,
   onChange,
+  dataTest,
   ...rest
 }) => {
   const inputRef = useRef(null)
@@ -41,6 +42,7 @@ export const Checkbox = ({
           className="checkbox"
           checked={state}
           onChange={updateState}
+          data-test={dataTest}
           {...rest}
         />
         {children || placeholder}

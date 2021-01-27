@@ -1,21 +1,19 @@
+import {LOGIN_SELECTORS} from '../elements/login-selectors'
+
 describe('test login', function () {
   beforeEach('clear', function () {
     cy.clearLocalStorage()
     cy.clearCookies()
   })
   it('test manual login', function () {
-    const form = '.login__form'
-    const userInput = '.login__form > .field:nth-child(1) > .input'
-    const passwordInput = '.login__form > .field:nth-child(2) > .input'
-    const submit = '.login__form > .field > .button'
-
+    cy.intercept('POST',`/@login`).as('login')
     cy.visit('/')
-    cy.get(form).should('be.visible')
-    cy.get(userInput).type('root').should('have.value', 'root')
-    cy.get(passwordInput).type('root').should('have.value', 'root')
-    cy.get(submit).click()
-    cy.get(form).should('not.exist')
-    cy.get('.box > .container').should('be.visible')
+    cy.get(LOGIN_SELECTORS.form).should('be.visible')
+    cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')
+    cy.get(LOGIN_SELECTORS.password).type('root').should('have.value', 'root')
+    cy.get(LOGIN_SELECTORS.form).submit()
+    cy.wait('@login')
+    cy.get(LOGIN_SELECTORS.form).should('not.exist')
   })
 
   it('test autologin', function () {

@@ -1,25 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ErrorZone from '../error_zone'
+import { classnames, generateUID } from '../../lib/helpers'
 
 export const Textarea = React.forwardRef(
-  ({ value = '', rows = 5, className, onChange, ...rest }, ref) => {
-    const css = 'textarea ' + className
+  (
+    {
+      value = '',
+      classWrap = '',
+      rows = 5,
+      className = '',
+      onChange,
+      dataTest,
+      error,
+      errorZoneClassName,
+      placeholder,
+      id,
+      ...rest
+    },
+    ref
+  ) => {
+    const [uid] = useState(generateUID('select'))
 
     const onUpdate = (ev) => {
       if (onChange) {
         onChange(ev.target.value)
       }
     }
+    const statusClasses = error ? 'is-danger' : ''
 
     return (
       <div className="field">
-        <textarea
-          className={css}
-          rows={rows}
-          onChange={onUpdate}
-          value={value}
-          {...rest}
-          ref={ref}
-        />
+        {id && placeholder ? (
+          <label className="label" htmlFor={id}>
+            {placeholder}
+          </label>
+        ) : null}
+        <div className={classWrap}>
+          <textarea
+            className={classnames(['textarea', className, statusClasses])}
+            rows={rows}
+            onChange={onUpdate}
+            value={value}
+            data-test={dataTest}
+            {...rest}
+            ref={ref}
+          />
+        </div>
+        <ErrorZone className={errorZoneClassName} id={uid}>
+          {error ? error : ''}
+        </ErrorZone>
       </div>
     )
   }

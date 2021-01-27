@@ -121,7 +121,9 @@ export function UserCtx() {
             remotes={remotes}
             submitButton={false}
           >
-            <Button loading={loading}>Update</Button>
+            <Button loading={loading} dataTest="formUserTestBtnSubmit">
+              Update
+            </Button>
           </UserForm>
         </div>
         <div className="column">

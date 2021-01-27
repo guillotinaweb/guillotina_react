@@ -11,9 +11,11 @@ export * from './input/select'
 export * from './input/upload'
 export * from './input/textarea'
 export * from './input/search_input'
+export * from './input/input_list'
 
 export * from './fields/editableField'
 export * from './fields/renderField'
+export * from './fields/downloadField'
 
 export * from './behaviors/iattachment'
 export * from './behaviors/imultiattachment'

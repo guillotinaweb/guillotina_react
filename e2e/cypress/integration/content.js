@@ -1,4 +1,16 @@
-import { USER_FORM_SELECTORS } from '../elements/user-form-selectors'
+import { 
+  ITEMS_PANELS_SELECTORS, 
+  CONTEXT_TOOLBAR_SELECTORS 
+} from '../elements/panels-selectors'
+import { 
+  FORM_BASE_SELECTORS, 
+  EDITABLE_FORM_SELECTORS, 
+  FORM_SELECTORS,
+  USER_FORM_SELECTORS
+} from '../elements/form-types-selectors'
+import { NOTIFICATION_SELECTOR } from '../elements/notification-selectors'
+import { ACTION_SELECTORS } from '../elements/actions-selectors'
+import { BREADCRUMB_SELECTORS } from '../elements/breadcrumb-selectors'
 
 describe('test content', function () {
   beforeEach('clear', function () {
@@ -6,54 +18,67 @@ describe('test content', function () {
     cy.clearCookies()
     cy.autologin()
     cy.visit('/db/container/')
-    cy.get('td:nth-child(4)')
+    cy.get(ITEMS_PANELS_SELECTORS.table)
       .should('contain', 'Groups')
       .should('contain', 'Users')
   })
   it('creates a folder as Admin, then deletes it', function () {
     // Create Folder
-    cy.get('.dropdown-trigger > .button > .icon').click()
-    cy.get('#dropdown-menu > .dropdown-content > :nth-child(2)').click()
-    cy.get('.title').should('contain', 'Add Folder')
-    cy.get('#title').type('Test Folder')
-    cy.get('#id').should('have.value', 'test-folder')
-    cy.get('.level > .button').click()
-    cy.get('.notification').should('contain', 'Content created!')
+    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
+    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddFolder).click()
+    cy.get(FORM_SELECTORS.containerFolder).should('contain', 'Add Folder')
+    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type('Test Folder')
+    cy.get(`[data-test='id${FORM_BASE_SELECTORS.prefixField}']`).should('have.value', 'test-folder')
+    cy.get(FORM_BASE_SELECTORS.btn).click()
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 
     // Delete Folder
-    cy.get('tr:contains(Test Folder) .delete').click()
-    cy.get('.level-right > .control > .button').click()
-    cy.get('.notification').should('contain', 'Items removed!')
+    cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-folder']`).within(() => {
+      cy.get(ACTION_SELECTORS.delete).click()
+    })
+    cy.get(ACTION_SELECTORS.confirmModal).click()
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
 
   it('creates an item as Admin, modifies it and delete it', function () {
+
     // Create Item
-    cy.get('.dropdown-trigger > .button > .icon').click()
-    cy.get('#dropdown-menu > .dropdown-content > :nth-child(1)').click()
-    cy.get('.title').should('contain', 'Add Item')
-    cy.get('#title').type('Test Item')
-    cy.get('#id').should('have.value', 'test-item')
-    cy.get('.level > .button').click()
-    cy.get('.notification').should('contain', 'Content created!')
+    cy.intercept(`/db/container/test-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`).as('canido')
+
+    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
+    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddItem).click()
+    cy.get(FORM_SELECTORS.containerItem).should('contain', 'Add Item')
+    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type('Test Item')
+    cy.get(`[data-test='id${FORM_BASE_SELECTORS.prefixField}']`).should('have.value', 'test-item')
+    cy.get(FORM_BASE_SELECTORS.btn).click()
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 
     // Modify Item
-    cy.get('td:contains(Test Item)').click()
+    cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-item']`).click()
+    cy.wait('@canido')
     cy.get(
-      ':nth-child(1) > :nth-child(2) > .editable > .icon > .svg-inline--fa'
+      `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-title']`
     ).click()
-    cy.get('.input').clear().type('Test Modified Item')
-    cy.get(':nth-child(1) > .control > .button').click()
-    cy.get('.notification').should('contain', 'Field title, updated!')
-    cy.get('.breadcrumb a:contains(container)').click()
+    cy.get(
+      `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-title']`
+    ).within(() => {
+      cy.get(EDITABLE_FORM_SELECTORS.field).clear().type('Test Modified Item')
+      cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
+    })
+    
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Field title, updated!')
+    cy.get(`[data-test='${BREADCRUMB_SELECTORS.prefixItem}-container']`).click()
 
     // Delete Item
-    cy.get('tr:contains(Test Modified Item) .delete').click()
-    cy.get('.level-right > .control > .button').click()
-    cy.get('.notification').should('contain', 'Items removed!')
+    cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-item']`).within(() => {
+      cy.get(ACTION_SELECTORS.delete).click()
+    })
+    cy.get(ACTION_SELECTORS.confirmModal).click()
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
 
   it('creates a User as Admin, modifies it and delete it', function () {
-    cy.get('td:contains(UserManager)').click()
+    cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-users']`).click()
 
     // Create User
     cy.get('.level-right > .button').click()
@@ -61,22 +86,26 @@ describe('test content', function () {
     cy.get(USER_FORM_SELECTORS.email).type('test-user@test.test')
     cy.get(USER_FORM_SELECTORS.name).type('Test Name')
     cy.get(USER_FORM_SELECTORS.password).type('TestPassword')
-    cy.get('p.control > .button').should('contain', 'Add User').click()
-    cy.get('.notification').should('contain', 'Content created!')
+    cy.get(FORM_SELECTORS.containerUser).within(() => {
+      cy.get('form').submit()
+    })
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 
     // Modify Item
-    cy.get('td:contains(test-user)').click()
+    cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-user']`).click()
     cy.get(USER_FORM_SELECTORS.username).type('Test Modified User', {
       force: true,
     })
 
-    cy.get('p.control > .button').click()
-    cy.get('.notification').should('contain', 'Data updated')
-    cy.get('.breadcrumb a:contains(users)').click()
+    cy.get(USER_FORM_SELECTORS.btnUpate).click()
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Data updated')
+    cy.get(`[data-test='${BREADCRUMB_SELECTORS.prefixItem}-users']`).click()
 
     // Delete Item
-    cy.get('tr:contains(test-user) .delete').click()
-    cy.get('.level-right > .control > .button').click()
-    cy.get('.notification').should('contain', 'Items removed!')
+    cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-user']`).within(() => {
+      cy.get(ACTION_SELECTORS.delete).click()
+    })
+    cy.get(ACTION_SELECTORS.confirmModal).click()
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
 })

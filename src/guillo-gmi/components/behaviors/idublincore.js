@@ -1,52 +1,34 @@
 import React from 'react'
-
-import { Icon } from '../ui/icon'
-import { RenderField } from '../fields/renderField'
 import { useTraversal } from '../../contexts'
 import { EditableField } from '../fields/editableField'
-import { Textarea } from '../input/textarea'
-import { Input } from '../input/input'
 
-const Schema = {
-  editable: ['title', 'description', 'effective_date', 'expiration_date'],
-  widgets: {
-    description: Textarea,
-  },
-}
+const editableFiels = [
+  'title',
+  'description',
+  'effective_date',
+  'expiration_date',
+]
 
-export function IDublinCore(props) {
+export function IDublinCore({ properties, values }) {
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
   return (
     <React.Fragment>
-      {Object.keys(props).map((key) => (
+      {Object.keys(properties).map((key) => (
         <tr key={'dublin_' + key}>
           <td key={1}>{key}</td>
           <td key={2}>
-            {Schema.editable.includes(key) && modifyContent && (
-              <EditableField
-                field={key}
-                value={props[key]}
-                Type={Schema.widgets[key] || Input}
-                ns="guillotina.behaviors.dublincore.IDublinCore"
-              />
-            )}
-            {!Schema.editable.includes(key) && (
-              <RenderField value={props[key]} />
-            )}
+            <EditableField
+              field={key}
+              value={values[key]}
+              ns="guillotina.behaviors.dublincore.IDublinCore"
+              schema={properties[key]}
+              modifyContent={modifyContent && editableFiels.includes(key)}
+            />
           </td>
         </tr>
       ))}
     </React.Fragment>
-  )
-}
-
-export function Author({ name }) {
-  return (
-    <div className="container">
-      <Icon icon="fas fa-user" />
-      <span>{name}</span>
-    </div>
   )
 }
