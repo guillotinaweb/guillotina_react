@@ -2,7 +2,6 @@
 ------
  - Add querycondition prop in search_input (#100)
  - Fix - Export actions panel (#101)
- - Fix - Export actions panel (#101)
  - Edit properties fields (#96)
 
 
