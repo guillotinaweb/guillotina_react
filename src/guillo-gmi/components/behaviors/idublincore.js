@@ -2,7 +2,7 @@ import React from 'react'
 import { useTraversal } from '../../contexts'
 import { EditableField } from '../fields/editableField'
 
-const editableFiels = [
+const editableFields = [
   'title',
   'description',
   'effective_date',
@@ -24,7 +24,7 @@ export function IDublinCore({ properties, values }) {
               value={values[key]}
               ns="guillotina.behaviors.dublincore.IDublinCore"
               schema={properties[key]}
-              modifyContent={modifyContent && editableFiels.includes(key)}
+              modifyContent={modifyContent && editableFields.includes(key)}
             />
           </td>
         </tr>
