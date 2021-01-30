@@ -1,3 +1,7 @@
+0.12.1
+------
+ - Fix attachment and multiattachment behaviors (#103)
+
 0.12.0
 ------
  - Add querycondition prop in search_input (#100)
