@@ -73,7 +73,7 @@ export function IMultiAttachment({ properties, values }) {
           <td key={2}>
             <div className="is-flex is-align-items-center">
               <EditableField
-                field={key}
+                field={`files/${key}`}
                 value={values['files'][key]}
                 ns="guillotina.behaviors.attachment.IMultiAttachment.files"
                 schema={properties['files']['additionalProperties']}
@@ -96,37 +96,39 @@ export function IMultiAttachment({ properties, values }) {
           <td colSpan={2}>No files uploaded</td>
         </tr>
       )}
-      {modifyContent && <tr>
-        <td colSpan={2}>
-          <label className="label">Upload a file</label>
-          <form className="columns">
-            <div className="column is-4">
-              <Input
-                placeholder="Key"
-                name="field"
-                className="is-small"
-                value={fileKey}
-                onChange={(ev) => setFileKey(ev)}
-              />
-              {error && <ErrorZone>{error}</ErrorZone>}
-            </div>
-            <div className="column is-2">
-              <FileUpload onChange={(ev) => setFile(ev)} />
-              {file && file.filename}
-            </div>
-            <div className="column is-2">
-              <Button
-                className="is-primary is-small"
-                loading={loading}
-                onClick={uploadFile}
-                disabled={!fileKey && !file}
-              >
-                Upload
-              </Button>
-            </div>
-          </form>
-        </td>
-      </tr>}
+      {modifyContent && (
+        <tr>
+          <td colSpan={2}>
+            <label className="label">Upload a file</label>
+            <form className="columns">
+              <div className="column is-4">
+                <Input
+                  placeholder="Key"
+                  name="field"
+                  className="is-small"
+                  value={fileKey}
+                  onChange={(ev) => setFileKey(ev)}
+                />
+                {error && <ErrorZone>{error}</ErrorZone>}
+              </div>
+              <div className="column is-2">
+                <FileUpload onChange={(ev) => setFile(ev)} />
+                {file && file.filename}
+              </div>
+              <div className="column is-2">
+                <Button
+                  className="is-primary is-small"
+                  loading={loading}
+                  onClick={uploadFile}
+                  disabled={!fileKey && !file}
+                >
+                  Upload
+                </Button>
+              </div>
+            </form>
+          </td>
+        </tr>
+      )}
     </React.Fragment>
   )
 }
