@@ -17,6 +17,7 @@ export function IMultiAttachment({ properties, values }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
   const { Ctx } = useCrudContext()
+  const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
   const uploadFile = async (ev) => {
     ev.preventDefault()
@@ -95,7 +96,7 @@ export function IMultiAttachment({ properties, values }) {
           <td colSpan={2}>No files uploaded</td>
         </tr>
       )}
-      <tr>
+      {modifyContent && <tr>
         <td colSpan={2}>
           <label className="label">Upload a file</label>
           <form className="columns">
@@ -125,7 +126,7 @@ export function IMultiAttachment({ properties, values }) {
             </div>
           </form>
         </td>
-      </tr>
+      </tr>}
     </React.Fragment>
   )
 }
