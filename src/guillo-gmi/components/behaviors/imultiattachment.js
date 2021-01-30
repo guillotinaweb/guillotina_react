@@ -30,6 +30,7 @@ export function IMultiAttachment({ properties, values }) {
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
       setError('Failed to upload file')
+      setLoading(false)
       return
     }
     setFileKey('')
@@ -46,6 +47,7 @@ export function IMultiAttachment({ properties, values }) {
     const req = await Ctx.client.delete(endpoint, file)
     if (req.status !== 200) {
       setError('Failed to delete file')
+      setLoading(false)
       return
     }
     setLoading(false)
