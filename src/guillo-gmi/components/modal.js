@@ -25,7 +25,7 @@ export function Modal(props) {
 }
 
 export function Confirm({ message, onCancel, onConfirm, loading }) {
-  const setActive = (p) => onCancel()
+  const setActive = () => onCancel()
   return (
     <Modal isActive setActive={setActive} className="confirm">
       <React.Fragment>

@@ -65,6 +65,8 @@ contents:
       - File
     behaviors:
       - guillotina.behaviors.dublincore.IDublinCore
+      - guillotina.behaviors.attachment.IAttachment
+      - guillotina.behaviors.attachment.IMultiAttachment
     properties:
       json_example:
         type: guillotina.schema.JSONField

@@ -12,7 +12,9 @@ import { get } from '../../lib/utils'
 
 const _showProperties = ['@id', '@name', '@uid']
 const _ignoreFields = [
+  'guillotina.behaviors.attachment.IAttachment',
   'guillotina.behaviors.dublincore.IDublinCore',
+  'guillotina.behaviors.attachment.IMultiAttachment',
   '__behaviors__',
   'type_name',
   'creation_date',

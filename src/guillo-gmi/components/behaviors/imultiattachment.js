@@ -5,13 +5,19 @@ import { Button } from '../input/button'
 import { useState } from 'react'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import ErrorZone from '../error_zone'
+import { EditableField } from '../fields/editableField'
+import { Delete } from '../ui'
+import { Confirm } from '../../components/modal'
 
-export function IMultiAttachment(props) {
+export function IMultiAttachment({ properties, values }) {
   const [fileKey, setFileKey] = useState('')
   const [file, setFile] = useState()
+  const [fileKeyToDelete, setFileKeyToDelete] = useState(undefined)
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
   const { Ctx } = useCrudContext()
+  const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
   const uploadFile = async (ev) => {
     ev.preventDefault()
@@ -25,6 +31,7 @@ export function IMultiAttachment(props) {
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
       setError('Failed to upload file')
+      setLoading(false)
       return
     }
     setFileKey('')
@@ -34,81 +41,94 @@ export function IMultiAttachment(props) {
     Ctx.refresh()
   }
 
-  const downloadFile = (file, content_type, fileName) => async () => {
-    const endpoint = `${Ctx.path}@download/files/${file}`
-    const res = await Ctx.client.download(endpoint)
-    const text = await res.blob()
-    const blob = new Blob([text], {
-      type: content_type,
-    })
-    const url = window.URL.createObjectURL(blob)
-
-    // Create blob link to download
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', `${fileName}`)
-    document.body.appendChild(link)
-    link.click()
-    link.parentNode.removeChild(link)
+  const deleteFile = async () => {
+    setLoading(true)
+    setError(undefined)
+    const endpoint = `${Ctx.path}@delete/files/${fileKeyToDelete}`
+    const req = await Ctx.client.delete(endpoint, file)
+    if (req.status !== 200) {
+      setError('Failed to delete file')
+      setLoading(false)
+      return
+    }
+    setLoading(false)
+    Ctx.flash(`${fileKeyToDelete} delete!`, 'success')
+    Ctx.refresh()
   }
 
   return (
     <React.Fragment>
-      {Object.keys(props.files).map((file) => (
-        <tr key={file}>
-          <td>{file}</td>
-          <td>
-            {props.files[file].filename} / ({props.files[file].content_type})
-            &nbsp;
-            <Button
-              className="is-small"
-              onClick={downloadFile(
-                file,
-                props.files[file].content_type,
-                props.files[file].filename
-              )}
-            >
-              Download
-            </Button>
+      {fileKeyToDelete && (
+        <Confirm
+          loading={loading}
+          onCancel={() => setFileKeyToDelete(undefined)}
+          onConfirm={() => deleteFile(fileKeyToDelete)}
+          message={`Are you sure to remove: ${fileKeyToDelete}?`}
+        />
+      )}
+
+      {Object.keys(values['files']).map((key) => (
+        <tr key={'multiattachment_' + key}>
+          <td key={1}>{key}</td>
+          <td key={2}>
+            <div className="is-flex is-align-items-center">
+              <EditableField
+                field={`files/${key}`}
+                value={values['files'][key]}
+                ns="guillotina.behaviors.attachment.IMultiAttachment.files"
+                schema={properties['files']['additionalProperties']}
+                modifyContent={false}
+              />
+              <div className="ml-5">
+                <Delete
+                  onClick={(ev) => {
+                    ev.preventDefault()
+                    setFileKeyToDelete(key)
+                  }}
+                />
+              </div>
+            </div>
           </td>
         </tr>
       ))}
-      {Object.keys(props.files).length === 0 && (
+      {Object.keys(values['files']).length === 0 && (
         <tr>
           <td colSpan={2}>No files uploaded</td>
         </tr>
       )}
-      <tr>
-        <td colSpan={2}>
-          <label className="label">Upload a file</label>
-          <form className="columns">
-            <div className="column is-4">
-              <Input
-                placeholder="Key"
-                name="field"
-                className="is-small"
-                value={fileKey}
-                onChange={(ev) => setFileKey(ev)}
-              />
-              {error && <ErrorZone>{error}</ErrorZone>}
-            </div>
-            <div className="column is-2">
-              <FileUpload onChange={(ev) => setFile(ev)} />
-              {file && file.filename}
-            </div>
-            <div className="column is-2">
-              <Button
-                className="is-primary is-small"
-                loading={loading}
-                onClick={uploadFile}
-                disabled={!fileKey && !file}
-              >
-                Upload
-              </Button>
-            </div>
-          </form>
-        </td>
-      </tr>
+      {modifyContent && (
+        <tr>
+          <td colSpan={2}>
+            <label className="label">Upload a file</label>
+            <form className="columns">
+              <div className="column is-4">
+                <Input
+                  placeholder="Key"
+                  name="field"
+                  className="is-small"
+                  value={fileKey}
+                  onChange={(ev) => setFileKey(ev)}
+                />
+                {error && <ErrorZone>{error}</ErrorZone>}
+              </div>
+              <div className="column is-2">
+                <FileUpload onChange={(ev) => setFile(ev)} />
+                {file && file.filename}
+              </div>
+              <div className="column is-2">
+                <Button
+                  className="is-primary is-small"
+                  loading={loading}
+                  onClick={uploadFile}
+                  disabled={!fileKey && !file}
+                >
+                  Upload
+                </Button>
+              </div>
+            </form>
+          </td>
+        </tr>
+      )}
     </React.Fragment>
   )
 }
