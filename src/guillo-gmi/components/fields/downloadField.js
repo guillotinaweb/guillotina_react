@@ -25,8 +25,11 @@ export const DownloadField = ({ value }) => {
 
     document.body.appendChild(link)
     link.click()
-    window.URL.revokeObjectURL(url)
-    link.parentNode?.removeChild(link)
+    setTimeout(function () {
+      // For Firefox it is necessary to delay revoking the ObjectURL
+      window.URL.revokeObjectURL(url)
+      link.parentNode?.removeChild(link)
+    }, 100)
   }
 
   return (
