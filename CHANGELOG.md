@@ -1,3 +1,7 @@
+0.12.2
+------
+ - Fix open new tab downloadFile, firefox (#104)
+
 0.12.1
 ------
  - Fix attachment and multiattachment behaviors (#103)
