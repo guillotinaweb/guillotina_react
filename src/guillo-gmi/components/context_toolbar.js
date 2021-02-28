@@ -8,6 +8,7 @@ import { Icon } from './ui/icon'
 import { useTraversal } from '../contexts'
 import { useConfig } from '../hooks/useConfig'
 import { useLocation } from '../hooks/useLocation'
+import { Select } from './input/select'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = { types: undefined }
@@ -61,18 +62,36 @@ export function CreateButton() {
 }
 
 export function ContextToolbar({ AddButton, ...props }) {
-  const [location, setLocation] = useLocation()
-  const ctx = useTraversal()
+  const [state, setState] = useSetState(initialState)
+  const [location, setLocation, del] = useLocation()
+  const traversal = useTraversal()
   const ref = React.useRef(null)
+  const Config = useConfig()
 
   const searchText = location.get('q')
 
-  const onSearch = (ev) => {
+  useEffect(() => {
+    ;(async () => {
+      const types = await traversal.client.getTypes(traversal.path)
+      setState({
+        types: types.filter((item) => !Config.DisabledTypes.includes(item)),
+      })
+    })()
+  }, [traversal.path])
+
+  const onSearchQuery = (ev) => {
     const search = ev.target[0].value
     setLocation({ q: search, tab: 'Items', page: 0 })
-    // let searchParsed = parser(search);
-    // ctx.setState({ search, searchParsed });
     ev.preventDefault()
+  }
+
+  const onSearchByType = (ev) => {
+    const typeText = ev.target.value
+    if (typeText && typeText !== '') {
+      setLocation({ type: typeText, tab: 'Items', page: 0 })
+    } else {
+      del('type')
+    }
   }
 
   // cleanup form on state.search change
@@ -85,7 +104,7 @@ export function ContextToolbar({ AddButton, ...props }) {
   return (
     <React.Fragment>
       <div className="level-item">
-        <form action="" className="form" onSubmit={onSearch}>
+        <form action="" className="form" onSubmit={onSearchQuery}>
           <div className="field has-addons">
             <div className="control">
               <input
@@ -93,12 +112,14 @@ export function ContextToolbar({ AddButton, ...props }) {
                 type="text"
                 className="input is-size-7"
                 placeholder="Search..."
+                data-test="inputFilterTest"
               />
             </div>
             <div className="control">
               <button
                 className="button has-background-grey-lighter is-size-7"
                 type="submit"
+                data-test="btnInputFilter"
               >
                 <Icon icon="fas fa-search" />
               </button>
@@ -106,7 +127,19 @@ export function ContextToolbar({ AddButton, ...props }) {
           </div>
         </form>
       </div>
-      {ctx.hasPerm('guillotina.AddContent') && (
+      <div className="level-item">
+        <Select
+          appendDefault
+          dataTest="selectFilterTypeTest"
+          classWrap="is-size-7"
+          options={(state.types || []).map((item) => ({
+            text: item,
+            value: item,
+          }))}
+          onChange={onSearchByType}
+        />
+      </div>
+      {traversal.hasPerm('guillotina.AddContent') && (
         <div className="level-item">
           {AddButton !== undefined ? (
             <AddButton />

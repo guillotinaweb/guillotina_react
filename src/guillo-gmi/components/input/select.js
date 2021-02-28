@@ -76,9 +76,9 @@ export const Select = React.forwardRef(
             ))}
           </select>
         </div>
-        <ErrorZone className={errorZoneClassName} id={uid}>
+        {error && <ErrorZone className={errorZoneClassName} id={uid}>
           {error ? error : ''}
-        </ErrorZone>
+        </ErrorZone>}
       </div>
     )
   }

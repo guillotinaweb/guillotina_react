@@ -1,9 +1,7 @@
 import { 
   ITEMS_PANELS_SELECTORS, 
-  CONTEXT_TOOLBAR_SELECTORS 
 } from '../elements/panels-selectors'
 import { 
-  FORM_BASE_SELECTORS, 
   EDITABLE_FORM_SELECTORS, 
   FORM_SELECTORS,
   USER_FORM_SELECTORS
@@ -23,14 +21,9 @@ describe('test content', function () {
       .should('contain', 'Users')
   })
   it('creates a folder as Admin, then deletes it', function () {
+
     // Create Folder
-    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
-    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddFolder).click()
-    cy.get(FORM_SELECTORS.containerFolder).should('contain', 'Add Folder')
-    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type('Test Folder')
-    cy.get(`[data-test='id${FORM_BASE_SELECTORS.prefixField}']`).should('have.value', 'test-folder')
-    cy.get(FORM_BASE_SELECTORS.btn).click()
-    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
+    cy.addContent('Test folder', 'test-folder', 'btnAddFolder')
 
     // Delete Folder
     cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-folder']`).within(() => {
@@ -45,13 +38,8 @@ describe('test content', function () {
     // Create Item
     cy.intercept(`/db/container/test-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`).as('canido')
 
-    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
-    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddItem).click()
-    cy.get(FORM_SELECTORS.containerItem).should('contain', 'Add Item')
-    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type('Test Item')
-    cy.get(`[data-test='id${FORM_BASE_SELECTORS.prefixField}']`).should('have.value', 'test-item')
-    cy.get(FORM_BASE_SELECTORS.btn).click()
-    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
+    cy.addContent('Test Item', 'test-item', 'btnAddItem')
+
 
     // Modify Item
     cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-item']`).click()
