@@ -37,7 +37,7 @@ Cypress.Commands.add('testInput', ({
 
 
 Cypress.Commands.add('addContent', (name, id, selector) => {
-  // Create Folder
+  // Create content
   cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
   cy.get(CONTEXT_TOOLBAR_SELECTORS[selector]).click()
   cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type(name)
