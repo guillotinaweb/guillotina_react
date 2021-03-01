@@ -1,4 +1,4 @@
-0.13.0
+0.13.1
 ------
  - Add classNameInput prop in checkbox and modify placeholder input_list (#106)
 
