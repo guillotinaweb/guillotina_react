@@ -4,6 +4,7 @@ import { classnames } from '../../lib/helpers'
 export const Checkbox = ({
   id,
   className,
+  classNameInput,
   loading,
   disabled,
   indeterminate = false,
@@ -39,7 +40,7 @@ export const Checkbox = ({
           disabled={disabled || loading}
           id={id}
           type="checkbox"
-          className="checkbox"
+          className={classnames(['checkbox', classNameInput])}
           checked={state}
           onChange={updateState}
           data-test={dataTest}

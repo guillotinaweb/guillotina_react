@@ -1,5 +1,9 @@
 0.13.0
 ------
+ - Add classNameInput prop in checkbox and modify placeholder input_list (#106)
+
+0.13.0
+------
  - Add filter type in items panel. (#105)
 
 0.12.2
