@@ -33,6 +33,7 @@ export function PanelItems() {
   const columns = Ctx.client.getItemsColumn(items, Ctx.path)
 
   let search = location.get('q')
+  let type = location.get('type')
   let page
 
   try {
@@ -46,13 +47,18 @@ export function PanelItems() {
     searchParsed = parser(search)
   }
 
+  let typeParsed = undefined
+  if (type && type !== '') {
+    typeParsed = parser(type, 'type_name')
+  }
+
   useEffect(() => {
     if (Ctx.state.loading) return
     ;(async () => {
       let data
       setState({ loading: true, total: Ctx.context.length })
-      if (search) {
-        let qs = buildQs(searchParsed)
+      if (search || type) {
+        let qs = buildQs([...(searchParsed ?? []), ...(typeParsed ?? [])])
         data = await Ctx.client.search(
           Ctx.path,
           qs,
@@ -70,7 +76,7 @@ export function PanelItems() {
         total: data.items_count,
       })
     })()
-  }, [search, Ctx.state.refresh, page])
+  }, [search, type, Ctx.state.refresh, page])
 
   const doPaginate = (page) => {
     setLocation({ page: page })
@@ -84,6 +90,9 @@ export function PanelItems() {
         </div>
         <div className="column">
           <SearchLabels />
+        </div>
+        <div className="column">
+          <SearchLabels label="Type" query="type" />
         </div>
         <div className="column">
           <Pagination

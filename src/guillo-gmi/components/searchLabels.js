@@ -2,17 +2,20 @@ import React from 'react'
 import { Tag } from './ui/tag'
 import { useLocation } from '../hooks/useLocation'
 
-export function SearchLabels() {
+export function SearchLabels(props) {
+  const { query, label } = props
   const [location, , del] = useLocation()
-  const search = location.get('q')
+  const search = location.get(query ?? 'q')
 
   const clearSearch = () => {
-    del('q')
+    del(query ?? 'q')
   }
 
   return (
     <div className="tags">
-      {search && <Tag name="Search:" color="is-light" size="is-size-7" />}
+      {search && (
+        <Tag name={label ?? 'Search:'} color="is-light" size="is-size-7" />
+      )}
       {search && (
         <Tag
           name={search}

@@ -1,3 +1,7 @@
+0.13.0
+------
+ - Add filter type in items panel. (#105)
+
 0.12.2
 ------
  - Fix open new tab downloadFile, firefox (#104)

@@ -7,7 +7,10 @@ export const CONTEXT_TOOLBAR_SELECTORS = {
   btnAddType: "[data-test='itemAddTypeTest']",
   btnAddFolder: "[data-test='dropdownItemTest-folder']",
   btnAddItem: "[data-test='dropdownItemTest-item']",
-  btnAddGMI: "[data-test='dropdownItemTest-gmi']"
+  btnAddGMI: "[data-test='dropdownItemTest-gmi']",
+  selectFilteType: "[data-test='selectFilterTypeTest']",
+  inputFilter: "[data-test='inputFilterTest']",
+  btnInputFilter: "[data-test='btnInputFilterTest']"
 }
 
 export const TABS_PANEL_SELECTOS = {
