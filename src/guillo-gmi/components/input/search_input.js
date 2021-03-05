@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { buildQs } from '../../lib/search'
 import { parser } from '../../lib/search'
 import useSetState from '../../hooks/useSetState'
+import ErrorZone from '../error_zone'
 import { Loading } from '../ui'
+import { generateUID } from '../../lib/helpers'
 
 function debounce(func, wait) {
   let timeout
@@ -28,6 +30,8 @@ const initialState = {
 
 export const SearchInput = ({
   onChange,
+  error,
+  errorZoneClassName,
   client = null,
   path = null,
   qs = [],
@@ -41,6 +45,8 @@ export const SearchInput = ({
   const [searchTerm, setSearchTerm] = React.useState('')
   const inputRef = React.useRef(null)
   const wrapperRef = React.useRef(null)
+
+  const [uid] = useState(generateUID('search_input'))
 
   const getHeight = () => {
     if (wrapperRef && wrapperRef.current) {
@@ -198,6 +204,11 @@ export const SearchInput = ({
           </div>
         </div>
       </div>
+      {error && (
+        <ErrorZone className={errorZoneClassName} id={uid}>
+          {error ? error : ''}
+        </ErrorZone>
+      )}
     </React.Fragment>
   )
 }
