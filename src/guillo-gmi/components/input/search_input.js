@@ -117,7 +117,8 @@ export const SearchInput = ({
         <div className="dropdown-trigger">
           <button
             className={`button ${btnClass}`}
-            onClick={() => {
+            onClick={(ev) => {
+              ev.preventDefault()
               setIsOpen(!isOpen)
             }}
             aria-haspopup="true"
