@@ -33,7 +33,7 @@ export const InputList = React.forwardRef(
         </div>
         <Input
           type="text"
-          placeholder="Press enter to add tags"
+          placeholder="Press enter to add value"
           onKeyUp={(event) => addTags(event)}
           value={inputValue}
           ref={ref}

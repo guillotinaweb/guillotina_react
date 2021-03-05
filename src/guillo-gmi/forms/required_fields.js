@@ -9,6 +9,7 @@ const ignoreFiels = []
 const extraFields = ['title']
 
 export function RequiredFieldsForm({
+  loading,
   onSubmit,
   actionName,
   title,
@@ -108,7 +109,7 @@ export function RequiredFieldsForm({
       <div className="level level-right">
         <button
           type="submit"
-          className="button is-success"
+          className={`button is-success ${loading ? 'is-loading' : ''}`}
           data-test="formBaseBtnTestSubmit"
         >
           {actionName || 'Add'}
