@@ -4,7 +4,7 @@ import { Input } from '../components/input/input'
 import { Form } from '../components/input/form'
 import { stringToSlug } from '../lib/helpers'
 
-export function BaseForm({ onSubmit, actionName, title, dataTest }) {
+export function BaseForm({ onSubmit, actionName, title, dataTest, loading }) {
   const [name, setName] = useState('')
   const [id, setId] = useState('')
   const [error, setError] = useState(undefined)
@@ -46,7 +46,7 @@ export function BaseForm({ onSubmit, actionName, title, dataTest }) {
       <div className="level level-right">
         <button
           type="submit"
-          className="button is-success"
+          className={`button is-success ${loading ? 'is-loading' : ''}`}
           data-test="formBaseBtnTestSubmit"
         >
           {actionName || 'Add'}
