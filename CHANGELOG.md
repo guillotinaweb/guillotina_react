@@ -1,6 +1,8 @@
 0.13.1
 ------
  - Add classNameInput prop in checkbox and modify placeholder input_list (#106)
+ - Add error message in search_input (#106)
+ - Add loading in add item action (#106)
 
 0.13.0
 ------
