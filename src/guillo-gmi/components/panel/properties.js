@@ -107,7 +107,7 @@ export function PanelProperties() {
                   if (!ignoreFields.includes(key)) {
                     return (
                       <tr key={'prop' + key}>
-                        <td>{value.title}</td>
+                        <td>{value.title || key}</td>
                         <td>
                           <EditableField
                             field={key}
