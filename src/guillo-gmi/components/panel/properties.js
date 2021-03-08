@@ -39,6 +39,10 @@ export function PanelProperties() {
   const showProperties = cfg.properties_default || _showProperties
   const ignoreFields = cfg.properties_ignore_fields || _ignoreFields
 
+  const properties = Object.keys(schema?.data?.properties || [])
+    .filter((key) => !ignoreFields.includes(key))
+    .map((key) => ({ key, value: schema.data.properties[key] }))
+
   useEffect(() => {
     ;(async () => {
       if (!schema.loading && !schema.data && !schema.error) {
@@ -94,20 +98,19 @@ export function PanelProperties() {
                 ))}
               </tbody>
             </table>
-            <table className="table is-striped is-fullwidth is-size-7">
-              <thead>
-                <tr>
-                  <th className="is-2">Prop</th>
-                  <th className="is-8">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(schema.data.properties).map((key) => {
-                  const value = schema.data.properties[key]
-                  if (!ignoreFields.includes(key)) {
+            {properties.length > 0 && (
+              <table className="table is-striped is-fullwidth is-size-7">
+                <thead>
+                  <tr>
+                    <th className="is-2">Prop</th>
+                    <th className="is-8">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {properties.map(({ key, value }) => {
                     return (
                       <tr key={'prop' + key}>
-                        <td>{value.title}</td>
+                        <td>{value.title || key}</td>
                         <td>
                           <EditableField
                             field={key}
@@ -121,11 +124,10 @@ export function PanelProperties() {
                         </td>
                       </tr>
                     )
-                  }
-                  return null
-                })}
-              </tbody>
-            </table>
+                  })}
+                </tbody>
+              </table>
+            )}
             <PropertiesView />
             <BehaviorsView context={Ctx.context} schema={schema.data} />
           </div>
