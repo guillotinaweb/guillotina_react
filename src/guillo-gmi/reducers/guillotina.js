@@ -51,7 +51,7 @@ export function guillotinaReducer(state, action) {
     case 'REFRESH':
       return {
         ...state,
-        refresh: Math.random(),
+        refresh: Date.now(),
         loading: !action.payload.transparent,
       }
 
