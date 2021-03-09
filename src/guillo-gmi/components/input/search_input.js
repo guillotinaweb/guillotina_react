@@ -39,6 +39,9 @@ export const SearchInput = ({
   value,
   btnClass = '',
   PageSize = 10,
+  dataTestWrapper = 'wrapperSearchInputTest',
+  dataTestSearchInput = 'searchInputTest',
+  dataTestItem = 'searchInputItemTest',
 }) => {
   const [options, setOptions] = useSetState(initialState)
   const [isOpen, setIsOpen] = React.useState(false)
@@ -108,6 +111,7 @@ export const SearchInput = ({
   return (
     <React.Fragment>
       <div
+        data-test={dataTestWrapper}
         ref={wrapperRef}
         className={`dropdown ${isOpen ? 'is-active' : ''}`}
         onBlur={(ev) => {
@@ -146,6 +150,7 @@ export const SearchInput = ({
             <div className="dropdown-item">
               <input
                 ref={inputRef}
+                data-test={dataTestSearchInput}
                 className="input"
                 type="text"
                 placeholder="Search..."
@@ -166,6 +171,7 @@ export const SearchInput = ({
                     className={`dropdown-item editable ${
                       value && value.id === item.id ? 'is-active' : ''
                     }`}
+                    data-test={`${dataTestItem}-${item.id}`}
                     onMouseDown={() => {
                       onChange &&
                         onChange({
