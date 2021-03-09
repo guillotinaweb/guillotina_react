@@ -1,3 +1,11 @@
+0.14.0
+------
+ - Add key as fallback to value.title + hide table if all properties are ignored + update docs (#109)
+ - e2e cypress retry failed tests (#110)
+ - Implement refresh without spinner (transparent=true) (#111)
+ - Add data-test property in createBtn context tool bar (#113)
+ - Add datatest search input (#114)
+
 0.13.1
 ------
  - Add classNameInput prop in checkbox and modify placeholder input_list (#106)
