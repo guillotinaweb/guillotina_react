@@ -39,10 +39,9 @@ export const SearchInput = ({
   value,
   btnClass = '',
   PageSize = 10,
-  dataTestWrapper="wrapperSearchInputTest",
-  dataTestSearchInput="searchInputTest",
-  dataTestItem="searchInputItemTest",
-
+  dataTestWrapper = 'wrapperSearchInputTest',
+  dataTestSearchInput = 'searchInputTest',
+  dataTestItem = 'searchInputItemTest',
 }) => {
   const [options, setOptions] = useSetState(initialState)
   const [isOpen, setIsOpen] = React.useState(false)
