@@ -36,7 +36,6 @@ export function CreateButton() {
       <Button
         className={'is-small is-success'}
         onClick={() => doAction(state.types[0])}
-        dataTest="itemAddTypeTest"
       >
         Add {state.types[0]}
       </Button>

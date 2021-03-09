@@ -12,7 +12,6 @@ export * from './input/upload'
 export * from './input/textarea'
 export * from './input/search_input'
 export * from './input/input_list'
-export * from './input/dropdown'
 
 export * from './fields/editableField'
 export * from './fields/renderField'
