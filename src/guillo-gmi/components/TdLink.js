@@ -1,26 +1,18 @@
-import React from 'react'
-import { useLocation } from '../hooks/useLocation'
+import React, { useRef } from 'react'
+import { Link } from './Link'
 
 export function TdLink({ model, children, ...props }) {
-  const [path, navigate] = useLocation()
-  const aStyle = { textDecoration: 'none', color: 'currentColor' }
+  const link = useRef()
 
-  function onClick(e) {
-    if (actAsLink(e)) return
-    e.preventDefault()
-    navigate({ path: model.path }, true)
-    if (props.onClick) props.onClick(e)
+  function onClick() {
+    link.current.click()
   }
 
   return (
     <td {...props} onClick={onClick}>
-      <a href={`?${path}${model.id}/`} style={aStyle} onClick={onClick}>
+      <Link model={model} aRef={link}>
         {children}
-      </a>
+      </Link>
     </td>
   )
-}
-
-function actAsLink(e) {
-  return e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.button !== 0
 }
