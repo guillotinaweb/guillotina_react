@@ -1,3 +1,8 @@
+0.14.1
+------
+- Allow open new tab navigation #116
+- Fix microbundle bundle bug #115
+
 0.14.0
 ------
  - Add key as fallback to value.title + hide table if all properties are ignored + update docs (#109)
