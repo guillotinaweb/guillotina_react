@@ -36,10 +36,19 @@ export function CopyItems(props) {
     Ctx.flash(`Items copied!`, 'success')
   }
 
+  function getDefaultPath() {
+    const container = getContainerFromPath(Ctx.path)
+    const pathSplit = Ctx.path.split(container)
+    if (pathSplit.length > 1) {
+      return pathSplit[1]
+    }
+    return ''
+  }
+
   return (
     <PathTree
       title="Copy to..."
-      defaultPath={`/${Ctx.path.split(getContainerFromPath(Ctx.path))[1]}`}
+      defaultPath={`/${getDefaultPath()}`}
       onConfirm={copyItems}
       onCancel={() => Ctx.cancelAction()}
     >
@@ -51,6 +60,7 @@ export function CopyItems(props) {
           <input
             type="text"
             className="input"
+            data-test={`inputCopyIdTest-${item['@name']}`}
             defaultValue={getNewId(item.id)}
           />
         </React.Fragment>

@@ -31,7 +31,7 @@ export function CopyItem(props) {
   return (
     <PathTree
       title="Copy to..."
-      defaultPath={`/${item['parent']['@name']}`}
+      defaultPath={`/${item['parent']['@name'] ?? '/'}`}
       onConfirm={copyItem}
       onCancel={() => Ctx.cancelAction()}
     >
@@ -42,6 +42,7 @@ export function CopyItem(props) {
         <input
           type="text"
           className="input"
+          data-test={`inputCopyIdTest-${item['@name']}`}
           defaultValue={getNewId(item['@name'])}
         />
       </React.Fragment>
