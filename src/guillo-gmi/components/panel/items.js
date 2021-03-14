@@ -58,7 +58,11 @@ export function PanelItems() {
       let data
       setState({ loading: true, total: Ctx.context.length })
       if (search || type) {
-        let qs = buildQs([...(searchParsed ?? []), ...(typeParsed ?? [])])
+        let qs = buildQs([
+          ...(searchParsed ?? []),
+          ...(typeParsed ?? []),
+          ...parser('1', 'depth'),
+        ])
         data = await Ctx.client.search(
           Ctx.path,
           qs,
