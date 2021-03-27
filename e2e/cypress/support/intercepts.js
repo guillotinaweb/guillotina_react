@@ -16,6 +16,10 @@ Cypress.Commands.add('interceptGetObject', (path = '') => {
   cy.intercept('GET', `/db/container/${path}`).as(`get-object-${path !== '' ? path : 'container'}`)
 })
 
+Cypress.Commands.add('interceptPostObject', (path = '') => {
+  cy.intercept('POST', `/db/container/${path}`).as(`post-object-${path !== '' ? path : 'container'}`)
+})
+
 Cypress.Commands.add('interceptMoveAction', (path = '') => {
   cy.intercept('POST', `/db/container/${path}@move`).as(`move-${path !== '' ? path : 'container'}`)
 })

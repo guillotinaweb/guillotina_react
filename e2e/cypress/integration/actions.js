@@ -13,6 +13,7 @@ describe('Actions', function() {
     cy.autologin()
 
     cy.interceptGetObject()
+    cy.interceptPostObject()
     cy.interceptAddableTypes()
     cy.interceptCanIdo()
     cy.interceptSearch()
@@ -28,8 +29,11 @@ describe('Actions', function() {
       .should('contain', 'Users')
     
     cy.addContent('First item', 'first-item', 'btnAddItem')
+    cy.wait('@post-object-container')
     cy.addContent('Second Item', 'second-item', 'btnAddItem')
+    cy.wait('@post-object-container')
     cy.addContent('Test folder', 'test-folder', 'btnAddFolder')
+    cy.wait('@post-object-container')
 
     // Select Item
     cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-first-item']`).within(() => {
