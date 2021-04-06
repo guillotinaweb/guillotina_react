@@ -1,10 +1,11 @@
-import { stringToSlug } from "./helpers"
+import { stringToSlug } from './helpers'
 
 export const formatDate = (str) => {
   const d = new Date(str)
   const minutes = d.getMinutes() < 10 ? `0${d.getMinutes()}` : d.getMinutes()
-  return `${d.getDate()}/${d.getMonth() + 1
-    }/${d.getFullYear()} ${d.getHours()}:${minutes}`
+  return `${d.getDate()}/${
+    d.getMonth() + 1
+  }/${d.getFullYear()} ${d.getHours()}:${minutes}`
 }
 
 export const get = (obj, path, defValue) => {
