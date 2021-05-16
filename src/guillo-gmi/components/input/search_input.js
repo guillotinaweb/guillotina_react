@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 
 import PropTypes from 'prop-types'
@@ -43,7 +42,7 @@ export const SearchInput = ({
   dataTestWrapper = 'wrapperSearchInputTest',
   dataTestSearchInput = 'searchInputTest',
   dataTestItem = 'searchInputItemTest',
-  renderTextItemOption = null
+  renderTextItemOption = null,
 }) => {
   const [options, setOptions] = useSetState(initialState)
   const [isOpen, setIsOpen] = React.useState(false)
@@ -56,7 +55,11 @@ export const SearchInput = ({
   const getHeight = () => {
     if (wrapperRef && wrapperRef.current) {
       return {
-        maxHeight: `${window.innerHeight - wrapperRef.current.getBoundingClientRect().top - 100}px`,
+        maxHeight: `${
+          window.innerHeight -
+          wrapperRef.current.getBoundingClientRect().top -
+          100
+        }px`,
       }
     }
     return { maxHeight: 'auto' }
@@ -79,8 +82,16 @@ export const SearchInput = ({
       searchTermQs = buildQs([...qs, ...searchTermParsed])
     }
 
-    const data = await client.search(path, searchTermQs, false, false, page * PageSize, PageSize)
-    const newItems = options.items && concat ? [...options.items, ...data.items] : data.items
+    const data = await client.search(
+      path,
+      searchTermQs,
+      false,
+      false,
+      page * PageSize,
+      PageSize
+    )
+    const newItems =
+      options.items && concat ? [...options.items, ...data.items] : data.items
 
     setOptions({
       items: newItems ?? [],
@@ -137,7 +148,12 @@ export const SearchInput = ({
             </span>
           </button>
         </div>
-        <div className="dropdown-menu" id="dropdown-menu" role="menu" style={getHeight()}>
+        <div
+          className="dropdown-menu"
+          id="dropdown-menu"
+          role="menu"
+          style={getHeight()}
+        >
           <div className="dropdown-content">
             <div className="dropdown-item">
               <input
