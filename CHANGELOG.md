@@ -1,6 +1,13 @@
+
 0.15.0
 ------
- - Make more generic the search input field
+ - Make more generic the search input field #125
+
+0.14.1
+------
+- Allow open new tab navigation #116
+- Fix microbundle bundle bug #115
+
 
 0.14.0
 ------
