@@ -1,3 +1,7 @@
+0.15.0
+------
+ - Make more generic the search input field
+
 0.14.0
 ------
  - Add key as fallback to value.title + hide table if all properties are ignored + update docs (#109)

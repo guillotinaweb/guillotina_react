@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react'
+
 import PropTypes from 'prop-types'
 import { buildQs } from '../../lib/search'
 import { parser } from '../../lib/search'
@@ -6,7 +8,6 @@ import useSetState from '../../hooks/useSetState'
 import ErrorZone from '../error_zone'
 import { Loading } from '../ui'
 import { generateUID } from '../../lib/helpers'
-
 function debounce(func, wait) {
   let timeout
   return function () {
@@ -42,6 +43,7 @@ export const SearchInput = ({
   dataTestWrapper = 'wrapperSearchInputTest',
   dataTestSearchInput = 'searchInputTest',
   dataTestItem = 'searchInputItemTest',
+  renderTextItemOption = null
 }) => {
   const [options, setOptions] = useSetState(initialState)
   const [isOpen, setIsOpen] = React.useState(false)
@@ -54,11 +56,7 @@ export const SearchInput = ({
   const getHeight = () => {
     if (wrapperRef && wrapperRef.current) {
       return {
-        maxHeight: `${
-          window.innerHeight -
-          wrapperRef.current.getBoundingClientRect().top -
-          100
-        }px`,
+        maxHeight: `${window.innerHeight - wrapperRef.current.getBoundingClientRect().top - 100}px`,
       }
     }
     return { maxHeight: 'auto' }
@@ -81,23 +79,22 @@ export const SearchInput = ({
       searchTermQs = buildQs([...qs, ...searchTermParsed])
     }
 
-    const data = await client.search(
-      path,
-      searchTermQs,
-      false,
-      false,
-      page * PageSize,
-      PageSize
-    )
-    const newItems =
-      options.items && concat ? [...options.items, ...data.items] : data.items
+    const data = await client.search(path, searchTermQs, false, false, page * PageSize, PageSize)
+    const newItems = options.items && concat ? [...options.items, ...data.items] : data.items
 
     setOptions({
-      items: newItems,
+      items: newItems ?? [],
       loading: false,
-      items_total: data.items_total,
+      items_total: data.items_total ?? 0,
       page: page,
     })
+  }
+
+  const renderTextItemOptionFn = (item) => {
+    if (renderTextItemOption) {
+      return renderTextItemOption(item)
+    }
+    return item.title || item['@name']
   }
 
   React.useEffect(() => {
@@ -140,12 +137,7 @@ export const SearchInput = ({
             </span>
           </button>
         </div>
-        <div
-          className="dropdown-menu"
-          id="dropdown-menu"
-          role="menu"
-          style={getHeight()}
-        >
+        <div className="dropdown-menu" id="dropdown-menu" role="menu" style={getHeight()}>
           <div className="dropdown-content">
             <div className="dropdown-item">
               <input
@@ -173,17 +165,12 @@ export const SearchInput = ({
                     }`}
                     data-test={`${dataTestItem}-${item.id}`}
                     onMouseDown={() => {
-                      onChange &&
-                        onChange({
-                          title: item.title || item['@name'],
-                          path: item.path,
-                          id: item.id,
-                        })
+                      onChange && onChange(item)
                       setIsOpen(false)
                     }}
                     key={item.path}
                   >
-                    {item.title || item['@name']}
+                    {renderTextItemOptionFn(item)}
                   </a>
                 )
               })}
