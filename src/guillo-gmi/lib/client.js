@@ -269,7 +269,7 @@ export const lightFileReader = async (file) => {
     reader.onloadend = (e) => {
       const fileData = e.target.result
       resolve({
-        filename: file.name,
+        filename: file.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         data: fileData,
         'content-type': file.type,
       })

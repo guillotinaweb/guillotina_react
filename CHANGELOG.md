@@ -1,4 +1,8 @@
 
+0.15.1
+------
+ - Normalize upload file name
+
 0.15.0
 ------
  - Make more generic the search input field #125
