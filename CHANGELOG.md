@@ -1,7 +1,7 @@
 
 0.15.1
 ------
- - Normalize upload file name
+ - Normalize upload file name #129
 
 0.15.0
 ------
