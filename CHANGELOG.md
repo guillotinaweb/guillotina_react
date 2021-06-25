@@ -1,4 +1,9 @@
 
+0.16.0
+------
+ - Add GMI project
+ - Add search engine configuration
+
 0.15.1
 ------
  - Normalize upload file name #129

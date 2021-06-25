@@ -43,6 +43,26 @@ export class GuillotinaClient {
     return this.applyCompat(data)
   }
 
+  async getItemsElasticsearch(path, start = 0, pageSize = 10) {
+    let containerPath = getContainerFromPath(path)
+    if (containerPath.startsWith('/')) {
+      containerPath = containerPath.slice(1)
+    }
+    let objectPath = path.replace(containerPath, '')
+    if (objectPath.endsWith('/')) {
+      objectPath = objectPath.slice(0, -1)
+    }
+    let query = `size=${pageSize}&_from=${start}`
+    if (objectPath !== '') {
+      query = `${query}&path__wildcard=${objectPath}`
+    }
+    query = `${query}&depth=${objectPath.split('/').length}`
+
+    const result = await this.rest.get(`${containerPath}@search?${query}`)
+    let data = await result.json()
+    return this.applyCompat(data)
+  }
+
   getItemsColumn() {
     const smallcss = { width: 25 }
     const mediumcss = { width: 120 }

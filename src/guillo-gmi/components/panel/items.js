@@ -25,7 +25,7 @@ const initialState = {
 
 export function PanelItems() {
   const [location, setLocation] = useLocation()
-  const { PageSize } = useConfig()
+  const { PageSize, SearchEngine } = useConfig()
 
   const Ctx = useTraversal()
   const [state, setState] = useSetState(initialState)
@@ -68,7 +68,9 @@ export function PanelItems() {
           PageSize
         )
       } else {
-        data = await Ctx.client.getItems(Ctx.path, page * PageSize, PageSize)
+        const { get } = Ctx.registry
+        const fnName = get('searchEngineFunction', SearchEngine)
+        data = await Ctx.client[fnName](Ctx.path, page * PageSize, PageSize)
       }
       setState({
         items: data.member,
