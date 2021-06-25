@@ -25,3 +25,4 @@ yarn-error.log*
 # gmi
 *egg-info
 guillotina_gmi/gmi/*/**
+.eslintcache
