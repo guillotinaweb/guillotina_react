@@ -31,7 +31,7 @@ export function RItem({ item, search, columns }) {
   const link = () => navigate({ path: model.path }, true)
 
   return (
-    <tr key={item}>
+    <tr key={item} data-test={`itemTest-${item['@name']}`}>
       <td style={smallcss}>
         <ItemCheckbox item={item} />
       </td>

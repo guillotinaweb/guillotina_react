@@ -2,6 +2,7 @@ import React from 'react'
 import { RestClient } from './rest'
 import { toQueryString } from './helpers'
 import { Icon } from '../components/ui'
+import { TdLink } from '../components/TdLink'
 
 let cacheTypes = {}
 let cacheSchemas = {}
@@ -53,16 +54,16 @@ export class GuillotinaClient {
       },
       {
         label: 'type',
-        child: (m, navigate) => (
-          <td style={smallcss} onClick={navigate}>
+        child: (m) => (
+          <TdLink style={smallcss} model={m}>
             <span className="tag">{m.type}</span>
-          </td>
+          </TdLink>
         ),
       },
       {
         label: 'id/name',
         child: (m, navigate, search) => (
-          <td onClick={navigate}>
+          <TdLink model={m}>
             {m.name}
             {search && (
               <React.Fragment>
@@ -70,7 +71,7 @@ export class GuillotinaClient {
                 <span className="is-size-7 tag is-light">{m.path}</span>
               </React.Fragment>
             )}
-          </td>
+          </TdLink>
         ),
       },
       {
@@ -274,7 +275,7 @@ export const lightFileReader = async (file) => {
     reader.onloadend = (e) => {
       const fileData = e.target.result
       resolve({
-        filename: file.name,
+        filename: file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
         data: fileData,
         'content-type': file.type,
       })

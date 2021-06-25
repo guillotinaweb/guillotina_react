@@ -2,6 +2,7 @@ applications:
   - guillotina.contrib.dbusers
   - guillotina.contrib.catalog.pg
   - guillotina.contrib.swagger
+  - guillotina.contrib.dyncontent
 databases:
   db:
     storage: postgresql
@@ -24,7 +25,7 @@ auth_token_validators:
   - guillotina.auth.validators.JWTValidator
 cors:
   allow_origin:
-    - "*" # delegate to reverse proxy whichs domains to allow
+    - '*' # delegate to reverse proxy whichs domains to allow
   allow_methods:
     - GET
     - POST
@@ -34,9 +35,9 @@ cors:
     - PUT
     - OPTIONS
   allow_headers:
-    - "*"
+    - '*'
   expose_headers:
-    - "*"
+    - '*'
   allow_credentials: true
   max_age: 3660
 jwt:
@@ -51,3 +52,70 @@ redis:
   pool:
     minsize: 5
     maxsize: 10
+
+
+contents:
+  GMI:
+    title: GMI title
+    inherited_interface: guillotina.interfaces.IFolder
+    inherited_class: guillotina.content.Folder
+    add_permission: guillotina.AddContent
+    allowed_types: 
+      - Image
+      - File
+    behaviors:
+      - guillotina.behaviors.dublincore.IDublinCore
+      - guillotina.behaviors.attachment.IAttachment
+      - guillotina.behaviors.attachment.IMultiAttachment
+    properties:
+      json_example:
+        type: guillotina.schema.JSONField
+        schema: 
+          title: My Json Field
+          type: object
+          properties:
+            items:
+              type: array
+      text_richtext_field:
+        type: guillotina.schema.Text
+        widget: richtext
+        title: Text richtext field
+        index:
+          type: searchabletext
+          required: true
+      text_field:
+        type: guillotina.schema.Text
+        title: Text field
+        index:
+          type: searchabletext
+      text_line_field:
+        type: guillotina.schema.TextLine
+        title: Text line field
+      number_field:
+        type: guillotina.schema.Int
+        title: Number field
+        required: true
+      choice_field:
+        type: guillotina.schema.Choice
+        title: Choice field
+        required: true
+        vocabulary: 
+          plone: Plone text
+          guillotina: Guillotina text
+      boolean_field:
+        type: guillotina.schema.Bool
+        title: Boolean field
+      cloud_file_field: 
+        type: guillotina.fields.CloudFileField
+        title: Cloud file field
+      list_field:
+        type: guillotina.schema.List
+        missing_value: []
+        value_type: guillotina.schema.TextLine
+        title: List field
+      datetime_field:
+        type: guillotina.schema.Datetime
+        title: Datetime field
+
+
+

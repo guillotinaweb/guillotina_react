@@ -14,8 +14,8 @@ class Traversal {
     if (typeof flash === 'function') this.flash = flash
   }
 
-  refresh() {
-    this.dispatch({ type: 'REFRESH' })
+  refresh({ transparent = false } = {}) {
+    this.dispatch({ type: 'REFRESH', payload: { transparent } })
   }
 
   get path() {

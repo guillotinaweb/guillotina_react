@@ -6,8 +6,11 @@ import { ContainerCtx } from '../views/container'
 import { UsersCtx } from '../views/users'
 import { UserCtx } from '../views/users'
 import { CopyItems } from '../actions/copy_items'
+import { CopyItem } from '../actions/copy_item'
 import { MoveItems } from '../actions/move_items'
+import { MoveItem } from '../actions/move_item'
 import { RemoveItems } from '../actions/remove_items'
+import { RemoveItem } from '../actions/remove_item'
 import { AddItem } from '../actions/add_item'
 import { ChangePassword } from '../actions/change_pass'
 import { BaseForm } from '../forms/base'
@@ -22,6 +25,7 @@ import React from 'react'
 import { NotAllowed } from '../components/notallowed'
 import { NotFound } from '../components/notfound'
 import { Path } from '../components/path'
+import { EditComponent } from '../components/fields/editComponent'
 
 let registry = {
   paths: {},
@@ -42,9 +46,12 @@ let registry = {
   actions: {
     addItem: AddItem,
     copyItems: CopyItems,
+    copyItem: CopyItem,
     moveItems: MoveItems,
+    moveItem: MoveItem,
     removeItems: RemoveItems,
     changePassword: ChangePassword,
+    removeItem: RemoveItem,
   },
   forms: {
     UserManager: BaseForm,
@@ -63,6 +70,7 @@ let registry = {
   properties: {},
   components: {
     Path: Path,
+    EditComponent: EditComponent,
   },
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { ContextToolbar } from '../components/context_toolbar'
 import { PanelItems } from '../components/panel/items'
+import { PanelActions } from '../components/panel/actions'
 import { PanelAddons } from '../components/panel/addons'
 import { useTraversal } from '../contexts'
 import { PanelNotImplemented } from './base'
@@ -15,6 +16,7 @@ const tabs = {
   Registry: PanelNotImplemented,
   Behaviors: PanelBehaviors,
   Permissions: PanelPermissions,
+  Actions: PanelActions,
   // Requester: PanelRequester
 }
 

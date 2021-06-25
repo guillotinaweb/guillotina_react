@@ -1,3 +1,76 @@
+
+0.15.1
+------
+ - Normalize upload file name #129
+
+0.15.0
+------
+ - Make more generic the search input field #125
+
+0.14.1
+------
+- Allow open new tab navigation #116
+- Fix microbundle bundle bug #115
+
+
+0.14.0
+------
+ - Add key as fallback to value.title + hide table if all properties are ignored + update docs (#109)
+ - e2e cypress retry failed tests (#110)
+ - Implement refresh without spinner (transparent=true) (#111)
+ - Add data-test property in createBtn context tool bar (#113)
+ - Add datatest search input (#114)
+
+0.13.1
+------
+ - Add classNameInput prop in checkbox and modify placeholder input_list (#106)
+ - Add error message in search_input (#106)
+ - Add loading in add item action (#106)
+
+0.13.0
+------
+ - Add filter type in items panel. (#105)
+
+0.12.2
+------
+ - Fix open new tab downloadFile, firefox (#104)
+
+0.12.1
+------
+ - Fix attachment and multiattachment behaviors (#103)
+
+0.12.0
+------
+ - Add querycondition prop in search_input (#100)
+ - Fix - Export actions panel (#101)
+ - Edit properties fields (#96)
+
+
+0.11.0
+------
+ - add actions panel in container folder and item types (#99)
+
+0.10.0
+------
+ - Improve build (#95)
+
+
+0.9.0
+------
+ - Isolate client (#91)
+ - Improvement fields (#90)
+
+
+0.8.0
+------
+
+- Replace react-use to own hooks (#82)
+- Add prettier (#83)
+- Add LICENSE and CONTRIBUTING.md (#86)
+- e2e test own project (#84)
+- Some fixes (#88)
+- CI run workflows (#89)
+
 0.7.1
 ------
 - e2e test own project

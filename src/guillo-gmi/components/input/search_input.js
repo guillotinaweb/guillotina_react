@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 import PropTypes from 'prop-types'
 import { buildQs } from '../../lib/search'
 import { parser } from '../../lib/search'
 import useSetState from '../../hooks/useSetState'
+import ErrorZone from '../error_zone'
 import { Loading } from '../ui'
-
+import { generateUID } from '../../lib/helpers'
 function debounce(func, wait) {
   let timeout
   return function () {
@@ -28,18 +30,27 @@ const initialState = {
 
 export const SearchInput = ({
   onChange,
+  error,
+  errorZoneClassName,
   client = null,
   path = null,
   qs = [],
+  queryCondition = 'id__in',
   value,
   btnClass = '',
   PageSize = 10,
+  dataTestWrapper = 'wrapperSearchInputTest',
+  dataTestSearchInput = 'searchInputTest',
+  dataTestItem = 'searchInputItemTest',
+  renderTextItemOption = null,
 }) => {
   const [options, setOptions] = useSetState(initialState)
   const [isOpen, setIsOpen] = React.useState(false)
   const [searchTerm, setSearchTerm] = React.useState('')
   const inputRef = React.useRef(null)
   const wrapperRef = React.useRef(null)
+
+  const [uid] = useState(generateUID('search_input'))
 
   const getHeight = () => {
     if (wrapperRef && wrapperRef.current) {
@@ -64,7 +75,7 @@ export const SearchInput = ({
     let searchTermQs = []
     let searchTermParsed = []
     if (value !== '') {
-      searchTermParsed = parser(`id__in=${value}`)
+      searchTermParsed = parser(`${queryCondition}=${value}`)
     }
 
     if (qs.length > 0 || searchTermParsed.length > 0) {
@@ -83,11 +94,18 @@ export const SearchInput = ({
       options.items && concat ? [...options.items, ...data.items] : data.items
 
     setOptions({
-      items: newItems,
+      items: newItems ?? [],
       loading: false,
-      items_total: data.items_total,
+      items_total: data.items_total ?? 0,
       page: page,
     })
+  }
+
+  const renderTextItemOptionFn = (item) => {
+    if (renderTextItemOption) {
+      return renderTextItemOption(item)
+    }
+    return item.title || item['@name']
   }
 
   React.useEffect(() => {
@@ -101,6 +119,7 @@ export const SearchInput = ({
   return (
     <React.Fragment>
       <div
+        data-test={dataTestWrapper}
         ref={wrapperRef}
         className={`dropdown ${isOpen ? 'is-active' : ''}`}
         onBlur={(ev) => {
@@ -116,7 +135,8 @@ export const SearchInput = ({
         <div className="dropdown-trigger">
           <button
             className={`button ${btnClass}`}
-            onClick={() => {
+            onClick={(ev) => {
+              ev.preventDefault()
               setIsOpen(!isOpen)
             }}
             aria-haspopup="true"
@@ -138,6 +158,7 @@ export const SearchInput = ({
             <div className="dropdown-item">
               <input
                 ref={inputRef}
+                data-test={dataTestSearchInput}
                 className="input"
                 type="text"
                 placeholder="Search..."
@@ -158,18 +179,14 @@ export const SearchInput = ({
                     className={`dropdown-item editable ${
                       value && value.id === item.id ? 'is-active' : ''
                     }`}
+                    data-test={`${dataTestItem}-${item.id}`}
                     onMouseDown={() => {
-                      onChange &&
-                        onChange({
-                          title: item.title || item['@name'],
-                          path: item.path,
-                          id: item.id,
-                        })
+                      onChange && onChange(item)
                       setIsOpen(false)
                     }}
                     key={item.path}
                   >
-                    {item.title || item['@name']}
+                    {renderTextItemOptionFn(item)}
                   </a>
                 )
               })}
@@ -196,6 +213,11 @@ export const SearchInput = ({
           </div>
         </div>
       </div>
+      {error && (
+        <ErrorZone className={errorZoneClassName} id={uid}>
+          {error ? error : ''}
+        </ErrorZone>
+      )}
     </React.Fragment>
   )
 }

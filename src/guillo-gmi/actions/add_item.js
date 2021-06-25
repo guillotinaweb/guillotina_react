@@ -5,7 +5,7 @@ import { useCrudContext } from '../hooks/useCrudContext'
 
 export function AddItem(props) {
   const Ctx = useTraversal()
-  const { post } = useCrudContext()
+  const { post, loading } = useCrudContext()
   const { type } = props
   const { getForm } = Ctx.registry
 
@@ -36,11 +36,13 @@ export function AddItem(props) {
   return (
     <Modal isActive={true} setActive={setActive}>
       <Form
+        loading={loading}
         onSubmit={doSubmit}
         onError={(err) => console.log(err)}
         actionName={'Add ' + type}
         title={'Add ' + type}
         type={type}
+        dataTest={`formAdd${type}Test`}
       />
     </Modal>
   )

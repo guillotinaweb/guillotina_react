@@ -11,6 +11,7 @@ export const Form = ({
   autoComplete = 'off',
   title,
   error,
+  dataTest,
   ...rest
 }) => {
   const handleSubmit = (event) => {
@@ -18,7 +19,7 @@ export const Form = ({
     onSubmit(event)
   }
   return (
-    <React.Fragment>
+    <div data-test={dataTest}>
       {title && (
         <div className="level">
           <h1 className="title is-size-4">{title}</h1>
@@ -34,7 +35,7 @@ export const Form = ({
       >
         {children}
       </form>
-    </React.Fragment>
+    </div>
   )
 }
 

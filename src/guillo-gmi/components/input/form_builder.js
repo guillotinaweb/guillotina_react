@@ -66,7 +66,7 @@ export function FormBuilder({
       onChange: onUpdate(field),
       placeholder: properties[field].title || '',
       id: generateUID(),
-      testid: `${field}TestInput`,
+      dataTest: `${field}TestInput`,
     }
 
     if (required.includes(field)) {
