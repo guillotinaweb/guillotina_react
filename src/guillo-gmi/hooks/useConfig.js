@@ -22,6 +22,7 @@ export const Config = {
   PageSize: 10,
   DelayActions: 200,
   Permissions: Permissions,
+  SearchEngine: 'PostreSQL', // ElasticSearch
 }
 
 let calculated = Object.assign({}, Config)

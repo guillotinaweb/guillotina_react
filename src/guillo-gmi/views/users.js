@@ -110,6 +110,14 @@ export function UserCtx() {
               <label> Updated: </label>{' '}
               {formatDate(Ctx.context.modification_date)}
             </p>
+            <Button
+              className="is-size-7 is-info"
+              onClick={() => {
+                Ctx.doAction('changePassword')
+              }}
+            >
+              Change Password
+            </Button>
           </div>
           <hr />
           <UserForm

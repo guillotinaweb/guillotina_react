@@ -12,6 +12,7 @@ import { MoveItem } from '../actions/move_item'
 import { RemoveItems } from '../actions/remove_items'
 import { RemoveItem } from '../actions/remove_item'
 import { AddItem } from '../actions/add_item'
+import { ChangePassword } from '../actions/change_pass'
 import { BaseForm } from '../forms/base'
 import { UserForm } from '../forms/users'
 import { IAttachment } from '../components/behaviors/iattachment'
@@ -49,6 +50,7 @@ let registry = {
     moveItems: MoveItems,
     moveItem: MoveItem,
     removeItems: RemoveItems,
+    changePassword: ChangePassword,
     removeItem: RemoveItem,
   },
   forms: {
@@ -69,6 +71,10 @@ let registry = {
   components: {
     Path: Path,
     EditComponent: EditComponent,
+  },
+  searchEngineFunction: {
+    PostreSQL: 'getItems',
+    ElasticSearch: 'getItemsElasticsearch',
   },
 }
 

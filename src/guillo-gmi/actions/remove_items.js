@@ -28,6 +28,7 @@ export function RemoveItems(props) {
     setLoading(true)
 
     const actions = items.map(async (item) => {
+      console.log(item)
       const res = await Ctx.client.delete(getId(item))
       if (!res.ok) {
         const err = await res.json()

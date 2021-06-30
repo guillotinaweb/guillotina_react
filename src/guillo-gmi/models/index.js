@@ -31,6 +31,7 @@ export class ItemModel {
   }
 
   get icon() {
+    // eslint-disable-next-line
     const cfg = useConfig()
     if (cfg.icons && cfg.icons[this.type]) {
       return cfg.icons[this.type]
