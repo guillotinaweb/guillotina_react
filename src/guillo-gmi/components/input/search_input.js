@@ -7,6 +7,7 @@ import useSetState from '../../hooks/useSetState'
 import ErrorZone from '../error_zone'
 import { Loading } from '../ui'
 import { generateUID } from '../../lib/helpers'
+import { useConfig } from '../../hooks/useConfig'
 function debounce(func, wait) {
   let timeout
   return function () {
@@ -32,13 +33,12 @@ export const SearchInput = ({
   onChange,
   error,
   errorZoneClassName,
-  client = null,
+  traversal = null,
   path = null,
   qs = [],
   queryCondition = 'id__in',
   value,
   btnClass = '',
-  PageSize = 10,
   dataTestWrapper = 'wrapperSearchInputTest',
   dataTestSearchInput = 'searchInputTest',
   dataTestItem = 'searchInputItemTest',
@@ -49,6 +49,7 @@ export const SearchInput = ({
   const [searchTerm, setSearchTerm] = React.useState('')
   const inputRef = React.useRef(null)
   const wrapperRef = React.useRef(null)
+  const { PageSize, SearchEngine } = useConfig()
 
   const [uid] = useState(generateUID('search_input'))
 
@@ -77,12 +78,19 @@ export const SearchInput = ({
     if (value !== '') {
       searchTermParsed = parser(`${queryCondition}=${value}`)
     }
+    const { get } = traversal.registry
+    const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
+    let qsParsed = traversal.client[fnName]({
+      path: traversal.path,
+      start: page * PageSize,
+      pageSize: PageSize,
+    })
 
-    if (qs.length > 0 || searchTermParsed.length > 0) {
-      searchTermQs = buildQs([...qs, ...searchTermParsed])
+    if (qs.length > 0 || searchTermParsed.length > 0 || qsParsed.length > 0) {
+      searchTermQs = buildQs([...qs, ...searchTermParsed, ...qsParsed])
     }
 
-    const data = await client.search(
+    const data = await traversal.client.search(
       path,
       searchTermQs,
       false,

@@ -1,4 +1,8 @@
 
+0.17.0
+------
+ - Search: use always search function and allow to configure depth param
+
 0.16.0
 ------
  - Add GMI project

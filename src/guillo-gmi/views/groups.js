@@ -43,7 +43,7 @@ export function GroupsCtx(props) {
   )
 }
 
-let sortParsed = parser(`_sort_asc=title`)
+let sortParsed = parser(`_sort_asc=id`)
 let searchParsed = parser('type_name=User')
 
 export function GroupCtx() {
@@ -159,7 +159,7 @@ export function GroupCtx() {
           <SearchInput
             path={getContainerFromPath(Ctx.path)}
             qs={[...searchParsed, ...sortParsed]}
-            client={Ctx.client}
+            traversal={Ctx}
             onChange={addUser}
             btnClass="is-small"
           />

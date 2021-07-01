@@ -72,9 +72,9 @@ let registry = {
     Path: Path,
     EditComponent: EditComponent,
   },
-  searchEngineFunction: {
-    PostreSQL: 'getItems',
-    ElasticSearch: 'getItemsElasticsearch',
+  searchEngineQueryParamsFunction: {
+    PostreSQL: 'getQueryParamsPostresql',
+    Elasticsearch: 'getQueryParamsElasticsearch',
   },
 }
 

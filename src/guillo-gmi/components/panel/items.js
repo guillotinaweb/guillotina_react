@@ -57,21 +57,33 @@ export function PanelItems() {
     ;(async () => {
       let data
       setState({ loading: true, total: Ctx.context.length })
+      const { get } = Ctx.registry
+      const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
+
+      let qsParsed = Ctx.client[fnName]({
+        path: Ctx.path,
+        start: page * PageSize,
+        pageSize: PageSize,
+      })
+      let qs = ''
       if (search || type) {
-        let qs = buildQs([...(searchParsed ?? []), ...(typeParsed ?? [])])
-        data = await Ctx.client.search(
-          Ctx.path,
-          qs,
-          false,
-          false,
-          page * PageSize,
-          PageSize
-        )
+        qs = buildQs([
+          ...qsParsed,
+          ...(searchParsed ?? []),
+          ...(typeParsed ?? []),
+        ])
       } else {
-        const { get } = Ctx.registry
-        const fnName = get('searchEngineFunction', SearchEngine)
-        data = await Ctx.client[fnName](Ctx.path, page * PageSize, PageSize)
+        qs = buildQs(qsParsed)
       }
+
+      data = await Ctx.client.search(
+        Ctx.path,
+        qs,
+        false,
+        false,
+        page * PageSize,
+        PageSize
+      )
       setState({
         items: data.member,
         loading: false,
