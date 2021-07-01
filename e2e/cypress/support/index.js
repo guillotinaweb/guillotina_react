@@ -17,6 +17,7 @@
 import './commands'
 import './login'
 import './form'
+import './intercepts'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

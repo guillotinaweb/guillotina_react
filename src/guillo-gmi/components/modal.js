@@ -33,7 +33,11 @@ export function Confirm({ message, onCancel, onConfirm, loading }) {
         <div className="level" style={{ marginTop: 50 }}>
           <div className="level-left"></div>
           <div className="level-right">
-            <button className="button is-danger" onClick={() => onCancel()}>
+            <button
+              className="button is-danger"
+              onClick={() => onCancel()}
+              data-test="btnCancelModalTest"
+            >
               Cancel
             </button>
             &nbsp;&nbsp;
@@ -69,20 +73,31 @@ export function PathTree({
           onConfirm(e.target[0].value, e.target)
         }}
       >
+        <small style={{ display: 'block', marginTop: 20 }}>
+          {`Example: /folder (without /db/container on front)`}
+        </small>
         <input
-          className="input"
-          placeholder="/folder (without /db/container on front)"
-          style={{ margin: '20px 0' }}
+          className="input mb-3"
           defaultValue={defaultPath}
           type="text"
+          data-test="inputPathTreeTest"
         />
         {children}
-        <div className="level-right">
-          <button type="button" className="button is-danger" onClick={onCancel}>
+        <div className="level-right mt-3">
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={onCancel}
+            data-test="btnCancelModalTest"
+          >
             Cancel
           </button>
           &nbsp;&nbsp;
-          <button type="submit" className="button is-success">
+          <button
+            type="submit"
+            className="button is-success"
+            data-test="btnConfirmModalTest"
+          >
             Confirm
           </button>
         </div>

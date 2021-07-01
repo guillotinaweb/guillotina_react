@@ -75,7 +75,7 @@ export function ItemsActionsProvider({ items, children }) {
  * Checkbox component without props that consume the ItemsActionsContext
  * and it select/unselect all items of the page.
  */
-export function AllItemsCheckbox() {
+export function AllItemsCheckbox({ dataTest }) {
   const { onSelectAllItems, selected } = useContext(ItemsActionsCtx)
 
   return (
@@ -84,6 +84,7 @@ export function AllItemsCheckbox() {
       onChange={onSelectAllItems}
       style={{ marginLeft: 2 }}
       value={selected.all}
+      dataTest={dataTest}
     />
   )
 }
@@ -91,7 +92,7 @@ export function AllItemsCheckbox() {
 /**
  * Checkbox component to select ONE item.
  */
-export function ItemCheckbox({ item }) {
+export function ItemCheckbox({ item, dataTest }) {
   const { selected, onSelectOneItem } = useContext(ItemsActionsCtx)
   const absId = `${item.path}/${item.id}`
   const value = selected[absId]
@@ -101,6 +102,7 @@ export function ItemCheckbox({ item }) {
       key={value}
       onChange={() => onSelectOneItem(item)}
       value={value}
+      dataTest={dataTest}
     />
   )
 }
@@ -127,7 +129,7 @@ export function ItemsActionsDropdown() {
       }
       options={options}
     >
-      Choose action...
+      <div data-test="btnChooseActionTest">Choose action...</div>
     </Dropdown>
   )
 }

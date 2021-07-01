@@ -29,7 +29,7 @@ describe('test content', function () {
     cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-folder']`).within(() => {
       cy.get(ACTION_SELECTORS.delete).click()
     })
-    cy.get(ACTION_SELECTORS.confirmModal).click()
+    cy.get(ACTION_SELECTORS.btnConfirmModal).click()
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
 
@@ -61,7 +61,7 @@ describe('test content', function () {
     cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-item']`).within(() => {
       cy.get(ACTION_SELECTORS.delete).click()
     })
-    cy.get(ACTION_SELECTORS.confirmModal).click()
+    cy.get(ACTION_SELECTORS.btnConfirmModal).click()
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
 
@@ -93,7 +93,7 @@ describe('test content', function () {
     cy.get(`[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-user']`).within(() => {
       cy.get(ACTION_SELECTORS.delete).click()
     })
-    cy.get(ACTION_SELECTORS.confirmModal).click()
+    cy.get(ACTION_SELECTORS.btnConfirmModal).click()
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
 })

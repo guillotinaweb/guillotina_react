@@ -49,7 +49,7 @@ export default function Dropdown({
                 className={
                   disabled ? 'dropdown-item is-active' : 'dropdown-item'
                 }
-                data-test={`dropdownItemTest-${option.text.toLowerCase()}`}
+                data-test={`dropdownItemTest-${option.value.toLowerCase()}`}
                 key={option.text}
                 onClick={disabled ? undefined : () => onChange(option.value)}
                 style={

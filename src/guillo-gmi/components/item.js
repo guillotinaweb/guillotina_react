@@ -33,7 +33,7 @@ export function RItem({ item, search, columns }) {
   return (
     <tr key={item} data-test={`itemTest-${item['@name']}`}>
       <td style={smallcss}>
-        <ItemCheckbox item={item} />
+        <ItemCheckbox item={item} dataTest="itemCheckboxRowTest" />
       </td>
       {columns.map((i) => (
         <React.Fragment key={i.label}>
