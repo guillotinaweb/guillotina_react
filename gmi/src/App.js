@@ -26,7 +26,7 @@ const schemas = [
 ]
 */
 
-let url = 'http://localhost:8080/'
+let url = '/'
 
 const auth = new Auth(url)
 const client = getClient(url, auth)
@@ -51,13 +51,7 @@ function App() {
   return (
     <ClientProvider client={client}>
       <Layout auth={auth} onLogout={onLogout}>
-        {isLogged && (
-          <Guillotina
-            auth={auth}
-            url={url}
-            config={{ SearchEngine: 'Elasticsearch' }}
-          />
-        )}
+        {isLogged && <Guillotina auth={auth} url={url} />}
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
