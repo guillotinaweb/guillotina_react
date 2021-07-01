@@ -35,13 +35,14 @@ export class GuillotinaClient {
 
   getQueryParamsPostresql({ start = 0, pageSize = 10, withDepth = true }) {
     let result = []
-    if (withDepth) {
-      result = [...result, ...(parser('1', 'depth') ?? [])]
-    }
+
     result = [
       ...parser(start.toString(), 'b_start'),
       ...parser(pageSize.toString(), 'b_size'),
     ]
+    if (withDepth) {
+      result = [...result, ...(parser('1', 'depth') ?? [])]
+    }
     return result
   }
 
