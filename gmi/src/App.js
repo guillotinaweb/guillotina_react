@@ -36,9 +36,9 @@ function App() {
 
   const [location] = useLocation()
 
-  let schemas = location.get("schemas") || undefined
+  let schemas = location.get('schemas') || undefined
   if (schemas) {
-    schemas = ["/", ...schemas.split(",")]
+    schemas = ['/', ...schemas.split(',')]
   }
 
   const onLogin = () => {
@@ -55,8 +55,7 @@ function App() {
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth}
-                schemas={schemas} />
+              <Login onLogin={onLogin} auth={auth} schemas={schemas} />
             </div>
           </div>
         )}

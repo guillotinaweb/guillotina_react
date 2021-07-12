@@ -1,8 +1,12 @@
 
+0.17.0
+------
+ - Search: use always search function and allow to configure depth param #133
+
 0.16.0
 ------
- - Add GMI project
- - Add search engine configuration
+ - Add GMI project #97
+ - Add search engine configuration #97
 
 0.15.1
 ------
