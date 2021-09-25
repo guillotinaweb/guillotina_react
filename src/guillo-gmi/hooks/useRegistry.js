@@ -66,6 +66,7 @@ let registry = {
     'guillotina.behaviors.attachment.IAttachment': IAttachment,
     'guillotina.behaviors.attachment.IMultiAttachment': IMultiAttachment,
   },
+  itemsColumn: {},
   schemas: {},
   properties: {},
   components: {
@@ -98,6 +99,14 @@ const getComponent = (context, path, fallback) => {
     return fallback
   }
   return defaultComponent(context)
+}
+
+const getItemsColumn = (type) => {
+  const funcCols = registry.itemsColumn[type]
+  if (funcCols) {
+    return funcCols()
+  }
+  return undefined
 }
 
 const getForm = (type, fallback = BaseForm) => {
@@ -139,6 +148,7 @@ export function useRegistry(data) {
     getAction,
     getBehavior,
     getProperties,
+    getItemsColumn,
   }
 }
 
