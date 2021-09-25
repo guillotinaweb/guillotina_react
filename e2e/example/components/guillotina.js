@@ -3,7 +3,7 @@ import { Guillotina } from 'react-gmi'
 import { Auth } from 'react-gmi'
 import { Login } from 'react-gmi'
 import { getClient } from 'react-gmi'
-import { ClientProvider , RequiredFieldsForm} from 'react-gmi'
+import { ClientProvider, RequiredFieldsForm, Icon, TdLink } from 'react-gmi'
 
 import '../node_modules/react-gmi/dist/css/style.css'
 
@@ -15,8 +15,7 @@ const registry = {
   // to register views around guillotina objects paths
   paths: {},
   // default views for content types
-  views: {
-  },
+  views: {},
   // forms for adding content, they are fired
   // throught an action
   forms: {
@@ -29,7 +28,7 @@ const registry = {
   },
   behaviors: {},
   components: {},
-};
+}
 
 export default function App() {
   const [isLogged, setLogged] = React.useState(auth.isLogged)
@@ -43,7 +42,7 @@ export default function App() {
 
   return (
     <ClientProvider client={client}>
-      {isLogged && <Guillotina auth={auth} url={url} registry={registry}/>}
+      {isLogged && <Guillotina auth={auth} url={url} registry={registry} />}
       {!isLogged && (
         <div className="columns is-centered">
           <div className="columns is-half">
