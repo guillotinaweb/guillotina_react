@@ -143,4 +143,30 @@ describe('test GMI type', function () {
     cy.get(ACTION_SELECTORS.confirmModal).click()
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
+  it('check items column', () => {
+    cy.intercept(
+      `db/container/test-gmi-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
+    ).as('canido')
+
+    // Create GMI item
+    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
+    cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddGMI).click()
+    cy.get(FORM_SELECTORS.containerGMI).should('contain', 'Add GMI')
+    cy.get(`[data-test='title${FORM_BASE_SELECTORS.prefixField}']`).type(
+      'Test GMI item'
+    )
+    cy.get(`[data-test='uuid${FORM_BASE_SELECTORS.prefixField}']`).should(
+      'have.value',
+      'test-gmi-item'
+    )
+    cy.get(`[data-test='number_field${FORM_BASE_SELECTORS.prefixField}']`).type(
+      '5'
+    )
+    cy.get(
+      `[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`
+    ).select('plone')
+    cy.get(FORM_BASE_SELECTORS.btn).click()
+    cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
+    cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'depth')
+  })
 })
