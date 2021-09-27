@@ -28,7 +28,7 @@ const registry = {
   },
   behaviors: {},
   components: {},
-  itemsColumns: {
+  itemsColumn: {
     Container: () => {
       const smallcss = { width: 25 }
       const mediumcss = { width: 120 }
