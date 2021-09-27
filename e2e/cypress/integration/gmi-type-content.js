@@ -147,6 +147,7 @@ describe('test GMI type', function () {
     cy.intercept(
       `db/container/test-gmi-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
     ).as('canido')
+    cy.intercept('POST', `/db/container/`).as('post')
 
     // Create GMI item
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
@@ -166,6 +167,7 @@ describe('test GMI type', function () {
       `[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`
     ).select('plone')
     cy.get(FORM_BASE_SELECTORS.btn).click()
+    cy.wait('@post')
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
     cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'depth')
   })
