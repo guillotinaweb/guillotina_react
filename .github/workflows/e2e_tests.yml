@@ -36,3 +36,10 @@ jobs:
           build: yarn
           wait-on: 'http://localhost:3000'
           working-directory: e2e
+
+      - name: Artifacts
+        uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: e2e/cypress/videos
