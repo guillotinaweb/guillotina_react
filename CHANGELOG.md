@@ -1,4 +1,8 @@
 
+0.18.0
+------
+ - Add itemsColumn in registry to allow configure columns in items panel by type #142
+
 0.17.0
 ------
  - Search: use always search function and allow to configure depth param #133
