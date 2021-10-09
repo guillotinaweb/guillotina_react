@@ -77,6 +77,8 @@ export const EditComponent = React.forwardRef(
       switch (schema?.type) {
         case 'integer':
           return 'number'
+        case 'date':
+          return 'date'
         case 'datetime':
           return 'datetime-local'
         default:
