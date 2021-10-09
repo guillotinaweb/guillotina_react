@@ -76,11 +76,5 @@ describe('Search test', function () {
       .find('tr')
       .its('length')
       .should('eq', 2)
-
-    cy.get(ITEMS_PANELS_SELECTORS.table)
-      .find('tbody')
-      .find('tr')
-      .its('length')
-      .should('eq', 1)
   })
 })
