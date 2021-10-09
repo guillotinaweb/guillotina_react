@@ -30,7 +30,10 @@ export function PanelItems() {
   const Ctx = useTraversal()
   const [state, setState] = useSetState(initialState)
   const { items, loading, total } = state
-  const columns = Ctx.client.getItemsColumn(items, Ctx.path)
+
+  const columns =
+    Ctx.registry.getItemsColumn(Ctx.context['@type']) ||
+    Ctx.client.getItemsColumn()
 
   let search = location.get('q')
   let type = location.get('type')

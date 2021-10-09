@@ -1,4 +1,4 @@
-import {LOGIN_SELECTORS} from '../elements/login-selectors'
+import { LOGIN_SELECTORS } from '../elements/login-selectors'
 
 describe('test login', function () {
   beforeEach('clear', function () {
@@ -6,7 +6,7 @@ describe('test login', function () {
     cy.clearCookies()
   })
   it('test manual login', function () {
-    cy.intercept('POST',`/@login`).as('login')
+    cy.intercept('POST', `/@login`).as('login')
     cy.visit('/')
     cy.get(LOGIN_SELECTORS.form).should('be.visible')
     cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')

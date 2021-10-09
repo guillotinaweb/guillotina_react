@@ -6,17 +6,17 @@ export const FORM_SELECTORS = {
 }
 
 export const FORM_BASE_SELECTORS = {
-  prefixField: "TestInput",
+  prefixField: 'TestInput',
   btn: "[data-test='formBaseBtnTestSubmit']",
 }
 
 export const EDITABLE_FORM_SELECTORS = {
-  prefixEditableField: "editableFieldTest",
+  prefixEditableField: 'editableFieldTest',
   iconEdit: "[data-test='iconEditTest']",
   field: "[data-test='editableFieldEditTest']",
   btnSave: "[data-test='editableFieldBtnSaveTest']",
   btnCancel: "[data-test='editableFieldBtnCancelTest']",
-  btnDelete:"[data-test='editableFieldBtnDeleteTest']", 
+  btnDelete: "[data-test='editableFieldBtnDeleteTest']",
 }
 
 export const USER_FORM_SELECTORS = {
@@ -24,5 +24,5 @@ export const USER_FORM_SELECTORS = {
   password: "[data-test='passwordTestInput']",
   email: "[data-test='emailTestInput']",
   name: "[data-test='nameTestInput']",
-  btnUpate: "[data-test='formUserTestBtnSubmit']"
+  btnUpate: "[data-test='formUserTestBtnSubmit']",
 }

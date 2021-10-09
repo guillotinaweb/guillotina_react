@@ -1,6 +1,7 @@
 {
   "baseUrl": "http://localhost:3000?path=",
   "experimentalFetchPolyfill": true,
+  "videoUploadOnPasses":false,
   "retries": {
     "runMode": 2,
     "openMode": 1
