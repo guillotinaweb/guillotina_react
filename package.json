@@ -1,5 +1,5 @@
 {
-  "version": "0.14.0",
+  "version": "0.18.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:guillotinaweb/guillotina_react.git"
@@ -39,6 +39,7 @@
   },
   "scripts": {
     "format": "prettier --write \"src/**/*.js\"",
+    "format:tests": "prettier --write \"e2e/cypress/**/*.js\"",
     "format:check": "prettier --check \"src/**/*.js\"",
     "build": "yarn build:js && yarn build:css",
     "build:js": "rm -rf ./dist && microbundle --jsx React.createElement --no-compress --sourcemap",

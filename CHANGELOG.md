@@ -1,3 +1,31 @@
+
+0.18.0
+------
+ - Add itemsColumn in registry to allow configure columns in items panel by type #142
+
+0.17.0
+------
+ - Search: use always search function and allow to configure depth param #133
+
+0.16.0
+------
+ - Add GMI project #97
+ - Add search engine configuration #97
+
+0.15.1
+------
+ - Normalize upload file name #129
+
+0.15.0
+------
+ - Make more generic the search input field #125
+
+0.14.1
+------
+- Allow open new tab navigation #116
+- Fix microbundle bundle bug #115
+
+
 0.14.0
 ------
  - Add key as fallback to value.title + hide table if all properties are ignored + update docs (#109)

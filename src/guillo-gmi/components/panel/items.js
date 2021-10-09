@@ -25,12 +25,15 @@ const initialState = {
 
 export function PanelItems() {
   const [location, setLocation] = useLocation()
-  const { PageSize } = useConfig()
+  const { PageSize, SearchEngine } = useConfig()
 
   const Ctx = useTraversal()
   const [state, setState] = useSetState(initialState)
   const { items, loading, total } = state
-  const columns = Ctx.client.getItemsColumn(items, Ctx.path)
+
+  const columns =
+    Ctx.registry.getItemsColumn(Ctx.context['@type']) ||
+    Ctx.client.getItemsColumn()
 
   let search = location.get('q')
   let type = location.get('type')
@@ -57,23 +60,33 @@ export function PanelItems() {
     ;(async () => {
       let data
       setState({ loading: true, total: Ctx.context.length })
+      const { get } = Ctx.registry
+      const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
+
+      let qsParsed = Ctx.client[fnName]({
+        path: Ctx.path,
+        start: page * PageSize,
+        pageSize: PageSize,
+      })
+      let qs = ''
       if (search || type) {
-        let qs = buildQs([
+        qs = buildQs([
+          ...qsParsed,
           ...(searchParsed ?? []),
           ...(typeParsed ?? []),
-          ...parser('1', 'depth'),
         ])
-        data = await Ctx.client.search(
-          Ctx.path,
-          qs,
-          false,
-          false,
-          page * PageSize,
-          PageSize
-        )
       } else {
-        data = await Ctx.client.getItems(Ctx.path, page * PageSize, PageSize)
+        qs = buildQs(qsParsed)
       }
+
+      data = await Ctx.client.search(
+        Ctx.path,
+        qs,
+        false,
+        false,
+        page * PageSize,
+        PageSize
+      )
       setState({
         items: data.member,
         loading: false,

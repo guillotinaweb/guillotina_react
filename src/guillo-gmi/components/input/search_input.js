@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import PropTypes from 'prop-types'
 import { buildQs } from '../../lib/search'
 import { parser } from '../../lib/search'
@@ -6,7 +7,7 @@ import useSetState from '../../hooks/useSetState'
 import ErrorZone from '../error_zone'
 import { Loading } from '../ui'
 import { generateUID } from '../../lib/helpers'
-
+import { useConfig } from '../../hooks/useConfig'
 function debounce(func, wait) {
   let timeout
   return function () {
@@ -32,22 +33,23 @@ export const SearchInput = ({
   onChange,
   error,
   errorZoneClassName,
-  client = null,
+  traversal = null,
   path = null,
   qs = [],
   queryCondition = 'id__in',
   value,
   btnClass = '',
-  PageSize = 10,
   dataTestWrapper = 'wrapperSearchInputTest',
   dataTestSearchInput = 'searchInputTest',
   dataTestItem = 'searchInputItemTest',
+  renderTextItemOption = null,
 }) => {
   const [options, setOptions] = useSetState(initialState)
   const [isOpen, setIsOpen] = React.useState(false)
   const [searchTerm, setSearchTerm] = React.useState('')
   const inputRef = React.useRef(null)
   const wrapperRef = React.useRef(null)
+  const { PageSize, SearchEngine } = useConfig()
 
   const [uid] = useState(generateUID('search_input'))
 
@@ -76,12 +78,19 @@ export const SearchInput = ({
     if (value !== '') {
       searchTermParsed = parser(`${queryCondition}=${value}`)
     }
+    const { get } = traversal.registry
+    const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
+    let qsParsed = traversal.client[fnName]({
+      path: traversal.path,
+      start: page * PageSize,
+      pageSize: PageSize,
+    })
 
-    if (qs.length > 0 || searchTermParsed.length > 0) {
-      searchTermQs = buildQs([...qs, ...searchTermParsed])
+    if (qs.length > 0 || searchTermParsed.length > 0 || qsParsed.length > 0) {
+      searchTermQs = buildQs([...qs, ...searchTermParsed, ...qsParsed])
     }
 
-    const data = await client.search(
+    const data = await traversal.client.search(
       path,
       searchTermQs,
       false,
@@ -93,11 +102,18 @@ export const SearchInput = ({
       options.items && concat ? [...options.items, ...data.items] : data.items
 
     setOptions({
-      items: newItems,
+      items: newItems ?? [],
       loading: false,
-      items_total: data.items_total,
+      items_total: data.items_total ?? 0,
       page: page,
     })
+  }
+
+  const renderTextItemOptionFn = (item) => {
+    if (renderTextItemOption) {
+      return renderTextItemOption(item)
+    }
+    return item.title || item['@name']
   }
 
   React.useEffect(() => {
@@ -173,17 +189,12 @@ export const SearchInput = ({
                     }`}
                     data-test={`${dataTestItem}-${item.id}`}
                     onMouseDown={() => {
-                      onChange &&
-                        onChange({
-                          title: item.title || item['@name'],
-                          path: item.path,
-                          id: item.id,
-                        })
+                      onChange && onChange(item)
                       setIsOpen(false)
                     }}
                     key={item.path}
                   >
-                    {item.title || item['@name']}
+                    {renderTextItemOptionFn(item)}
                   </a>
                 )
               })}

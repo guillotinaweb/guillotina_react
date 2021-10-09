@@ -72,13 +72,14 @@ export function ContextToolbar({ AddButton, ...props }) {
   const searchText = location.get('q')
 
   useEffect(() => {
-    ;(async () => {
-      const types = await traversal.client.getTypes(traversal.path)
-      setState({
-        types: types.filter((item) => !Config.DisabledTypes.includes(item)),
-      })
-    })()
+    loadTypes()
   }, [traversal.path])
+  async function loadTypes() {
+    const types = await traversal.client.getTypes(traversal.path)
+    setState({
+      types: types.filter((item) => !Config.DisabledTypes.includes(item)),
+    })
+  }
 
   const onSearchQuery = (ev) => {
     const search = ev.target[0].value

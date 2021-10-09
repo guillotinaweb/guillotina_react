@@ -4,4 +4,5 @@ export const ACTION_SELECTORS = {
   btnCancelModal: "[data-test='btnCancelModalTest']",
   prefixInputCopyId : "inputCopyIdTest",
   inputPathTree : "[data-test='inputPathTreeTest']",
+  confirmModal: "[data-test='btnConfirmModalTest']",
 }

@@ -45,6 +45,7 @@ export const Input = React.forwardRef(
     const { state, ...handlers } = useInput(onChange, value ?? '', validator)
     const [uid] = useState(generateUID('input'))
     const [mounted, setMounted] = useState(false)
+    // eslint-disable-next-line
     ref = ref || React.useRef()
 
     useEffect(() => {

@@ -223,6 +223,18 @@ return (
 )
 ```
 
+### Link
+
+Designed to navigate to the contents of a Guillotina model:
+
+```js
+import { Link } from '@guillotinaweb/react-gmi'
+// ...
+return <Link model={model}>Go to model path</Link>
+```
+
+The navigation is controlled by pushState but it's creating an `<a>` tag underneath allowing to open the link in another tab.
+
 ### Form
 
 Wrapper of the html5 form but already designed to integrate with the form components we provide. Apart from that it has some more extra properties and there is no need to do e.preventDefault during the onSubmit.
@@ -393,3 +405,4 @@ stringToSlug('This is an example!') // this-is-an-example
 | `properties_default`  | Default content properties.                         | `string[]`       | `["@id", "@name", "@uid", "title"]`                                                                                                                                                                                                                                                                                                                                                                            |
 | `properties_ignore_fields` | List of properties to ignore.                        | `string[]`       | `[guillotina_internals]`                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `flash`               | If defined, allows to customize the flash message.  | `function`       | `undefined`                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `SearchEngine`               | Search engine used.  | `string`       | `PostreSQL`                                                                                                                                                                                                                                                                                                                                                                                                    |

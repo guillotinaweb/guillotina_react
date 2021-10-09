@@ -1,7 +1,6 @@
-
-import { 
+import {
   ITEMS_PANELS_SELECTORS,
-  CONTEXT_TOOLBAR_SELECTORS 
+  CONTEXT_TOOLBAR_SELECTORS,
 } from '../elements/panels-selectors'
 
 describe('Search test', function () {
@@ -28,10 +27,18 @@ describe('Search test', function () {
     cy.addGMI('Test GMI item', 'test-gmi-item')
 
     cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-    cy.get(ITEMS_PANELS_SELECTORS.table).find('tbody').find('tr').its('length').should('eq', 2)
+    cy.get(ITEMS_PANELS_SELECTORS.table)
+      .find('tbody')
+      .find('tr')
+      .its('length')
+      .should('eq', 2)
 
     cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Folder')
-    cy.get(ITEMS_PANELS_SELECTORS.table).find('tbody').find('tr').its('length').should('eq', 2)
+    cy.get(ITEMS_PANELS_SELECTORS.table)
+      .find('tbody')
+      .find('tr')
+      .its('length')
+      .should('eq', 2)
 
     cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('GMI')
     cy.get(ITEMS_PANELS_SELECTORS.table).find('tbody').find('tr').its('length').should('eq', 1)
@@ -63,5 +70,10 @@ describe('Search test', function () {
     cy.get(ITEMS_PANELS_SELECTORS.table).find('tbody').find('tr').its('length').should('eq', 2)
 
 
+    cy.get(ITEMS_PANELS_SELECTORS.table)
+      .find('tbody')
+      .find('tr')
+      .its('length')
+      .should('eq', 1)
   })
 })

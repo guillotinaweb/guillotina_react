@@ -2,6 +2,8 @@ import React from 'react'
 import { RestClient } from './rest'
 import { toQueryString } from './helpers'
 import { Icon } from '../components/ui'
+import { TdLink } from '../components/TdLink'
+import { parser } from './search'
 
 let cacheTypes = {}
 let cacheSchemas = {}
@@ -31,15 +33,48 @@ export class GuillotinaClient {
     return await this.rest.get(path)
   }
 
-  async getItems(path, start = 0, pageSize = 10) {
-    if (path.startsWith('/')) {
-      path = path.slice(1)
+  getQueryParamsPostresql({ start = 0, pageSize = 10, withDepth = true }) {
+    let result = []
+
+    result = [
+      ...parser(start.toString(), 'b_start'),
+      ...parser(pageSize.toString(), 'b_size'),
+    ]
+    if (withDepth) {
+      result = [...result, ...(parser('1', 'depth') ?? [])]
     }
-    const result = await this.rest.get(
-      `${path}@search?depth=1&b_start=${start}&b_size=${pageSize}`
-    )
-    let data = await result.json()
-    return this.applyCompat(data)
+    return result
+  }
+
+  getQueryParamsElasticsearch({
+    start = 0,
+    pageSize = 10,
+    path,
+    withDepth = true,
+  }) {
+    let result = []
+    let containerPath = getContainerFromPath(path)
+
+    if (containerPath.startsWith('/')) {
+      containerPath = containerPath.slice(1)
+    }
+    let objectPath = path.replace(containerPath, '')
+    if (objectPath.endsWith('/')) {
+      objectPath = objectPath.slice(0, -1)
+    }
+
+    result = [
+      ...parser(start.toString(), '_from'),
+      ...parser(pageSize.toString(), 'size'),
+    ]
+
+    if (withDepth) {
+      result = [...result, ...(parser('1', 'depth') ?? [])]
+    }
+    if (objectPath !== '') {
+      result = [...result, ...parser(objectPath, 'path__wildcard')]
+    }
+    return result
   }
 
   getItemsColumn() {
@@ -53,16 +88,16 @@ export class GuillotinaClient {
       },
       {
         label: 'type',
-        child: (m, navigate) => (
-          <td style={smallcss} onClick={navigate}>
+        child: (m) => (
+          <TdLink style={smallcss} model={m}>
             <span className="tag">{m.type}</span>
-          </td>
+          </TdLink>
         ),
       },
       {
         label: 'id/name',
         child: (m, navigate, search) => (
-          <td onClick={navigate}>
+          <TdLink model={m}>
             {m.name}
             {search && (
               <React.Fragment>
@@ -70,7 +105,7 @@ export class GuillotinaClient {
                 <span className="is-size-7 tag is-light">{m.path}</span>
               </React.Fragment>
             )}
-          </td>
+          </TdLink>
         ),
       },
       {
@@ -99,14 +134,7 @@ export class GuillotinaClient {
     return data
   }
 
-  async search(
-    path,
-    params,
-    container = false,
-    prepare = true,
-    start = 0,
-    pageSize = 10
-  ) {
+  async search(path, params, container = false, prepare = true) {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
@@ -114,7 +142,7 @@ export class GuillotinaClient {
       path = getContainerFromPath(path)
     }
     let query = prepare ? toQueryString(params) : params
-    const url = `${path}@search?${query}&b_start=${start}&b_size=${pageSize}`
+    const url = `${path}@search?${query}`
     let res = await this.rest.get(url)
     let data = await res.json()
     return this.applyCompat(data)
@@ -136,10 +164,12 @@ export class GuillotinaClient {
   }
 
   cleanPath(path) {
-    return path.replace(this.rest.url, '')
+    let url = path.split('/').slice(3)
+    return `${url.join('/')}`
   }
 
   async delete(path, data) {
+    console.log('path', path, this.cleanPath(path))
     return await this.rest.delete(this.cleanPath(path), data)
   }
 
@@ -223,6 +253,10 @@ export class GuillotinaClient {
   }
 
   async getAllPermissions(path) {
+    // paths used to query the API always has to start without a "/"
+    if (path.startsWith('/')) {
+      path = path.slice(1)
+    }
     if (!path.endsWith('/')) {
       path = `${path}/`
     }
@@ -268,7 +302,7 @@ export const lightFileReader = async (file) => {
     reader.onloadend = (e) => {
       const fileData = e.target.result
       resolve({
-        filename: file.name,
+        filename: file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
         data: fileData,
         'content-type': file.type,
       })

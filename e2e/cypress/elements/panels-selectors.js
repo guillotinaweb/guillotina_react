@@ -5,7 +5,7 @@ export const ITEMS_PANELS_SELECTORS = {
   btnCopyAction:"[data-test='dropdownItemTest-copy']",
   btnDeleteAction:"[data-test='dropdownItemTest-delete']",
   btnMoveAction:"[data-test='dropdownItemTest-move']",
-  prefixItem: "itemTest"
+  prefixItem: 'itemTest',
 }
 
 export const CONTEXT_TOOLBAR_SELECTORS = {
@@ -15,9 +15,9 @@ export const CONTEXT_TOOLBAR_SELECTORS = {
   btnAddGMI: "[data-test='dropdownItemTest-gmi']",
   selectFilteType: "[data-test='selectFilterTypeTest']",
   inputFilter: "[data-test='inputFilterTest']",
-  btnInputFilter: "[data-test='btnInputFilterTest']"
+  btnInputFilter: "[data-test='btnInputFilterTest']",
 }
 
 export const TABS_PANEL_SELECTOS = {
-  prefixTabs: "tabTest"
+  prefixTabs: 'tabTest',
 }

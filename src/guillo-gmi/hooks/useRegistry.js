@@ -12,6 +12,7 @@ import { MoveItem } from '../actions/move_item'
 import { RemoveItems } from '../actions/remove_items'
 import { RemoveItem } from '../actions/remove_item'
 import { AddItem } from '../actions/add_item'
+import { ChangePassword } from '../actions/change_pass'
 import { BaseForm } from '../forms/base'
 import { UserForm } from '../forms/users'
 import { IAttachment } from '../components/behaviors/iattachment'
@@ -49,6 +50,7 @@ let registry = {
     moveItems: MoveItems,
     moveItem: MoveItem,
     removeItems: RemoveItems,
+    changePassword: ChangePassword,
     removeItem: RemoveItem,
   },
   forms: {
@@ -64,11 +66,16 @@ let registry = {
     'guillotina.behaviors.attachment.IAttachment': IAttachment,
     'guillotina.behaviors.attachment.IMultiAttachment': IMultiAttachment,
   },
+  itemsColumn: {},
   schemas: {},
   properties: {},
   components: {
     Path: Path,
     EditComponent: EditComponent,
+  },
+  searchEngineQueryParamsFunction: {
+    PostreSQL: 'getQueryParamsPostresql',
+    Elasticsearch: 'getQueryParamsElasticsearch',
   },
 }
 
@@ -92,6 +99,14 @@ const getComponent = (context, path, fallback) => {
     return fallback
   }
   return defaultComponent(context)
+}
+
+const getItemsColumn = (type) => {
+  const funcCols = registry.itemsColumn[type]
+  if (funcCols) {
+    return funcCols()
+  }
+  return undefined
 }
 
 const getForm = (type, fallback = BaseForm) => {
@@ -133,6 +148,7 @@ export function useRegistry(data) {
     getAction,
     getBehavior,
     getProperties,
+    getItemsColumn,
   }
 }
 
