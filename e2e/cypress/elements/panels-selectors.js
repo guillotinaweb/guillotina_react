@@ -2,9 +2,9 @@ export const ITEMS_PANELS_SELECTORS = {
   table: "[data-test='itemPanelTableTest']",
   checkboxRow: "[data-test='itemCheckboxRowTest']",
   btnChooseAction: "[data-test='btnChooseActionTest']",
-  btnCopyAction:"[data-test='dropdownItemTest-copy']",
-  btnDeleteAction:"[data-test='dropdownItemTest-delete']",
-  btnMoveAction:"[data-test='dropdownItemTest-move']",
+  btnCopyAction: "[data-test='dropdownItemTest-copy']",
+  btnDeleteAction: "[data-test='dropdownItemTest-delete']",
+  btnMoveAction: "[data-test='dropdownItemTest-move']",
   prefixItem: 'itemTest',
 }
 
