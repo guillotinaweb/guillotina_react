@@ -25,7 +25,10 @@ export function PanelPermissions() {
   return (
     <div className="columns">
       {!loading && (
-        <div className="column is-8 is-size-7 permissions">
+        <div
+          className="column is-8 is-size-7 permissions"
+          data-test="containerPermissionsInfoTest"
+        >
           <h2 className="title is-size-5 has-text-grey-dark">
             Role Permissions
           </h2>
@@ -185,6 +188,7 @@ export function AddPermission({ refresh, reset }) {
       <Select
         options={defaultOptions}
         onChange={(v) => setState({ current: v.target.value })}
+        dataTest="selectPermissionTypeTest"
       />
       <hr />
       {state.current && state.current === 'roleperm' && (

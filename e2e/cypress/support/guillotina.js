@@ -21,6 +21,17 @@ export function setupGuillotina() {
 
   cy.request({
     method: 'POST',
+    url: `${api_url}/container/groups`,
+    headers,
+    body: {
+      '@type': 'Group',
+      id: 'group_view_content',
+      title: 'group_view_content',
+    },
+  }).then(() => console.log('group_view_content group added'))
+
+  cy.request({
+    method: 'POST',
     url: `${api_url}/container/users`,
     headers,
     body: {
@@ -28,6 +39,7 @@ export function setupGuillotina() {
       username: 'default',
       password: 'default',
       email: 'default@test.com',
+      user_groups: ['group_view_content'],
     },
   }).then(() => console.log('default user added'))
 }

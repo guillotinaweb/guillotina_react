@@ -83,7 +83,7 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
         className="is-primary is-small"
         loading={loading}
         onClick={savePermission}
-        dataTest="btnSubmitPermissions"
+        dataTest="btnSubmitPermissionsTest"
       >
         Save
       </Button>

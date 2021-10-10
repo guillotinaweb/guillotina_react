@@ -90,7 +90,7 @@ export function PermissionRoleperm({
         className="is-primary is-small"
         loading={loading}
         onClick={savePermission}
-        dataTest="btnSubmitPermissions"
+        dataTest="btnSubmitPermissionsTest"
       >
         Save
       </Button>

@@ -105,7 +105,7 @@ export default function App() {
       {!isLogged && (
         <div className="columns is-centered">
           <div className="columns is-half">
-            <Login onLogin={onLogin} auth={auth} />
+            <Login onLogin={onLogin} auth={auth} schemas={['/db/container/']} />
           </div>
         </div>
       )}
