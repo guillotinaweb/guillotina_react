@@ -62,7 +62,7 @@ describe('Permissions tests', () => {
       cy.contains('default')
     })
 
-    // Logout and login as root
+    // Logout and login as default user
     cy.clearLocalStorage()
     cy.clearCookies()
 
@@ -92,7 +92,7 @@ describe('Permissions tests', () => {
       cy.contains('group_view_content')
     })
 
-    // Logout and login as root
+    // Logout and login as default user
     cy.clearLocalStorage()
     cy.clearCookies()
 
