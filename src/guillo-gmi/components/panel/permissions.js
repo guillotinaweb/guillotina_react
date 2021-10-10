@@ -119,8 +119,8 @@ export function PanelPermissions() {
 
 const initial = {
   permissions: undefined,
-  groups: undefined,
   roles: [],
+  principals: undefined,
   current: '',
   currentObj: undefined,
 }
@@ -151,24 +151,28 @@ export function AddPermission({ refresh, reset }) {
           value: perm,
         })
       )
-      let req = await Ctx.client.getGroups(Ctx.path)
-      let groups = []
+      let principals = []
       let roles = []
-      if (req.ok) {
-        groups = (await req.json()).map((group) => ({
-          text: group.id,
-          value: group.id,
-        }))
-      }
 
-      req = await Ctx.client.getRoles(Ctx.path)
+      let principalsData = await Ctx.client.getPrincipals(Ctx.path)
+      const groups = principalsData.groups.map((group) => ({
+        text: group.id,
+        value: group.id,
+      }))
+      const users = principalsData.users.map((user) => ({
+        text: user.id,
+        value: user.fullname,
+      }))
+      principals = [...groups, ...users]
+
+      const req = await Ctx.client.getRoles(Ctx.path)
       if (req.ok) {
         roles = (await req.json()).map((role) => ({
           text: role,
           value: role,
         }))
       }
-      setState({ permissions, groups, roles })
+      setState({ permissions, roles, principals })
     }
 
     init()

@@ -5,13 +5,15 @@ import useSetState from '../../hooks/useSetState'
 import { Button } from '../input/button'
 import { Select } from '../input/select'
 import { useCrudContext } from '../../hooks/useCrudContext'
+import { useTraversal } from '../../contexts'
 
 export function PermissionPrinperm({
-  groups,
+  principals,
   permissions,
   operations,
   refresh,
 }) {
+  const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
   const [state, setState] = useSetState({
     principal: undefined,
@@ -33,6 +35,7 @@ export function PermissionPrinperm({
       setState({ error: 'Invalid form' })
       return
     }
+    setState({ error: undefined })
     const data = {
       prinperm: state.permission.map((perm) => ({
         principal: state.principal,
@@ -40,7 +43,12 @@ export function PermissionPrinperm({
         setting: state.setting,
       })),
     }
-    await post(data, '@sharing', false)
+    const { isError, errorMessage } = await post(data, '@sharing', false)
+    if (!isError) {
+      Ctx.flash('Permission updated!', 'success')
+    } else {
+      Ctx.flash(`An error has ocurred: ${errorMessage}`, 'danger')
+    }
     refresh(Math.random())
   }
 
@@ -52,8 +60,9 @@ export function PermissionPrinperm({
         <label className="label">Select a Principal</label>
         <Select
           appendDefault
-          options={groups}
+          options={principals}
           onChange={(ev) => setState({ principal: ev.target.value })}
+          dataTest="selectPrincipalTest"
         />
       </div>
       <div className="field">
@@ -63,6 +72,7 @@ export function PermissionPrinperm({
           onChange={getMultiples('permission', setState)}
           size={5}
           multiple
+          dataTest="selectPermissionsTest"
         />
       </div>
       <div className="field">
@@ -71,12 +81,14 @@ export function PermissionPrinperm({
           appendDefault
           options={operations}
           onChange={(ev) => setState({ setting: ev.target.value })}
+          dataTest="operationPermissionsTest"
         />
       </div>
       <Button
         className="is-primary is-small"
         loading={loading}
         onClick={savePermission}
+        dataTest="btnSubmitPermissions"
       >
         Save
       </Button>
