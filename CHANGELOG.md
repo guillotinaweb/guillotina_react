@@ -1,4 +1,8 @@
 
+0.19.0
+------
+ - Add date type input in edit component #144
+
 0.18.0
 ------
  - Add itemsColumn in registry to allow configure columns in items panel by type #142
