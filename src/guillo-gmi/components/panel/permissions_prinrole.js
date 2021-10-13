@@ -5,8 +5,10 @@ import useSetState from '../../hooks/useSetState'
 import { Button } from '../input/button'
 import { Select } from '../input/select'
 import { useCrudContext } from '../../hooks/useCrudContext'
+import { useTraversal } from '../../contexts'
 
-export function PermissionPrinrole({ groups, roles, operations, refresh }) {
+export function PermissionPrinrole({ principals, roles, operations, refresh }) {
+  const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
   const [state, setState] = useSetState({
     principal: undefined,
@@ -28,6 +30,7 @@ export function PermissionPrinrole({ groups, roles, operations, refresh }) {
       setState({ error: 'Invalid form' })
       return
     }
+    setState({ error: undefined })
     const data = {
       prinrole: state.roles.map((perm) => ({
         principal: state.principal,
@@ -35,7 +38,12 @@ export function PermissionPrinrole({ groups, roles, operations, refresh }) {
         setting: state.setting,
       })),
     }
-    await post(data, '@sharing', false)
+    const { isError, errorMessage } = await post(data, '@sharing', false)
+    if (!isError) {
+      Ctx.flash('Permission updated!', 'success')
+    } else {
+      Ctx.flash(`An error has ocurred: ${errorMessage}`, 'danger')
+    }
     refresh(Math.random())
   }
 
@@ -47,8 +55,9 @@ export function PermissionPrinrole({ groups, roles, operations, refresh }) {
         <label className="label">Select a Principal</label>
         <Select
           appendDefault
-          options={groups}
+          options={principals}
           onChange={(ev) => setState({ principal: ev.target.value })}
+          dataTest="selectPrincipalTest"
         />
       </div>
       <div className="field">
@@ -58,6 +67,7 @@ export function PermissionPrinrole({ groups, roles, operations, refresh }) {
           onChange={getMultiples('roles', setState)}
           size={5}
           multiple
+          dataTest="selectRoleTest"
         />
       </div>
       <div className="field">
@@ -66,12 +76,14 @@ export function PermissionPrinrole({ groups, roles, operations, refresh }) {
           appendDefault
           options={operations}
           onChange={(ev) => setState({ setting: ev.target.value })}
+          dataTest="operationPermissionsTest"
         />
       </div>
       <Button
         className="is-primary is-small"
         loading={loading}
         onClick={savePermission}
+        dataTest="btnSubmitPermissionsTest"
       >
         Save
       </Button>

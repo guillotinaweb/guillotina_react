@@ -35,4 +35,24 @@ describe('test login', function () {
     cy.visit('/')
     cy.get('.box > .container').should('be.visible')
   })
+
+  it('test autologin in container', function () {
+    let api_url = 'http://localhost:8080/db/container'
+    const headers = {
+      'Content-Type': 'application/json',
+    }
+
+    cy.request({
+      method: 'POST',
+      url: `${api_url}/@login`,
+      headers,
+      body: { username: 'default', password: 'default' },
+    }).then((response) => {
+      cy.setLocalStorage('auth', response.body.token)
+      cy.setLocalStorage('auth_expires', response.body.exp)
+    })
+
+    cy.visit('/')
+    cy.get('.box > .container').should('be.visible')
+  })
 })

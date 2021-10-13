@@ -5,6 +5,7 @@ import useSetState from '../../hooks/useSetState'
 import { Button } from '../input/button'
 import { Select } from '../input/select'
 import { useCrudContext } from '../../hooks/useCrudContext'
+import { useTraversal } from '../../contexts'
 
 export function PermissionRoleperm({
   roles,
@@ -12,6 +13,7 @@ export function PermissionRoleperm({
   operations,
   refresh,
 }) {
+  const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
   const [state, setState] = useSetState({
     role: undefined,
@@ -34,6 +36,7 @@ export function PermissionRoleperm({
       setState({ error: 'Invalid form' })
       return
     }
+    setState({ error: undefined })
     const data = {
       roleperm: state.permission.map((perm) => ({
         role: state.role,
@@ -41,7 +44,13 @@ export function PermissionRoleperm({
         setting: state.setting,
       })),
     }
-    await post(data, '@sharing', false)
+    const { isError, errorMessage } = await post(data, '@sharing', false)
+    if (!isError) {
+      Ctx.flash('Permission updated!', 'success')
+    } else {
+      Ctx.flash(`An error has ocurred: ${errorMessage}`, 'danger')
+    }
+
     refresh(Math.random())
   }
 
@@ -55,6 +64,7 @@ export function PermissionRoleperm({
           appendDefault
           options={roles}
           onChange={(ev) => setState({ role: ev.target.value })}
+          dataTest="selectRoleTest"
         />
       </div>
       <div className="field">
@@ -62,6 +72,7 @@ export function PermissionRoleperm({
         <Select
           options={permissions}
           onChange={getMultiples('permission', setState)}
+          dataTest="selectPermissionsTest"
           size={5}
           multiple
         />
@@ -72,12 +83,14 @@ export function PermissionRoleperm({
           appendDefault
           options={operations}
           onChange={(ev) => setState({ setting: ev.target.value })}
+          dataTest="operationPermissionsTest"
         />
       </div>
       <Button
         className="is-primary is-small"
         loading={loading}
         onClick={savePermission}
+        dataTest="btnSubmitPermissionsTest"
       >
         Save
       </Button>
