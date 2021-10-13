@@ -1,4 +1,8 @@
 
+0.20.0
+------
+ - Add users in principals to modify their permissions and handle errors when change permission in some object. #145
+
 0.19.0
 ------
  - Add date type input in edit component #144
