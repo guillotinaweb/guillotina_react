@@ -26,13 +26,13 @@ const schemas = [
 */
 
 let url = 'http://localhost:8080'
-const container = '/'
+const schema = '/'
 if (process.env.NODE_ENV === 'production') {
   url = '/'
 }
 
 const auth = new Auth(url)
-const client = getClient(url, container, auth)
+const client = getClient(url, schema, auth)
 
 function App() {
   const [isLogged, setLogged] = useState(auth.isLogged)
@@ -47,7 +47,7 @@ function App() {
   return (
     <ClientProvider client={client}>
       <Layout auth={auth} onLogout={onLogout}>
-        {isLogged && <Guillotina auth={auth} url={container} />}
+        {isLogged && <Guillotina auth={auth} url={schema} />}
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
