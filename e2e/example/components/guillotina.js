@@ -8,7 +8,7 @@ import { ClientProvider, RequiredFieldsForm, Icon, TdLink } from 'react-gmi'
 import '../node_modules/react-gmi/dist/css/style.css'
 
 const url = 'http://localhost:8080'
-const container = '/db/container/'
+const container = '/'
 const auth = new Auth(url)
 const client = getClient(url, container, auth)
 
