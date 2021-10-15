@@ -1,7 +1,6 @@
 import React from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
-import { getContainerFromPath } from '../lib/client'
 import { getNewId } from '../lib/utils'
 
 const withError = (res) => res.status >= 300
@@ -36,19 +35,10 @@ export function CopyItems(props) {
     Ctx.flash(`Items copied!`, 'success')
   }
 
-  function getDefaultPath() {
-    const container = getContainerFromPath(Ctx.path)
-    const pathSplit = Ctx.path.split(container)
-    if (pathSplit.length > 1) {
-      return pathSplit[1]
-    }
-    return ''
-  }
-
   return (
     <PathTree
       title="Copy to..."
-      defaultPath={`/${getDefaultPath()}`}
+      defaultPath={Ctx.client.clearContainerFromPath(Ctx.path)}
       onConfirm={copyItems}
       onCancel={() => Ctx.cancelAction()}
     >

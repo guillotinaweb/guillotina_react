@@ -1,6 +1,5 @@
 import React from 'react'
 import { createContext } from 'react'
-import { getContainerFromPath } from '../lib/client'
 
 export const AuthContext = createContext({})
 
@@ -31,7 +30,7 @@ class Traversal {
   }
 
   get containerPath() {
-    return getContainerFromPath(this.path)
+    return this.client.getContainerFromPath(this.path)
   }
 
   apply(data) {
