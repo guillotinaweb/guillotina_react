@@ -76,6 +76,11 @@ describe('test GMI type', function () {
       newValue: '2021-01-23T14:53',
       checkValue: false,
     })
+    // Modify date field
+    cy.testInput({
+      fieldName: 'date_field',
+      newValue: '2021-01-23',
+    })
 
     // Modify checkbox
     cy.get(

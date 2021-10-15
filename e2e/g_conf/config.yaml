@@ -116,6 +116,9 @@ contents:
       datetime_field:
         type: guillotina.schema.Datetime
         title: Datetime field
+      date_field:
+        type: guillotina.schema.Date
+        title: Date field
 
 
 

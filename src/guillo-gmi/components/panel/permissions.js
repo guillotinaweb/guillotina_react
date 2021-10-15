@@ -25,7 +25,10 @@ export function PanelPermissions() {
   return (
     <div className="columns">
       {!loading && (
-        <div className="column is-8 is-size-7 permissions">
+        <div
+          className="column is-8 is-size-7 permissions"
+          data-test="containerPermissionsInfoTest"
+        >
           <h2 className="title is-size-5 has-text-grey-dark">
             Role Permissions
           </h2>
@@ -119,8 +122,8 @@ export function PanelPermissions() {
 
 const initial = {
   permissions: undefined,
-  groups: undefined,
   roles: [],
+  principals: undefined,
   current: '',
   currentObj: undefined,
 }
@@ -151,24 +154,28 @@ export function AddPermission({ refresh, reset }) {
           value: perm,
         })
       )
-      let req = await Ctx.client.getGroups(Ctx.path)
-      let groups = []
+      let principals = []
       let roles = []
-      if (req.ok) {
-        groups = (await req.json()).map((group) => ({
-          text: group.id,
-          value: group.id,
-        }))
-      }
 
-      req = await Ctx.client.getRoles(Ctx.path)
+      let principalsData = await Ctx.client.getPrincipals(Ctx.path)
+      const groups = principalsData.groups.map((group) => ({
+        text: group.id,
+        value: group.id,
+      }))
+      const users = principalsData.users.map((user) => ({
+        text: user.id,
+        value: user.fullname,
+      }))
+      principals = [...groups, ...users]
+
+      const req = await Ctx.client.getRoles(Ctx.path)
       if (req.ok) {
         roles = (await req.json()).map((role) => ({
           text: role,
           value: role,
         }))
       }
-      setState({ permissions, groups, roles })
+      setState({ permissions, roles, principals })
     }
 
     init()
@@ -181,6 +188,7 @@ export function AddPermission({ refresh, reset }) {
       <Select
         options={defaultOptions}
         onChange={(v) => setState({ current: v.target.value })}
+        dataTest="selectPermissionTypeTest"
       />
       <hr />
       {state.current && state.current === 'roleperm' && (

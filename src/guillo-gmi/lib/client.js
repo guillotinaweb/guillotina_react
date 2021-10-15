@@ -260,10 +260,11 @@ export class GuillotinaClient {
   async getPrincipals(path) {
     const groups = this.getGroups(path)
     const users = this.getUsers(path)
-    const [gr, usr] = await Promise.all(groups, users)
+    const [gr, usr] = await Promise.all([groups, users])
+
     return {
-      groups: await gr.json(),
-      users: await usr.json(),
+      groups: gr.ok ? await gr.json() : [],
+      users: usr.ok ? await usr.json() : [],
     }
   }
 
