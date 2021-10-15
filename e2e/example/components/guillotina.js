@@ -7,9 +7,10 @@ import { ClientProvider, RequiredFieldsForm, Icon, TdLink } from 'react-gmi'
 
 import '../node_modules/react-gmi/dist/css/style.css'
 
-const url = 'http://localhost:8080/'
+const url = 'http://localhost:8080'
+const container = '/db/container/'
 const auth = new Auth(url)
-const client = getClient(url, auth)
+const client = getClient(url, container, auth)
 
 const registry = {
   // to register views around guillotina objects paths
@@ -101,11 +102,13 @@ export default function App() {
 
   return (
     <ClientProvider client={client}>
-      {isLogged && <Guillotina auth={auth} url={url} registry={registry} />}
+      {isLogged && (
+        <Guillotina auth={auth} url={container} registry={registry} />
+      )}
       {!isLogged && (
         <div className="columns is-centered">
           <div className="columns is-half">
-            <Login onLogin={onLogin} auth={auth} schemas={['/db/container/']} />
+            <Login onLogin={onLogin} auth={auth} currentSchema={container} />
           </div>
         </div>
       )}
