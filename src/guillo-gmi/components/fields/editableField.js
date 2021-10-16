@@ -1,13 +1,12 @@
 import React from 'react'
 import { Button } from '../input/button'
 import { useCrudContext } from '../../hooks/useCrudContext'
+import { useConfig } from '../../hooks/useConfig'
 import { useState } from 'react'
 import { useRef } from 'react'
 import { useEffect } from 'react'
 import { Icon } from '../ui'
-import { RenderField } from './renderField'
 import { get } from '../../lib/utils'
-import { DownloadField } from './downloadField'
 
 export const DEFAULT_VALUE_EDITABLE_FIELD = 'Click to edit'
 export const DEFAULT_VALUE_NO_EDITABLE_FIELD = ' -- '
@@ -24,8 +23,13 @@ export function EditableField({
   const [isEdit, setEdit] = useState(false)
   const [val, setValue] = useState(value)
   const { patch, loading, Ctx } = useCrudContext()
+  const { fieldHaveDeleteButton } = useConfig()
 
   const EditComponent = Ctx.registry.get('components', 'EditComponent')
+  const RenderFieldComponent = Ctx.registry.get(
+    'components',
+    'RenderFieldComponent'
+  )
 
   useEffect(() => {
     if (isEdit && ref.current) {
@@ -34,32 +38,6 @@ export function EditableField({
   })
 
   const canModified = modifyContent && !get(schema, 'readonly', false)
-  const haveDeleteBtn =
-    schema?.widget === 'file' ||
-    schema?.widget === 'select' ||
-    schema?.type === 'array'
-
-  const getRenderProps = () => {
-    const renderProps = {
-      value:
-        val ??
-        (modifyContent
-          ? DEFAULT_VALUE_EDITABLE_FIELD
-          : DEFAULT_VALUE_NO_EDITABLE_FIELD),
-    }
-    if (val && schema?.widget === 'file') {
-      renderProps['value'] = {
-        data: val,
-        field: field,
-      }
-      renderProps['Widget'] = DownloadField
-    } else if (schema?.type === 'boolean') {
-      renderProps['value'] = val?.toString() ?? renderProps['value']
-    } else if (val && schema?.type === 'datetime') {
-      renderProps['value'] = new Date(val).toLocaleString()
-    }
-    return renderProps
-  }
 
   const saveField = async (ev) => {
     if (ev) ev.preventDefault()
@@ -124,6 +102,7 @@ export function EditableField({
       setValue([])
     }
   }
+
   return (
     <React.Fragment>
       {!isEdit && (
@@ -134,7 +113,12 @@ export function EditableField({
           }}
           data-test={`editableFieldTest-${field}`}
         >
-          <RenderField {...getRenderProps()} />
+          <RenderFieldComponent
+            schema={schema}
+            field={field}
+            val={val}
+            modifyContent={modifyContent}
+          />
           {canModified && <Icon icon="fas fa-edit" />}
         </div>
       )}
@@ -170,7 +154,7 @@ export function EditableField({
                 Cancel
               </Button>
             </div>
-            {!required && haveDeleteBtn && (
+            {!required && fieldHaveDeleteButton(schema) && (
               <div className="control">
                 <Button
                   className="is-small is-danger"
