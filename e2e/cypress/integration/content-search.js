@@ -12,8 +12,8 @@ describe('Search test', function () {
       `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
     )
 
-    cy.interceptCanIdo()
-    cy.interceptAddableTypes()
+    cy.interceptGetObject('@canido')
+    cy.interceptGetObject('@addable-types')
 
     cy.get(ITEMS_PANELS_SELECTORS.table)
       .should('contain', 'Groups')
@@ -50,12 +50,11 @@ describe('Search test', function () {
   })
 
   it('Search items in first level', () => {
-    cy.interceptCanIdo('test-folder')
     cy.interceptGetObject('test-folder')
-    cy.interceptSearch('')
+    cy.interceptGetObject('@search')
 
-    cy.wait('@addable-types-container')
-    cy.wait('@canido-container')
+    cy.wait('@get-object-@addable-types')
+    cy.wait('@get-object-@canido')
 
     cy.addContent('First item', 'first-item', 'btnAddItem')
     cy.addContent('Second Item', 'second-item', 'btnAddItem')
@@ -70,11 +69,11 @@ describe('Search test', function () {
     cy.visit(
       `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
     )
-    cy.wait('@addable-types-container')
-    cy.wait('@canido-container')
+    cy.wait('@get-object-@addable-types')
+    cy.wait('@get-object-@canido')
 
     cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-    cy.wait('@search-container')
+    cy.wait('@get-object-@search')
     cy.get(ITEMS_PANELS_SELECTORS.table)
       .find('tbody')
       .find('tr')

@@ -36,11 +36,7 @@ describe('test content', function () {
 
   it('creates an item as Admin, modifies it and delete it', function () {
     // Create Item
-    cy.intercept(
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
-        'GUILLOTINA_CONTAINER'
-      )}/test-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
-    ).as('canido')
+    cy.interceptGetObject('test-item/@canido?**')
 
     cy.addContent('Test Item', 'test-item', 'btnAddItem')
 
@@ -48,7 +44,7 @@ describe('test content', function () {
     cy.get(
       `[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-item']`
     ).click()
-    cy.wait('@canido')
+    cy.wait('@get-object-test-item/@canido?**')
     cy.get(
       `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-title']`
     ).click()

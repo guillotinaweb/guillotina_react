@@ -12,17 +12,17 @@ describe('Actions', function () {
 
     cy.interceptGetObject()
     cy.interceptPostObject()
-    cy.interceptAddableTypes()
-    cy.interceptCanIdo()
-    cy.interceptSearch()
+    cy.interceptGetObject('@canido')
+    cy.interceptGetObject('@addable-types')
+    cy.interceptGetObject('@search')
 
     cy.visit(
       `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
     )
 
     cy.wait('@get-object-container')
-    cy.wait('@canido-container')
-    cy.wait('@addable-types-container')
+    cy.wait('@get-object-@canido')
+    cy.wait('@get-object-@addable-types')
 
     cy.get(ITEMS_PANELS_SELECTORS.table)
       .should('contain', 'Groups')
@@ -43,7 +43,7 @@ describe('Actions', function () {
     })
 
     cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-    cy.wait('@search-container')
+    cy.wait('@get-object-@search')
     cy.get(ITEMS_PANELS_SELECTORS.table)
       .find('tbody')
       .find('tr')
@@ -54,7 +54,7 @@ describe('Actions', function () {
   describe('Copy items, items panel', function () {
     describe('One item', () => {
       beforeEach(function () {
-        cy.interceptCopyAction('first-item/')
+        cy.interceptPostObject('first-item/@duplicate')
 
         cy.get(ITEMS_PANELS_SELECTORS.btnChooseAction).click()
         cy.get(ITEMS_PANELS_SELECTORS.btnCopyAction).click()
@@ -63,10 +63,10 @@ describe('Actions', function () {
 
       it('to container, default id', () => {
         cy.get(ACTION_SELECTORS.btnConfirmModal).click()
-        cy.wait('@copy-first-item/')
+        cy.wait('@post-object-first-item/@duplicate')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@search-container')
+        cy.wait('@get-object-@search')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -79,10 +79,10 @@ describe('Actions', function () {
           .clear()
           .type('custom-id')
         cy.get(ACTION_SELECTORS.btnConfirmModal).click()
-        cy.wait('@copy-first-item/')
+        cy.wait('@post-object-first-item/@duplicate')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@search-container')
+        cy.wait('@get-object-@search')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -93,14 +93,14 @@ describe('Actions', function () {
 
       it('One item to other folder, default id', () => {
         cy.interceptGetObject('test-folder')
-        cy.interceptSearch('test-folder/')
+        cy.interceptGetObject('test-folder/@search')
 
         cy.get(ACTION_SELECTORS.inputPathTree).clear().type('/test-folder')
         cy.get(ACTION_SELECTORS.btnConfirmModal).click()
-        cy.wait('@copy-first-item/')
+        cy.wait('@post-object-first-item/@duplicate')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@search-container')
+        cy.wait('@get-object-@search')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -115,7 +115,7 @@ describe('Actions', function () {
 
         cy.wait('@get-object-test-folder')
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@search-test-folder/')
+        cy.wait('@get-object-test-folder/@search')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -126,8 +126,8 @@ describe('Actions', function () {
 
     describe('Multiple items', () => {
       beforeEach(function () {
-        cy.interceptCopyAction('first-item/')
-        cy.interceptCopyAction('second-item/')
+        cy.interceptPostObject('first-item/@duplicate')
+        cy.interceptPostObject('second-item/@duplicate')
 
         // Select Item
         cy.get(
@@ -147,11 +147,11 @@ describe('Actions', function () {
           .type('custom-id')
         cy.get(ACTION_SELECTORS.btnConfirmModal).click()
 
-        cy.wait('@copy-first-item/')
-        cy.wait('@copy-second-item/')
+        cy.wait('@post-object-first-item/@duplicate')
+        cy.wait('@post-object-second-item/@duplicate')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@search-container')
+        cy.wait('@get-object-@search')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -162,13 +162,13 @@ describe('Actions', function () {
 
       it('Multiple items to other folder, one default id and other custom id', () => {
         cy.interceptGetObject('test-folder')
-        cy.interceptSearch('test-folder/')
+        cy.interceptGetObject('test-folder/@search')
 
         cy.get(ACTION_SELECTORS.inputPathTree).clear().type('/test-folder')
         cy.get(ACTION_SELECTORS.btnConfirmModal).click()
 
-        cy.wait('@copy-first-item/')
-        cy.wait('@copy-second-item/')
+        cy.wait('@post-object-first-item/@duplicate')
+        cy.wait('@post-object-second-item/@duplicate')
 
         cy.visit(
           `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
@@ -178,7 +178,7 @@ describe('Actions', function () {
         cy.wait('@get-object-test-folder')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@search-test-folder/')
+        cy.wait('@get-object-test-folder/@search')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -190,9 +190,9 @@ describe('Actions', function () {
 
   describe('Move items, items panel', function () {
     beforeEach(() => {
-      cy.interceptMoveAction('first-item/')
+      cy.interceptPostObject('first-item/@move')
       cy.interceptGetObject('test-folder/')
-      cy.interceptSearch('test-folder/')
+      cy.interceptGetObject('test-folder/@search')
     })
 
     it('One item', () => {
@@ -202,10 +202,10 @@ describe('Actions', function () {
 
       cy.get(ACTION_SELECTORS.inputPathTree).clear().type('/test-folder')
       cy.get(ACTION_SELECTORS.btnConfirmModal).click()
-      cy.wait('@move-first-item/')
+      cy.wait('@post-object-first-item/@move')
 
       cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-      cy.wait('@search-container')
+      cy.wait('@get-object-@search')
       cy.get(ITEMS_PANELS_SELECTORS.table)
         .find('tbody')
         .find('tr')
@@ -220,7 +220,7 @@ describe('Actions', function () {
 
       cy.wait('@get-object-test-folder/')
       cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-      cy.wait('@search-test-folder/')
+      cy.wait('@get-object-test-folder/@search')
       cy.get(ITEMS_PANELS_SELECTORS.table)
         .find('tbody')
         .find('tr')
@@ -228,7 +228,7 @@ describe('Actions', function () {
         .should('eq', 1)
     })
     it('Multiple item', () => {
-      cy.interceptMoveAction('second-item/')
+      cy.interceptPostObject('second-item/@move')
 
       // Select Item
       cy.get(
@@ -244,11 +244,11 @@ describe('Actions', function () {
       cy.get(ACTION_SELECTORS.inputPathTree).clear().type('/test-folder')
       cy.get(ACTION_SELECTORS.btnConfirmModal).click()
 
-      cy.wait('@move-first-item/')
-      cy.wait('@move-second-item/')
+      cy.wait('@post-object-first-item/@move')
+      cy.wait('@post-object-second-item/@move')
 
       cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-      cy.wait('@search-container')
+      cy.wait('@get-object-@search')
       cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'Anything here!')
 
       cy.visit(
@@ -259,7 +259,7 @@ describe('Actions', function () {
 
       cy.wait('@get-object-test-folder/')
       cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-      cy.wait('@search-test-folder/')
+      cy.wait('@get-object-test-folder/@search')
       cy.get(ITEMS_PANELS_SELECTORS.table)
         .find('tbody')
         .find('tr')

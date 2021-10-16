@@ -7,36 +7,11 @@ describe('Permissions tests', () => {
     cy.clearLocalStorage()
     cy.clearCookies()
 
-    cy.intercept(
-      'GET',
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
-        'GUILLOTINA_CONTAINER'
-      )}/@sharing`
-    ).as('get-sharing')
-    cy.intercept(
-      'GET',
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
-        'GUILLOTINA_CONTAINER'
-      )}/@groups`
-    ).as('get-groups')
-    cy.intercept(
-      'GET',
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
-        'GUILLOTINA_CONTAINER'
-      )}/@users`
-    ).as('get-users')
-    cy.intercept(
-      'GET',
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
-        'GUILLOTINA_CONTAINER'
-      )}/@available-roles`
-    ).as('get-available-roles')
-    cy.intercept(
-      'POST',
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
-        'GUILLOTINA_CONTAINER'
-      )}/@sharing`
-    ).as('post-sharing')
+    cy.interceptPostObject('@sharing')
+    cy.interceptGetObject('@sharing')
+    cy.interceptGetObject('@groups')
+    cy.interceptGetObject('@users')
+    cy.interceptGetObject('@available-roles')
 
     cy.autologin({
       username: 'default',
@@ -63,10 +38,10 @@ describe('Permissions tests', () => {
       `[data-test='${TABS_PANEL_SELECTOS.prefixTabs}-permissions']`
     ).click()
 
-    cy.wait('@get-sharing')
-    cy.wait('@get-groups')
-    cy.wait('@get-users')
-    cy.wait('@get-available-roles')
+    cy.wait('@get-object-@sharing')
+    cy.wait('@get-object-@groups')
+    cy.wait('@get-object-@users')
+    cy.wait('@get-object-@available-roles')
   })
   it('Principal - permission tab, set permissions to user', () => {
     cy.get(PERMISSIONS_SELECTORS.selectPermissionType).select(
@@ -81,7 +56,7 @@ describe('Permissions tests', () => {
 
     cy.get(PERMISSIONS_SELECTORS.operationPermissions).select('Allow')
     cy.get(PERMISSIONS_SELECTORS.btnSubmitPermissions).click()
-    cy.wait('@post-sharing')
+    cy.wait('@post-object-@sharing')
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Permission updated!')
 
     cy.get(PERMISSIONS_SELECTORS.containerPermissionsInfo).within(() => {
@@ -117,7 +92,7 @@ describe('Permissions tests', () => {
     ])
     cy.get(PERMISSIONS_SELECTORS.operationPermissions).select('Allow')
     cy.get(PERMISSIONS_SELECTORS.btnSubmitPermissions).click()
-    cy.wait('@post-sharing')
+    cy.wait('@post-object-@sharing')
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Permission updated!')
     cy.get(PERMISSIONS_SELECTORS.containerPermissionsInfo).within(() => {
       cy.contains('guillotina.Reader')
@@ -152,7 +127,7 @@ describe('Permissions tests', () => {
     ])
     cy.get(PERMISSIONS_SELECTORS.operationPermissions).select('Allow')
     cy.get(PERMISSIONS_SELECTORS.btnSubmitPermissions).click()
-    cy.wait('@post-sharing')
+    cy.wait('@post-object-@sharing')
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Permission updated!')
     cy.get(PERMISSIONS_SELECTORS.containerPermissionsInfo).within(() => {
       cy.contains('guillotina.Reader')

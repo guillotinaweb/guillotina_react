@@ -17,7 +17,7 @@ describe('test login', function () {
   })
 
   it('test manual login root to container', function () {
-    cy.intercept('POST', `/@login`).as('login')
+    cy.interceptPostObject('@login')
     cy.visit('/')
     cy.get(LOGIN_SELECTORS.form).should('be.visible')
     cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')
@@ -26,7 +26,7 @@ describe('test login', function () {
       `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
     )
     cy.get(LOGIN_SELECTORS.form).submit()
-    cy.wait('@login')
+    cy.wait('@post-object-@login')
     cy.get(LOGIN_SELECTORS.form).should('not.exist')
   })
 

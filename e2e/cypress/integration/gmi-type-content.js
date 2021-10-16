@@ -25,15 +25,8 @@ describe('test GMI type', function () {
       .should('contain', 'Users')
   })
   it('creates a GMI item as Admin, modifies it and delete it', function () {
-    cy.intercept(
-      `db/container/test-gmi-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
-    ).as('canido')
-    cy.intercept(
-      'PATCH',
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
-        'GUILLOTINA_CONTAINER'
-      )}/test-gmi-item/`
-    ).as('patch')
+    cy.interceptGetObject('test-gmi-item/@canido?**')
+    cy.interceptPatchObject('test-gmi-item')
 
     // Create GMI item
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
@@ -59,7 +52,7 @@ describe('test GMI type', function () {
     cy.get(
       `[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-gmi-item']`
     ).click()
-    cy.wait('@canido')
+    cy.wait('@get-object-test-gmi-item/@canido?**')
     cy.get(`[data-test='${TABS_PANEL_SELECTOS.prefixTabs}-properties']`).click()
 
     // Modify title field ( input )
@@ -99,7 +92,7 @@ describe('test GMI type', function () {
       cy.get(EDITABLE_FORM_SELECTORS.field).check()
       cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
     })
-    cy.wait('@patch')
+    cy.wait('@patch-object-test-gmi-item')
     cy.get(NOTIFICATION_SELECTOR).should(
       'contain',
       `Field boolean_field, updated!`
@@ -115,7 +108,7 @@ describe('test GMI type', function () {
       cy.get(EDITABLE_FORM_SELECTORS.field).select('plone')
       cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
     })
-    cy.wait('@patch')
+    cy.wait('@patch-object-test-gmi-item')
     cy.get(NOTIFICATION_SELECTOR).should(
       'contain',
       `Field choice_field, updated!`
@@ -138,7 +131,7 @@ describe('test GMI type', function () {
         .type('{enter}')
       cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
     })
-    cy.wait('@patch')
+    cy.wait('@patch-object-test-gmi-item')
     cy.get(NOTIFICATION_SELECTOR).should(
       'contain',
       `Field list_field, updated!`
@@ -156,13 +149,7 @@ describe('test GMI type', function () {
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Items removed!')
   })
   it('check items column', () => {
-    cy.intercept(
-      `db/container/test-gmi-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
-    ).as('canido')
-    cy.intercept(
-      'POST',
-      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
-    ).as('post')
+    cy.interceptPostObject()
 
     // Create GMI item
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
@@ -182,7 +169,7 @@ describe('test GMI type', function () {
       `[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`
     ).select('plone')
     cy.get(FORM_BASE_SELECTORS.btn).click()
-    cy.wait('@post')
+    cy.wait('@post-object-container')
     cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
     cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'depth')
   })
