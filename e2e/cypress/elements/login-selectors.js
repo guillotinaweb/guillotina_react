@@ -5,3 +5,5 @@ export const LOGIN_SELECTORS = {
   schema: "[data-test='selectSchemaTest']",
   btnSubmit: "[data-test='btnLoginTest']",
 }
+
+export const LOGIN_TYPES = ['root', 'container']
