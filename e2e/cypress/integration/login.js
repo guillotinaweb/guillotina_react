@@ -22,21 +22,22 @@ describe('test login', function () {
     cy.get(LOGIN_SELECTORS.form).should('be.visible')
     cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')
     cy.get(LOGIN_SELECTORS.password).type('root').should('have.value', 'root')
-    cy.get(LOGIN_SELECTORS.schema).select(`/db/container/`)
+    cy.get(LOGIN_SELECTORS.schema).select(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.get(LOGIN_SELECTORS.form).submit()
     cy.wait('@login')
     cy.get(LOGIN_SELECTORS.form).should('not.exist')
   })
 
   it('test autologin', function () {
-    let api_url = 'http://localhost:8080'
     const headers = {
       'Content-Type': 'application/json',
     }
 
     cy.request({
       method: 'POST',
-      url: `${api_url}/@login`,
+      url: `${Cypress.env('GUILLOTINA')}/@login`,
       headers,
       body: { username: 'root', password: 'root' },
     }).then((response) => {
@@ -49,7 +50,9 @@ describe('test login', function () {
   })
 
   it('test autologin in container', function () {
-    let api_url = 'http://localhost:8080/db/container'
+    let api_url = `${Cypress.env('GUILLOTINA')}/${Cypress.env(
+      'GUILLOTINA_DB'
+    )}/${Cypress.env('GUILLOTINA_CONTAINER')}`
     const headers = {
       'Content-Type': 'application/json',
     }

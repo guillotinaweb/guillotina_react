@@ -8,7 +8,9 @@ describe('Search test', function () {
     cy.clearLocalStorage()
     cy.clearCookies()
     cy.autologin()
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
 
     cy.interceptCanIdo()
     cy.interceptAddableTypes()
@@ -65,7 +67,9 @@ describe('Search test', function () {
     cy.wait('@get-object-test-folder')
     cy.addContent('First item in folder', 'first-item-in-folder', 'btnAddItem')
 
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.wait('@addable-types-container')
     cy.wait('@canido-container')
 

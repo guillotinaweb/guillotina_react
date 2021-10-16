@@ -2,6 +2,11 @@
   "baseUrl": "http://localhost:3000?path=",
   "experimentalFetchPolyfill": true,
   "videoUploadOnPasses":false,
+  "env": {
+    "GUILLOTINA":"http://localhost:8080",
+    "GUILLOTINA_DB":"db",
+    "GUILLOTINA_CONTAINER":"container"
+  },
   "retries": {
     "runMode": 2,
     "openMode": 1

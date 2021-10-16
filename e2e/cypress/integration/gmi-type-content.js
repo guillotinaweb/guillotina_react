@@ -17,7 +17,9 @@ describe('test GMI type', function () {
     cy.clearLocalStorage()
     cy.clearCookies()
     cy.autologin()
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.get(ITEMS_PANELS_SELECTORS.table)
       .should('contain', 'Groups')
       .should('contain', 'Users')
@@ -26,7 +28,12 @@ describe('test GMI type', function () {
     cy.intercept(
       `db/container/test-gmi-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
     ).as('canido')
-    cy.intercept('PATCH', `/db/container/test-gmi-item/`).as('patch')
+    cy.intercept(
+      'PATCH',
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+        'GUILLOTINA_CONTAINER'
+      )}/test-gmi-item/`
+    ).as('patch')
 
     // Create GMI item
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
@@ -152,7 +159,10 @@ describe('test GMI type', function () {
     cy.intercept(
       `db/container/test-gmi-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
     ).as('canido')
-    cy.intercept('POST', `/db/container/`).as('post')
+    cy.intercept(
+      'POST',
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    ).as('post')
 
     // Create GMI item
     cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()

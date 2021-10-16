@@ -13,7 +13,9 @@ describe('test content', function () {
     cy.clearLocalStorage()
     cy.clearCookies()
     cy.autologin()
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.get(ITEMS_PANELS_SELECTORS.table)
       .should('contain', 'Groups')
       .should('contain', 'Users')
@@ -35,7 +37,9 @@ describe('test content', function () {
   it('creates an item as Admin, modifies it and delete it', function () {
     // Create Item
     cy.intercept(
-      `/db/container/test-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+        'GUILLOTINA_CONTAINER'
+      )}/test-item/@canido?permissions=guillotina.AddContent,guillotina.ModifyContent,guillotina.ViewContent,guillotina.DeleteContent,guillotina.AccessContent,guillotina.SeePermissions,guillotina.ChangePermissions,guillotina.MoveContent,guillotina.DuplicateContent,guillotina.ReadConfiguration,guillotina.RegisterConfigurations,guillotina.WriteConfiguration,guillotina.ManageAddons,guillotina.swagger.View`
     ).as('canido')
 
     cy.addContent('Test Item', 'test-item', 'btnAddItem')

@@ -7,21 +7,48 @@ describe('Permissions tests', () => {
     cy.clearLocalStorage()
     cy.clearCookies()
 
-    cy.intercept('GET', `/db/container/@sharing`).as('get-sharing')
-    cy.intercept('GET', `/db/container/@groups`).as('get-groups')
-    cy.intercept('GET', `/db/container/@users`).as('get-users')
-    cy.intercept('GET', `/db/container/@available-roles`).as(
-      'get-available-roles'
-    )
-    cy.intercept('POST', `/db/container/@sharing`).as('post-sharing')
+    cy.intercept(
+      'GET',
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+        'GUILLOTINA_CONTAINER'
+      )}/@sharing`
+    ).as('get-sharing')
+    cy.intercept(
+      'GET',
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+        'GUILLOTINA_CONTAINER'
+      )}/@groups`
+    ).as('get-groups')
+    cy.intercept(
+      'GET',
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+        'GUILLOTINA_CONTAINER'
+      )}/@users`
+    ).as('get-users')
+    cy.intercept(
+      'GET',
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+        'GUILLOTINA_CONTAINER'
+      )}/@available-roles`
+    ).as('get-available-roles')
+    cy.intercept(
+      'POST',
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+        'GUILLOTINA_CONTAINER'
+      )}/@sharing`
+    ).as('post-sharing')
 
     cy.autologin({
       username: 'default',
       password: 'default',
-      api_url: 'http://localhost:8080/db/container/',
+      api_url: `${Cypress.env('GUILLOTINA')}/${Cypress.env(
+        'GUILLOTINA_DB'
+      )}/${Cypress.env('GUILLOTINA_CONTAINER')}/`,
     })
 
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.contains('Not Allowed')
 
     // Logout and login as root
@@ -29,7 +56,9 @@ describe('Permissions tests', () => {
     cy.clearCookies()
 
     cy.autologin()
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.get(
       `[data-test='${TABS_PANEL_SELECTOS.prefixTabs}-permissions']`
     ).click()
@@ -69,10 +98,14 @@ describe('Permissions tests', () => {
     cy.autologin({
       username: 'default',
       password: 'default',
-      api_url: 'http://localhost:8080/db/container/',
+      api_url: `${Cypress.env('GUILLOTINA')}/${Cypress.env(
+        'GUILLOTINA_DB'
+      )}/${Cypress.env('GUILLOTINA_CONTAINER')}/`,
     })
 
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.contains('Anything here!')
   })
   it('Principal - role tab, set roles to group', () => {
@@ -99,10 +132,14 @@ describe('Permissions tests', () => {
     cy.autologin({
       username: 'default',
       password: 'default',
-      api_url: 'http://localhost:8080/db/container/',
+      api_url: `${Cypress.env('GUILLOTINA')}/${Cypress.env(
+        'GUILLOTINA_DB'
+      )}/${Cypress.env('GUILLOTINA_CONTAINER')}/`,
     })
 
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
     cy.contains('Groups')
   })
   it('Role - permission tab ', () => {

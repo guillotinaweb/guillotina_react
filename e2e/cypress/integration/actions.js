@@ -16,7 +16,9 @@ describe('Actions', function () {
     cy.interceptCanIdo()
     cy.interceptSearch()
 
-    cy.visit('/db/container/')
+    cy.visit(
+      `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env('GUILLOTINA_CONTAINER')}/`
+    )
 
     cy.wait('@get-object-container')
     cy.wait('@canido-container')
@@ -105,7 +107,11 @@ describe('Actions', function () {
           .its('length')
           .should('eq', 2)
 
-        cy.visit('/db/container/test-folder/')
+        cy.visit(
+          `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+            'GUILLOTINA_CONTAINER'
+          )}/test-folder/`
+        )
 
         cy.wait('@get-object-test-folder')
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
@@ -164,7 +170,11 @@ describe('Actions', function () {
         cy.wait('@copy-first-item/')
         cy.wait('@copy-second-item/')
 
-        cy.visit('/db/container/test-folder/')
+        cy.visit(
+          `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+            'GUILLOTINA_CONTAINER'
+          )}/test-folder/`
+        )
         cy.wait('@get-object-test-folder')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
@@ -202,7 +212,11 @@ describe('Actions', function () {
         .its('length')
         .should('eq', 1)
 
-      cy.visit('/db/container/test-folder/')
+      cy.visit(
+        `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+          'GUILLOTINA_CONTAINER'
+        )}/test-folder/`
+      )
 
       cy.wait('@get-object-test-folder/')
       cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
@@ -237,7 +251,11 @@ describe('Actions', function () {
       cy.wait('@search-container')
       cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'Anything here!')
 
-      cy.visit('/db/container/test-folder/')
+      cy.visit(
+        `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
+          'GUILLOTINA_CONTAINER'
+        )}/test-folder/`
+      )
 
       cy.wait('@get-object-test-folder/')
       cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
