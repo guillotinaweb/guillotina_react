@@ -82,7 +82,10 @@ export const Login = ({
           <div className="field">
             <label className="label">Schema:</label>
             <div className="select">
-              <select onChange={(e) => setCurrentSchema(e.target.value)}>
+              <select
+                data-test="selectSchemaTest"
+                onChange={(e) => setCurrentSchema(e.target.value)}
+              >
                 {schemas.map((s) => (
                   <option value={s} key={s}>
                     {s}

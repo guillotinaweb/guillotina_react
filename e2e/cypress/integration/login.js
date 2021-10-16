@@ -5,12 +5,24 @@ describe('test login', function () {
     cy.clearLocalStorage()
     cy.clearCookies()
   })
-  it('test manual login', function () {
+  it('test manual login root', function () {
     cy.intercept('POST', `/@login`).as('login')
     cy.visit('/')
     cy.get(LOGIN_SELECTORS.form).should('be.visible')
     cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')
     cy.get(LOGIN_SELECTORS.password).type('root').should('have.value', 'root')
+    cy.get(LOGIN_SELECTORS.form).submit()
+    cy.wait('@login')
+    cy.get(LOGIN_SELECTORS.form).should('not.exist')
+  })
+
+  it('test manual login root to container', function () {
+    cy.intercept('POST', `/@login`).as('login')
+    cy.visit('/')
+    cy.get(LOGIN_SELECTORS.form).should('be.visible')
+    cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')
+    cy.get(LOGIN_SELECTORS.password).type('root').should('have.value', 'root')
+    cy.get(LOGIN_SELECTORS.schema).select(`/db/container/`)
     cy.get(LOGIN_SELECTORS.form).submit()
     cy.wait('@login')
     cy.get(LOGIN_SELECTORS.form).should('not.exist')
