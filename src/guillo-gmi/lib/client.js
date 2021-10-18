@@ -248,7 +248,6 @@ export class GuillotinaClient {
 
   async getGroups(path) {
     const endpoint = `${this.getContainerFromPath(path)}@groups`
-    console.log(endpoint, path)
     return await this.rest.get(endpoint)
   }
 
