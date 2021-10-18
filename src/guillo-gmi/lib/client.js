@@ -9,9 +9,27 @@ let cacheTypes = {}
 let cacheSchemas = {}
 
 export class GuillotinaClient {
-  constructor(rest, isContainer) {
+  constructor(rest, pathContainsContainer) {
     this.rest = rest
-    this.isContainer = isContainer
+    this.pathContainsContainer = pathContainsContainer
+  }
+
+  getContainerFromPath = (path) => {
+    if (this.pathContainsContainer) {
+      if (path.startsWith('/')) {
+        path = path.substring(1)
+      }
+      let parts = path.split('/')
+      return `${parts[0]}/${parts[1]}/`
+    }
+    return ''
+  }
+
+  clearContainerFromPath = (path) => {
+    if (this.pathContainsContainer) {
+      return `/${this.cleanPath(path)}`
+    }
+    return path
   }
 
   async getContext(path) {
@@ -53,7 +71,7 @@ export class GuillotinaClient {
     withDepth = true,
   }) {
     let result = []
-    let containerPath = getContainerFromPath(path)
+    let containerPath = this.getContainerFromPath(path)
 
     if (containerPath.startsWith('/')) {
       containerPath = containerPath.slice(1)
@@ -138,9 +156,11 @@ export class GuillotinaClient {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
+
     if (container) {
-      path = getContainerFromPath(path)
+      path = this.getContainerFromPath(path)
     }
+
     let query = prepare ? toQueryString(params) : params
     const url = `${path}@search?${query}`
     let res = await this.rest.get(url)
@@ -169,8 +189,7 @@ export class GuillotinaClient {
   }
 
   async delete(path, data) {
-    console.log('path', path, this.cleanPath(path))
-    return await this.rest.delete(this.cleanPath(path), data)
+    return await this.rest.delete(path, data)
   }
 
   async create(path, data) {
@@ -207,7 +226,7 @@ export class GuillotinaClient {
 
   async getTypeSchema(path, name) {
     if (!cacheSchemas[name]) {
-      let url = getContainerFromPath(path)
+      let url = this.getContainerFromPath(path)
       // todo: handle db case (only addable containers)
       const res = await this.rest.get(`${url}@types/${name}`)
       cacheSchemas[name] = await res.json()
@@ -228,12 +247,12 @@ export class GuillotinaClient {
   }
 
   async getGroups(path) {
-    const endpoint = `${getContainerFromPath(path)}@groups`
+    const endpoint = `${this.getContainerFromPath(path)}@groups`
     return await this.rest.get(endpoint)
   }
 
   async getUsers(path) {
-    const endpoint = `${getContainerFromPath(path)}@users`
+    const endpoint = `${this.getContainerFromPath(path)}@users`
     return await this.rest.get(endpoint)
   }
 
@@ -249,7 +268,7 @@ export class GuillotinaClient {
   }
 
   async getRoles(path) {
-    const endpoint = `${getContainerFromPath(path)}@available-roles`
+    const endpoint = `${this.getContainerFromPath(path)}@available-roles`
     return await this.rest.get(endpoint)
   }
 
@@ -257,9 +276,6 @@ export class GuillotinaClient {
     // paths used to query the API always has to start without a "/"
     if (path.startsWith('/')) {
       path = path.slice(1)
-    }
-    if (!path.endsWith('/')) {
-      path = `${path}/`
     }
     const req = await this.rest.get(path + '@all_permissions')
     const resp = await req.json()
@@ -284,16 +300,11 @@ export class GuillotinaClient {
   }
 }
 
-export function getClient(url, auth, isContainer = false) {
-  return new GuillotinaClient(new RestClient(url, auth), isContainer)
-}
-
-export const getContainerFromPath = (path) => {
-  if (path.startsWith('/')) {
-    path = path.substring(1)
-  }
-  let parts = path.split('/')
-  return `${parts[0]}/${parts[1]}/`
+export function getClient(url, container, auth) {
+  return new GuillotinaClient(
+    new RestClient(url, container, auth),
+    container === '/'
+  )
 }
 
 export const lightFileReader = async (file) => {

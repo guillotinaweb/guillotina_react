@@ -19,7 +19,7 @@ Cypress.Commands.add(
       cy.get(EDITABLE_FORM_SELECTORS.field).clear().type(newValue)
       cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
     })
-    cy.wait('@patch')
+    cy.wait('@patch-object-test-gmi-item')
     cy.get(NOTIFICATION_SELECTOR).should(
       'contain',
       `Field ${fieldName}, updated!`

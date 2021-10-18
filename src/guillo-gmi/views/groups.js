@@ -11,7 +11,6 @@ import { SearchInput } from '../components/input/search_input'
 import { Tag } from '../components/ui/tag'
 import { parser } from '../lib/search'
 import { EditableField } from '../components/fields/editableField'
-import { getContainerFromPath } from '../lib/client'
 const tabs = {
   Groups: PanelItems,
 }
@@ -157,7 +156,7 @@ export function GroupCtx() {
           <h3 className="title is-size-6">Users</h3>
           <p>Add a User</p>
           <SearchInput
-            path={getContainerFromPath(Ctx.path)}
+            path={Ctx.containerPath}
             qs={[...searchParsed, ...sortParsed]}
             traversal={Ctx}
             onChange={addUser}

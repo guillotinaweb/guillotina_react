@@ -1,10 +1,22 @@
 export class RestClient {
-  constructor(url, auth) {
+  constructor(url, container, auth) {
     this.auth = auth
     this.url = url
+    this.container = container
   }
 
   async request(path, data, headers) {
+    if (path.indexOf(this.url) !== -1) {
+      path = path.replace(this.url, '')
+    }
+
+    if (this.container !== '/' && path.indexOf(this.container) === -1) {
+      path = `${this.container}${path}`
+    }
+
+    if (!path.startsWith('/')) {
+      path = `/${path}`
+    }
     data = data || {}
     data.headers = headers || this.getHeaders()
     return await fetch(`${this.url}${path}`, data)

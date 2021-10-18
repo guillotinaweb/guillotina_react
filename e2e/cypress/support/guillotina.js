@@ -3,25 +3,25 @@ export function setupGuillotina() {
     Authorization: 'Basic cm9vdDpyb290',
     'Content-Type': 'application/json',
   }
-  const api_url = 'http://localhost:8080/db'
+  const api_url = `${Cypress.env('GUILLOTINA')}/${Cypress.env('GUILLOTINA_DB')}`
 
   cy.request({
     method: 'POST',
     url: api_url,
     headers,
-    body: { '@type': 'Container', id: 'container' },
+    body: { '@type': 'Container', id: Cypress.env('GUILLOTINA_CONTAINER') },
   }).then(() => console.log('container created'))
 
   cy.request({
     method: 'POST',
-    url: `${api_url}/container/@addons`,
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/@addons`,
     headers,
     body: { id: 'dbusers' },
   }).then(() => console.log('dbusers addon added'))
 
   cy.request({
     method: 'POST',
-    url: `${api_url}/container/groups`,
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/groups`,
     headers,
     body: {
       '@type': 'Group',
@@ -32,7 +32,7 @@ export function setupGuillotina() {
 
   cy.request({
     method: 'POST',
-    url: `${api_url}/container/users`,
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/users`,
     headers,
     body: {
       '@type': 'User',
@@ -49,29 +49,29 @@ export function tearDownGuillotina() {
     Authorization: 'Basic cm9vdDpyb290',
     'Content-Type': 'application/json',
   }
-  const api_url = 'http://localhost:8080/db'
+  const api_url = `${Cypress.env('GUILLOTINA')}/${Cypress.env('GUILLOTINA_DB')}`
 
   cy.request({
     method: 'DELETE',
-    url: `${api_url}/container/users/default`,
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/users/default`,
     headers,
   }).then(() => console.log('default user deleted'))
 
   cy.request({
     method: 'DELETE',
-    url: `${api_url}/container/users`,
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/users`,
     headers,
   }).then(() => console.log('users deleted'))
 
   cy.request({
     method: 'DELETE',
-    url: `${api_url}/container/groups`,
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/groups`,
     headers,
   }).then(() => console.log('groups deleted'))
 
   cy.request({
     method: 'DELETE',
-    url: `${api_url}/container`,
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}`,
     headers,
   }).then(() => console.log('container deleted'))
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
-import { getContainerFromPath } from '../lib/client'
 import { getNewId } from '../lib/utils'
 
 const withError = (res) => res.status >= 300
@@ -39,7 +38,7 @@ export function CopyItems(props) {
   return (
     <PathTree
       title="Copy to..."
-      defaultPath={`/${Ctx.path.split(getContainerFromPath(Ctx.path))[1]}`}
+      defaultPath={Ctx.client.clearContainerFromPath(Ctx.path)}
       onConfirm={copyItems}
       onCancel={() => Ctx.cancelAction()}
     >
@@ -51,6 +50,7 @@ export function CopyItems(props) {
           <input
             type="text"
             className="input"
+            data-test={`inputCopyIdTest-${item['@name']}`}
             defaultValue={getNewId(item.id)}
           />
         </React.Fragment>

@@ -1,3 +1,9 @@
+0.22.0
+------
+ - Refactor get current context in client and rest utilities. #118
+ - Fixed default values in copy action
+ - Added some tests of copy and move elements in panel of items.
+
 0.21.0
 ------
  - Allow override RenderFieldComponent. #146

@@ -28,7 +28,11 @@ export function Path() {
 
           return indx === 0 ? (
             <li key={indx}>
-              <a href={path} onClick={onClick}>
+              <a
+                href={path}
+                onClick={onClick}
+                data-test={`breadcrumbItemTest-home`}
+              >
                 <span className="icon">
                   <i className="fas fa-home"></i>
                 </span>

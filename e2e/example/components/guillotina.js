@@ -7,9 +7,9 @@ import { ClientProvider, RequiredFieldsForm, Icon, TdLink } from 'react-gmi'
 
 import '../node_modules/react-gmi/dist/css/style.css'
 
-const url = 'http://localhost:8080/'
+const url = 'http://localhost:8080'
 const auth = new Auth(url)
-const client = getClient(url, auth)
+const schemas = ['/', '/db/container/']
 
 const registry = {
   // to register views around guillotina objects paths
@@ -90,7 +90,13 @@ const registry = {
 }
 
 export default function App() {
+  const [currentSchema, setCurrentSchema] = React.useState('/')
+  const [clientInstance, setClientInstance] = React.useState(undefined)
   const [isLogged, setLogged] = React.useState(auth.isLogged)
+
+  React.useEffect(() => {
+    setClientInstance(getClient(url, currentSchema, auth))
+  }, [currentSchema])
 
   const onLogin = () => {
     setLogged(true)
@@ -99,13 +105,24 @@ export default function App() {
 
   auth.onLogout = onLogout
 
+  if (clientInstance == undefined) {
+    return null
+  }
   return (
-    <ClientProvider client={client}>
-      {isLogged && <Guillotina auth={auth} url={url} registry={registry} />}
+    <ClientProvider client={clientInstance}>
+      {isLogged && (
+        <Guillotina auth={auth} url={currentSchema} registry={registry} />
+      )}
       {!isLogged && (
         <div className="columns is-centered">
           <div className="columns is-half">
-            <Login onLogin={onLogin} auth={auth} schemas={['/db/container/']} />
+            <Login
+              onLogin={onLogin}
+              auth={auth}
+              schemas={schemas}
+              currentSchema={currentSchema}
+              setCurrentSchema={setCurrentSchema}
+            />
           </div>
         </div>
       )}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Layout } from './guillo-gmi'
 import { Auth } from './guillo-gmi'
 import { Guillotina } from './guillo-gmi'
@@ -26,15 +26,21 @@ const schemas = [
 ]
 */
 
-let url = '/'
+// In alone service url is www.example-domain.com
+// In guillotina url is same as domain
+let url = ''
 
 const auth = new Auth(url)
-const client = getClient(url, auth)
 
 function App() {
+  const [currentSchema, setCurrentSchema] = useState('/')
+  const [location] = useLocation()
+  const [clientInstance, setClientInstance] = useState(undefined)
   const [isLogged, setLogged] = useState(auth.isLogged)
 
-  const [location] = useLocation()
+  useEffect(() => {
+    setClientInstance(getClient(url, currentSchema, auth))
+  }, [currentSchema])
 
   let schemas = location.get('schemas') || undefined
   if (schemas) {
@@ -47,15 +53,24 @@ function App() {
   const onLogout = () => setLogged(false)
 
   auth.onLogout = onLogout
+  if (clientInstance === undefined) {
+    return null
+  }
 
   return (
-    <ClientProvider client={client}>
+    <ClientProvider client={clientInstance}>
       <Layout auth={auth} onLogout={onLogout}>
-        {isLogged && <Guillotina auth={auth} url={url} />}
+        {isLogged && <Guillotina auth={auth} url={currentSchema} />}
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth} schemas={schemas} />
+              <Login
+                onLogin={onLogin}
+                auth={auth}
+                schemas={schemas}
+                currentSchema={currentSchema}
+                setCurrentSchema={setCurrentSchema}
+              />
             </div>
           </div>
         )}
