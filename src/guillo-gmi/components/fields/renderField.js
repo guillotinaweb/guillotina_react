@@ -1,8 +1,9 @@
 import React from 'react'
+import { DownloadField } from './downloadField'
 
 const plain = ['string', 'number', 'boolean']
 
-export function RenderField({ value, Widget }) {
+function RenderField({ value, Widget }) {
   if (value === null || value === undefined) return ''
 
   if (Widget) {
@@ -36,3 +37,32 @@ const FieldValue = ({ field, value }) => (
     </div>
   </div>
 )
+
+export const DEFAULT_VALUE_EDITABLE_FIELD = 'Click to edit'
+export const DEFAULT_VALUE_NO_EDITABLE_FIELD = ' -- '
+
+export function RenderFieldComponent({ schema, field, val, modifyContent }) {
+  const getRenderProps = () => {
+    const renderProps = {
+      value:
+        val ??
+        (modifyContent
+          ? DEFAULT_VALUE_EDITABLE_FIELD
+          : DEFAULT_VALUE_NO_EDITABLE_FIELD),
+    }
+    if (val && schema?.widget === 'file') {
+      renderProps['value'] = {
+        data: val,
+        field: field,
+      }
+      renderProps['Widget'] = DownloadField
+    } else if (schema?.type === 'boolean') {
+      renderProps['value'] = val?.toString() ?? renderProps['value']
+    } else if (val && schema?.type === 'datetime') {
+      renderProps['value'] = new Date(val).toLocaleString()
+    }
+    return renderProps
+  }
+
+  return <RenderField {...getRenderProps()} />
+}

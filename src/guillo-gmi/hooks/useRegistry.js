@@ -26,6 +26,7 @@ import { NotAllowed } from '../components/notallowed'
 import { NotFound } from '../components/notfound'
 import { Path } from '../components/path'
 import { EditComponent } from '../components/fields/editComponent'
+import { RenderFieldComponent } from '../components/fields/renderField'
 
 let registry = {
   paths: {},
@@ -72,6 +73,7 @@ let registry = {
   components: {
     Path: Path,
     EditComponent: EditComponent,
+    RenderFieldComponent: RenderFieldComponent,
   },
   searchEngineQueryParamsFunction: {
     PostreSQL: 'getQueryParamsPostresql',

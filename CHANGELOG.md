@@ -1,3 +1,10 @@
+0.21.0
+------
+ - Allow override RenderFieldComponent. #146
+
+0.20.1
+------
+ - Fix principal select options in permissions tab #147
 
 0.20.0
 ------

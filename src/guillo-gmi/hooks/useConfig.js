@@ -23,6 +23,13 @@ export const Config = {
   DelayActions: 200,
   Permissions: Permissions,
   SearchEngine: 'PostreSQL', // Elasticsearch
+  fieldHaveDeleteButton: (schema) => {
+    return (
+      schema?.widget === 'file' ||
+      schema?.widget === 'select' ||
+      schema?.type === 'array'
+    )
+  },
 }
 
 let calculated = Object.assign({}, Config)
