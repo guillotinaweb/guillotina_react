@@ -1,4 +1,8 @@
 
+0.20.1
+------
+ - Fix principal select options in permissions tab #147
+
 0.20.0
 ------
  - Add users in principals to modify their permissions and handle errors when change permission in some object. #145
