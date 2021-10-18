@@ -8,9 +8,6 @@ import { useEffect } from 'react'
 import { Icon } from '../ui'
 import { get } from '../../lib/utils'
 
-export const DEFAULT_VALUE_EDITABLE_FIELD = 'Click to edit'
-export const DEFAULT_VALUE_NO_EDITABLE_FIELD = ' -- '
-
 export function EditableField({
   field,
   value,
