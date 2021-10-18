@@ -163,8 +163,8 @@ export function AddPermission({ refresh, reset }) {
         value: group.id,
       }))
       const users = principalsData.users.map((user) => ({
-        text: user.id,
-        value: user.fullname,
+        text: user.fullname,
+        value: user.id,
       }))
       principals = [...groups, ...users]
 
