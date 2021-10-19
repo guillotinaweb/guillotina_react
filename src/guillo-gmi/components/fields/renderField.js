@@ -3,7 +3,7 @@ import { DownloadField } from './downloadField'
 
 const plain = ['string', 'number', 'boolean']
 
-function RenderField({ value, Widget }) {
+export function RenderField({ value, Widget }) {
   if (value === null || value === undefined) return ''
 
   if (Widget) {

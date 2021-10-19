@@ -1,3 +1,7 @@
+0.22.1
+------
+ - Fix export
+
 0.22.0
 ------
  - Refactor get current context in client and rest utilities. #118
