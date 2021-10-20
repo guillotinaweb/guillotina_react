@@ -4,6 +4,10 @@
 - [Traversal Context](#traversal-context)
 - [Hooks](#hooks)
   - [useLocation](#uselocation)
+  - [useConfig](#useconfig)
+  - [useCrudContext](#usecrudcontext)
+  - [useRegistry](#useregistry)
+  - [useGuillotinaClient](#useguillotinaclient)
 - [Components](#components)
   - [Guillotina](#guillotina)
   - [TabsPanel](#tabspanel)
@@ -12,6 +16,7 @@
   - [Icon](#icon)
   - [Modal](#modal)
   - [Form](#form)
+  - [RequiredFieldsForm](#requiredfieldsform)
     - [Input](#input)
     - [Textarea](#textarea)
     - [Select](#select)
@@ -20,6 +25,9 @@
     - [FileUpload](#fileupload)
     - [InputList](#inputlist)
     - [Searchinput](#searchinput)
+    - [EditableField](#editablefield)
+    - [EditComponent](#editcomponent)
+    - [RenderFieldComponent](#renderfieldcomponent)
   - [Loading](#loading)
 - [Utils](#utils)
   - [RestClient](#restclient)
@@ -41,7 +49,7 @@
     - Stores views for content type
 
   - components
-    You can override Path, EditComponent and RenderFieldComponent 
+    - You can override `Path`, `EditComponent` and `RenderFieldComponent` 
 
   - actions
 
@@ -355,7 +363,7 @@ return (
 ```
 ### RequiredFieldsForm
 
-Wrapper of Form component, Form based with content type schema, and it have all required fields.
+Wrapper of Form component, it's render all required properties of content type
 
 
 ```jsx
@@ -454,7 +462,7 @@ import { FileUpload } from '@guillotinaweb/react-gmi'
 return <FileUpload onChange={uploadFile} accept="image/*" />
 ```
 
-### InputList
+#### InputList
 
 It is a ready-to-use input list. 
 
@@ -463,7 +471,7 @@ import { InputList } from '@guillotinaweb/react-gmi'
 // ...
 return <InputList value={val} onChange={onChange} />
 ```
-### SearchInput
+#### SearchInput
 
 Search input
 
@@ -484,7 +492,7 @@ return (
 
 ```
 
-### EditableField
+#### EditableField
 
 Allows you to modify each property of the object. Depends if it is in edit mode or view mode, it renders an input form or the formatted value of property. It recieves a json schema to know what have it render. 
 
@@ -498,7 +506,7 @@ import { EditableField } from '@guillotinaweb/react-gmi'
 />
 ```
 
-### EditComponent
+#### EditComponent
 
 Is is in charge of renders edit component when EditableField is in `EditMode`. You can override it from the registry to change the input to render according to JSON schema.
 
@@ -518,7 +526,7 @@ const registry = {
 <Guillotina {...props} registry={registry}>
 ```
 
-### Render field component
+#### RenderFieldComponent
 
 Is is in charge of renders the value when EditableField is in `ViewMode`. You can override it from the registry to change the input to render according to JSON schema
 
