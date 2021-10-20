@@ -18,4 +18,4 @@ First of all we need a guillotina. In this tutorial we will not explain all guil
 It is recommended you install along with a <a href="https://docs.python.org/3/library/venv.html"> virtual enviroment </a>
 
 
-[Next step](/step-1-install-guillotina.md)
+[Next step](step-1-install-guillotina.md)
