@@ -18,6 +18,8 @@
     - [Checkbox](#checkbox)
     - [Button](#button)
     - [FileUpload](#fileupload)
+    - [InputList](#inputlist)
+    - [Searchinput](#searchinput)
   - [Loading](#loading)
 - [Utils](#utils)
   - [RestClient](#restclient)
@@ -31,15 +33,17 @@
   on traversal, and it exposes an API for managening and sharing
   actions on screens. [Read here about traversal context](#traversal-context).
 
-- There is a "component registry" to be able to override components, on
-  installations. Actually it's just some maps where you can register,
-  component overrides
+- There is a "hook registry (useRegistry)" to be able to override components, on installations. You can override `views`, `components`, `actions`, `forms`, `behaviors`, `itemsColumn` 
+  - paths
+    - Stores views for paths
 
-  - registry/
-    Acts as a base context screen registry,
-    `getCompoment() and registerComponent() as API exposed
+  - views
+    - Stores views for content type
 
-  - actions/
+  - components
+    You can override Path, EditComponent and RenderFieldComponent 
+
+  - actions
 
     - Actions are mostly UI interactions you trigger from buttons (remove item)
       and when adding types (Context menu +)
@@ -53,12 +57,14 @@
 
     will show a modal to add an item for a folder
 
-  - forms/
-    - Used throught actions to provide forms for <Forms>
-
-views/
-
-- Stores views for contexts
+  - forms
+    - Define default form by each content type
+  
+  - behaviors
+    - Define each component to each behavior to render in properties view
+  
+  - itemsColumn
+    - Allow override table columns in items view. By default items columns are defined in getItemsColumn function in client lib. 
 
 ## Traversal Context
 
@@ -79,6 +85,7 @@ Ctx.auth // Exposes the auth service provided throught guillotina main component
 Ctx.client // Exposes the guillotina client throught the main component
 Ctx.context // Current fetched context data for the path
 Ctx.filterTabs // Filter the tabs that the current user has permissions
+Ctx.hasPerm // Check permission in current context
 ```
 
 ## Hooks
@@ -95,6 +102,104 @@ import { useLocation } from '@guillotinaweb/react-gmi'
 // ...
 const [location, setLocation] = useLocation()
 ```
+
+### useConfig
+
+Hook to get and override config (#guillotina-config)
+
+```jsx
+import { useConfig } from '@guillotinaweb/react-gmi'
+
+// ...
+const conf = useConfig(overrideConifg)
+```
+
+### useCrudContext
+
+This hook exposes CRUD methods, traversal context and request state. Each CRUD method returns state too. 
+
+Request state:
+```jsx
+  const state = {
+    loading: undefined,
+    isError: false,
+    errorMessage: undefined,
+    result: undefined,
+    response: undefined,
+  }
+```
+
+```jsx
+import { useCrudContext } from '@guillotinaweb/react-gmi'
+
+// ...
+const {result, response, loading, isError, errorMessage, get, post, put, delete, traversal} = useCrudContext()
+```
+
+#### Example
+
+```jsx
+import { useCrudContext } from '@guillotinaweb/react-gmi'
+
+// ...
+const { post, loading } = useCrudContext()
+
+async function doSubmit(data){
+  const { isError, errorMessage } = await post(data)
+    if (!isError) {
+      // ... 
+    } else {
+      // ... 
+    }
+}
+```
+
+### useRegistry
+
+This hook exposes registry object and some functions to get info from it. 
+
+
+```jsx
+registry
+get(key, param, fallback);
+getComponent(context, path, fallback)
+getItemsColumn(type)
+getForm(type, fallback = BaseForm)
+getAction(type, fallback)
+getBehavior(type, fallback)
+getProperties(type)
+```
+
+
+#### Example 
+
+```jsx
+import { useRegistry } from '@guillotinaweb/react-gmi'
+
+// ...
+const registry = useRegistry()
+
+const NotFound = registry.get('views', 'NotFound')
+const Path = registry.get('components', 'Path')
+
+const Main = registry.getComponent(state.context, path)
+const Action = action.action ? registry.getAction(action.action) : null
+
+```
+### useGuillotinaClient
+
+This hook exposes the client to interact with api 
+
+#### Example 
+
+```jsx
+import { useGuillotinaClient } from '@guillotinaweb/react-gmi'
+
+// ...
+const client = useGuillotinaClient()
+
+```
+
 
 ## Components
 
@@ -243,9 +348,21 @@ Wrapper of the html5 form but already designed to integrate with the form compon
 import { Form } from '@guillotinaweb/react-gmi'
 // ...
 return (
-  <Form onSubmit={submit} title="My form" error={errorMsg}>
+  <Form onSubmit={submit} title="My form">
     {/* all form components here */}
   </Form>
+)
+```
+### RequiredFieldsForm
+
+Wrapper of Form component, Form based with content type schema, and it have all required fields.
+
+
+```jsx
+import { RequiredFieldsForm } from '@guillotinaweb/react-gmi'
+// ...
+return (
+  <RequiredFieldsForm onSubmit={submit} title="My form" actionName="Add" type="MyContentType" />
 )
 ```
 
@@ -337,6 +454,90 @@ import { FileUpload } from '@guillotinaweb/react-gmi'
 return <FileUpload onChange={uploadFile} accept="image/*" />
 ```
 
+### InputList
+
+It is a ready-to-use input list. 
+
+```jsx
+import { InputList } from '@guillotinaweb/react-gmi'
+// ...
+return <InputList value={val} onChange={onChange} />
+```
+### SearchInput
+
+Search input
+
+```jsx
+import { SearchInput } from '@guillotinaweb/react-gmi'
+// ...
+let sortParsed = parser(`_sort_asc=id`)
+let searchParsed = parser('type_name=User')
+
+return (
+  <SearchInput
+    path={path}
+    qs={[...searchParsed, ...sortParsed]}
+    traversal={traversal}
+    onChange={onChange}
+  />
+)
+
+```
+
+### EditableField
+
+Allows you to modify each property of the object. Depends if it is in edit mode or view mode, it renders an input form or the formatted value of property. It recieves a json schema to know what have it render. 
+
+```jsx
+import { EditableField } from '@guillotinaweb/react-gmi'
+//...
+<EditableField
+  field={prop}
+  value={Ctx.context[prop]}
+  modifyContent={false}
+/>
+```
+
+### EditComponent
+
+Is is in charge of renders edit component when EditableField is in `EditMode`. You can override it from the registry to change the input to render according to JSON schema.
+
+[Default component](src/guillo-gmi/components/fields/editComponent.js)
+
+How to override:
+
+```jsx
+import { EditComponent } from '../your-path'
+// ...
+const registry = {
+  components: {
+    EditComponent:EditComponent
+  }
+}
+
+<Guillotina {...props} registry={registry}>
+```
+
+### Render field component
+
+Is is in charge of renders the value when EditableField is in `ViewMode`. You can override it from the registry to change the input to render according to JSON schema
+
+[Default component](src/guillo-gmi/components/fields/renderField.js#44)
+
+How to override:
+
+```jsx
+import { RenderFieldComponent } from '../your-path'
+// ...
+const registry = {
+  components: {
+    RenderFieldComponent: RenderFieldComponent
+  }
+}
+
+<Guillotina {...props} registry={registry}>
+```
+
 ### Loading
 
 Displays a loading bar indicating that the content is loading.
@@ -406,3 +607,4 @@ stringToSlug('This is an example!') // this-is-an-example
 | `properties_ignore_fields` | List of properties to ignore.                        | `string[]`       | `[guillotina_internals]`                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `flash`               | If defined, allows to customize the flash message.  | `function`       | `undefined`                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `SearchEngine`               | Search engine used.  | `string`       | `PostreSQL`                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `fieldHaveDeleteButton`               | Define which fields have delete button in properties view by schema | `function`       | <span>(schema) =>  schema?.widget === 'file' &#124;&#124; schema?.widget === 'select' &#124;&#124; schema?.type === 'array' </span>                                                                                                                                                                                                                                                                                                                                                                                                    |
