@@ -508,7 +508,7 @@ import { EditableField } from '@guillotinaweb/react-gmi'
 
 #### EditComponent
 
-Is is in charge of renders edit component when EditableField is in `EditMode`. You can override it from the registry to change the input to render according to JSON schema.
+Is is in charge of renders edit component according schema information when EditableField is in `EditMode`. You can override it from the registry to change the input to render according to JSON schema.
 
 [Default component](../src/guillo-gmi/components/fields/editComponent.js)
 

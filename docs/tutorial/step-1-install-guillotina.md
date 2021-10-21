@@ -32,8 +32,24 @@ docker run -d \
 
 ```
 guillotina create --template=application
-cd guillotina_demo
-pip install -e .
+full_name []: Guillotina demo
+email []: guillotina@myapp.io
+package_name [guillotina_myproject]: guillotina_demo
+project_short_description [Guillotina server application python project]:
+Select open_source_license:
+1 - MIT license
+2 - BSD license
+3 - ISC license
+4 - Apache Software License 2.0
+5 - GNU General Public License v3
+6 - Not open source
+Choose from 1, 2, 3, 4, 5, 6 [1]:
+```
+
+Then install `guillotina_demo`
+
+```
+pip install -e guillotina_demo
 ```
 
 - Modify config file guillotina
@@ -61,12 +77,6 @@ guillotina
 The server should now be running on http://0.0.0.0:8080
 
 
-<div style="display:flex; justify-content:space-between;">
-  <div>
-    <a name="/tutorial.md"> Previous step </a>
-  </div>
-  <div>
-    <a name="/step-2-create-gmi-app.md"> Next step </a>
-  </div>
-</div>
+[Previous step](tutorial.md) 
 
+[Next step](step-2-create-gmi-app.md)
