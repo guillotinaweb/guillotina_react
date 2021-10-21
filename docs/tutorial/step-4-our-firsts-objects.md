@@ -37,6 +37,6 @@ We can move or copy own objects, only you need to paste a new path to do it ( wi
 For `Folder` type objects, is the same than `Item` object, but in this case there are items list view. An you can create more folders, items or other content type inside it.
 
 
-[Previous step](step-3-create-gmi-app.md)
+[Previous step](step-3-firsts-steps-gmi.md)
 
 [Next step](step-5-manage-users.md)
