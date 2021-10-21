@@ -1,6 +1,6 @@
 ## 8. Content type view
 
-Go to demoType object view, you can see the same that folder type. Let's modify it
+Go to demoType object view, you can see the same as the folder type. Let's modify it.
 
 Create `gmi_demo/src/views/demoType.js`
 
@@ -71,7 +71,7 @@ const registry = {
 
 ```
 
-Following you can add more tabs in our custom view
+ You can add more tabs in our custom view.
 
 `demoType.js`
 
@@ -104,7 +104,7 @@ const tabsPermissions = {
 
 ### Modify list columns
 
-Okay, now we have our custom view of new custom content type. Now we see how to modify list columns. 
+We have our custom view of new custom content type. Now let's modify list columns. 
 
 Create `gmi_dmeo/src/columns/demoType.js`
 
@@ -172,7 +172,7 @@ export const ColumnsDemoType = () => {
 
 ```
 
-Here we have added path column.
+Here we have added the path column.
 
 
 Open again `App.js`:
@@ -206,14 +206,14 @@ const registry = {
 
 Guillotina exposes a json schema of each content type. In GMI we use this schema to auto generate all fields. The handler to get schema information and create the appropiate fields is `EditableField` component. In `EditableField` there are two main components, `EditComponent` and `RenderFieldComponent` both of them can be overrided. 
 
-`EditComponent` returns input component according schema information. For example if type is `number` it returns a number input type.
-`RenderFieldComponent` render field value, depends of type, you will want formatted value or not. 
+`EditComponent` returns input component according to the schema information. For example, if the type is `number` it returns a number input type.
+`RenderFieldComponent` renders field value depending on the type ( or other property ). If you want to render the formatted value you can overided it. 
 
-Demo content type has a rich text field, this property is a Text but we have defined a widget called `richtext`, by default GMI renders Text type in textarea. Let's to modify it to render another component. 
+Demo content type has a rich text field, this property is a `Text` but we have defined a widget called `richtext`. By default, GMI renders `Text` type in textarea. Let's modify it to render another component. 
 
 ## Edit component
 
-Create `gmi_demo/src/components/EditComponent.js`, this is default EditComponent. You can see how when widget is textarea or richtext, we render `Textarea` component. 
+Create `gmi_demo/src/components/EditComponent.js`, this is the default EditComponent. You can see when widget is textarea or richtext, we render `Textarea` component. 
 
 ```jsx
 import React from "react";
@@ -437,8 +437,8 @@ const registry = {
 
 ```
 
-If you try to update rich text field or text field, now appears a tinymce input. Or in form, if you try to create a new DemoType, you can will see richtext. 
-Ok, it's great! But is not finished because after updated field, we see html and not parsed html. To change this we will override `RenderFieldComponent` 
+If you try to update rich text field or text field, now it appears a tinymce input. In the form, if you try to create a new DemoType, you will see a richtext. 
+But it is not finished because after updating the field, we see html and not parsed html. To change this we will override `RenderFieldComponent` 
 
 
 ### Render field component

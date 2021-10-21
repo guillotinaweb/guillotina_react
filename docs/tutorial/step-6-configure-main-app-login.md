@@ -2,7 +2,7 @@
 
 ### Configure differents schemas
 
-Modify App.js to can be able to choose diferents schemas when do login
+Modify App.js to be able to choose diferent schemas when login
 
 ```jsx
 
@@ -64,21 +64,21 @@ function App() {
 export default App;
 ```
 
-We can choose in which place will do login. Root user can do login in both places but new user can only do login in new container.
-After logging in with new user, you can not acces to container. To give acces content and view content permission, do login with root user and go to container permission tab.
+We can choose in which places we will login. Root user can login in both places but new user can only login in the new container.
+After logging in as the new user, you can not acces to the container. To give access content and view content permissions, login as root user and go to container permissions tab.
 
 
 ### Users permissions
 
-Go to permissions tab
+Go to permissions tab.
 
-In right section, choose `Principal Roles` option, then select principal, in this case our user. Then selected guillotina.Reader and guillotina.Member roles and finally `Allow` operation.
+In right section, choose `Principal Roles` option, then select principal, in this case our user. Then select guillotina.Reader and guillotina.Member roles and finally `Allow` operation.
 
-If you want, you could add user in to group and do the same with the group. 
+If you want, you could add user in some group and do the same action with it. 
 
 > More info about permissions in <a href="https://guillotina.readthedocs.io/en/latest/developer/security.html"> guillotina docs. </a>
 
-Retry to do login with user. Now you can see container. 
+Retry to login as the new user. Now you can see the container. 
 
 ### Create new permission to acces in GMI. 
 
@@ -115,7 +115,7 @@ def includeme(root):
 
 ```
 
-Now we will modify login function in GMI
+Now we will modify the login function in GMI
 
 Create `gmi_demo/src/lib/auth.js`
 
@@ -194,9 +194,9 @@ Finally update `gmi_demo/src/App.js` to use customAuth class
 
 ```
 
-At this point, you can only do login with `root` user, you need to add the users that you want to have acces to GMI in Permission tab in container view.
+At this point, you can only login as the `root` user, you need to add the users that you want to have acces to GMI in Permission tab in container view.
 
-The role and permission than you have created, now they appear in selects. 
+The role and permission than you have created should appear in selects. 
 
 ![](screenshots/new-permissions.png)
 

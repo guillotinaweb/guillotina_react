@@ -67,9 +67,9 @@ function App() {
 export default App
 ```
 
-Client provider allows us to get guillotina client by `useGuillotinaClient` hook in whereeven we want.
+Client provider allows us to get guillotina client by `useGuillotinaClient` hook in whereever we want.
 
-`Guillotina` component is the main component, it is de base context that uses, on traversal, and it exposes n API for managening and sharing actions on screens
+`Guillotina` component is the main component, it is de base context that uses, on traversal, and it exposes an API for managening and sharing actions on screens.
 
 ### To add icons:
 

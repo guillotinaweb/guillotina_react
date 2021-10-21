@@ -80,7 +80,7 @@ class DemoType(Folder):
 
 ```
 
-In order for Guillotina to detect your configuration, you’ll need to add a scan call inside your includeme function in the __init__.py file.
+In order for Guillotina to detect your configuration, you will need to add a scan call inside your includeme function in the __init__.py file.
 
 ```diff
 
@@ -97,7 +97,7 @@ def includeme(root):
 
 ```
 
-Now you can add a Demo type object. Click on plus icon in container view and try to add it. You will see that you can't, this is because we aren't sending all required fields. To solve this we will override default form. 
+Now you can add a Demo type object. Click on plus icon in container view and try to add it. You will see that you can't, this is because we are not sending all the required fields. To solve this we will override the default form. 
 
 ### Define custom form
 
@@ -130,11 +130,11 @@ function App() {
 
 ```
 
-Here we have defined registry. In registry we can override diferent components by each content type. More information in - [Narrative Docs](docs/api.md)
+Here we have defined the registry. In registry we can override diferent components by each content type. More information in - [Narrative Docs](docs/api.md)
 
-After this, we can create a new DemoType object. Repeat action and try to add it. Now we can see all requried files. 
+After this, we can create a new DemoType object doing the same process. Now, we can see all the requried files. 
 
-Added it!
+Add it!
 
 
 ![](screenshots/demo-type-form.png)

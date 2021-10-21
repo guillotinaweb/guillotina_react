@@ -1,6 +1,6 @@
 ## 5. Manage users ( addon example )
 
-First we need add application in guillotina
+First, we need to add application in guillotina
 
 Modify config.yaml
 
@@ -12,13 +12,13 @@ applications:
 + - guillotina.contrib.dbuser
 ```
 
-After modify config, always we have to restart guillotina service to apply the changes. 
+After modifying config, we always have to restart guillotina service to apply the changes. 
 
-Come back to GMI and refresh the page. Now if you go to addons tab you can view an addon to install.
+Go back to GMI and refresh the page. Now, if you go to addons tab you can see an addon to install.
 
 Install Guillotina DB Users addon. 
 
-After installed, in items tab there will are Groups and Users folders. You can create new users in Users folder and some grups in Grups folders. 
+After installing it, there will be Groups and Users folders in items tab. You can create new users in Users' folder and some grups in Grups' folder. 
 
 Create your first user and your first group.
 
@@ -26,13 +26,13 @@ In boths details views, you can set some guillotina roles.
 
 If you logout you can not login with the user that you have created. 
 
-This is because you are trying do login to guillotina root context `/` and here only root user can do login. All users that we have created in `/db/container` only can do login in it. 
+This is because you are trying to login to guillotina root context `/` and only the root user can login here. All users that we have created in `/db/container` can only login in it. 
 
-For example root can do login in:
+For example, root can login in:
 
 `http://localhost:8080/@login` and `http://localhost:8080/db/container/@login`
 
-But users that we have creted in `/db/container` only can do login in:
+But users that we have creted in `/db/container` can only login in:
 
 `http://localhost:8080/db/container/@login`
 
