@@ -71,7 +71,7 @@ allow_origin:
 - Run guillotina server
 
 ```
-guillotina
+guillotina serve -c guillotina_demo/config.yaml
 ```
 
 The server should now be running on http://0.0.0.0:8080
