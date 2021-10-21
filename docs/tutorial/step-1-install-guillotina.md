@@ -4,8 +4,7 @@
 ```bash
 mkdir tutorial-gmi
 cd tutorial-gmi
-python3.7 -m venv genv
-cd genv
+python3.8 -m venv genv
 source ./genv/bin/activate
 pip install guillotina
 pip install cookiecutter
