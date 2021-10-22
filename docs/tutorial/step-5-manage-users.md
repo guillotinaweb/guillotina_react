@@ -9,7 +9,7 @@ Modify config.yaml
 applications:
   - guillotina.contrib.catalog.pg
   - guillotina.contrib.swagger
-+ - guillotina.contrib.dbuser
++ - guillotina.contrib.dbusers
 ```
 
 After modifying config, we always have to restart guillotina service to apply the changes. 
