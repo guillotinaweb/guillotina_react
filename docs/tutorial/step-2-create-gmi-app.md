@@ -44,6 +44,7 @@ function App() {
   
   const onLogout = () => {
     setLogged(false);
+    remove("tab");
     remove("path");
   };
 

@@ -229,6 +229,7 @@ return (
       DelayActions: 2000,
     }}
     url="/db/guillotina/"
+    auth={auth}
     registry={{
       views: {
         ErrorBoundary: ErrorBoundary,

@@ -130,7 +130,7 @@ function App() {
 
 ```
 
-Here we have defined the registry. In registry we can override diferent components by each content type. More information in - [Narrative Docs](docs/api.md)
+Here we have defined the registry. In registry we can override diferent components by each content type. More information in - [Narrative Docs](../api.md)
 
 After this, we can create a new DemoType object doing the same process. Now, we can see all the requried files. 
 

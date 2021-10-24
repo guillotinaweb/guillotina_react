@@ -45,9 +45,11 @@ pip install Pillow
 
 Restart Guillotina
 
+Install image addon to guillotina
+
 Now modify we going to create IMultiImageAttachment component and add it in GMI registry.
 
-Create `gmi_demo/components/IMultiImageAttachment.js`
+Create `gmi_demo/components/behaviors/IMultiImageAttachment.js`
 
 
 ```jsx
@@ -215,6 +217,9 @@ Finally update GMI registry
 `App.js`
 
 ```diff
+
+import { IMultiImageAttachment } from "./components/behaviors/IMultiImageAttachment";
+
 const registry = {
   views: {
     DemoType: DemoTypeView,

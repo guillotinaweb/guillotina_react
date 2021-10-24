@@ -106,7 +106,7 @@ const tabsPermissions = {
 
 We have our custom view of new custom content type. Now let's modify list columns. 
 
-Create `gmi_dmeo/src/columns/demoType.js`
+Create `gmi_dmeo/src/components/columns/demoType.js`
 
 ```jsx
 import React from "react";
@@ -182,7 +182,7 @@ Open again `App.js`:
 
 ... 
 
-+ import { ColumnsDemoType } from "./columns/demoType";
++ import { ColumnsDemoType } from "./components/columns/demoType";
 
 ...
 
@@ -213,7 +213,7 @@ Demo content type has a rich text field, this property is a `Text` but we have d
 
 ## Edit component
 
-Create `gmi_demo/src/components/EditComponent.js`, this is the default EditComponent. You can see when widget is textarea or richtext, we render `Textarea` component. 
+Create `gmi_demo/src/components/fields/EditComponent.js`, this is the default EditComponent. You can see when widget is textarea or richtext, we render `Textarea` component. 
 
 ```jsx
 import React from "react";
@@ -329,8 +329,12 @@ Install tinymce:
 ```
 npm install --save @tinymce/tinymce-react
 ```
+or 
+```
+yarn add -s @tinymce/tinymce-react
+```
 
-Create rich text edit component `src/components/RichText.js`
+Create rich text edit component `src/components/fields/RichText.js`
 
 ```jsx
 import { Editor } from "@tinymce/tinymce-react";
@@ -413,7 +417,7 @@ Finally update `App.js`
 
 ...
 
-+ import { EditComponent } from "./components/EditComponent";
++ import { EditComponent } from "./components/fields/EditComponent";
 
 ...
 
@@ -443,7 +447,7 @@ But it is not finished because after updating the field, we see html and not par
 
 ### Render field component
 
-Create `src/components/RenderFieldComponent.js`
+Create `src/components/fields/RenderFieldComponent.js`
 
 ```jsx
 import { DownloadField, RenderField } from "@guillotinaweb/react-gmi";
@@ -471,7 +475,7 @@ export function RenderFieldComponent({ schema, field, val, modifyContent }) {
       renderProps['value'] = val?.toString() ?? renderProps['value']
     } else if (val && schema?.type === 'datetime') {
       renderProps['value'] = new Date(val).toLocaleString()
-    }else if (schema.widget === 'textarea' || schema.widget === 'richtext') {
+    } else if (schema?.widget === "textarea" || schema?.widget === "richtext") {
       renderProps['Widget'] = RenderRichText
     } 
     return renderProps
@@ -488,7 +492,7 @@ As always, update registry in `App.js`
 
 ...
 
-+ import { RenderFieldComponent } from "./components/RenderFieldComponent";
++ import { RenderFieldComponent } from "./components/fields/RenderFieldComponent";
 
 ...
 
