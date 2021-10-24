@@ -103,6 +103,7 @@ curl https://raw.githubusercontent.com/guillotinaweb/guillotina_react/master/pub
 
 - [Howto Extend Guillotina React form outside?](docs/extend.md)
 - [Narrative Docs](docs/api.md)
+- [Getting Started - Step by Step](docs/tutorial/tutorial.md)
 
 ## Develop
 
@@ -121,6 +122,8 @@ yarn start
 
 ## Sponsors
 
-This project is sponsored by <a href="https://www.vinissimus.com">Vinissimus Wine Shop</a>
+This project is sponsored by <a href="https://www.vinissimus.com">Vinissimus Wine Shop</a> and <a href="https://iskra.cat">Iskra</a>
 
 <a href="https://www.vinissimus.com"><img src="https://cdn.vinissimus.com/front/static/images/vinissimus-logo.svg" /></a>
+<br/>
+<a href="https://iskra.cat"><img src="https://storage.googleapis.com/iskra/iskra-logo.png" /></a>

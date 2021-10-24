@@ -5,11 +5,16 @@ import {
   Guillotina,
   Auth,
   Login,
+  ClientProvider,
+  Layout,
+  getClient,
 } from 'https://cdn.skypack.dev/@guillotinaweb/react-gmi'
 
 const html = htm.bind(React.createElement)
-const url = 'http://localhost:8080/'
+const url = 'http://localhost:8080'
+const schema = '/'
 const auth = new Auth(url)
+const client = getClient(url, schema, auth)
 
 function App() {
   const [isLogged, setLogged] = React.useState(auth.isLogged)
@@ -18,15 +23,25 @@ function App() {
   auth.onLogout = onLogout
 
   return html`
-    ${isLogged && html`<${Guillotina} auth=${auth} url=${url} />`}
-    ${!isLogged &&
-    html`
-      <div className="columns is-centered">
-        <div className="columns is-half">
-          <${Login} onLogin=${onLogin} auth=${auth} />
-        </div>
-      </div>
-    `}
+    <${ClientProvider} client=${client}>
+      <${Layout} auth=${auth} onLogout=${onLogout}>
+        ${isLogged && html`<${Guillotina} auth=${auth} url=${schema} />`}
+        ${
+          !isLogged &&
+          html`
+            <div className="columns is-centered">
+              <div className="columns is-half">
+                <${Login}
+                  onLogin=${onLogin}
+                  auth=${auth}
+                  currentSchema=${schema}
+                />
+              </div>
+            </div>
+          `
+        }
+      </${Layout}>
+    </${ClientProvider}>
   `
 }
 

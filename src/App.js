@@ -51,7 +51,7 @@ function App() {
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth} />
+              <Login onLogin={onLogin} auth={auth} currentSchema={schema} />
             </div>
           </div>
         )}
