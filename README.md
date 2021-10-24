@@ -42,32 +42,36 @@ import { useState } from 'react'
 import '@guillotinaweb/react-gmi/dist/css/style.css'
 
 // guillotina url
-let url = 'http://localhost:8080/'
-
+let url = 'http://localhost:8080'
+const schema = '/'
 const auth = new Auth(url)
-const client = getClient(url, auth)
+const client = getClient(url, schema, auth)
 
 function App() {
   const [isLogged, setLogged] = useState(auth.isLogged)
 
-  // You can do whatever you want on login, this includes,
-  // if you have a router, move it to it's user home folder,
-  // or the root...
   const onLogin = () => {
     setLogged(true)
   }
-  const onLogout = () => setLogged(false)
+  
+  const onLogout = () => {
+    setLogged(false);
+  };
 
   auth.onLogout = onLogout
 
   return (
     <ClientProvider client={client}>
       <Layout auth={auth} onLogout={onLogout}>
-        {isLogged && <Guillotina auth={auth} url={url} />}
+        {isLogged && <Guillotina auth={auth} url={schema} />}
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth} />
+               <Login
+                onLogin={onLogin}
+                auth={auth}
+                currentSchema={schema}
+              />
             </div>
           </div>
         )}
@@ -75,6 +79,7 @@ function App() {
     </ClientProvider>
   )
 }
+
 
 export default App
 ```
