@@ -523,6 +523,41 @@ Properties tabs looks like this:
 ![](screenshots/properties-tab.png)
 
 
+If we want we can add some custom components in properties view. You can defined Buttons component and Panels component in properties.
+
+
+```jsx
+
+const ButtonComponent = () => <div>Buttons</div>;
+const PanelsComponent = () => <div>Info Panels</div>;
+
+const registry = {
+  // ...
+  properties: {
+    DemoType: {
+      Panels: <PanelsComponent />,
+      Buttons: <ButtonComponent />,
+    },
+  },
+}
+```
+
+
+Override concretly object by path. If you want override concretly object view you can will defined in registry too. 
+
+```jsx
+const FirstObjectComponent = () => {
+  return <div> First object view </div>;
+};
+
+const registry = {
+  // ...
+  paths: {
+    "/db/container/first-object/": FirstObjectComponent,
+  },
+}
+```
+
 [Previous step](step-7-create-own-content-type.md)
 
 [Next step](step-9-behaviors.md)

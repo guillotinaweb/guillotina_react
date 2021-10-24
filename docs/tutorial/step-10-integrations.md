@@ -14,7 +14,14 @@ If you want, you can use Guillotina client without `Guillotina` component from o
 
 Guillotina can serve JS apps. We can integrate GMI directly in to Guillotina. To do this we will create the react application in Guillotina project. 
 
-First build react app
+Modify package.json
+
+```diff
++ "homepage": "/+manage/",
+```
+
+
+Then build react app
 
 ```
 npm run build
