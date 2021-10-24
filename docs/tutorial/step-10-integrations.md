@@ -1,6 +1,9 @@
 
 ## 10. Integrations
 
+### Use with Nextjs and ESM
+
+In examples folder you can see both examples.
 
 ### How to use guillotina client
 
@@ -9,7 +12,15 @@ If you want, you can use Guillotina client without `Guillotina` component from o
 
 ### Integrate GMI to guillotina
 
-Guillotina can serve JS apps. We can integrate GMI directly in to Guillotina. To do this we will create the react application in Guillotina project. Then in config.yaml we can define the base directory to find index.html. 
+Guillotina can serve JS apps. We can integrate GMI directly in to Guillotina. To do this we will create the react application in Guillotina project. 
+
+First build react app
+
+```
+npm run build
+```
+
+Copy builded files in some folder in guillotina project. Then in config.yaml we can define the base directory to find index.html. 
 
 For example, if we create an application in `guillotina_demo/guillotina_demo/static` then the config file should be:
 
