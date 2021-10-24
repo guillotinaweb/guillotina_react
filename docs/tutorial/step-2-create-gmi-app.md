@@ -19,6 +19,7 @@ yarn add -s @guillotinaweb/react-gmi
 ```jsx
 import React from 'react'
 import { Layout } from '@guillotinaweb/react-gmi'
+import { useLocation } from '@guillotinaweb/react-gmi'
 import { Auth } from '@guillotinaweb/react-gmi'
 import { Guillotina } from '@guillotinaweb/react-gmi'
 import { Login } from '@guillotinaweb/react-gmi'
@@ -34,12 +35,17 @@ const auth = new Auth(url)
 const client = getClient(url, schema, auth)
 
 function App() {
+  const [, , remove] = useLocation();
   const [isLogged, setLogged] = useState(auth.isLogged)
 
   const onLogin = () => {
     setLogged(true)
   }
-  const onLogout = () => setLogged(false)
+  
+  const onLogout = () => {
+    setLogged(false);
+    remove("path");
+  };
 
   auth.onLogout = onLogout
 
