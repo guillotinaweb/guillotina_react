@@ -103,6 +103,7 @@ curl https://raw.githubusercontent.com/guillotinaweb/guillotina_react/master/pub
 
 - [Howto Extend Guillotina React form outside?](docs/extend.md)
 - [Narrative Docs](docs/api.md)
+- [Getting Started - Step by Step](docs/tutorial/tutorial.md)
 
 ## Develop
 
