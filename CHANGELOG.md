@@ -1,3 +1,7 @@
+0.22.2
+------
+ - chore: update dependences
+ 
 0.22.1
 ------
  - Fix export
