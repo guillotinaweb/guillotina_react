@@ -1,3 +1,7 @@
+0.22.3
+------
+ - fix: remove items path
+ 
 0.22.2
 ------
  - chore: update dependences

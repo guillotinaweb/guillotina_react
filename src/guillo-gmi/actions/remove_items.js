@@ -4,14 +4,6 @@ import { useTraversal } from '../contexts'
 import { sleep } from '../lib/helpers'
 import { useConfig } from '../hooks/useConfig'
 
-// BBB guillotina 5
-const getId = (item) => {
-  if (item['@id']) {
-    return item['@id']
-  }
-  return item['@absolute_url']
-}
-
 export function RemoveItems(props) {
   const Ctx = useTraversal()
   const cfg = useConfig()
@@ -28,8 +20,7 @@ export function RemoveItems(props) {
     setLoading(true)
 
     const actions = items.map(async (item) => {
-      console.log(item)
-      const res = await Ctx.client.delete(getId(item))
+      const res = await Ctx.client.delete(`${Ctx.path}${item['@name']}`)
       if (!res.ok) {
         const err = await res.json()
         errors.push(err)
