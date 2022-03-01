@@ -1,7 +1,8 @@
 0.22.3
 ------
- - fix: remove items path
+ - fix: remove items path #167
  - feat: select principals show id if fullname not exist
+ - chore: update dependences
  
 0.22.2
 ------
