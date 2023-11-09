@@ -1,8 +1,8 @@
 import React from 'react'
-import { RestClient } from './rest'
-import { toQueryString } from './helpers'
-import { Icon } from '../components/ui'
 import { TdLink } from '../components/TdLink'
+import { Icon } from '../components/ui'
+import { toQueryString } from './helpers'
+import { RestClient } from './rest'
 import { parser } from './search'
 
 let cacheTypes = {}
@@ -84,6 +84,7 @@ export class GuillotinaClient {
     result = [
       ...parser(start.toString(), '_from'),
       ...parser(pageSize.toString(), 'size'),
+      ...parser('*', '_metadata=*'),
     ]
 
     if (withDepth) {

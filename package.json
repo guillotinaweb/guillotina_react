@@ -1,5 +1,5 @@
 {
-  "version": "0.22.4",
+  "version": "0.23.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:guillotinaweb/guillotina_react.git"
@@ -22,8 +22,8 @@
     "react-useportal": "1.0.13"
   },
   "peerDependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react": "^16.12.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.12.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.12.10",
@@ -74,5 +74,6 @@
   },
   "author": "Jordi Collell <jordic@gmail.com> ",
   "license": "MIT",
-  "homepage": "https://github.com/guillotinaweb/guillotina_react/"
+  "homepage": "https://github.com/guillotinaweb/guillotina_react/",
+  "packageManager": "yarn@1.22.19"
 }
