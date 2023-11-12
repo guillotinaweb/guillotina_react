@@ -1,5 +1,5 @@
 {
-  "version": "0.22.4",
+  "version": "0.23.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:guillotinaweb/guillotina_react.git"
@@ -15,15 +15,14 @@
   "name": "@guillotinaweb/react-gmi",
   "dependencies": {
     "brace": "0.11.1",
-    "bulma": "0.9.1",
+    "bulma": "0.9.4",
     "jwt-decode": "3.1.2",
     "prop-types": "15.7.2",
-    "react-ace": "9.2.1",
-    "react-useportal": "1.0.13"
+    "react-useportal": "1.0.19"
   },
   "peerDependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react": "^16.12.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.12.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.12.10",
@@ -33,7 +32,7 @@
     "@testing-library/user-event": "12.6.0",
     "husky": "4.3.6",
     "microbundle": "0.13.0",
-    "node-sass": "7.0.0",
+    "sass": "1.69.5",
     "prettier": "2.2.1",
     "serialize-javascript": "5.0.1"
   },
@@ -43,7 +42,7 @@
     "format:check": "prettier --check \"src/**/*.js\"",
     "build": "yarn build:js && yarn build:css",
     "build:js": "rm -rf ./dist && microbundle --jsx React.createElement --no-compress --sourcemap",
-    "build:css": "rm -rf ./dist/css && mkdir ./dist/css && node-sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
+    "build:css": "rm -rf ./dist/css && mkdir ./dist/css && sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
     "prepublish": "yarn build"
   },
   "eslintConfig": {
@@ -74,5 +73,6 @@
   },
   "author": "Jordi Collell <jordic@gmail.com> ",
   "license": "MIT",
-  "homepage": "https://github.com/guillotinaweb/guillotina_react/"
+  "homepage": "https://github.com/guillotinaweb/guillotina_react/",
+  "packageManager": "yarn@1.22.19"
 }

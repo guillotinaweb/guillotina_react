@@ -1,3 +1,13 @@
+0.23.1
+------
+ - chore: update use-reactportal
+ 
+0.23.0
+------
+ - chore: update dependences
+ - chore: update react peerDependences
+ - chore: delete unused code
+
 0.22.4
 ------
  - chore: update dependences

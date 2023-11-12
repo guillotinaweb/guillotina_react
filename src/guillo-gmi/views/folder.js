@@ -7,7 +7,6 @@ import { useTraversal } from '../contexts'
 import { PanelProperties } from '../components/panel/properties'
 import { PanelPermissions } from '../components/panel/permissions'
 import { PanelBehaviors } from '../components/panel/behaviors'
-// import { PanelRequester } from "../components/panel/requester";
 
 const tabs = {
   Items: PanelItems,
@@ -15,7 +14,6 @@ const tabs = {
   Behaviors: PanelBehaviors,
   Permissions: PanelPermissions,
   Actions: PanelActions,
-  // Requester: PanelRequester,
 }
 
 const tabsPermissions = {
@@ -23,7 +21,6 @@ const tabsPermissions = {
   Properties: 'guillotina.ViewContent',
   Behaviors: 'guillotina.ModifyContent',
   Permissions: 'guillotina.SeePermissions',
-  // Requester: "guillotina.swagger.View"
 }
 
 export function FolderCtx(props) {
