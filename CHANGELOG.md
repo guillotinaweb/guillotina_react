@@ -1,3 +1,7 @@
+0.23.1
+------
+ - chore: update use-reactportal
+ 
 0.23.0
 ------
  - chore: update dependences
