@@ -4,6 +4,7 @@ import { Icon } from '../components/ui'
 import { toQueryString } from './helpers'
 import { RestClient } from './rest'
 import { parser } from './search'
+import { useLocation } from '../hooks/useLocation'
 
 let cacheTypes = {}
 let cacheSchemas = {}
@@ -103,10 +104,13 @@ export class GuillotinaClient {
     return [
       {
         label: '',
+        canSort: false,
         child: (m) => <td style={smallcss}>{<Icon icon={m.icon} />}</td>,
       },
       {
         label: 'type',
+        key: 'type_name',
+        canSort: false,
         child: (m) => (
           <TdLink style={smallcss} model={m}>
             <span className="tag">{m.type}</span>
@@ -115,6 +119,8 @@ export class GuillotinaClient {
       },
       {
         label: 'id/name',
+        key: 'title',
+        canSort: true,
         child: (m, navigate, search) => (
           <TdLink model={m}>
             {m.name}
@@ -129,14 +135,20 @@ export class GuillotinaClient {
       },
       {
         label: 'created',
-        child: (m) => (
-          <td style={mediumcss} className="is-size-7 is-vcentered">
-            {m.created}
-          </td>
-        ),
+        key: 'creation_date',
+        canSort: true,
+        child: (m) => {
+          return (
+            <td style={mediumcss} className="is-size-7 is-vcentered">
+              {m.created}
+            </td>
+          )
+        },
       },
       {
         label: 'modified',
+        key: 'modification_date',
+        canSort: true,
         child: (m) => (
           <td style={mediumcss} className="is-size-7 is-vcentered">
             {m.updated}
