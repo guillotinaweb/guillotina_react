@@ -1,24 +1,28 @@
-import React from 'react'
-import { Input } from '../input/input'
-import { FileUpload } from '../input/upload'
-import { Button } from '../input/button'
-import { useState } from 'react'
-import { useCrudContext } from '../../hooks/useCrudContext'
-import ErrorZone from '../error_zone'
-import { EditableField } from '../fields/editableField'
-import { Delete } from '../ui'
-import { Confirm } from '../../components/modal'
-import { Table } from '../ui'
+import React, { useState } from 'react'
 
-export function IMultiAttachment({ properties, values }) {
+import { Button } from '../input/button'
+import { Confirm } from '../../components/modal'
+import { Delete } from '../ui'
+import { FileUpload } from '../input/upload'
+import { useCrudContext } from '../../hooks/useCrudContext'
+import { EditableField } from '../fields/editableField'
+import { useConfig } from '../../hooks/useConfig'
+import { Table } from '../ui'
+import { Input } from '../input/input'
+
+const _sizesImages = ['large', 'preview', 'mini', 'thumb']
+
+export function IMultiImageAttachment({ properties, values }) {
+  const cfg = useConfig()
   const [fileKey, setFileKey] = useState('')
-  const [file, setFile] = useState()
+  const [file, setFile] = useState(null)
   const [fileKeyToDelete, setFileKeyToDelete] = useState(undefined)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
   const { Ctx } = useCrudContext()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
+  const sizesImages = cfg.size_images || _sizesImages
 
   const uploadFile = async (ev) => {
     ev.preventDefault()
@@ -28,13 +32,31 @@ export function IMultiAttachment({ properties, values }) {
     }
     setLoading(true)
     setError(undefined)
-    const endpoint = `${Ctx.path}@upload/files/${fileKey}`
+    const endpoint = `${Ctx.path}@upload/images/${fileKey}`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
       setError('Failed to upload file')
       setLoading(false)
       return
     }
+
+    for (let i = 0; i < sizesImages.length; i++) {
+      const endpointSize = `${Ctx.path}@images/images/${fileKey}/${sizesImages[i]}`
+      let hasError = false
+      try {
+        const req = await Ctx.client.upload(endpointSize, file)
+        if (req.status !== 200) hasError = true
+      } catch (err) {
+        hasError = true
+      }
+
+      if (hasError) {
+        setError(`Failed to upload file ${endpointSize}`)
+        setLoading(false)
+        return
+      }
+    }
+
     setFileKey('')
     setFile(undefined)
     setLoading(false)
@@ -45,7 +67,7 @@ export function IMultiAttachment({ properties, values }) {
   const deleteFile = async () => {
     setLoading(true)
     setError(undefined)
-    const endpoint = `${Ctx.path}@delete/files/${fileKeyToDelete}`
+    const endpoint = `${Ctx.path}@delete/images/${fileKeyToDelete}`
     const req = await Ctx.client.delete(endpoint, file)
     if (req.status !== 200) {
       setError('Failed to delete file')
@@ -66,22 +88,23 @@ export function IMultiAttachment({ properties, values }) {
         <Confirm
           loading={loading}
           onCancel={() => setFileKeyToDelete(undefined)}
-          onConfirm={() => deleteFile(fileKeyToDelete)}
+          onConfirm={() => deleteFile()}
           message={`Are you sure to remove: ${fileKeyToDelete}?`}
         />
       )}
 
-      {Object.keys(values['files']).map((key) => (
-        <tr key={'multiattachment_' + key}>
+      {Object.keys(values['images']).map((key) => (
+        <tr key={`multiimageattachment_${key}`}>
           <td key={1}>{key}</td>
           <td key={2}>
             <div className="is-flex is-align-items-center">
               <EditableField
-                field={`files/${key}`}
-                value={values['files'][key]}
-                ns="guillotina.behaviors.attachment.IMultiAttachment.files"
-                schema={properties['files']['additionalProperties']}
+                field={`images/${key}`}
+                value={values['images'][key]}
+                ns="guillotina.contrib.image.behaviors.IMultiImageAttachment.images"
+                schema={properties['images']['additionalProperties']}
                 modifyContent={false}
+                required={false}
               />
               <div className="ml-5">
                 <Delete
@@ -95,15 +118,15 @@ export function IMultiAttachment({ properties, values }) {
           </td>
         </tr>
       ))}
-      {Object.keys(values['files']).length === 0 && (
+      {Object.keys(values['images']).length === 0 && (
         <tr>
-          <td colSpan={2}>No files uploaded</td>
+          <td colSpan={2}>No images uploaded</td>
         </tr>
       )}
       {modifyContent && (
         <tr>
           <td colSpan={2}>
-            <label className="label">Upload a file</label>
+            <label className="label">Upload an image</label>
             <form className="columns">
               <div className="column is-4">
                 <Input
@@ -114,7 +137,7 @@ export function IMultiAttachment({ properties, values }) {
                   onChange={(ev) => setFileKey(ev)}
                   required
                 />
-                {error && <ErrorZone>{error}</ErrorZone>}
+                {error && <p className="help is-danger">{error}</p>}
               </div>
               <div className="column is-2">
                 <FileUpload onChange={(ev) => setFile(ev)} />

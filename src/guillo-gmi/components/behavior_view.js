@@ -1,5 +1,4 @@
 import React from 'react'
-import { Table } from './ui/table'
 import { useTraversal } from '../contexts'
 import { get } from '../lib/utils'
 
@@ -26,12 +25,7 @@ export function BehaviorsView({ context, schema }) {
       {behaviors.map((behavior) => (
         <div className="container" key={behavior}>
           <h3 className="title is-size-6 has-text-grey">{behavior}</h3>
-          <Table
-            headers={['Field', 'Value']}
-            className="is-striped is-fullwidth is-size-7"
-          >
-            {GetBehavior(behavior)}
-          </Table>
+          {GetBehavior(behavior)}
           <hr />
         </div>
       ))}

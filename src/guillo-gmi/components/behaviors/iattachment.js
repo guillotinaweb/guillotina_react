@@ -1,13 +1,17 @@
 import React from 'react'
 import { useTraversal } from '../../contexts'
 import { EditableField } from '../fields/editableField'
+import { Table } from '../ui'
 
 export function IAttachment({ properties, values }) {
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
   return (
-    <React.Fragment>
+    <Table
+      headers={['Field', 'Value']}
+      className="is-striped is-fullwidth is-size-7"
+    >
       {Object.keys(properties).map((key) => (
         <tr key={'attachment_' + key}>
           <td key={1}>{key}</td>
@@ -22,6 +26,6 @@ export function IAttachment({ properties, values }) {
           </td>
         </tr>
       ))}
-    </React.Fragment>
+    </Table>
   )
 }

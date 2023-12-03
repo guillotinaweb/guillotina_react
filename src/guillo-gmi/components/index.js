@@ -20,7 +20,10 @@ export * from './fields/downloadField'
 
 export * from './behaviors/iattachment'
 export * from './behaviors/imultiattachment'
-export * from './behaviors/idublincore'
+export * from './behaviors/iimageattachment'
+export * from './behaviors/imultiimageattachment'
+export * from './behaviors/imultiimageorderedattachment'
+export * from './behaviors/iworkflow'
 
 // panels
 export * from './panel/actions'
