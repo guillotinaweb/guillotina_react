@@ -11,23 +11,67 @@ import { SearchInput } from '../components/input/search_input'
 import { Tag } from '../components/ui/tag'
 import { parser } from '../lib/search'
 import { EditableField } from '../components/fields/editableField'
+import { useLocation } from '../hooks/useLocation'
+
 const tabs = {
   Groups: PanelItems,
 }
 
 export function GroupToolbar() {
   const Ctx = useTraversal()
+  const ref = React.useRef(null)
+  const [location, setLocation] = useLocation()
+  const searchText = location.get('q')
+
+  const onSearchQuery = (ev) => {
+    const search = ev.target[0].value
+    setLocation({ q: search, page: 0 })
+    ev.preventDefault()
+  }
+
+  // cleanup form on state.search change
+  React.useEffect(() => {
+    if (!searchText || searchText === '') {
+      ref.current.value = ''
+    }
+  }, [searchText])
 
   return (
-    <button
-      className="button is-primary"
-      onClick={() => Ctx.doAction('addItem', { type: 'Group' })}
-      aria-haspopup="true"
-      aria-controls="dropdown-menu"
-    >
-      <Icon icon="fas fa-users" />
-      <span>Add a Group</span>
-    </button>
+    <React.Fragment>
+      <div className="level-item">
+        <form action="" className="form" onSubmit={onSearchQuery}>
+          <div className="field has-addons">
+            <div className="control">
+              <input
+                ref={ref}
+                type="text"
+                className="input is-size-7"
+                placeholder="Search..."
+                data-test="inputFilterTest"
+              />
+            </div>
+            <div className="control">
+              <button
+                className="button has-background-grey-lighter is-size-7"
+                type="submit"
+                data-test="btnInputFilter"
+              >
+                <Icon icon="fas fa-search" />
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <button
+        className="button is-primary"
+        onClick={() => Ctx.doAction('addItem', { type: 'Group' })}
+        aria-haspopup="true"
+        aria-controls="dropdown-menu"
+      >
+        <Icon icon="fas fa-users" />
+        <span>Add a Group</span>
+      </button>
+    </React.Fragment>
   )
 }
 
@@ -94,12 +138,14 @@ export function GroupCtx() {
       data[user] = true
     })
     data[newUser.id] = true
-    const { isError, errorMessage } = await patch({ users: data })
-    handleResponse(
+    const {
       isError,
-      `User ${newUser.title} added to group!`,
-      errorMessage
+      errorMessage,
+    } = await Ctx.client.rest.patch(
+      `${Ctx.containerPath}@groups/${Ctx.context['@name']}`,
+      { users: data }
     )
+    handleResponse(isError, `User ${newUser.id} added to group!`, errorMessage)
   }
 
   const removeUser = async (userToRemove) => {
@@ -107,7 +153,13 @@ export function GroupCtx() {
     Ctx.context.users.forEach((user) => {
       data[user] = userToRemove !== user
     })
-    const { isError, errorMessage } = await patch({ users: data })
+    const {
+      isError,
+      errorMessage,
+    } = await Ctx.client.rest.patch(
+      `${Ctx.containerPath}@groups/${Ctx.context['@name']}`,
+      { users: data }
+    )
     handleResponse(
       isError,
       `User ${userToRemove} removed from group`,
@@ -156,7 +208,7 @@ export function GroupCtx() {
           <h3 className="title is-size-6">Users</h3>
           <p>Add a User</p>
           <SearchInput
-            path={Ctx.containerPath}
+            path={`${Ctx.containerPath}/users/`}
             qs={[...searchParsed, ...sortParsed]}
             traversal={Ctx}
             onChange={addUser}
