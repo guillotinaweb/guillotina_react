@@ -12,6 +12,7 @@ export * from './hooks/useInput'
 export * from './hooks/useRemoteField'
 export * from './hooks/useLocation'
 export * from './hooks/useRegistry'
+export * from './hooks/useVocabulary'
 
 export * from './lib/helpers'
 export * from './lib/validators'

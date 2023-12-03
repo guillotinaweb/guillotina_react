@@ -6,6 +6,7 @@ import { Select } from '../input/select'
 import { Input } from '../input/input'
 import { InputList } from '../input/input_list'
 import { get } from '../../lib/utils'
+import { SelectVocabulary } from '../input/select_vocabulary'
 
 export const EditComponent = React.forwardRef(
   ({ schema, val, setValue, dataTest, className, ...rest }, ref) => {
@@ -49,6 +50,19 @@ export const EditComponent = React.forwardRef(
           label={get(val, 'filename', null)}
           dataTest={dataTest}
           {...rest}
+        />
+      )
+    } else if (schema?.vocabularyName) {
+      return (
+        <SelectVocabulary
+          schema={schema}
+          value={val || ''}
+          className={className}
+          appendDefault
+          classWrap="is-fullwidth"
+          dataTest={dataTest}
+          {...rest}
+          setValue={setValue}
         />
       )
     } else if (schema?.widget === 'select') {
