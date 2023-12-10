@@ -128,9 +128,9 @@ export function PanelItems() {
     setLocation({ page: page })
   }
 
-  const getIcon = (key, canSort) => {
+  const getIcon = (key, isSortable) => {
     let icon = null
-    if (canSort) {
+    if (isSortable) {
       if (sort !== key) {
         icon = <i className="fas fa-sort" />
       } else if (sortDirection === 'des') {
@@ -179,11 +179,11 @@ export function PanelItems() {
               {columns.map((column) => (
                 <th
                   key={column.label}
-                  onClick={() => column.canSort && onSort(column.key)}
+                  onClick={() => column.isSortable && onSort(column.key)}
                 >
                   <div className="has-text-info is-flex is-align-items-center">
                     <span>{column.label}</span>
-                    {getIcon(column.key, column.canSort)}
+                    {getIcon(column.key, column.isSortable)}
                   </div>
                 </th>
               ))}

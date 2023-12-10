@@ -104,13 +104,13 @@ export class GuillotinaClient {
     return [
       {
         label: '',
-        canSort: false,
+        isSortable: false,
         child: (m) => <td style={smallcss}>{<Icon icon={m.icon} />}</td>,
       },
       {
         label: 'type',
         key: 'type_name',
-        canSort: false,
+        isSortable: false,
         child: (m) => (
           <TdLink style={smallcss} model={m}>
             <span className="tag">{m.type}</span>
@@ -120,7 +120,7 @@ export class GuillotinaClient {
       {
         label: 'id/name',
         key: 'title',
-        canSort: true,
+        isSortable: true,
         child: (m, navigate, search) => (
           <TdLink model={m}>
             {m.name}
@@ -136,7 +136,7 @@ export class GuillotinaClient {
       {
         label: 'created',
         key: 'creation_date',
-        canSort: true,
+        isSortable: true,
         child: (m) => {
           return (
             <td style={mediumcss} className="is-size-7 is-vcentered">
@@ -148,7 +148,7 @@ export class GuillotinaClient {
       {
         label: 'modified',
         key: 'modification_date',
-        canSort: true,
+        isSortable: true,
         child: (m) => (
           <td style={mediumcss} className="is-size-7 is-vcentered">
             {m.updated}
