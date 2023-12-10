@@ -1,3 +1,14 @@
+0.24.0
+------
+ - feat: Implement and update some guillotina behaviors
+ - feat: add select vocabulary field
+ - feat: Allow to sort columns in items tab
+ - fix: auth, expired token
+ - feat: allow to use multiples attributes to do a generic search
+ - feat: Add search input to user and group items tab
+ - chore: add vitest
+
+ 
 0.23.1
 ------
  - chore: update use-reactportal
