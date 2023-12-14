@@ -187,7 +187,7 @@ export function AddPermission({ refresh, reset }) {
       <p>Select a type:</p>
       <Select
         options={defaultOptions}
-        onChange={(v) => setState({ current: v.target.value })}
+        onChange={(value) => setState({ current: value })}
         dataTest="selectPermissionTypeTest"
       />
       <hr />

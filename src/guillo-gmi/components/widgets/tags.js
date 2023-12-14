@@ -58,8 +58,8 @@ export function TagsWidget({
             <Select
               options={available}
               ref={selectRef}
-              onChange={(ev) => {
-                addItem(ev.target.value)
+              onChange={(value) => {
+                addItem(value)
                 selectRef.current.value = ''
               }}
             />

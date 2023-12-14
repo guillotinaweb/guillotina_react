@@ -32,15 +32,14 @@ export const Select = React.forwardRef(
     const [uid] = useState(generateUID('select'))
 
     const onUpdate = (ev) => {
-      const selectValue = get(ev, 'target.value', undefined)
       if (multiple) {
-        const currentValue = value || []
-        if (!currentValue.includes(selectValue)) {
-          onChange([...currentValue, selectValue])
-        } else {
-          onChange(currentValue.filter((value) => value !== selectValue))
+        let selectValue = []
+        for (let i = 0; i < ev.target.selectedOptions.length; i++) {
+          selectValue = selectValue.concat([ev.target.selectedOptions[i].value])
         }
+        onChange(selectValue)
       } else {
+        const selectValue = get(ev, 'target.value', undefined)
         onChange(selectValue)
       }
     }

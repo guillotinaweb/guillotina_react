@@ -22,17 +22,12 @@ export function PermissionRoleperm({
     error: undefined,
   })
 
-  const getMultiples = (field, setter) => (ev) => {
-    let values = []
-    for (let i = 0; i < ev.target.selectedOptions.length; i++) {
-      values = values.concat([ev.target.selectedOptions[i].value])
-    }
+  const getMultiples = (field, setter) => (values) => {
     setter({ [field]: values })
   }
 
   const savePermission = async () => {
     if (!state.role || !state.setting || state.permission.length === 0) {
-      console.log(state)
       setState({ error: 'Invalid form' })
       return
     }
@@ -63,7 +58,7 @@ export function PermissionRoleperm({
         <Select
           appendDefault
           options={roles}
-          onChange={(ev) => setState({ role: ev.target.value })}
+          onChange={(value) => setState({ role: value })}
           dataTest="selectRoleTest"
         />
       </div>
@@ -82,7 +77,7 @@ export function PermissionRoleperm({
         <Select
           appendDefault
           options={operations}
-          onChange={(ev) => setState({ setting: ev.target.value })}
+          onChange={(value) => setState({ setting: value })}
           dataTest="operationPermissionsTest"
         />
       </div>

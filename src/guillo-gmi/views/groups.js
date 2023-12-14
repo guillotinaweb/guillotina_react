@@ -117,8 +117,7 @@ export function GroupCtx() {
     }
   }
 
-  const addRole = async (ev) => {
-    const role = ev.target.value
+  const addRole = async (role) => {
     const { isError, errorMessage } = await patch({
       user_roles: Ctx.context.user_roles.concat(role),
     })
