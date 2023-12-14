@@ -2,13 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Select } from './select'
 import { get } from '../../lib/utils'
-import { useVocabularyDynamicBySchema } from '../../hooks/useVocabulary/useVocabularyDynamicBySchema'
+import { useVocabulary } from '../../hooks/useVocabulary'
 
 export const SelectVocabulary = React.forwardRef(
-  ({ schema, className, setValue, val, dataTest, ...rest }, ref) => {
-    const vocabulary = useVocabularyDynamicBySchema(schema)
+  (
+    { vocabularyName, className, classWrap, val, dataTest, multiple, ...rest },
+    ref
+  ) => {
+    const vocabulary = useVocabulary(vocabularyName)
 
-    const getOptions = (items) => {
+    const getOptions = () => {
       if (get(vocabulary, 'data.items', null)) {
         const vocData = vocabulary.data.items.map((item) => {
           return {
@@ -19,44 +22,24 @@ export const SelectVocabulary = React.forwardRef(
         return vocData
       }
 
-      return items.map((item) => {
-        return {
-          text: item,
-          value: item,
-        }
-      })
+      return []
     }
 
     const getProps = () => {
-      if (schema.type === 'array') {
+      if (multiple) {
         const currentValue = val || []
         return {
           multiple: true,
           size: 5,
           value: currentValue,
-          options: getOptions(schema.items.enum),
-          onChange: (ev) => {
-            const selectValue = get(ev, 'target.value', '')
-            if (!currentValue.includes(selectValue)) {
-              setValue([...currentValue, selectValue])
-            } else {
-              setValue(currentValue.filter((value) => value !== selectValue))
-            }
-          },
+          options: getOptions(),
         }
       }
 
       return {
         value: val ?? '',
         appendDefault: true,
-        options: getOptions(schema.enum),
-        onChange: (ev) => {
-          let selectValue = get(ev, 'target.value', '')
-          if (selectValue === '') {
-            selectValue = null
-          }
-          return setValue(selectValue)
-        },
+        options: getOptions(),
       }
     }
 
@@ -68,7 +51,7 @@ export const SelectVocabulary = React.forwardRef(
       <Select
         {...getProps()}
         className={className}
-        classWrap="is-fullwidth"
+        classWrap={classWrap || 'is-fullwidth'}
         dataTest={dataTest}
         ref={ref}
         {...rest}
@@ -84,7 +67,7 @@ Select.propTypes = {
   isSubmitted: PropTypes.bool,
   size: PropTypes.number,
   onChange: PropTypes.func,
-  schema: PropTypes.object,
   multiple: PropTypes.bool,
   className: PropTypes.string,
+  vocabularyName: PropTypes.string,
 }

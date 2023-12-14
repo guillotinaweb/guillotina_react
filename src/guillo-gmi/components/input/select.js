@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ErrorZone from '../error_zone'
 import { classnames, generateUID } from '../../lib/helpers'
-
+import { get } from '../../lib/utils'
 // @ TODO implement hasErrors
 
 /** @type any */
@@ -24,6 +24,7 @@ export const Select = React.forwardRef(
       appendDefault = false,
       style = {},
       dataTest,
+      value,
       ...rest
     },
     ref
@@ -31,15 +32,21 @@ export const Select = React.forwardRef(
     const [uid] = useState(generateUID('select'))
 
     const onUpdate = (ev) => {
-      if (ev.target.value === '') {
-        onChange({ target: { value: undefined } })
+      const selectValue = get(ev, 'target.value', undefined)
+      if (multiple) {
+        const currentValue = value || []
+        if (!currentValue.includes(selectValue)) {
+          onChange([...currentValue, selectValue])
+        } else {
+          onChange(currentValue.filter((value) => value !== selectValue))
+        }
       } else {
-        onChange(ev)
+        onChange(selectValue)
       }
     }
 
     if (appendDefault) {
-      options = [{ text: 'Choose..', value: '' }].concat(options)
+      options = [{ text: 'Choose...', value: '' }].concat(options)
     }
     const statusClasses = error ? 'is-danger' : ''
 
@@ -60,14 +67,15 @@ export const Select = React.forwardRef(
         <div className={classnames(cssWrap)}>
           <select
             className={classnames(['', className])}
-            size={size}
+            size={multiple ? 5 : size}
             multiple={multiple}
             disabled={loading || rest.disabled}
             onChange={onUpdate}
-            {...rest}
             ref={ref}
             style={style}
             data-test={dataTest}
+            value={value}
+            {...rest}
           >
             {options.map(({ text, ...rest }, index) => (
               <option key={index.toString()} {...rest}>

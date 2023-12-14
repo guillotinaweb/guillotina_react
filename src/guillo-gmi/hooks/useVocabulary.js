@@ -1,5 +1,5 @@
-import useSetState from '../useSetState'
-import { useTraversal } from '../../contexts'
+import { useTraversal } from '../contexts'
+import useSetState from './useSetState'
 import { useEffect } from 'react'
 
 export function useVocabulary(vocabularyName, path) {

@@ -33,6 +33,40 @@ export const EditComponent = React.forwardRef(
         />
       )
     } else if (schema?.type === 'array') {
+      if (schema.items && schema.items.type === 'string') {
+        if (schema.items.vocabularyName) {
+          return (
+            <SelectVocabulary
+              vocabularyName={get(schema, 'items.vocabularyName', null)}
+              val={val || []}
+              className={className}
+              classWrap="is-fullwidth"
+              dataTest={dataTest}
+              {...rest}
+              onChange={setValue}
+              multiple
+            />
+          )
+        }
+
+        return (
+          <Select
+            value={val || []}
+            className={className}
+            classWrap="is-fullwidth"
+            dataTest={dataTest}
+            options={schema?.items.vocabulary.map((item) => {
+              return {
+                text: item,
+                value: item,
+              }
+            })}
+            multiple
+            onChange={setValue}
+            {...rest}
+          />
+        )
+      }
       return (
         <InputList
           value={val || []}
@@ -52,20 +86,22 @@ export const EditComponent = React.forwardRef(
           {...rest}
         />
       )
-    } else if (schema?.vocabularyName) {
-      return (
-        <SelectVocabulary
-          schema={schema}
-          value={val || ''}
-          className={className}
-          appendDefault
-          classWrap="is-fullwidth"
-          dataTest={dataTest}
-          {...rest}
-          setValue={setValue}
-        />
-      )
-    } else if (schema?.widget === 'select') {
+    } else if (schema?.widget === 'select' && schema.type === 'string') {
+      if (schema?.vocabularyName) {
+        return (
+          <SelectVocabulary
+            val={val || ''}
+            className={className}
+            appendDefault
+            classWrap="is-fullwidth"
+            dataTest={dataTest}
+            setValue={setValue}
+            vocabularyName={get(schema, 'vocabularyName', null)}
+            {...rest}
+          />
+        )
+      }
+
       return (
         <Select
           value={val || ''}
@@ -73,17 +109,14 @@ export const EditComponent = React.forwardRef(
           appendDefault
           classWrap="is-fullwidth"
           dataTest={dataTest}
-          {...rest}
           options={schema?.vocabulary.map((item) => {
             return {
               text: item,
               value: item,
             }
           })}
-          onChange={(ev) => {
-            const selectValue = get(ev, 'target.value', '')
-            return setValue(selectValue)
-          }}
+          onChange={setValue}
+          {...rest}
         />
       )
     }
