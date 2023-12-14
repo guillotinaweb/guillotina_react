@@ -39,8 +39,8 @@ export class RestClient {
     })
   }
 
-  async get(path) {
-    return await this.request(path, {})
+  async get(path, fetchData) {
+    return await this.request(path, fetchData)
   }
 
   async put(path, data) {

@@ -138,6 +138,21 @@ const getProperties = (type) => {
   return registry.properties[type] || {}
 }
 
+const getSchemas = (type) => {
+  return registry.schemas[type] || {}
+  /*
+    filters: [
+      {
+        attribute_key: string,
+        label: string,
+        type: 'select' | 'input'
+        vocabulary: string | undefined
+        values: {[key:string]:any}[]
+      }
+    ]
+  */
+}
+
 const getFieldsToFilter = (type, fallback) => {
   return registry.fieldsToFilter[type] || fallback
 }
@@ -167,6 +182,7 @@ export function useRegistry(data) {
     getProperties,
     getItemsColumn,
     getFieldsToFilter,
+    getSchemas,
   }
 }
 

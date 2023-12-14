@@ -66,7 +66,6 @@ export function ContextToolbar({ AddButton, ...props }) {
   const [state, setState] = useSetState(initialState)
   const [location, setLocation, del] = useLocation()
   const traversal = useTraversal()
-  const ref = React.useRef(null)
   const Config = useConfig()
 
   const searchText = location.get('q')
@@ -74,6 +73,7 @@ export function ContextToolbar({ AddButton, ...props }) {
   useEffect(() => {
     loadTypes()
   }, [traversal.path])
+
   async function loadTypes() {
     const types = await traversal.client.getTypes(traversal.path)
     setState({
@@ -87,21 +87,13 @@ export function ContextToolbar({ AddButton, ...props }) {
     ev.preventDefault()
   }
 
-  const onSearchByType = (ev) => {
-    const typeText = ev.target.value
+  const onSearchByType = (typeText) => {
     if (typeText && typeText !== '') {
       setLocation({ type: typeText, tab: 'Items', page: 0 })
     } else {
       del('type')
     }
   }
-
-  // cleanup form on state.search change
-  React.useEffect(() => {
-    if (!searchText || searchText === '') {
-      ref.current.value = ''
-    }
-  }, [searchText])
 
   return (
     <React.Fragment>
@@ -110,7 +102,7 @@ export function ContextToolbar({ AddButton, ...props }) {
           <div className="field has-addons">
             <div className="control">
               <input
-                ref={ref}
+                defaultValue={searchText || ''}
                 type="text"
                 className="input is-size-7"
                 placeholder="Search..."
