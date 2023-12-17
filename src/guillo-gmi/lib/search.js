@@ -3,6 +3,19 @@ const DEFAULT_FIELD = 'title__in'
 const CLEANER = '||'
 
 export function parser(qs, defaultField = DEFAULT_FIELD) {
+  if (qs.includes(SEP) && Array.isArray(defaultField)) {
+    throw new Error('This option is not supported')
+  }
+
+  if (Array.isArray(defaultField)) {
+    const orParser = []
+    defaultField.forEach((field) => {
+      const parsed = parser(qs, field)
+      orParser.push(buildQs(parsed))
+    })
+    const result = [['__or', orParser.join('&')]]
+    return result
+  }
   let lastKey = undefined
   qs.trim()
 

@@ -17,11 +17,7 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
     error: undefined,
   })
 
-  const getMultiples = (field, setter) => (ev) => {
-    let values = []
-    for (let i = 0; i < ev.target.selectedOptions.length; i++) {
-      values = values.concat([ev.target.selectedOptions[i].value])
-    }
+  const getMultiples = (field, setter) => (values) => {
     setter({ [field]: values })
   }
 
@@ -56,7 +52,7 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
         <Select
           appendDefault
           options={principals}
-          onChange={(ev) => setState({ principal: ev.target.value })}
+          onChange={(value) => setState({ principal: value })}
           dataTest="selectPrincipalTest"
         />
       </div>
@@ -75,7 +71,7 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
         <Select
           appendDefault
           options={operations}
-          onChange={(ev) => setState({ setting: ev.target.value })}
+          onChange={(value) => setState({ setting: value })}
           dataTest="operationPermissionsTest"
         />
       </div>

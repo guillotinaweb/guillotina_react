@@ -13,7 +13,7 @@ export function SearchLabels(props) {
 
   return (
     <div className="tags">
-      {search && (
+      {search && label && (
         <Tag name={label ?? 'Search:'} color="is-light" size="is-size-7" />
       )}
       {search && (

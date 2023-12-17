@@ -71,7 +71,7 @@ export class Auth {
 
   storeAuth(data) {
     localStorage.setItem('auth', data.token)
-    localStorage.setItem('auth_expires', data.exp)
+    localStorage.setItem('auth_expires', new Date(data.exp).getTime())
   }
 
   cleanAuth() {

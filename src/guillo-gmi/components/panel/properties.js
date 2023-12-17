@@ -12,9 +12,13 @@ import { get } from '../../lib/utils'
 
 const _showProperties = ['@id', '@name', '@uid']
 const _ignoreFields = [
-  'guillotina.behaviors.attachment.IAttachment',
   'guillotina.behaviors.dublincore.IDublinCore',
+  'guillotina.behaviors.attachment.IAttachment',
   'guillotina.behaviors.attachment.IMultiAttachment',
+  'guillotina.contrib.workflows.interfaces.IWorkflowBehavior',
+  'guillotina.contrib.image.behaviors.IImageAttachment',
+  'guillotina.contrib.image.behaviors.IMultiImageAttachment',
+  'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment',
   '__behaviors__',
   'type_name',
   'creation_date',
@@ -36,8 +40,15 @@ export function PanelProperties() {
 
   const model = new ItemModel(Ctx.context)
 
-  const showProperties = cfg.properties_default || _showProperties
-  const ignoreFields = cfg.properties_ignore_fields || _ignoreFields
+  const showProperties =
+    Ctx.registry.getProperties(Ctx.context['@type']).default ||
+    cfg.properties_default ||
+    _showProperties
+
+  const ignoreFields =
+    Ctx.registry.getProperties(Ctx.context['@type']).ignoreField ||
+    cfg.properties_ignore_fields ||
+    _ignoreFields
 
   const properties = Object.keys(schema?.data?.properties || [])
     .filter((key) => !ignoreFields.includes(key))

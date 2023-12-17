@@ -4,6 +4,7 @@ import { Icon } from '../components/ui'
 import { toQueryString } from './helpers'
 import { RestClient } from './rest'
 import { parser } from './search'
+import { useLocation } from '../hooks/useLocation'
 
 let cacheTypes = {}
 let cacheSchemas = {}
@@ -44,11 +45,11 @@ export class GuillotinaClient {
     }
   }
 
-  async get(path) {
+  async get(path, fetchData) {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
-    return await this.rest.get(path)
+    return await this.rest.get(path, fetchData)
   }
 
   getQueryParamsPostresql({ start = 0, pageSize = 10, withDepth = true }) {
@@ -103,10 +104,13 @@ export class GuillotinaClient {
     return [
       {
         label: '',
+        isSortable: false,
         child: (m) => <td style={smallcss}>{<Icon icon={m.icon} />}</td>,
       },
       {
         label: 'type',
+        key: 'type_name',
+        isSortable: false,
         child: (m) => (
           <TdLink style={smallcss} model={m}>
             <span className="tag">{m.type}</span>
@@ -115,6 +119,8 @@ export class GuillotinaClient {
       },
       {
         label: 'id/name',
+        key: 'title',
+        isSortable: true,
         child: (m, navigate, search) => (
           <TdLink model={m}>
             {m.name}
@@ -129,14 +135,20 @@ export class GuillotinaClient {
       },
       {
         label: 'created',
-        child: (m) => (
-          <td style={mediumcss} className="is-size-7 is-vcentered">
-            {m.created}
-          </td>
-        ),
+        key: 'creation_date',
+        isSortable: true,
+        child: (m) => {
+          return (
+            <td style={mediumcss} className="is-size-7 is-vcentered">
+              {m.created}
+            </td>
+          )
+        },
       },
       {
         label: 'modified',
+        key: 'modification_date',
+        isSortable: true,
         child: (m) => (
           <td style={mediumcss} className="is-size-7 is-vcentered">
             {m.updated}
@@ -153,7 +165,13 @@ export class GuillotinaClient {
     return data
   }
 
-  async search(path, params, container = false, prepare = true) {
+  async search(
+    path,
+    params,
+    container = false,
+    prepare = true,
+    fetchData = {}
+  ) {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
@@ -164,7 +182,7 @@ export class GuillotinaClient {
 
     let query = prepare ? toQueryString(params) : params
     const url = `${path}@search?${query}`
-    let res = await this.rest.get(url)
+    let res = await this.rest.get(url, fetchData)
     let data = await res.json()
     return this.applyCompat(data)
   }

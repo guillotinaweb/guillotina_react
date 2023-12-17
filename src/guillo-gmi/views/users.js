@@ -9,24 +9,67 @@ import { TagsWidget } from '../components/widgets/tags'
 import { Icon } from '../components/ui/icon'
 import { Button } from '../components/input/button'
 import { useRemoteField } from '../hooks/useRemoteField'
+import { useLocation } from '../hooks/useLocation'
 
 const tabs = {
   Users: PanelItems,
 }
 
-export function UsersToolbar(props) {
+export function UsersToolbar() {
   const Ctx = useTraversal()
+  const ref = React.useRef(null)
+  const [location, setLocation] = useLocation()
+  const searchText = location.get('q')
+
+  const onSearchQuery = (ev) => {
+    const search = ev.target[0].value
+    setLocation({ q: search, page: 0 })
+    ev.preventDefault()
+  }
+
+  // cleanup form on state.search change
+  React.useEffect(() => {
+    if (!searchText || searchText === '') {
+      ref.current.value = ''
+    }
+  }, [searchText])
 
   return (
-    <button
-      className="button is-primary"
-      onClick={() => Ctx.doAction('addItem', { type: 'User' })}
-      aria-haspopup="true"
-      aria-controls="dropdown-menu"
-    >
-      <Icon icon="fas fa-user" />
-      <span>Add a User</span>
-    </button>
+    <React.Fragment>
+      <div className="level-item">
+        <form action="" className="form" onSubmit={onSearchQuery}>
+          <div className="field has-addons">
+            <div className="control">
+              <input
+                ref={ref}
+                type="text"
+                className="input is-size-7"
+                placeholder="Search..."
+                data-test="inputFilterTest"
+              />
+            </div>
+            <div className="control">
+              <button
+                className="button has-background-grey-lighter is-size-7"
+                type="submit"
+                data-test="btnInputFilter"
+              >
+                <Icon icon="fas fa-search" />
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <button
+        className="button is-primary"
+        onClick={() => Ctx.doAction('addItem', { type: 'User' })}
+        aria-haspopup="true"
+        aria-controls="dropdown-menu"
+      >
+        <Icon icon="fas fa-user" />
+        <span>Add a User</span>
+      </button>
+    </React.Fragment>
   )
 }
 

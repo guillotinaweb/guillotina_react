@@ -15,6 +15,9 @@ import { parser } from '../../lib/search'
 import { useConfig } from '../../hooks/useConfig'
 import { useEffect } from 'react'
 import { useLocation } from '../../hooks/useLocation'
+import { Select } from '../input/select'
+import { Input } from '../input/input'
+import { SelectVocabulary } from '../input/select_vocabulary'
 
 const initialState = {
   page: 0,
@@ -24,12 +27,15 @@ const initialState = {
 }
 
 export function PanelItems() {
-  const [location, setLocation] = useLocation()
+  const [location, setLocation, del] = useLocation()
   const { PageSize, SearchEngine } = useConfig()
 
   const Ctx = useTraversal()
   const [state, setState] = useSetState(initialState)
   const { items, loading, total } = state
+
+  const filterSchema =
+    Ctx.registry.getSchemas(Ctx.context['@type']).filters || []
 
   const columns =
     Ctx.registry.getItemsColumn(Ctx.context['@type']) ||
@@ -37,6 +43,8 @@ export function PanelItems() {
 
   let search = location.get('q')
   let type = location.get('type')
+  let sort = location.get('sort')
+  const sortDirection = location.get('sort_direction')
   let page
 
   try {
@@ -47,7 +55,8 @@ export function PanelItems() {
 
   let searchParsed = undefined
   if (search && search !== '') {
-    searchParsed = parser(search)
+    const fieldsToFilter = Ctx.registry.getFieldsToFilter(Ctx.context['@type'])
+    searchParsed = parser(search, fieldsToFilter)
   }
 
   let typeParsed = undefined
@@ -55,7 +64,45 @@ export function PanelItems() {
     typeParsed = parser(type, 'type_name')
   }
 
+  let sortParsed = undefined
+  if (sort && sort !== '') {
+    if (sortDirection === 'asc') {
+      sortParsed = parser(`_sort_asc=${sort}`)
+    } else if (sortDirection === 'des') {
+      sortParsed = parser(`_sort_des=${sort}`)
+    }
+  }
+
+  const onSort = (key) => {
+    if (sort === key && sortDirection === 'des') {
+      setLocation({
+        sort: key,
+        sort_direction: 'asc',
+        page: 0,
+      })
+    } else {
+      setLocation({
+        sort: key,
+        sort_direction: 'des',
+        page: 0,
+      })
+    }
+  }
+
+  let resultQueryParams = []
+  let resultDynamicLocation = []
+  filterSchema.forEach((filter) => {
+    const itemParam = location.get(filter.attribute_key)
+    resultDynamicLocation.push(itemParam)
+    if (itemParam) {
+      const filterParsed = parser(itemParam, filter.attribute_key)
+      resultQueryParams = [...resultQueryParams, ...filterParsed]
+    }
+  })
+  console.log('resultQueryParams', resultQueryParams)
+
   useEffect(() => {
+    const controller = new AbortController()
     if (Ctx.state.loading) return
     ;(async () => {
       let data
@@ -69,48 +116,159 @@ export function PanelItems() {
         pageSize: PageSize,
       })
       let qs = ''
-      if (search || type) {
+      if (search || type || sort || resultQueryParams.length > 0) {
         qs = buildQs([
           ...qsParsed,
           ...(searchParsed ?? []),
           ...(typeParsed ?? []),
+          ...(sortParsed ?? []),
+          ...resultQueryParams,
         ])
       } else {
         qs = buildQs(qsParsed)
       }
 
-      data = await Ctx.client.search(
-        Ctx.path,
-        qs,
-        false,
-        false,
-        page * PageSize,
-        PageSize
-      )
+      const { signal } = controller
+      data = await Ctx.client.search(Ctx.path, qs, false, false, { signal })
       setState({
         items: data.member,
         loading: false,
         total: data.items_count,
       })
     })()
-  }, [search, type, Ctx.state.refresh, page])
+    return () => {
+      controller.abort()
+    }
+  }, [
+    search,
+    type,
+    Ctx.state.refresh,
+    page,
+    sort,
+    sortDirection,
+    ...resultDynamicLocation,
+  ])
 
   const doPaginate = (page) => {
     setLocation({ page: page })
   }
 
+  const getIcon = (key, isSortable) => {
+    let icon = null
+    if (isSortable) {
+      if (sort !== key) {
+        icon = <i className="fas fa-sort" />
+      } else if (sortDirection === 'des') {
+        icon = <i className="fas fa-sort-down" />
+      } else {
+        icon = <i className="fas fa-sort-up"></i>
+      }
+    }
+    return <span className="icon is-small">{icon}</span>
+  }
+
   return (
     <ItemsActionsProvider items={items}>
+      {filterSchema.length > 0 && (
+        <div className="filters-items-view">
+          {filterSchema.map((filter) => {
+            if (filter.type === 'select' && (filter.values ?? []).length > 0) {
+              return (
+                <Select
+                  id={filter.attribute_key}
+                  placeholder={filter.label}
+                  appendDefault
+                  classWrap="is-size-7 is-fullwidth"
+                  options={filter.values}
+                  value={location.get(filter.attribute_key) || ''}
+                  onChange={(value) => {
+                    if (value && value !== '') {
+                      setLocation({
+                        [filter.attribute_key]: value,
+                        tab: 'Items',
+                        page: 0,
+                      })
+                    } else {
+                      del(filter.attribute_key)
+                    }
+                  }}
+                />
+              )
+            } else if (filter.type === 'select' && filter.vocabulary) {
+              return (
+                <SelectVocabulary
+                  id={filter.attribute_key}
+                  placeholder={filter.label}
+                  appendDefault
+                  vocabularyName={filter.vocabulary}
+                  classWrap="is-size-7 is-fullwidth"
+                  value={location.get(filter.attribute_key) || ''}
+                  onChange={(value) => {
+                    if (value && value !== '') {
+                      setLocation({
+                        [filter.attribute_key]: value,
+                        tab: 'Items',
+                        page: 0,
+                      })
+                    } else {
+                      del(filter.attribute_key)
+                    }
+                  }}
+                />
+              )
+            } else if (filter.type === 'input') {
+              return (
+                <Input
+                  id={filter.attribute_key}
+                  placeholder={filter.label}
+                  className="is-size-7 is-fullwidth"
+                  type={filter.input_type || 'text'}
+                  value={location.get(filter.attribute_key) || ''}
+                  onChange={(value) => {
+                    if (value && value !== '') {
+                      setLocation({
+                        [filter.attribute_key]: value,
+                        tab: 'Items',
+                        page: 0,
+                      })
+                    } else {
+                      del(filter.attribute_key)
+                    }
+                  }}
+                />
+              )
+            }
+            return null
+          })}
+        </div>
+      )}
       <div className="columns">
         <div className="column is-2 is-size-7">
           <ItemsActionsDropdown />
         </div>
-        <div className="column">
-          <SearchLabels />
-        </div>
-        <div className="column">
-          <SearchLabels label="Type" query="type" />
-        </div>
+        {location.get('q') && (
+          <div className="column">
+            <SearchLabels />
+          </div>
+        )}
+        {location.get('type') && (
+          <div className="column">
+            <SearchLabels query="type" />
+          </div>
+        )}
+
+        {(filterSchema ?? []).map((filter) => {
+          const filterData = location.get(filter.attribute_key)
+          if (filterData) {
+            return (
+              <div className="column" key={filter.attribute_key}>
+                <SearchLabels query={filter.attribute_key} />
+              </div>
+            )
+          }
+
+          return null
+        })}
         <div className="column">
           <Pagination
             current={page}
@@ -121,6 +279,7 @@ export function PanelItems() {
           />
         </div>
       </div>
+
       {loading && <div className="progress-line"></div>}
       {!loading && (
         <table
@@ -132,9 +291,15 @@ export function PanelItems() {
               <th>
                 <AllItemsCheckbox />
               </th>
-              {columns.map((i) => (
-                <th key={i.label} className="has-text-info">
-                  {i.label}
+              {columns.map((column) => (
+                <th
+                  key={column.label}
+                  onClick={() => column.isSortable && onSort(column.key)}
+                >
+                  <div className="has-text-info is-flex is-align-items-center">
+                    <span>{column.label}</span>
+                    {getIcon(column.key, column.isSortable)}
+                  </div>
                 </th>
               ))}
               <th>&nbsp;</th>

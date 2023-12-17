@@ -42,8 +42,8 @@ export function TabsPanel({
 
   return (
     <div className="container">
-      <div className="level">
-        <div className="level-left">
+      <div className="level is-flex-wrap-wrap">
+        <div className="level-left mb-4">
           <div className="tabs">
             <ul>
               {Object.keys(tabs).map((tab) => (

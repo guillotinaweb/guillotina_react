@@ -18,6 +18,10 @@ import { UserForm } from '../forms/users'
 import { IAttachment } from '../components/behaviors/iattachment'
 import { IDublinCore } from '../components/behaviors/idublincore'
 import { IMultiAttachment } from '../components/behaviors/imultiattachment'
+import { IImageAttachment } from '../components/behaviors/iimageattachment'
+import { IMultiImageAttachment } from '../components/behaviors/imultiimageattachment'
+import { IMultiImageOrderedAttachment } from '../components/behaviors/imultiimageorderedattachment'
+import { IWorkflow } from '../components/behaviors/iworkflow'
 import { GroupsCtx } from '../views/groups'
 import { GroupCtx } from '../views/groups'
 import ErrorBoundary from '../components/error_boundary'
@@ -66,6 +70,10 @@ let registry = {
     'guillotina.behaviors.dublincore.IDublinCore': IDublinCore,
     'guillotina.behaviors.attachment.IAttachment': IAttachment,
     'guillotina.behaviors.attachment.IMultiAttachment': IMultiAttachment,
+    'guillotina.contrib.image.behaviors.IImageAttachment': IImageAttachment,
+    'guillotina.contrib.image.behaviors.IMultiImageAttachment': IMultiImageAttachment,
+    'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment': IMultiImageOrderedAttachment,
+    'guillotina.contrib.workflows.interfaces.IWorkflowBehavior': IWorkflow,
   },
   itemsColumn: {},
   schemas: {},
@@ -78,6 +86,9 @@ let registry = {
   searchEngineQueryParamsFunction: {
     PostreSQL: 'getQueryParamsPostresql',
     Elasticsearch: 'getQueryParamsElasticsearch',
+  },
+  fieldsToFilter: {
+    UserManager: ['id', 'email', 'user_name'],
   },
 }
 
@@ -127,6 +138,25 @@ const getProperties = (type) => {
   return registry.properties[type] || {}
 }
 
+const getSchemas = (type) => {
+  return registry.schemas[type] || {}
+  /*
+    filters: [
+      {
+        attribute_key: string,
+        label: string,
+        type: 'select' | 'input'
+        vocabulary: string | undefined
+        values: {[key:string]:any}[]
+      }
+    ]
+  */
+}
+
+const getFieldsToFilter = (type, fallback) => {
+  return registry.fieldsToFilter[type] || fallback
+}
+
 export const defaultComponent = (context) => {
   return context.is_folderish ? FolderCtx : ItemCtx
 }
@@ -151,6 +181,8 @@ export function useRegistry(data) {
     getBehavior,
     getProperties,
     getItemsColumn,
+    getFieldsToFilter,
+    getSchemas,
   }
 }
 
