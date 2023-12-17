@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Postgres
         run: docker run -d -e POSTGRES_DB=guillotina -e POSTGRES_USER=guillotina -e POSTGRES_HOST_AUTH_METHOD=trust -p 127.0.0.1:5532:5432 --name postgres postgres:12.17
@@ -30,9 +30,9 @@ jobs:
         working-directory: e2e/vite_example
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v6
         with:
-          build: npm install && npm run cypress:run:guillotina
+          build: npm install
           wait-on: 'http://localhost:4173'
           working-directory: e2e
 
