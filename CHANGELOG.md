@@ -7,6 +7,8 @@
  - feat: allow to use multiples attributes to do a generic search
  - feat: Add search input to user and group items tab
  - chore: add vitest
+ - Add select multiple
+ - Add filter schema to registry to create dynamic filters in items tab
 
  
 0.23.1
