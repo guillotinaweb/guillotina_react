@@ -13,11 +13,7 @@ export function Layout({ children, onLogout, auth }) {
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             <a className="navbar-item" href="/">
-              <img
-                src={process.env.PUBLIC_URL + '/logo.svg'}
-                alt="Guillotina logo"
-                height="80"
-              />
+              <img src="/logo.svg" alt="Guillotina logo" height="80" />
             </a>
             <a
               id="burger"
