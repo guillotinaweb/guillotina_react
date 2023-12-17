@@ -22,15 +22,11 @@ jobs:
       - name: Run guillotina
         run: docker run -d --link=postgres -p 0.0.0.0:8080:8080 guillotina_e2e:latest
 
-      - name: Install base modules
+      - name: Install base modules and build dist
         run: yarn
-
-      - name: Build dist
-        run: yarn
-        working-directory: "."
 
       - name: Start Server
-        run: npm install && npm run build && npm run preview
+        run: npm install && npm run build && npm run preview &
         working-directory: e2e/vite_example
 
       - name: Cypress run
