@@ -20,7 +20,7 @@ jobs:
         run: docker build -t guillotina_e2e .
         working-directory: "guillotina_example/guillotina_react_app"
       - name: Run guillotina
-        run: docker run --link=postgres -p 0.0.0.0:8080:8080 guillotina_e2e:latest
+        run: docker run -d --link=postgres -p 0.0.0.0:8080:8080 guillotina_e2e:latest
 
       - name: Install base modules
         run: yarn
