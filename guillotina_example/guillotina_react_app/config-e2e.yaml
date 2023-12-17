@@ -11,7 +11,7 @@ databases:
     storage: postgresql
     dsn: postgresql://guillotina:postgres@postgres/guillotina
     read_only: false
-host: localhost
+host: 0.0.0.0
 port: 8080
 root_user:
   password: root
@@ -24,10 +24,7 @@ auth_token_validators:
   - guillotina.auth.validators.JWTValidator
 cors:
   allow_origin:
-    - http://localhost:5173
-    - http://localhost:4173
-    - http://localhost:8080
-    - "chrome-extension://*"
+    - '*' # delegate to reverse proxy whichs domains to allow
   allow_methods:
     - GET
     - POST
