@@ -6,4 +6,4 @@ export const LOGIN_SELECTORS = {
   btnSubmit: "[data-test='btnLoginTest']",
 }
 
-export const LOGIN_TYPES = ['root', 'container']
+export const LOGIN_TYPES = ['root', 'container_test']

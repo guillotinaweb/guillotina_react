@@ -11,7 +11,7 @@ import {
 } from '../elements/form-types-selectors'
 import { NOTIFICATION_SELECTOR } from '../elements/notification-selectors'
 import { ACTION_SELECTORS } from '../elements/actions-selectors'
-import { BREADCRUMB_SELECTORS } from '../elements/breadcrumb-selectors'
+
 LOGIN_TYPES.forEach((loginType) => {
   describe(`test GMI type -- login type: ${loginType}`, function () {
     beforeEach('clear', function () {
@@ -43,7 +43,7 @@ LOGIN_TYPES.forEach((loginType) => {
       ).type('5')
       cy.get(
         `[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`
-      ).select('plone')
+      ).select('keyword')
       cy.get(FORM_BASE_SELECTORS.btn).click()
       cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 
@@ -106,7 +106,7 @@ LOGIN_TYPES.forEach((loginType) => {
       cy.get(
         `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-choice_field']`
       ).within(() => {
-        cy.get(EDITABLE_FORM_SELECTORS.field).select('plone')
+        cy.get(EDITABLE_FORM_SELECTORS.field).select('text')
         cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
       })
       cy.wait('@patch-object-test-gmi-item')
@@ -168,9 +168,9 @@ LOGIN_TYPES.forEach((loginType) => {
       ).type('5')
       cy.get(
         `[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`
-      ).select('plone')
+      ).select('text')
       cy.get(FORM_BASE_SELECTORS.btn).click()
-      cy.wait('@post-object-container')
+      cy.wait('@post-object-container_test')
       cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
       cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'depth')
     })

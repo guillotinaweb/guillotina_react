@@ -5,11 +5,9 @@ import { Login } from 'react-gmi'
 import { getClient } from 'react-gmi'
 import { ClientProvider, RequiredFieldsForm, Icon, TdLink } from 'react-gmi'
 
-import '../node_modules/react-gmi/dist/css/style.css'
-
 const url = 'http://localhost:8080'
 const auth = new Auth(url)
-const schemas = ['/', '/db/container/']
+const schemas = ['/', '/db/container_test/']
 
 const registry = {
   // to register views around guillotina objects paths

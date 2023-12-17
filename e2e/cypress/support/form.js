@@ -60,7 +60,7 @@ Cypress.Commands.add('addGMI', (name, id) => {
     '5'
   )
   cy.get(`[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`).select(
-    'plone'
+    'keyword'
   )
   cy.get(FORM_BASE_SELECTORS.btn).click()
   cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')

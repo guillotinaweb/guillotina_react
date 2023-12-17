@@ -18,7 +18,7 @@ Cypress.Commands.add(
       body: { username: user, password: pw },
     }).then((response) => {
       cy.setLocalStorage('auth', response.body.token)
-      cy.setLocalStorage('auth_expires', response.body.exp)
+      cy.setLocalStorage('auth_expires', new Date(response.body.exp).getTime())
     })
 
     cy.visit('/')
@@ -36,7 +36,9 @@ Cypress.Commands.add('login', function (type) {
 
 Cypress.Commands.add('goToContainer', function (type) {
   if (type === 'root') {
-    cy.get(`[data-test='${BREADCRUMB_SELECTORS.prefixItem}-container']`).click()
+    cy.get(
+      `[data-test='${BREADCRUMB_SELECTORS.prefixItem}-container_test']`
+    ).click()
   } else {
     cy.get(`[data-test='${BREADCRUMB_SELECTORS.prefixItem}-home']`).click()
   }
@@ -46,7 +48,6 @@ Cypress.Commands.add(
   'rootLogin',
   function ({ username, password, api_url } = {}) {
     cy.intercept('POST', `/@login`).as('login')
-    const url = api_url || Cypress.env('GUILLOTINA')
     const user = username || 'root'
     const pw = password || 'root'
 

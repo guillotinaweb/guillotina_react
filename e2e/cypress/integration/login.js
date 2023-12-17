@@ -23,7 +23,7 @@ describe('test login', function () {
       body: { username: 'root', password: 'root' },
     }).then((response) => {
       cy.setLocalStorage('auth', response.body.token)
-      cy.setLocalStorage('auth_expires', response.body.exp)
+      cy.setLocalStorage('auth_expires', new Date(response.body.exp).getTime())
     })
 
     cy.visit('/')
@@ -45,7 +45,7 @@ describe('test login', function () {
       body: { username: 'default', password: 'default' },
     }).then((response) => {
       cy.setLocalStorage('auth', response.body.token)
-      cy.setLocalStorage('auth_expires', response.body.exp)
+      cy.setLocalStorage('auth_expires', new Date(response.body.exp).getTime())
     })
 
     cy.visit('/')

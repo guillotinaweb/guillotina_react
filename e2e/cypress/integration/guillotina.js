@@ -18,7 +18,7 @@ describe('check guillotina', function () {
   it('check default is created', function () {
     cy.request({
       method: 'GET',
-      url: `${api_url}/container/users/default`,
+      url: `${api_url}/container_test/users/default`,
       headers,
     }).then(() => {
       console.log('User exists')

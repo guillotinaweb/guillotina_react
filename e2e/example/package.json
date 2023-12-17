@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next",
-    "build": "cd ../../package && yarn && yarn build && yarn build:css && cd ../e2e/example && yarn",
+    "build": "cd ../../ && yarn && yarn build && yarn build:css && cd ../e2e/example && yarn",
     "start": "yarn && yarn dev"
   },
   "keywords": [],
@@ -13,8 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "next": "^12.1.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-gmi": "file:../.."
   }
 }
