@@ -13,4 +13,4 @@ RUN pip install --no-deps -e /usr/src/app/api
 
 COPY config* /app/
 EXPOSE 8080
-RUN ["guillotina", "-c" ,"/app/config-e2e.yaml"]
+CMD ["guillotina", "-c" ,"/app/config-e2e.yaml"]
