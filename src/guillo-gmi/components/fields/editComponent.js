@@ -47,25 +47,25 @@ export const EditComponent = React.forwardRef(
               multiple
             />
           )
+        } else if (schema?.items?.vocabulary) {
+          return (
+            <Select
+              value={val || []}
+              className={className}
+              classWrap="is-fullwidth"
+              dataTest={dataTest}
+              options={schema?.items.vocabulary.map((item) => {
+                return {
+                  text: item,
+                  value: item,
+                }
+              })}
+              multiple
+              onChange={setValue}
+              {...rest}
+            />
+          )
         }
-
-        return (
-          <Select
-            value={val || []}
-            className={className}
-            classWrap="is-fullwidth"
-            dataTest={dataTest}
-            options={schema?.items.vocabulary.map((item) => {
-              return {
-                text: item,
-                value: item,
-              }
-            })}
-            multiple
-            onChange={setValue}
-            {...rest}
-          />
-        )
       }
       return (
         <InputList
