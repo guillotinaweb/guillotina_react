@@ -19,6 +19,77 @@ const schemas = ['/', '/db/container_test/']
 const auth = new Auth(url)
 // const client = getClient(url, schema, auth)
 
+const filtersConfig = [
+  {
+    attribute_key: 'choice_field',
+    label: 'Choice field',
+    type: 'select',
+    values: [
+      {
+        value: 'date',
+        text: 'Date',
+      },
+      {
+        value: 'integer',
+        text: 'Integer',
+      },
+      {
+        value: 'text',
+        text: 'Text',
+      },
+      {
+        value: 'float',
+        text: 'Float',
+      },
+      {
+        value: 'keyword',
+        text: 'Keyword',
+      },
+      {
+        value: 'boolean',
+        text: 'Boolean',
+      },
+    ],
+  },
+  {
+    attribute_key: 'choice_field_vocabulary',
+    label: 'Choice field vocabulary',
+    type: 'select',
+    vocabulary: 'gmi_vocabulary',
+  },
+  {
+    attribute_key: 'text_field',
+    label: 'Text field',
+    type: 'input',
+  },
+  {
+    attribute_key: 'number_field',
+    label: 'Number field',
+    type: 'input',
+    input_type: 'number',
+  },
+  {
+    attribute_key: 'date_field',
+    label: 'Date field',
+    type: 'input',
+    input_type: 'date',
+  },
+  {
+    attribute_key: 'boolean_field',
+    label: 'Boolean field',
+    type: 'select',
+    values: [
+      {
+        value: 'true',
+        label: 'Yes',
+      },
+      {
+        value: 'false',
+        label: 'No',
+      },
+    ],
+  },
+]
 function App() {
   const [currentSchema, setCurrentSchema] = useState('/')
   const [clientInstance, setClientInstance] = useState(undefined)
@@ -51,71 +122,10 @@ function App() {
             registry={{
               schemas: {
                 Folder: {
-                  filters: [
-                    {
-                      attribute_key: 'choice_field',
-                      label: 'Choice field',
-                      type: 'select',
-                      values: [
-                        {
-                          value: 'date',
-                          text: 'Date',
-                        },
-                        {
-                          value: 'integer',
-                          text: 'Integer',
-                        },
-                        {
-                          value: 'text',
-                          text: 'Text',
-                        },
-                        {
-                          value: 'float',
-                          text: 'Float',
-                        },
-                        {
-                          value: 'keyword',
-                          text: 'Keyword',
-                        },
-                        {
-                          value: 'boolean',
-                          text: 'Boolean',
-                        },
-                      ],
-                    },
-                    {
-                      attribute_key: 'choice_field_vocabulary',
-                      label: 'Choice field vocabulary',
-                      type: 'select',
-                      vocabulary: 'gmi_vocabulary',
-                    },
-                    {
-                      attribute_key: 'text_field',
-                      label: 'Text field',
-                      type: 'input',
-                    },
-                    {
-                      attribute_key: 'date_field',
-                      label: 'Date field',
-                      type: 'input',
-                      input_type: 'date',
-                    },
-                    {
-                      attribute_key: 'boolean_field',
-                      label: 'Boolean field',
-                      type: 'select',
-                      values: [
-                        {
-                          value: 'true',
-                          label: 'Yes',
-                        },
-                        {
-                          value: 'false',
-                          label: 'No',
-                        },
-                      ],
-                    },
-                  ],
+                  filters: filtersConfig,
+                },
+                Container: {
+                  filters: filtersConfig,
                 },
               },
               forms: {

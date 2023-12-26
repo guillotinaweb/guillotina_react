@@ -42,6 +42,40 @@ export function setupGuillotina() {
       user_groups: ['group_view_content'],
     },
   }).then(() => console.log('default user added'))
+
+  cy.request({
+    method: 'POST',
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}`,
+    headers,
+    body: {
+      '@type': 'Folder',
+      id: 'gmi_folder',
+      title: 'GMI Folder',
+    },
+  }).then(() => {
+    for (let i = 0; i < 50; i++) {
+      cy.request({
+        method: 'POST',
+        url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/gmi_folder`,
+        headers,
+        body: {
+          '@type': 'GMI',
+          title: `Test GMI item ${i}`,
+          number_field: i,
+          boolean_field: i % 2 === 0,
+          choice_field_vocabulary: ['plone', 'guillotina'][i % 2],
+          choice_field: [
+            'date',
+            'integer',
+            'text',
+            'float',
+            'keyword',
+            'boolean',
+          ][i % 6],
+        },
+      }).then(() => console.log('default user added'))
+    }
+  })
 }
 
 export function tearDownGuillotina() {

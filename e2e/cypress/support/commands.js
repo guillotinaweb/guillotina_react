@@ -1,4 +1,5 @@
 import { setupGuillotina, tearDownGuillotina } from './guillotina'
+import '@testing-library/cypress/add-commands'
 
 beforeEach('Setup guillotina', function () {
   setupGuillotina()
@@ -26,4 +27,8 @@ Cypress.Commands.add('setLocalStorage', (key, value) => {
   cy.window().then((window) => {
     window.localStorage.setItem(key, value)
   })
+})
+
+Cypress.Commands.add('totalItemsInTable', (key, total) => {
+  cy.get(key).find('tbody').find('tr').its('length').should('eq', total)
 })
