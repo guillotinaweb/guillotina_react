@@ -95,7 +95,7 @@ export const EditComponent = React.forwardRef(
             appendDefault
             classWrap="is-fullwidth"
             dataTest={dataTest}
-            setValue={setValue}
+            onChange={setValue}
             vocabularyName={get(schema, 'vocabularyName', null)}
             {...rest}
           />
