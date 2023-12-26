@@ -3,7 +3,6 @@ import useSetState from './useSetState'
 import { useEffect } from 'react'
 
 export function useVocabulary(vocabularyName, path) {
-  console.log('use vocabulary', vocabularyName)
   const traversal = useTraversal()
 
   const [vocabulary, setVocabulary] = useSetState({

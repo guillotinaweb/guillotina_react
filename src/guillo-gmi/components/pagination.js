@@ -11,7 +11,8 @@ export function Pagination({ current, total, doPaginate, pager }) {
     <div>
       <p className="level-right has-text-grey is-size-7">
         <span className="has-text-black">{current + 1}</span>/
-        <span className="has-text-black">{maxPages}</span>&nbsp;of {total} items
+        <span className="has-text-black">{maxPages}</span>&nbsp;of&nbsp;
+        <span className="has-text-black">{`${total} items`}</span>
       </p>
       <nav
         className="pagination is-size-7"

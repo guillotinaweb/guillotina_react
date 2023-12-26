@@ -99,7 +99,6 @@ export function PanelItems() {
       resultQueryParams = [...resultQueryParams, ...filterParsed]
     }
   })
-  console.log('resultQueryParams', resultQueryParams)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -175,12 +174,14 @@ export function PanelItems() {
             if (filter.type === 'select' && (filter.values ?? []).length > 0) {
               return (
                 <Select
+                  key={`filter-${filter.attribute_key}`}
                   id={filter.attribute_key}
                   placeholder={filter.label}
                   appendDefault
                   classWrap="is-size-7 is-fullwidth"
                   options={filter.values}
                   value={location.get(filter.attribute_key) || ''}
+                  dataTest={`filterInput${filter.attribute_key}`}
                   onChange={(value) => {
                     if (value && value !== '') {
                       setLocation({
@@ -197,12 +198,14 @@ export function PanelItems() {
             } else if (filter.type === 'select' && filter.vocabulary) {
               return (
                 <SelectVocabulary
+                  key={`filter-${filter.attribute_key}`}
                   id={filter.attribute_key}
                   placeholder={filter.label}
                   appendDefault
                   vocabularyName={filter.vocabulary}
                   classWrap="is-size-7 is-fullwidth"
                   value={location.get(filter.attribute_key) || ''}
+                  dataTest={`filterInput${filter.attribute_key}`}
                   onChange={(value) => {
                     if (value && value !== '') {
                       setLocation({
@@ -220,10 +223,12 @@ export function PanelItems() {
               return (
                 <Input
                   id={filter.attribute_key}
+                  key={`filter-${filter.attribute_key}`}
                   placeholder={filter.label}
                   className="is-size-7 is-fullwidth"
                   type={filter.input_type || 'text'}
                   value={location.get(filter.attribute_key) || ''}
+                  dataTest={`filterInput${filter.attribute_key}`}
                   onChange={(value) => {
                     if (value && value !== '') {
                       setLocation({
@@ -242,34 +247,27 @@ export function PanelItems() {
           })}
         </div>
       )}
-      <div className="columns">
-        <div className="column is-2 is-size-7">
+      <div className="wrapper-filters-info">
+        <div className="is-size-7">
           <ItemsActionsDropdown />
         </div>
-        {location.get('q') && (
-          <div className="column">
-            <SearchLabels />
-          </div>
-        )}
-        {location.get('type') && (
-          <div className="column">
-            <SearchLabels query="type" />
-          </div>
-        )}
+        <div className="wrapper-filters-tags">
+          {location.get('q') && <SearchLabels />}
+          {location.get('type') && <SearchLabels query="type" />}
 
-        {(filterSchema ?? []).map((filter) => {
-          const filterData = location.get(filter.attribute_key)
-          if (filterData) {
-            return (
-              <div className="column" key={filter.attribute_key}>
-                <SearchLabels query={filter.attribute_key} />
-              </div>
-            )
-          }
-
-          return null
-        })}
-        <div className="column">
+          {(filterSchema ?? []).map((filter) => {
+            const filterData = location.get(filter.attribute_key)
+            if (filterData) {
+              return (
+                <div key={filter.attribute_key}>
+                  <SearchLabels query={filter.attribute_key} />
+                </div>
+              )
+            }
+            return null
+          })}
+        </div>
+        <div>
           <Pagination
             current={page}
             total={total}
@@ -293,8 +291,9 @@ export function PanelItems() {
               </th>
               {columns.map((column) => (
                 <th
-                  key={column.label}
+                  key={`table-col-${column.label}`}
                   onClick={() => column.isSortable && onSort(column.key)}
+                  data-test={`sortableColumn${column.key}`}
                 >
                   <div className="has-text-info is-flex is-align-items-center">
                     <span>{column.label}</span>
