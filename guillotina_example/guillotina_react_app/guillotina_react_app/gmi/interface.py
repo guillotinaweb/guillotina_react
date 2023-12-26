@@ -27,6 +27,7 @@ class IGMI(interfaces.IFolder):
 
 
     text_line_field = schema.TextLine(title="Text line field")
+    index_field("number_field", type="int")
     number_field = schema.Int(title="Number field", required=True)
     index_field("boolean_field", type="boolean")
     boolean_field = schema.Bool(title="Boolean field")
