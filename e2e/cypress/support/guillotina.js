@@ -21,6 +21,13 @@ export function setupGuillotina() {
 
   cy.request({
     method: 'POST',
+    url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/@addons`,
+    headers,
+    body: { id: 'image' },
+  }).then(() => console.log('images addon added'))
+
+  cy.request({
+    method: 'POST',
     url: `${api_url}/${Cypress.env('GUILLOTINA_CONTAINER')}/groups`,
     headers,
     body: {

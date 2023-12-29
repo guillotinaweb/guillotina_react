@@ -1,4 +1,4 @@
-FROM python:3.9.13
+FROM python:3.11.7
 LABEL org.opencontainers.image.authors="Iskra"
 
 RUN mkdir -p /usr/src/app/api
