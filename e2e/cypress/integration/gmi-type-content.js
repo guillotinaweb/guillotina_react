@@ -26,6 +26,8 @@ LOGIN_TYPES.forEach((loginType) => {
     it('creates a GMI item as Admin, modifies it and delete it', function () {
       cy.interceptGetObject('test-gmi-item/@canido?**')
       cy.interceptPatchObject('test-gmi-item')
+      cy.interceptPatchObject('test-gmi-item/@upload/file')
+      cy.interceptPatchObject('test-gmi-item/@upload/image')
 
       // Create GMI item
       cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
@@ -56,6 +58,45 @@ LOGIN_TYPES.forEach((loginType) => {
         `[data-test='${TABS_PANEL_SELECTOS.prefixTabs}-properties']`
       ).click()
 
+      // Upload file
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-file']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-file']`
+      ).within(() => {
+        cy.get('input[type=file]').selectFile(
+          'cypress/fixtures/PDF_EXAMPLE_GUILLOTINA_REACT.pdf',
+          {
+            force: true,
+          }
+        )
+        cy.findByText('PDF_EXAMPLE_GUILLOTINA_REACT.pdf')
+        cy.findByText('Save').click()
+      })
+
+      cy.wait('@patch-object-test-gmi-item/@upload/file')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `file uploaded!`)
+
+      // Upload image
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-image']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-image']`
+      ).within(() => {
+        cy.get('input[type=file]').selectFile(
+          'cypress/fixtures/image_example.jpg',
+          {
+            force: true,
+          }
+        )
+        cy.findByText('image_example.jpg')
+        cy.findByText('Save').click()
+      })
+
+      cy.wait('@patch-object-test-gmi-item/@upload/image')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `image uploaded!`)
       // Modify title field ( input )
       cy.testInput({
         fieldName: 'title',
@@ -115,6 +156,54 @@ LOGIN_TYPES.forEach((loginType) => {
         `Field choice_field, updated!`
       )
 
+      // Modify multiple select
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
+      ).within(() => {
+        cy.get(EDITABLE_FORM_SELECTORS.field).select(['float', 'integer'])
+        cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
+      })
+      cy.wait('@patch-object-test-gmi-item')
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field multiple_choice_field, updated!`
+      )
+
+      // Modify multiple select vocabulary
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
+      ).within(() => {
+        cy.get(EDITABLE_FORM_SELECTORS.field).select(['plone', 'guillotina'])
+        cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
+      })
+      cy.wait('@patch-object-test-gmi-item')
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field multiple_choice_field_vocabulary, updated!`
+      )
+
+      // Modify select vocabulary
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-choice_field_vocabulary']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-choice_field_vocabulary']`
+      ).within(() => {
+        cy.get(EDITABLE_FORM_SELECTORS.field).select('plone')
+        cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
+      })
+      cy.wait('@patch-object-test-gmi-item')
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field choice_field_vocabulary, updated!`
+      )
+
       // Modify input list
       cy.get(
         `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-list_field']`
@@ -137,6 +226,17 @@ LOGIN_TYPES.forEach((loginType) => {
         'contain',
         `Field list_field, updated!`
       )
+
+      // Modify workflow
+      cy.findByText(/Current state: private/)
+      cy.findByText('Publish').click()
+      cy.findByText('Confirm').click()
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Great status changed!`)
+      cy.findByText(/Current state: public/)
+      cy.findByText('Retire').click()
+      cy.findByText('Confirm').click()
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Great status changed!`)
+      cy.findByText(/Current state: private/)
 
       cy.goToContainer(loginType)
 

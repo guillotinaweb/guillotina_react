@@ -89,6 +89,21 @@ const filtersConfig = [
       },
     ],
   },
+  {
+    attribute_key: 'review_state',
+    label: 'Workflow state',
+    type: 'select',
+    values: [
+      {
+        value: 'private',
+        label: 'Private',
+      },
+      {
+        value: 'public',
+        label: 'Public',
+      },
+    ],
+  },
 ]
 function App() {
   const [currentSchema, setCurrentSchema] = useState('/')
