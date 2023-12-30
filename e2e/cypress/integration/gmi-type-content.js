@@ -26,8 +26,7 @@ LOGIN_TYPES.forEach((loginType) => {
     it('creates a GMI item as Admin, modifies it and delete it', function () {
       cy.interceptGetObject('test-gmi-item/@canido?**')
       cy.interceptPatchObject('test-gmi-item')
-      cy.interceptPatchObject('test-gmi-item/@upload/file')
-      cy.interceptPatchObject('test-gmi-item/@upload/image')
+      cy.interceptPatchObject('test-gmi-item/@upload/**')
 
       // Create GMI item
       cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
@@ -75,16 +74,11 @@ LOGIN_TYPES.forEach((loginType) => {
         cy.findByText('Save').click()
       })
 
-      cy.wait('@patch-object-test-gmi-item/@upload/file')
+      cy.wait('@patch-object-test-gmi-item/@upload/**')
       cy.get(NOTIFICATION_SELECTOR).should('contain', `file uploaded!`)
 
       // Upload image
-      cy.get(
-        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-image']`
-      ).click()
-      cy.get(
-        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-image']`
-      ).within(() => {
+      cy.get(`[data-test='formImageAttachmentTest']`).within(() => {
         cy.get('input[type=file]').selectFile(
           'cypress/fixtures/image_example.jpg',
           {
@@ -92,11 +86,12 @@ LOGIN_TYPES.forEach((loginType) => {
           }
         )
         cy.findByText('image_example.jpg')
-        cy.findByText('Save').click()
+        cy.findByText('Upload').click()
       })
 
-      cy.wait('@patch-object-test-gmi-item/@upload/image')
-      cy.get(NOTIFICATION_SELECTOR).should('contain', `image uploaded!`)
+      cy.wait('@patch-object-test-gmi-item/@upload/**')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Image uploaded!`)
+
       // Modify title field ( input )
       cy.testInput({
         fieldName: 'title',
@@ -237,6 +232,21 @@ LOGIN_TYPES.forEach((loginType) => {
       cy.findByText('Confirm').click()
       cy.get(NOTIFICATION_SELECTOR).should('contain', `Great status changed!`)
       cy.findByText(/Current state: private/)
+
+      // Upload multiple image
+      cy.get(`[data-test='formMultiimageOrderedAttachmentTest']`).within(() => {
+        cy.get('input[type=file]').selectFile(
+          'cypress/fixtures/image_example.jpg',
+          {
+            force: true,
+          }
+        )
+        cy.findByText('image_example.jpg')
+        cy.findByText('Upload').click()
+      })
+
+      cy.wait('@patch-object-test-gmi-item/@upload/**')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Image uploaded!`)
 
       cy.goToContainer(loginType)
 

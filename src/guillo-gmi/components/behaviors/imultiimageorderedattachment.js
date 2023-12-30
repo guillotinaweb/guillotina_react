@@ -198,6 +198,7 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
           <form
             className="is-flex is-align-items-center"
             style={{ gap: '15px' }}
+            data-test="formMultiimageOrderedAttachmentTest"
           >
             <div>
               <FileUpload onChange={(ev) => setFile(ev)} />
