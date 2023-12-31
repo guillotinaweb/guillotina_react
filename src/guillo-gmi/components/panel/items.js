@@ -8,7 +8,9 @@ import {
 } from '../selected_items_actions'
 import { Pagination } from '../pagination'
 import { RItem } from '../item'
-import { SearchLabels } from '../../components/searchLabels'
+import { SearchLabels } from '../search_labels'
+import { SearchOptionsLabels } from '../search_options_labels'
+import { SearchVocabularyLabels } from '../search_vocabulary_labels'
 import { useTraversal } from '../../contexts'
 import { buildQs } from '../../lib/search'
 import { parser } from '../../lib/search'
@@ -258,6 +260,28 @@ export function PanelItems() {
           {(filterSchema ?? []).map((filter) => {
             const filterData = location.get(filter.attribute_key)
             if (filterData) {
+              if (filter.type === 'select' && filter.vocabulary) {
+                return (
+                  <div key={filter.attribute_key}>
+                    <SearchVocabularyLabels
+                      query={filter.attribute_key}
+                      vocabulary={filter?.vocabulary}
+                    />
+                  </div>
+                )
+              } else if (
+                filter.type === 'select' &&
+                (filter.values ?? []).length > 0
+              ) {
+                return (
+                  <div key={filter.attribute_key}>
+                    <SearchOptionsLabels
+                      query={filter.attribute_key}
+                      options={filter?.values}
+                    />
+                  </div>
+                )
+              }
               return (
                 <div key={filter.attribute_key}>
                   <SearchLabels query={filter.attribute_key} />

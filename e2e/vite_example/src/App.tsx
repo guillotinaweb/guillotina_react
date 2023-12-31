@@ -81,11 +81,11 @@ const filtersConfig = [
     values: [
       {
         value: 'true',
-        label: 'Yes',
+        text: 'Yes',
       },
       {
         value: 'false',
-        label: 'No',
+        text: 'No',
       },
     ],
   },
@@ -96,11 +96,11 @@ const filtersConfig = [
     values: [
       {
         value: 'private',
-        label: 'Private',
+        text: 'Private',
       },
       {
         value: 'public',
-        label: 'Public',
+        text: 'Public',
       },
     ],
   },
