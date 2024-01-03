@@ -1,0 +1,45 @@
+---
+applications:
+  - guillotina.contrib.catalog.pg
+  - guillotina.contrib.swagger
+  - guillotina.contrib.dbusers
+  - guillotina.contrib.workflows
+  - guillotina.contrib.image
+  - guillotina_react_app
+databases:
+  db:
+    storage: postgresql
+    dsn: postgresql://guillotina:postgres@postgres/guillotina
+    read_only: false
+host: 0.0.0.0
+port: 8080
+root_user:
+  password: root
+auth_extractors:
+  - guillotina.auth.extractors.BearerAuthPolicy
+  - guillotina.auth.extractors.BasicAuthPolicy
+  - guillotina.auth.extractors.WSTokenAuthPolicy
+auth_token_validators:
+  - guillotina.auth.validators.SaltedHashPasswordValidator
+  - guillotina.auth.validators.JWTValidator
+cors:
+  allow_origin:
+    - '*' # delegate to reverse proxy whichs domains to allow
+  allow_methods:
+    - GET
+    - POST
+    - DELETE
+    - HEAD
+    - PATCH
+    - PUT
+    - OPTIONS
+  allow_headers:
+    - "*"
+  expose_headers:
+    - "*"
+  allow_credentials: true
+  max_age: 3660
+jwt:
+  secret: foobar
+  algorithm: HS256
+  token_expiration: 86400

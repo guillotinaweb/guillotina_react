@@ -11,7 +11,7 @@ import {
 } from '../elements/form-types-selectors'
 import { NOTIFICATION_SELECTOR } from '../elements/notification-selectors'
 import { ACTION_SELECTORS } from '../elements/actions-selectors'
-import { BREADCRUMB_SELECTORS } from '../elements/breadcrumb-selectors'
+
 LOGIN_TYPES.forEach((loginType) => {
   describe(`test GMI type -- login type: ${loginType}`, function () {
     beforeEach('clear', function () {
@@ -26,6 +26,7 @@ LOGIN_TYPES.forEach((loginType) => {
     it('creates a GMI item as Admin, modifies it and delete it', function () {
       cy.interceptGetObject('test-gmi-item/@canido?**')
       cy.interceptPatchObject('test-gmi-item')
+      cy.interceptPatchObject('test-gmi-item/@upload/**')
 
       // Create GMI item
       cy.get(CONTEXT_TOOLBAR_SELECTORS.btnAddType).click()
@@ -43,7 +44,7 @@ LOGIN_TYPES.forEach((loginType) => {
       ).type('5')
       cy.get(
         `[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`
-      ).select('plone')
+      ).select('keyword')
       cy.get(FORM_BASE_SELECTORS.btn).click()
       cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
 
@@ -55,6 +56,41 @@ LOGIN_TYPES.forEach((loginType) => {
       cy.get(
         `[data-test='${TABS_PANEL_SELECTOS.prefixTabs}-properties']`
       ).click()
+
+      // Upload file
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-file']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-file']`
+      ).within(() => {
+        cy.get('input[type=file]').selectFile(
+          'cypress/fixtures/PDF_EXAMPLE_GUILLOTINA_REACT.pdf',
+          {
+            force: true,
+          }
+        )
+        cy.findByText('PDF_EXAMPLE_GUILLOTINA_REACT.pdf')
+        cy.findByText('Save').click()
+      })
+
+      cy.wait('@patch-object-test-gmi-item/@upload/**')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `file uploaded!`)
+
+      // Upload image
+      cy.get(`[data-test='formImageAttachmentTest']`).within(() => {
+        cy.get('input[type=file]').selectFile(
+          'cypress/fixtures/image_example.jpg',
+          {
+            force: true,
+          }
+        )
+        cy.findByText('image_example.jpg')
+        cy.findByText('Upload').click()
+      })
+
+      cy.wait('@patch-object-test-gmi-item/@upload/**')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Image uploaded!`)
 
       // Modify title field ( input )
       cy.testInput({
@@ -106,13 +142,61 @@ LOGIN_TYPES.forEach((loginType) => {
       cy.get(
         `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-choice_field']`
       ).within(() => {
-        cy.get(EDITABLE_FORM_SELECTORS.field).select('plone')
+        cy.get(EDITABLE_FORM_SELECTORS.field).select('text')
         cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
       })
       cy.wait('@patch-object-test-gmi-item')
       cy.get(NOTIFICATION_SELECTOR).should(
         'contain',
         `Field choice_field, updated!`
+      )
+
+      // Modify multiple select
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
+      ).within(() => {
+        cy.get(EDITABLE_FORM_SELECTORS.field).select(['float', 'integer'])
+        cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
+      })
+      cy.wait('@patch-object-test-gmi-item')
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field multiple_choice_field, updated!`
+      )
+
+      // Modify multiple select vocabulary
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
+      ).within(() => {
+        cy.get(EDITABLE_FORM_SELECTORS.field).select(['plone', 'guillotina'])
+        cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
+      })
+      cy.wait('@patch-object-test-gmi-item')
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field multiple_choice_field_vocabulary, updated!`
+      )
+
+      // Modify select vocabulary
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-choice_field_vocabulary']`
+      ).click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-choice_field_vocabulary']`
+      ).within(() => {
+        cy.get(EDITABLE_FORM_SELECTORS.field).select('plone')
+        cy.get(EDITABLE_FORM_SELECTORS.btnSave).click()
+      })
+      cy.wait('@patch-object-test-gmi-item')
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field choice_field_vocabulary, updated!`
       )
 
       // Modify input list
@@ -137,6 +221,32 @@ LOGIN_TYPES.forEach((loginType) => {
         'contain',
         `Field list_field, updated!`
       )
+
+      // Modify workflow
+      cy.findByText(/Current state: private/)
+      cy.findByText('Publish').click()
+      cy.findByText('Confirm').click()
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Great status changed!`)
+      cy.findByText(/Current state: public/)
+      cy.findByText('Retire').click()
+      cy.findByText('Confirm').click()
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Great status changed!`)
+      cy.findByText(/Current state: private/)
+
+      // Upload multiple image
+      cy.get(`[data-test='formMultiimageOrderedAttachmentTest']`).within(() => {
+        cy.get('input[type=file]').selectFile(
+          'cypress/fixtures/image_example.jpg',
+          {
+            force: true,
+          }
+        )
+        cy.findByText('image_example.jpg')
+        cy.findByText('Upload').click()
+      })
+
+      cy.wait('@patch-object-test-gmi-item/@upload/**')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Image uploaded!`)
 
       cy.goToContainer(loginType)
 
@@ -168,9 +278,9 @@ LOGIN_TYPES.forEach((loginType) => {
       ).type('5')
       cy.get(
         `[data-test='choice_field${FORM_BASE_SELECTORS.prefixField}']`
-      ).select('plone')
+      ).select('text')
       cy.get(FORM_BASE_SELECTORS.btn).click()
-      cy.wait('@post-object-container')
+      cy.wait('@post-object-container_test')
       cy.get(NOTIFICATION_SELECTOR).should('contain', 'Content created!')
       cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'depth')
     })

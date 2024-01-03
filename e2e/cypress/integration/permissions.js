@@ -22,7 +22,6 @@ LOGIN_TYPES.forEach((loginType) => {
           'GUILLOTINA_DB'
         )}/${Cypress.env('GUILLOTINA_CONTAINER')}/`,
       })
-
       cy.visit(
         `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
           'GUILLOTINA_CONTAINER'

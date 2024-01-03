@@ -37,3 +37,8 @@ e2e/example/.next
 /gmi/dist
 /gmi/build
 /gmi/guillotina_gmi/gmi
+
+# Guillotina
+.python-version
+*.egg-info
+__pycache__

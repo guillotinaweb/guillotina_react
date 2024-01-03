@@ -6,6 +6,8 @@ export const ITEMS_PANELS_SELECTORS = {
   btnDeleteAction: "[data-test='dropdownItemTest-delete']",
   btnMoveAction: "[data-test='dropdownItemTest-move']",
   prefixItem: 'itemTest',
+  prefixFilterItem: 'filterInput',
+  prefixSortableItem: 'sortableColumn',
 }
 
 export const CONTEXT_TOOLBAR_SELECTORS = {

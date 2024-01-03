@@ -127,7 +127,7 @@ export function IMultiImageAttachment({ properties, values }) {
         <tr>
           <td colSpan={2}>
             <label className="label">Upload an image</label>
-            <form className="columns">
+            <form className="columns" data-test="formMultiimageAttachmentTest">
               <div className="column is-4">
                 <Input
                   placeholder="Key"

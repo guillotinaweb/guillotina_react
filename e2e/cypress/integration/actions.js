@@ -14,9 +14,9 @@ LOGIN_TYPES.forEach((loginType) => {
 
       cy.interceptGetObject()
       cy.interceptPostObject()
-      cy.interceptGetObject('@canido')
+      cy.interceptGetObject('@canido**')
       cy.interceptGetObject('@addable-types')
-      cy.interceptGetObject('@search')
+      cy.interceptGetObject('@search**')
 
       cy.visit(
         `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
@@ -24,8 +24,8 @@ LOGIN_TYPES.forEach((loginType) => {
         )}/`
       )
 
-      cy.wait('@get-object-container')
-      cy.wait('@get-object-@canido')
+      cy.wait('@get-object-container_test')
+      cy.wait('@get-object-@canido**')
       cy.wait('@get-object-@addable-types')
 
       cy.get(ITEMS_PANELS_SELECTORS.table)
@@ -33,11 +33,11 @@ LOGIN_TYPES.forEach((loginType) => {
         .should('contain', 'Users')
 
       cy.addContent('First item', 'first-item', 'btnAddItem')
-      cy.wait('@post-object-container')
+      cy.wait('@post-object-container_test')
       cy.addContent('Second Item', 'second-item', 'btnAddItem')
-      cy.wait('@post-object-container')
+      cy.wait('@post-object-container_test')
       cy.addContent('Test folder', 'test-folder', 'btnAddFolder')
-      cy.wait('@post-object-container')
+      cy.wait('@post-object-container_test')
 
       // Select Item
       cy.get(
@@ -47,7 +47,7 @@ LOGIN_TYPES.forEach((loginType) => {
       })
 
       cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-      cy.wait('@get-object-@search')
+      cy.wait('@get-object-@search**')
       cy.get(ITEMS_PANELS_SELECTORS.table)
         .find('tbody')
         .find('tr')
@@ -70,7 +70,7 @@ LOGIN_TYPES.forEach((loginType) => {
           cy.wait('@post-object-first-item/@duplicate')
 
           cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-          cy.wait('@get-object-@search')
+          cy.wait('@get-object-@search**')
           cy.get(ITEMS_PANELS_SELECTORS.table)
             .find('tbody')
             .find('tr')
@@ -86,7 +86,7 @@ LOGIN_TYPES.forEach((loginType) => {
           cy.wait('@post-object-first-item/@duplicate')
 
           cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-          cy.wait('@get-object-@search')
+          cy.wait('@get-object-@search**')
           cy.get(ITEMS_PANELS_SELECTORS.table)
             .find('tbody')
             .find('tr')
@@ -97,14 +97,14 @@ LOGIN_TYPES.forEach((loginType) => {
 
         it('One item to other folder, default id', () => {
           cy.interceptGetObject('test-folder')
-          cy.interceptGetObject('test-folder/@search')
+          cy.interceptGetObject('test-folder/@search**')
 
           cy.get(ACTION_SELECTORS.inputPathTree).clear().type('/test-folder')
           cy.get(ACTION_SELECTORS.btnConfirmModal).click()
           cy.wait('@post-object-first-item/@duplicate')
 
           cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-          cy.wait('@get-object-@search')
+          cy.wait('@get-object-@search**')
           cy.get(ITEMS_PANELS_SELECTORS.table)
             .find('tbody')
             .find('tr')
@@ -119,7 +119,7 @@ LOGIN_TYPES.forEach((loginType) => {
 
           cy.wait('@get-object-test-folder')
           cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-          cy.wait('@get-object-test-folder/@search')
+          cy.wait('@get-object-test-folder/@search**')
           cy.get(ITEMS_PANELS_SELECTORS.table)
             .find('tbody')
             .find('tr')
@@ -155,7 +155,7 @@ LOGIN_TYPES.forEach((loginType) => {
           cy.wait('@post-object-second-item/@duplicate')
 
           cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-          cy.wait('@get-object-@search')
+          cy.wait('@get-object-@search**')
           cy.get(ITEMS_PANELS_SELECTORS.table)
             .find('tbody')
             .find('tr')
@@ -166,7 +166,7 @@ LOGIN_TYPES.forEach((loginType) => {
 
         it('Multiple items to other folder, one default id and other custom id', () => {
           cy.interceptGetObject('test-folder')
-          cy.interceptGetObject('test-folder/@search')
+          cy.interceptGetObject('test-folder/@search**')
 
           cy.get(ACTION_SELECTORS.inputPathTree).clear().type('/test-folder')
           cy.get(ACTION_SELECTORS.btnConfirmModal).click()
@@ -182,7 +182,7 @@ LOGIN_TYPES.forEach((loginType) => {
           cy.wait('@get-object-test-folder')
 
           cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-          cy.wait('@get-object-test-folder/@search')
+          cy.wait('@get-object-test-folder/@search**')
           cy.get(ITEMS_PANELS_SELECTORS.table)
             .find('tbody')
             .find('tr')
@@ -196,7 +196,7 @@ LOGIN_TYPES.forEach((loginType) => {
       beforeEach(() => {
         cy.interceptPostObject('first-item/@move')
         cy.interceptGetObject('test-folder/')
-        cy.interceptGetObject('test-folder/@search')
+        cy.interceptGetObject('test-folder/@search**')
       })
 
       it('One item', () => {
@@ -209,7 +209,7 @@ LOGIN_TYPES.forEach((loginType) => {
         cy.wait('@post-object-first-item/@move')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@get-object-@search')
+        cy.wait('@get-object-@search**')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -224,7 +224,7 @@ LOGIN_TYPES.forEach((loginType) => {
 
         cy.wait('@get-object-test-folder/')
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@get-object-test-folder/@search')
+        cy.wait('@get-object-test-folder/@search**')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')
@@ -252,7 +252,7 @@ LOGIN_TYPES.forEach((loginType) => {
         cy.wait('@post-object-second-item/@move')
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@get-object-@search')
+        cy.wait('@get-object-@search**')
         cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'Anything here!')
 
         cy.visit(
@@ -263,7 +263,7 @@ LOGIN_TYPES.forEach((loginType) => {
 
         cy.wait('@get-object-test-folder/')
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
-        cy.wait('@get-object-test-folder/@search')
+        cy.wait('@get-object-test-folder/@search**')
         cy.get(ITEMS_PANELS_SELECTORS.table)
           .find('tbody')
           .find('tr')

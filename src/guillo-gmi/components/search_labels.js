@@ -3,7 +3,7 @@ import { Tag } from './ui/tag'
 import { useLocation } from '../hooks/useLocation'
 
 export function SearchLabels(props) {
-  const { query, label } = props
+  const { query } = props
   const [location, , del] = useLocation()
   const search = location.get(query ?? 'q')
 
@@ -11,19 +11,18 @@ export function SearchLabels(props) {
     del(query ?? 'q')
   }
 
-  return (
-    <div className="tags">
-      {search && label && (
-        <Tag name={label ?? 'Search:'} color="is-light" size="is-size-7" />
-      )}
-      {search && (
+  if (search) {
+    return (
+      <div className="tags">
         <Tag
+          id={search}
           name={search}
           color="is-info"
           size="is-size-7"
           onRemove={() => clearSearch()}
         />
-      )}
-    </div>
-  )
+      </div>
+    )
+  }
+  return null
 }

@@ -8,33 +8,40 @@ on:
       - master
 jobs:
   cypress-run:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [20.x]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Postgres
-        run: docker run -d -e POSTGRES_DB=guillotina -e POSTGRES_USER=guillotina -e POSTGRES_HOST_AUTH_METHOD=trust -p 127.0.0.1:5432:5432 --name postgres postgres:9.6
-      - name: guillotina
-        run: docker run -d -v /home/runner/work/guillotina_react/guillotina_react/e2e/g_conf/:/g_conf/ --link=postgres -p 0.0.0.0:8080:8080 plone/guillotina:latest g -c /g_conf/config.yaml
+        run: docker run -d -e POSTGRES_DB=guillotina -e POSTGRES_USER=guillotina -e POSTGRES_HOST_AUTH_METHOD=trust -p 127.0.0.1:5532:5432 --name postgres postgres:12.17
+      - name: Build guillotina
+        run: docker build -t guillotina_e2e .
+        working-directory: "guillotina_example/guillotina_react_app"
+      - name: Run guillotina
+        run: docker run -d --link=postgres -p 0.0.0.0:8080:8080 guillotina_e2e:latest
 
-      - name: Install base modules
+      - name: Install base modules and build dist
         run: yarn
-
-      - name: Build dist
-        run: yarn
-        working-directory: "."
 
       - name: Start Server
-        run: yarn start &
-        working-directory: e2e/example
+        run: npm install && npm run build && npm run preview &
+        working-directory: e2e/vite_example
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v6
         with:
-          build: yarn
-          wait-on: 'http://localhost:3000'
+          build: npm install
+          wait-on: 'http://localhost:4173'
           working-directory: e2e
 
       - name: Artifacts

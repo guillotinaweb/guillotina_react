@@ -78,3 +78,19 @@ section.main
   column-gap: 15px
   .field
     margin-bottom: 0.75rem
+  
+  @media (max-width: 768px)
+    grid-template-columns: 1fr
+
+.wrapper-filters-info
+  display: grid
+  grid-template-columns: auto 1fr auto
+  align-items: center
+  gap: 10px
+
+.wrapper-filters-tags
+  display: flex
+  gap: 10px
+  flex-wrap: wrap
+  .tags, .tag
+    margin-bottom: 0px

@@ -67,12 +67,16 @@ export function ContextToolbar({ AddButton, ...props }) {
   const [location, setLocation, del] = useLocation()
   const traversal = useTraversal()
   const Config = useConfig()
-
   const searchText = location.get('q')
+  const [searchValue, setSearchValue] = React.useState(searchText || '')
 
   useEffect(() => {
     loadTypes()
   }, [traversal.path])
+
+  useEffect(() => {
+    setSearchValue(searchText)
+  }, [searchText])
 
   async function loadTypes() {
     const types = await traversal.client.getTypes(traversal.path)
@@ -102,7 +106,8 @@ export function ContextToolbar({ AddButton, ...props }) {
           <div className="field has-addons">
             <div className="control">
               <input
-                defaultValue={searchText || ''}
+                value={searchValue || ''}
+                onChange={(ev) => setSearchValue(ev.target.value)}
                 type="text"
                 className="input is-size-7"
                 placeholder="Search..."

@@ -9,6 +9,8 @@
  - chore: add vitest
  - Add select multiple
  - Add filter schema to registry to create dynamic filters in items tab
+ - Render text value instead of key value in vocabulary select
+ - Create scale images in IImageAttachment behavior
 
  
 0.23.1

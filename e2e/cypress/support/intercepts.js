@@ -4,7 +4,7 @@ Cypress.Commands.add('interceptGetObject', (path = '') => {
     `${Cypress.env('GUILLOTINA')}/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
       'GUILLOTINA_CONTAINER'
     )}/${path}`
-  ).as(`get-object-${path !== '' ? path : 'container'}`)
+  ).as(`get-object-${path !== '' ? path : 'container_test'}`)
 })
 
 Cypress.Commands.add('interceptPostObject', (path = '') => {
@@ -13,7 +13,7 @@ Cypress.Commands.add('interceptPostObject', (path = '') => {
     `${Cypress.env('GUILLOTINA')}/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
       'GUILLOTINA_CONTAINER'
     )}/${path}`
-  ).as(`post-object-${path !== '' ? path : 'container'}`)
+  ).as(`post-object-${path !== '' ? path : 'container_test'}`)
 })
 
 Cypress.Commands.add('interceptDeleteObject', (path = '') => {
@@ -22,7 +22,7 @@ Cypress.Commands.add('interceptDeleteObject', (path = '') => {
     `${Cypress.env('GUILLOTINA')}/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
       'GUILLOTINA_CONTAINER'
     )}/${path}`
-  ).as(`delete-object-${path !== '' ? path : 'container'}`)
+  ).as(`delete-object-${path !== '' ? path : 'container_test'}`)
 })
 
 Cypress.Commands.add('interceptPatchObject', (path = '') => {
@@ -31,5 +31,5 @@ Cypress.Commands.add('interceptPatchObject', (path = '') => {
     `${Cypress.env('GUILLOTINA')}/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
       'GUILLOTINA_CONTAINER'
     )}/${path}`
-  ).as(`patch-object-${path !== '' ? path : 'container'}`)
+  ).as(`patch-object-${path !== '' ? path : 'container_test'}`)
 })

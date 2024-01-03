@@ -9,9 +9,10 @@ e2e for guillotina react
 docker run \
     -e POSTGRES_DB=guillotina \
     -e POSTGRES_USER=guillotina \
+    -e POSTGRES_HOST_AUTH_METHOD=trust \
     -p 127.0.0.1:5432:5432 \
     --name postgres \
-    postgres:9.6
+    postgres:12.17
 
 # Run guillotina
 docker run --rm -it -v $PWD/e2e/g_conf/:/g_conf/ \

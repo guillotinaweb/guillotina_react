@@ -1,6 +1,7 @@
 import React from 'react'
 import { DownloadField } from './downloadField'
-
+import { useVocabulary } from '../../hooks/useVocabulary'
+import { get } from '../../lib/utils'
 const plain = ['string', 'number', 'boolean']
 
 export function RenderField({ value, Widget }) {
@@ -60,7 +61,26 @@ export function RenderFieldComponent({ schema, field, val, modifyContent }) {
       renderProps['value'] = val?.toString() ?? renderProps['value']
     } else if (val && schema?.type === 'datetime') {
       renderProps['value'] = new Date(val).toLocaleString()
+    } else if (schema?.items?.vocabularyName || schema?.vocabularyName) {
+      const vocabularyName =
+        schema?.items?.vocabularyName || schema?.vocabularyName
+      const vocabulary = useVocabulary(vocabularyName)
+      if (schema?.vocabularyName) {
+        const vocabularyValue = get(vocabulary, 'data.items', []).find(
+          (item) => item.token === val
+        )
+        renderProps['value'] = vocabularyValue?.title ?? ''
+      } else {
+        renderProps['value'] = (renderProps['value'] ?? []).map((value) => {
+          return (
+            get(vocabulary, 'data.items', []).find(
+              (item) => item.token === value
+            )?.title ?? ''
+          )
+        })
+      }
     }
+
     return renderProps
   }
 

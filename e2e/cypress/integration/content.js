@@ -35,7 +35,7 @@ LOGIN_TYPES.forEach((loginType) => {
 
     it('creates an item as Admin, modifies it and delete it', function () {
       // Create Item
-      cy.interceptGetObject('test-item/@canido?**')
+      cy.interceptGetObject('test-item/@canido**')
 
       cy.addContent('Test Item', 'test-item', 'btnAddItem')
 
@@ -43,7 +43,7 @@ LOGIN_TYPES.forEach((loginType) => {
       cy.get(
         `[data-test='${ITEMS_PANELS_SELECTORS.prefixItem}-test-item']`
       ).click()
-      cy.wait('@get-object-test-item/@canido?**')
+      cy.wait('@get-object-test-item/@canido**')
       cy.get(
         `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-title']`
       ).click()
