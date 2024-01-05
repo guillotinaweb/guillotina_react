@@ -11,6 +11,7 @@
  - Add filter schema to registry to create dynamic filters in items tab
  - Render text value instead of key value in vocabulary select
  - Create scale images in IImageAttachment behavior
+ - Add i18n ( english, catalan, spanish)
 
  
 0.23.1

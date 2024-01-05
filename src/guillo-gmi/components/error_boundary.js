@@ -1,8 +1,9 @@
 import React from 'react'
+import { injectIntl } from 'react-intl'
 
 const style = { color: '#F44336', fontSize: 20, paddingBottom: 20 }
 
-export default class ErrorBoundary extends React.Component {
+class ErrorBoundaryComponent extends React.Component {
   state = {}
 
   componentDidCatch(error, errorInfo) {
@@ -19,7 +20,12 @@ export default class ErrorBoundary extends React.Component {
     if (hasError) {
       return (
         <div className="box main-panel">
-          <div style={style}>Something went wrong.</div>
+          <div style={style}>
+            {this.props.intl.formatMessage({
+              id: 'something_went_wrong',
+              defaultMessage: 'Something went wrong.',
+            })}
+          </div>
           {errorMsg && (
             <p>
               <b>{errorMsg}</b>
@@ -33,3 +39,5 @@ export default class ErrorBoundary extends React.Component {
     return this.props.children
   }
 }
+
+export default injectIntl(ErrorBoundaryComponent)

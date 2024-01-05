@@ -1,26 +1,12 @@
-import * as React from 'react'
+import React from 'react'
 import { useTraversal } from '../../contexts'
-
-export const ACTIONS_OBJECT = {
-  DELETE: {
-    text: 'Delete',
-    perms: ['guillotina.DeleteContent'],
-    action: 'removeItem',
-  },
-  MOVE: {
-    text: 'Move to...',
-    perms: ['guillotina.MoveContent'],
-    action: 'moveItem',
-  },
-  COPY: {
-    text: 'Copy to...',
-    perms: ['guillotina.DuplicateContent'],
-    action: 'copyItem',
-  },
-}
+import { useIntl } from 'react-intl'
+import { getActionsObject } from '../../lib/helpers'
 
 export function PanelActions() {
   const traversal = useTraversal()
+  const intl = useIntl()
+  const ACTIONS_OBJECT = getActionsObject(intl)
 
   const hasPerm = (perms) => {
     return perms.some((perm) => traversal.hasPerm(perm))

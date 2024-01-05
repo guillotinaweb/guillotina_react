@@ -1,7 +1,9 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 export function Pagination({ current, total, doPaginate, pager }) {
+  const intl = useIntl()
   const maxPages = Math.ceil(total / pager)
   if (maxPages <= 1) {
     return null
@@ -10,9 +12,20 @@ export function Pagination({ current, total, doPaginate, pager }) {
   return (
     <div>
       <p className="level-right has-text-grey is-size-7">
-        <span className="has-text-black">{current + 1}</span>/
-        <span className="has-text-black">{maxPages}</span>&nbsp;of&nbsp;
-        <span className="has-text-black">{`${total} items`}</span>
+        <span>
+          {intl.formatMessage(
+            {
+              id: 'pagination',
+              defaultMessage:
+                '{currentPage} / {totalPages} of {totalItems} items',
+            },
+            {
+              currentPage: current + 1,
+              totalPages: maxPages,
+              totalItems: total,
+            }
+          )}
+        </span>
       </p>
       <nav
         className="pagination is-size-7"

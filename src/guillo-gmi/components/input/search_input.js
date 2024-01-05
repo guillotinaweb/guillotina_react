@@ -8,6 +8,8 @@ import ErrorZone from '../error_zone'
 import { Loading } from '../ui'
 import { generateUID } from '../../lib/helpers'
 import { useConfig } from '../../hooks/useConfig'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 function debounce(func, wait) {
   let timeout
   return function () {
@@ -44,6 +46,7 @@ export const SearchInput = ({
   dataTestItem = 'searchInputItemTest',
   renderTextItemOption = null,
 }) => {
+  const intl = useIntl()
   const [options, setOptions] = useSetState(initialState)
   const [isOpen, setIsOpen] = React.useState(false)
   const [searchTerm, setSearchTerm] = React.useState('')
@@ -169,7 +172,7 @@ export const SearchInput = ({
                 data-test={dataTestSearchInput}
                 className="input"
                 type="text"
-                placeholder="Search..."
+                placeholder={intl.formatMessage(genericMessages.search)}
                 value={searchTerm}
                 onChange={(ev) => {
                   delayedQuery(ev.target.value)
@@ -200,7 +203,9 @@ export const SearchInput = ({
               })}
 
             {options.items && options.items.length === 0 && (
-              <div className="dropdown-item"> No results </div>
+              <div className="dropdown-item">
+                {intl.formatMessage(genericMessages.no_results)}
+              </div>
             )}
 
             {options.items && options.items_total > options.items.length && (
@@ -214,7 +219,7 @@ export const SearchInput = ({
                     handleSearch(options.page + 1, true)
                   }}
                 >
-                  Load more...
+                  {intl.formatMessage(genericMessages.load_more)}
                 </div>
               </React.Fragment>
             )}

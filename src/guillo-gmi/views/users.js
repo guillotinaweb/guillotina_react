@@ -10,12 +10,15 @@ import { Icon } from '../components/ui/icon'
 import { Button } from '../components/input/button'
 import { useRemoteField } from '../hooks/useRemoteField'
 import { useLocation } from '../hooks/useLocation'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 const tabs = {
   Users: PanelItems,
 }
 
 export function UsersToolbar() {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const ref = React.useRef(null)
   const [location, setLocation] = useLocation()
@@ -44,7 +47,7 @@ export function UsersToolbar() {
                 ref={ref}
                 type="text"
                 className="input is-size-7"
-                placeholder="Search..."
+                placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
               />
             </div>
@@ -67,7 +70,7 @@ export function UsersToolbar() {
         aria-controls="dropdown-menu"
       >
         <Icon icon="fas fa-user" />
-        <span>Add a User</span>
+        <span>{intl.formatMessage(genericMessages.add_user)}</span>
       </button>
     </React.Fragment>
   )
@@ -85,6 +88,7 @@ export function UsersCtx(props) {
 }
 
 export function UserCtx() {
+  const intl = useIntl()
   const { Ctx, patch, loading } = useCrudContext()
 
   const [state, setState] = React.useState({ roles: [], gorups: [] })
@@ -124,9 +128,20 @@ export function UserCtx() {
     Ctx.apply(data)
     const { isError, errorMessage } = await patch(data)
     if (isError) {
-      Ctx.flash(`Update failed: ${errorMessage}`, 'danger')
+      Ctx.flash(
+        intl.formatMessage(genericMessages.failed_to_update, {
+          error: errorMessage,
+        }),
+        'danger'
+      )
     } else {
-      Ctx.flash('Data updated', 'primary')
+      Ctx.flash(
+        intl.formatMessage({
+          id: 'user_updated',
+          defaultMessage: 'User updated',
+        }),
+        'primary'
+      )
       Ctx.refresh()
     }
   }
@@ -135,7 +150,11 @@ export function UserCtx() {
     <div className="container">
       <h2 className="title is-size-4">
         <Icon icon="fas fa-user"></Icon>
-        &nbsp;User
+        &nbsp;
+        {intl.formatMessage({
+          id: 'user',
+          defaultMessage: 'User',
+        })}
       </h2>
 
       <hr />
@@ -143,14 +162,35 @@ export function UserCtx() {
         <div className="column">
           <div className="container user-props">
             <p>
-              <label>Username: </label> {Ctx.context.username} (
-              {Ctx.context.email})
+              <label>
+                {intl.formatMessage({
+                  id: 'username',
+                  defaultMessage: 'Username',
+                })}
+                :{' '}
+              </label>{' '}
+              {Ctx.context.username} ({Ctx.context.email})
             </p>
             <p>
-              <label> Created: </label> {formatDate(Ctx.context.creation_date)}
+              <label>
+                {' '}
+                {intl.formatMessage({
+                  id: 'creation_date',
+                  defaultMessage: 'Creation Date',
+                })}
+                :{' '}
+              </label>{' '}
+              {formatDate(Ctx.context.creation_date)}
             </p>
             <p>
-              <label> Updated: </label>{' '}
+              <label>
+                {' '}
+                {intl.formatMessage({
+                  id: 'modification_date',
+                  defaultMessage: 'Modification Date',
+                })}
+                :{' '}
+              </label>{' '}
               {formatDate(Ctx.context.modification_date)}
             </p>
             <Button
@@ -159,7 +199,10 @@ export function UserCtx() {
                 Ctx.doAction('changePassword')
               }}
             >
-              Change Password
+              {intl.formatMessage({
+                id: 'change_password',
+                defaultMessage: 'Change Password',
+              })}
             </Button>
           </div>
           <hr />
@@ -173,7 +216,7 @@ export function UserCtx() {
             submitButton={false}
           >
             <Button loading={loading} dataTest="formUserTestBtnSubmit">
-              Update
+              {intl.formatMessage(genericMessages.save)}
             </Button>
           </UserForm>
         </div>
@@ -182,7 +225,10 @@ export function UserCtx() {
             onChange={updateRemote('user_groups')}
             items={Ctx.context.user_groups}
             title="Groups"
-            noData="There is no groups for this user"
+            noData={intl.formatMessage({
+              id: 'there_is_no_groups_for_this_user',
+              defaultMessage: 'There is no groups for this user',
+            })}
             available={state.groups}
           />
           <hr />
@@ -190,7 +236,10 @@ export function UserCtx() {
             onChange={updateRemote('user_roles')}
             items={remotes.user_roles}
             title="Roles"
-            noData="The user doesn't have any role"
+            noData={intl.formatMessage({
+              id: 'the_user_doesnt_have_any_role',
+              defaultMessage: "The user doesn't have any role",
+            })}
             available={state.roles}
           />
         </div>

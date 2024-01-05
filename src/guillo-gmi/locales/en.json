@@ -1,0 +1,347 @@
+{
+  "actions": {
+    "defaultMessage": "Actions:"
+  },
+  "add": {
+    "defaultMessage": "Add"
+  },
+  "add_container": {
+    "defaultMessage": "Add Container"
+  },
+  "add_group": {
+    "defaultMessage": "Add Group"
+  },
+  "add_permissions": {
+    "defaultMessage": "Add Permissions"
+  },
+  "add_role": {
+    "defaultMessage": "Add a Role"
+  },
+  "add_type": {
+    "defaultMessage": "Add {type}"
+  },
+  "add_user": {
+    "defaultMessage": "Add a User"
+  },
+  "allow": {
+    "defaultMessage": "Allow"
+  },
+  "allow_single": {
+    "defaultMessage": "AllowSingle"
+  },
+  "available": {
+    "defaultMessage": "Available"
+  },
+  "available_addons": {
+    "defaultMessage": "Available Addons"
+  },
+  "behaviors": {
+    "defaultMessage": "Behaviors"
+  },
+  "can_not_delete_field": {
+    "defaultMessage": "You can not delete {field}!"
+  },
+  "cancel": {
+    "defaultMessage": "Cancel"
+  },
+  "change_password": {
+    "defaultMessage": "Change Password"
+  },
+  "choose": {
+    "defaultMessage": "Choose..."
+  },
+  "choose_action": {
+    "defaultMessage": "Choose action..."
+  },
+  "choose_file": {
+    "defaultMessage": "Choose a file"
+  },
+  "confirm": {
+    "defaultMessage": "Confirm"
+  },
+  "confirm_message": {
+    "defaultMessage": "Are you sure to change state: {title}?"
+  },
+  "confirm_message_delete_file": {
+    "defaultMessage": "Are you sure to remove: {fileKeyToDelete}?"
+  },
+  "confirm_message_delete_image": {
+    "defaultMessage": "Are you sure to remove the image?"
+  },
+  "container_created": {
+    "defaultMessage": "Container Created"
+  },
+  "copy_to": {
+    "defaultMessage": "Copy to..."
+  },
+  "create": {
+    "defaultMessage": "Create"
+  },
+  "creation_date": {
+    "defaultMessage": "Creation Date"
+  },
+  "current_state": {
+    "defaultMessage": "Current state: {state}"
+  },
+  "databases": {
+    "defaultMessage": "Databases"
+  },
+  "default_value_editable_field": {
+    "defaultMessage": "Click to edit"
+  },
+  "delete": {
+    "defaultMessage": "Delete"
+  },
+  "deny": {
+    "defaultMessage": "Deny"
+  },
+  "disable": {
+    "defaultMessage": "Disable"
+  },
+  "download": {
+    "defaultMessage": "Download"
+  },
+  "email": {
+    "defaultMessage": "Email"
+  },
+  "enable": {
+    "defaultMessage": "Enable"
+  },
+  "enabled": {
+    "defaultMessage": "Enabled"
+  },
+  "error_file_key_name": {
+    "defaultMessage": "Provide a file and a key name"
+  },
+  "error_in_field": {
+    "defaultMessage": "Error in field {field}!"
+  },
+  "error_provide_key_name": {
+    "defaultMessage": "Provide a key name"
+  },
+  "error_upload_file": {
+    "defaultMessage": "Failed to upload file"
+  },
+  "error_upload_file_size": {
+    "defaultMessage": "Failed to upload file {size}"
+  },
+  "failed_delete_file": {
+    "defaultMessage": "Failed to delete file"
+  },
+  "failed_to_sort_images": {
+    "defaultMessage": "Failed to sort images"
+  },
+  "failed_to_update": {
+    "defaultMessage": "Failed to update: {error}"
+  },
+  "field_deleted": {
+    "defaultMessage": "Field {field}, deleted!"
+  },
+  "field_is_required": {
+    "defaultMessage": "This field is required"
+  },
+  "field_updated": {
+    "defaultMessage": "Field {field}, updated!"
+  },
+  "file_uploaded": {
+    "defaultMessage": "File uploaded!"
+  },
+  "group": {
+    "defaultMessage": "Group"
+  },
+  "image": {
+    "defaultMessage": "Image"
+  },
+  "image_deleted": {
+    "defaultMessage": "Image deleted!"
+  },
+  "image_uploaded": {
+    "defaultMessage": "Image uploaded!"
+  },
+  "images_sorted": {
+    "defaultMessage": "Images sorted"
+  },
+  "install": {
+    "defaultMessage": "Install"
+  },
+  "installed_addons": {
+    "defaultMessage": "Installed Addons"
+  },
+  "invalid_email": {
+    "defaultMessage": "Invalid email"
+  },
+  "invalid_form": {
+    "defaultMessage": "Invalid form"
+  },
+  "invalid_form_data": {
+    "defaultMessage": "Invalid form data"
+  },
+  "load_more": {
+    "defaultMessage": "Load more"
+  },
+  "loading": {
+    "defaultMessage": "Loading"
+  },
+  "mandatory_field": {
+    "defaultMessage": "{field} is mandatory!"
+  },
+  "modification_date": {
+    "defaultMessage": "Modification Date"
+  },
+  "move_to": {
+    "defaultMessage": "Move to..."
+  },
+  "name": {
+    "defaultMessage": "Name"
+  },
+  "no_available_addons_container": {
+    "defaultMessage": "No Addon available in this container"
+  },
+  "no_files_uploaded": {
+    "defaultMessage": "No files uploaded"
+  },
+  "no_images_uploaded": {
+    "defaultMessage": "No images uploaded"
+  },
+  "no_principal_permissions": {
+    "defaultMessage": "No principal permissions defined"
+  },
+  "no_principal_roles": {
+    "defaultMessage": "No principal roles defined"
+  },
+  "no_results": {
+    "defaultMessage": "No results"
+  },
+  "no_role_permissions": {
+    "defaultMessage": "No roles permissions defined"
+  },
+  "not_allowed": {
+    "defaultMessage": "Not Allowed"
+  },
+  "not_found": {
+    "defaultMessage": "404. Not Found"
+  },
+  "not_implemented": {
+    "defaultMessage": "Not implemented"
+  },
+  "open": {
+    "defaultMessage": "Open"
+  },
+  "operation": {
+    "defaultMessage": "Operation"
+  },
+  "pagination": {
+    "defaultMessage": "{currentPage} / {totalPages} of {totalItems} items"
+  },
+  "password": {
+    "defaultMessage": "Password"
+  },
+  "permission": {
+    "defaultMessage": "Permission"
+  },
+  "press_enter_to_add_value": {
+    "defaultMessage": "Press enter to add value"
+  },
+  "principal_permissions": {
+    "defaultMessage": "Principal Permissions"
+  },
+  "principal_roles": {
+    "defaultMessage": "Principal Roles"
+  },
+  "property": {
+    "defaultMessage": "Property"
+  },
+  "remove": {
+    "defaultMessage": "Remove"
+  },
+  "role": {
+    "defaultMessage": "Role"
+  },
+  "role_added_to_group": {
+    "defaultMessage": "Role {role} added to group"
+  },
+  "role_permissions": {
+    "defaultMessage": "Role Permissions"
+  },
+  "role_removed_from_group": {
+    "defaultMessage": "Role {role} removed from group"
+  },
+  "roles": {
+    "defaultMessage": "Roles"
+  },
+  "save": {
+    "defaultMessage": "Save"
+  },
+  "search": {
+    "defaultMessage": "Search"
+  },
+  "select_permissions": {
+    "defaultMessage": "Select permissions"
+  },
+  "select_principal": {
+    "defaultMessage": "Select a Principal"
+  },
+  "select_role": {
+    "defaultMessage": "Select a Role"
+  },
+  "select_type": {
+    "defaultMessage": "Select a type:"
+  },
+  "setting": {
+    "defaultMessage": "Setting"
+  },
+  "something_went_wrong": {
+    "defaultMessage": "Something went wrong."
+  },
+  "static": {
+    "defaultMessage": "Static"
+  },
+  "status_changed_error": {
+    "defaultMessage": "Failed to status changed!: {error}"
+  },
+  "status_changed_ok": {
+    "defaultMessage": "Great status changed!"
+  },
+  "the_user_doesnt_have_any_role": {
+    "defaultMessage": "The user doesn't have any role"
+  },
+  "there_is_no_groups_for_this_user": {
+    "defaultMessage": "There is no groups for this user"
+  },
+  "title": {
+    "defaultMessage": "Title"
+  },
+  "unset": {
+    "defaultMessage": "Unset"
+  },
+  "upload": {
+    "defaultMessage": "Upload"
+  },
+  "upload_a_file": {
+    "defaultMessage": "Upload a file"
+  },
+  "upload_an_image": {
+    "defaultMessage": "Upload an image"
+  },
+  "user": {
+    "defaultMessage": "User"
+  },
+  "user_added_to_group": {
+    "defaultMessage": "User {user} added to group"
+  },
+  "user_removed_from_group": {
+    "defaultMessage": "User {user} removed from group"
+  },
+  "user_updated": {
+    "defaultMessage": "User updated"
+  },
+  "username": {
+    "defaultMessage": "Username"
+  },
+  "users": {
+    "defaultMessage": "Users"
+  },
+  "value": {
+    "defaultMessage": "Value"
+  }
+}

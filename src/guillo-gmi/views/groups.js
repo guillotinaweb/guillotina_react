@@ -12,12 +12,15 @@ import { Tag } from '../components/ui/tag'
 import { parser } from '../lib/search'
 import { EditableField } from '../components/fields/editableField'
 import { useLocation } from '../hooks/useLocation'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 const tabs = {
   Groups: PanelItems,
 }
 
 export function GroupToolbar() {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const ref = React.useRef(null)
   const [location, setLocation] = useLocation()
@@ -46,7 +49,7 @@ export function GroupToolbar() {
                 ref={ref}
                 type="text"
                 className="input is-size-7"
-                placeholder="Search..."
+                placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
               />
             </div>
@@ -69,7 +72,12 @@ export function GroupToolbar() {
         aria-controls="dropdown-menu"
       >
         <Icon icon="fas fa-users" />
-        <span>Add a Group</span>
+        <span>
+          {intl.formatMessage({
+            id: 'add_group',
+            defaultMessage: 'Add Group',
+          })}
+        </span>
       </button>
     </React.Fragment>
   )
@@ -90,6 +98,7 @@ let sortParsed = parser(`_sort_asc=id`)
 let searchParsed = parser('type_name=User')
 
 export function GroupCtx() {
+  const intl = useIntl()
   const { Ctx, patch } = useCrudContext()
   const [roles, setRoles] = useState([])
 
@@ -113,7 +122,12 @@ export function GroupCtx() {
       Ctx.flash(message, 'success')
       Ctx.refresh()
     } else {
-      Ctx.flash(`Failed to update!: ${errorMessage}`, 'danger')
+      Ctx.flash(
+        intl.formatMessage(genericMessages.failed_to_update, {
+          error: errorMessage,
+        }),
+        'danger'
+      )
     }
   }
 
@@ -121,14 +135,34 @@ export function GroupCtx() {
     const { isError, errorMessage } = await patch({
       user_roles: Ctx.context.user_roles.concat(role),
     })
-    handleResponse(isError, `Role ${role} added to group`, errorMessage)
+    handleResponse(
+      isError,
+      intl.formatMessage(
+        {
+          id: 'role_added_to_group',
+          defaultMessage: 'Role {role} added to group',
+        },
+        { role }
+      ),
+      errorMessage
+    )
   }
 
   const removeRole = async (role) => {
     const { isError, errorMessage } = await patch({
       user_roles: Ctx.context.user_roles.filter((r) => r !== role),
     })
-    handleResponse(isError, `Role ${role} removed from group`, errorMessage)
+    handleResponse(
+      isError,
+      intl.formatMessage(
+        {
+          id: 'role_removed_from_group',
+          defaultMessage: 'Role {role} removed from group',
+        },
+        { role }
+      ),
+      errorMessage
+    )
   }
 
   const addUser = async (newUser) => {
@@ -144,7 +178,17 @@ export function GroupCtx() {
       `${Ctx.containerPath}@groups/${Ctx.context['@name']}`,
       { users: data }
     )
-    handleResponse(isError, `User ${newUser.id} added to group!`, errorMessage)
+    handleResponse(
+      isError,
+      intl.formatMessage(
+        {
+          id: 'user_added_to_group',
+          defaultMessage: 'User {user} added to group',
+        },
+        { user: newUser.id }
+      ),
+      errorMessage
+    )
   }
 
   const removeUser = async (userToRemove) => {
@@ -161,7 +205,13 @@ export function GroupCtx() {
     )
     handleResponse(
       isError,
-      `User ${userToRemove} removed from group`,
+      intl.formatMessage(
+        {
+          id: 'user_removed_from_group',
+          defaultMessage: 'User {user} removed from group',
+        },
+        { user: userToRemove }
+      ),
       errorMessage
     )
   }
@@ -170,12 +220,20 @@ export function GroupCtx() {
     <div className="container group-view">
       <h2 className="title is-size-4">
         <Icon icon="fas fa-users"></Icon>
-        <span>&nbsp;Group</span>
+        <span>
+          &nbsp;
+          {intl.formatMessage({
+            id: 'group',
+            defaultMessage: 'Group',
+          })}
+        </span>
       </h2>
       <hr />
       <div className="columns">
         <div className="column is-4">
-          <label className="label">Title: </label>
+          <label className="label">
+            {intl.formatMessage(genericMessages.title)}{' '}
+          </label>
           <EditableField
             field="title"
             modifyContent
@@ -183,8 +241,18 @@ export function GroupCtx() {
           />
         </div>
         <div className="column is-4 is-size-7">
-          <h3 className="title is-size-6">Roles</h3>
-          <p>Add a Role</p>
+          <h3 className="title is-size-6">
+            {intl.formatMessage({
+              id: 'roles',
+              defaultMessage: 'Roles',
+            })}
+          </h3>
+          <p>
+            {intl.formatMessage({
+              id: 'add_role',
+              defaultMessage: 'Add a Role',
+            })}
+          </p>
           <Select
             options={roles.filter(
               (role) => !Ctx.context.user_roles.includes(role.value)
@@ -204,8 +272,13 @@ export function GroupCtx() {
           ))}
         </div>
         <div className="column is-4 is-size-7">
-          <h3 className="title is-size-6">Users</h3>
-          <p>Add a User</p>
+          <h3 className="title is-size-6">
+            {intl.formatMessage({
+              id: 'users',
+              defaultMessage: 'Users',
+            })}
+          </h3>
+          <p>{intl.formatMessage(genericMessages.add_user)}</p>
           <SearchInput
             path={`${Ctx.containerPath}/users/`}
             qs={[...searchParsed, ...sortParsed]}

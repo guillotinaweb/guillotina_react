@@ -90,7 +90,7 @@ LOGIN_TYPES.forEach((loginType) => {
       })
 
       cy.get(USER_FORM_SELECTORS.btnUpate).click()
-      cy.get(NOTIFICATION_SELECTOR).should('contain', 'Data updated')
+      cy.get(NOTIFICATION_SELECTOR).should('contain', 'User updated')
       cy.get(`[data-test='${BREADCRUMB_SELECTORS.prefixItem}-users']`).click()
 
       // Delete Item

@@ -7,6 +7,11 @@ import { useRef } from 'react'
 import { useEffect } from 'react'
 import { Icon } from '../ui'
 import { get } from '../../lib/utils'
+import { useIntl } from 'react-intl'
+import {
+  genericFileMessages,
+  genericMessages,
+} from '../../locales/generic_messages'
 
 export function EditableField({
   field,
@@ -16,6 +21,7 @@ export function EditableField({
   modifyContent,
   required,
 }) {
+  const intl = useIntl()
   const ref = useRef()
   const [isEdit, setEdit] = useState(false)
   const [val, setValue] = useState(value)
@@ -40,12 +46,18 @@ export function EditableField({
     if (ev) ev.preventDefault()
 
     if (!field) {
-      Ctx.flash(`Provide a key name!`, 'danger')
+      Ctx.flash(
+        intl.formatMessage(genericMessages.error_provide_key_name),
+        'danger'
+      )
       return
     }
 
     if (!val && required) {
-      Ctx.flash(`${field} is mandatory!`, 'danger')
+      Ctx.flash(
+        intl.formatMessage(genericMessages.mandatory_field, { field }),
+        'danger'
+      )
       return
     }
 
@@ -57,17 +69,29 @@ export function EditableField({
       const endpoint = `${Ctx.path}@upload/${field}`
       const req = await Ctx.client.upload(endpoint, value)
       if (req.status !== 200) {
-        Ctx.flash(`Failed to upload file ${field}!`, 'danger')
+        Ctx.flash(
+          intl.formatMessage(genericFileMessages.error_upload_file),
+          'danger'
+        )
       } else {
-        Ctx.flash(`${field} uploaded!`, 'success')
+        Ctx.flash(
+          intl.formatMessage(genericFileMessages.file_uploaded),
+          'success'
+        )
       }
     } else {
       const data = ns ? { [ns]: { [field]: val } } : { [field]: val }
       const dataPatch = await patch(data)
       if (dataPatch.isError) {
-        Ctx.flash(`Error in field ${field}!`, 'danger')
+        Ctx.flash(
+          intl.formatMessage(genericMessages.error_in_field, { field }),
+          'danger'
+        )
       } else {
-        Ctx.flash(`Field ${field}, updated!`, 'success')
+        Ctx.flash(
+          intl.formatMessage(genericMessages.field_updated, { field }),
+          'success'
+        )
       }
     }
 
@@ -79,16 +103,25 @@ export function EditableField({
     if (ev) ev.preventDefault()
     if (schema?.widget === 'file') {
       if (!field || (!val && required)) {
-        Ctx.flash(`You can't delete ${field}!`, 'danger')
+        Ctx.flash(
+          intl.formatMessage(genericMessages.can_not_delete_field, { field }),
+          'danger'
+        )
         return
       }
 
       const data = ns ? { [ns]: { [field]: null } } : { [field]: null }
       const dataPatch = await patch(data)
       if (dataPatch.isError) {
-        Ctx.flash(`Error in field ${field}!`, 'danger')
+        Ctx.flash(
+          intl.formatMessage(genericMessages.error_in_field, { field }),
+          'danger'
+        )
       } else {
-        Ctx.flash(`Field ${field}, deleted!`, 'success')
+        Ctx.flash(
+          intl.formatMessage(genericMessages.field_deleted, { field }),
+          'success'
+        )
       }
 
       setEdit(false)
@@ -139,7 +172,7 @@ export function EditableField({
                 onClick={saveField}
                 dataTest="editableFieldBtnSaveTest"
               >
-                Save
+                {intl.formatMessage(genericMessages.save)}
               </Button>
             </div>
             <div className="control">
@@ -148,7 +181,7 @@ export function EditableField({
                 onClick={() => setEdit(false)}
                 dataTest="editableFieldBtnCancelTest"
               >
-                Cancel
+                {intl.formatMessage(genericMessages.cancel)}
               </Button>
             </div>
             {!required && fieldHaveDeleteButton(schema) && (
@@ -158,7 +191,7 @@ export function EditableField({
                   onClick={deleteField}
                   dataTest="editableFieldBtnDeleteTest"
                 >
-                  Delete
+                  {intl.formatMessage(genericMessages.delete)}
                 </Button>
               </div>
             )}

@@ -1,0 +1,347 @@
+{
+  "actions": {
+    "defaultMessage": "Acciones:"
+  },
+  "add": {
+    "defaultMessage": "Añadir"
+  },
+  "add_container": {
+    "defaultMessage": "Añadir Contenedor"
+  },
+  "add_group": {
+    "defaultMessage": "Añadir Grupo"
+  },
+  "add_permissions": {
+    "defaultMessage": "Añadir Permisos"
+  },
+  "add_role": {
+    "defaultMessage": "Añadir un Rol"
+  },
+  "add_type": {
+    "defaultMessage": "Añadir {type}"
+  },
+  "add_user": {
+    "defaultMessage": "Añadir un Usuario"
+  },
+  "allow": {
+    "defaultMessage": "Permitir"
+  },
+  "allow_single": {
+    "defaultMessage": "Permitir Único"
+  },
+  "available": {
+    "defaultMessage": "Disponible"
+  },
+  "available_addons": {
+    "defaultMessage": "Complementos Disponibles"
+  },
+  "behaviors": {
+    "defaultMessage": "Comportamientos"
+  },
+  "can_not_delete_field": {
+    "defaultMessage": "¡No puedes eliminar {field}!"
+  },
+  "cancel": {
+    "defaultMessage": "Cancelar"
+  },
+  "change_password": {
+    "defaultMessage": "Cambiar Contraseña"
+  },
+  "choose": {
+    "defaultMessage": "Elegir..."
+  },
+  "choose_action": {
+    "defaultMessage": "Elegir acción..."
+  },
+  "choose_file": {
+    "defaultMessage": "Elegir un archivo"
+  },
+  "confirm": {
+    "defaultMessage": "Confirmar"
+  },
+  "confirm_message": {
+    "defaultMessage": "¿Estás seguro de cambiar el estado: {title}?"
+  },
+  "confirm_message_delete_file": {
+    "defaultMessage": "¿Estás seguro de eliminar: {fileKeyToDelete}?"
+  },
+  "confirm_message_delete_image": {
+    "defaultMessage": "¿Estás seguro de eliminar la imagen?"
+  },
+  "container_created": {
+    "defaultMessage": "Contenedor Creado"
+  },
+  "copy_to": {
+    "defaultMessage": "Copiar a..."
+  },
+  "create": {
+    "defaultMessage": "Crear"
+  },
+  "creation_date": {
+    "defaultMessage": "Fecha de Creación"
+  },
+  "current_state": {
+    "defaultMessage": "Estado actual: {state}"
+  },
+  "databases": {
+    "defaultMessage": "Bases de Datos"
+  },
+  "default_value_editable_field": {
+    "defaultMessage": "Haz clic para editar"
+  },
+  "delete": {
+    "defaultMessage": "Eliminar"
+  },
+  "deny": {
+    "defaultMessage": "Denegar"
+  },
+  "disable": {
+    "defaultMessage": "Deshabilitar"
+  },
+  "download": {
+    "defaultMessage": "Descargar"
+  },
+  "email": {
+    "defaultMessage": "Correo Electrónico"
+  },
+  "enable": {
+    "defaultMessage": "Habilitar"
+  },
+  "enabled": {
+    "defaultMessage": "Habilitado"
+  },
+  "error_file_key_name": {
+    "defaultMessage": "Proporcione un archivo y un nombre de clave"
+  },
+  "error_in_field": {
+    "defaultMessage": "Error en el campo {field}!"
+  },
+  "error_provide_key_name": {
+    "defaultMessage": "Proporcione un nombre de clave"
+  },
+  "error_upload_file": {
+    "defaultMessage": "Error al subir archivo"
+  },
+  "error_upload_file_size": {
+    "defaultMessage": "Error al subir archivo {size}"
+  },
+  "failed_delete_file": {
+    "defaultMessage": "Error al eliminar archivo"
+  },
+  "failed_to_sort_images": {
+    "defaultMessage": "Error al ordenar imágenes"
+  },
+  "failed_to_update": {
+    "defaultMessage": "Error al actualizar: {error}"
+  },
+  "field_deleted": {
+    "defaultMessage": "Campo {field}, eliminado!"
+  },
+  "field_is_required": {
+    "defaultMessage": "Este campo es obligatorio"
+  },
+  "field_updated": {
+    "defaultMessage": "Campo {field}, actualizado!"
+  },
+  "file_uploaded": {
+    "defaultMessage": "Archivo subido!"
+  },
+  "group": {
+    "defaultMessage": "Grupo"
+  },
+  "image": {
+    "defaultMessage": "Imagen"
+  },
+  "image_deleted": {
+    "defaultMessage": "Imagen eliminada!"
+  },
+  "image_uploaded": {
+    "defaultMessage": "Imagen subida!"
+  },
+  "images_sorted": {
+    "defaultMessage": "Imágenes ordenadas"
+  },
+  "install": {
+    "defaultMessage": "Instalar"
+  },
+  "installed_addons": {
+    "defaultMessage": "Complementos Instalados"
+  },
+  "invalid_email": {
+    "defaultMessage": "Correo electrónico inválido"
+  },
+  "invalid_form": {
+    "defaultMessage": "Formulario inválido"
+  },
+  "invalid_form_data": {
+    "defaultMessage": "Datos de formulario inválidos"
+  },
+  "load_more": {
+    "defaultMessage": "Cargar más"
+  },
+  "loading": {
+    "defaultMessage": "Cargando"
+  },
+  "mandatory_field": {
+    "defaultMessage": "{field} es obligatorio!"
+  },
+  "modification_date": {
+    "defaultMessage": "Fecha de Modificación"
+  },
+  "move_to": {
+    "defaultMessage": "Mover a..."
+  },
+  "name": {
+    "defaultMessage": "Nombre"
+  },
+  "no_available_addons_container": {
+    "defaultMessage": "No hay complementos disponibles en este contenedor"
+  },
+  "no_files_uploaded": {
+    "defaultMessage": "No se subieron archivos"
+  },
+  "no_images_uploaded": {
+    "defaultMessage": "No se subieron imágenes"
+  },
+  "no_principal_permissions": {
+    "defaultMessage": "No se definieron permisos para los usuarios"
+  },
+  "no_principal_roles": {
+    "defaultMessage": "No se definieron roles para los usuarios"
+  },
+  "no_results": {
+    "defaultMessage": "Sin resultados"
+  },
+  "no_role_permissions": {
+    "defaultMessage": "No se definieron permisos de roles"
+  },
+  "not_allowed": {
+    "defaultMessage": "No Permitido"
+  },
+  "not_found": {
+    "defaultMessage": "404. No Encontrado"
+  },
+  "not_implemented": {
+    "defaultMessage": "No implementado"
+  },
+  "open": {
+    "defaultMessage": "Abrir"
+  },
+  "operation": {
+    "defaultMessage": "Operación"
+  },
+  "pagination": {
+    "defaultMessage": "{currentPage} / {totalPages} de {totalItems} elementos"
+  },
+  "password": {
+    "defaultMessage": "Contraseña"
+  },
+  "permission": {
+    "defaultMessage": "Permiso"
+  },
+  "press_enter_to_add_value": {
+    "defaultMessage": "Presiona enter para añadir valor"
+  },
+  "principal_permissions": {
+    "defaultMessage": "Usuario - Permisos"
+  },
+  "principal_roles": {
+    "defaultMessage": "Roles - Usuarios"
+  },
+  "property": {
+    "defaultMessage": "Propiedad"
+  },
+  "remove": {
+    "defaultMessage": "Eliminar"
+  },
+  "role": {
+    "defaultMessage": "Rol"
+  },
+  "role_added_to_group": {
+    "defaultMessage": "Rol {role} añadido al grupo"
+  },
+  "role_permissions": {
+    "defaultMessage": "Permisos de Rol"
+  },
+  "role_removed_from_group": {
+    "defaultMessage": "Rol {role} eliminado del grupo"
+  },
+  "roles": {
+    "defaultMessage": "Roles"
+  },
+  "save": {
+    "defaultMessage": "Guardar"
+  },
+  "search": {
+    "defaultMessage": "Buscar"
+  },
+  "select_permissions": {
+    "defaultMessage": "Seleccionar permisos"
+  },
+  "select_principal": {
+    "defaultMessage": "Seleccionar un usuario"
+  },
+  "select_role": {
+    "defaultMessage": "Seleccionar un Rol"
+  },
+  "select_type": {
+    "defaultMessage": "Seleccionar un tipo:"
+  },
+  "setting": {
+    "defaultMessage": "Setting"
+  },
+  "something_went_wrong": {
+    "defaultMessage": "Algo salió mal."
+  },
+  "static": {
+    "defaultMessage": "Estático"
+  },
+  "status_changed_error": {
+    "defaultMessage": "¡Error al cambiar el estado!: {error}"
+  },
+  "status_changed_ok": {
+    "defaultMessage": "¡Cambio de estado exitoso!"
+  },
+  "the_user_doesnt_have_any_role": {
+    "defaultMessage": "El usuario no tiene ningún rol"
+  },
+  "there_is_no_groups_for_this_user": {
+    "defaultMessage": "No hay grupos para este usuario"
+  },
+  "title": {
+    "defaultMessage": "Título"
+  },
+  "unset": {
+    "defaultMessage": "Desestablecer"
+  },
+  "upload": {
+    "defaultMessage": "Subir"
+  },
+  "upload_a_file": {
+    "defaultMessage": "Subir un archivo"
+  },
+  "upload_an_image": {
+    "defaultMessage": "Subir una imagen"
+  },
+  "user": {
+    "defaultMessage": "Usuario"
+  },
+  "user_added_to_group": {
+    "defaultMessage": "Usuario {user} añadido al grupo"
+  },
+  "user_removed_from_group": {
+    "defaultMessage": "Usuario {user} eliminado del grupo"
+  },
+  "user_updated": {
+    "defaultMessage": "Usuario actualizado"
+  },
+  "username": {
+    "defaultMessage": "Nombre de Usuario"
+  },
+  "users": {
+    "defaultMessage": "Usuarios"
+  },
+  "value": {
+    "defaultMessage": "Valor"
+  }
+}

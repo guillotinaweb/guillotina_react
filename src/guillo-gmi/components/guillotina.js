@@ -9,8 +9,24 @@ import { useLocation } from '../hooks/useLocation'
 import { guillotinaReducer } from '../reducers/guillotina'
 import { initialState } from '../reducers/guillotina'
 import { Loading } from './ui/loading'
+import { IntlProvider } from 'react-intl'
+import langCA from '../locales/compiled/ca.json'
+import langES from '../locales/compiled/es.json'
+import langEN from '../locales/compiled/en.json'
 
-export function Guillotina({ auth, ...props }) {
+function loadLocaleData(locale) {
+  switch (locale) {
+    case 'ca':
+      return langCA
+    case 'es':
+      return langES
+    default:
+      return langEN
+  }
+}
+
+export function Guillotina({ auth, locale, ...props }) {
+  const messages = loadLocaleData(locale)
   const url = props.url || 'http://localhost:8080' // without trailing slash
   const config = props.config || {}
   const client = useGuillotinaClient()
@@ -71,35 +87,37 @@ export function Guillotina({ auth, ...props }) {
   const Action = action.action ? registry.getAction(action.action) : null
 
   return (
-    <ErrorBoundary>
-      {!errorStatus && (
-        <TraversalProvider {...contextData}>
-          {permissions && (
-            <React.Fragment>
-              {action.action && <Action {...action.params} />}
-              <div className="level">
-                <div className="level-left">
-                  <div className="level-item">
-                    <Path />
+    <IntlProvider locale={locale} defaultLocale="en" messages={messages}>
+      <ErrorBoundary>
+        {!errorStatus && (
+          <TraversalProvider {...contextData}>
+            {permissions && (
+              <React.Fragment>
+                {action.action && <Action {...action.params} />}
+                <div className="level">
+                  <div className="level-left">
+                    <div className="level-item">
+                      <Path />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Flash />
-              {Main && (
-                <ErrorBoundary>
-                  <div className="box main-panel">
-                    {state.loading && <Loading />}
-                    {!state.loading && <Main state={state} />}
-                  </div>
-                </ErrorBoundary>
-              )}
-              {/* <p>Guillotina {JSON.stringify(state.context)}</p> */}
-            </React.Fragment>
-          )}
-        </TraversalProvider>
-      )}
-      {errorStatus === 'notallowed' && <NotAllowed />}
-      {errorStatus === 'notfound' && <NotFound />}
-    </ErrorBoundary>
+                <Flash />
+                {Main && (
+                  <ErrorBoundary>
+                    <div className="box main-panel">
+                      {state.loading && <Loading />}
+                      {!state.loading && <Main state={state} />}
+                    </div>
+                  </ErrorBoundary>
+                )}
+                {/* <p>Guillotina {JSON.stringify(state.context)}</p> */}
+              </React.Fragment>
+            )}
+          </TraversalProvider>
+        )}
+        {errorStatus === 'notallowed' && <NotAllowed />}
+        {errorStatus === 'notfound' && <NotFound />}
+      </ErrorBoundary>
+    </IntlProvider>
   )
 }

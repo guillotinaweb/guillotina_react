@@ -9,8 +9,14 @@ import { EditableField } from '../fields/editableField'
 import { Delete } from '../ui'
 import { Confirm } from '../../components/modal'
 import { Table } from '../ui'
+import { useIntl } from 'react-intl'
+import {
+  genericFileMessages,
+  genericMessages,
+} from '../../locales/generic_messages'
 
 export function IMultiAttachment({ properties, values }) {
+  const intl = useIntl()
   const [fileKey, setFileKey] = useState('')
   const [file, setFile] = useState()
   const [fileKeyToDelete, setFileKeyToDelete] = useState(undefined)
@@ -23,7 +29,7 @@ export function IMultiAttachment({ properties, values }) {
   const uploadFile = async (ev) => {
     ev.preventDefault()
     if (!fileKey && !file) {
-      setError('Provide a file and a key name')
+      setError(intl.formatMessage(genericFileMessages.error_file_key_name))
       return
     }
     setLoading(true)
@@ -31,14 +37,14 @@ export function IMultiAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@upload/files/${fileKey}`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to upload file')
+      setError(intl.formatMessage(genericFileMessages.error_upload_file))
       setLoading(false)
       return
     }
     setFileKey('')
     setFile(undefined)
     setLoading(false)
-    Ctx.flash(`${fileKey} uploaded!`, 'success')
+    Ctx.flash(intl.formatMessage(genericFileMessages.file_uploaded), 'success')
     Ctx.refresh()
   }
 
@@ -48,12 +54,12 @@ export function IMultiAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@delete/files/${fileKeyToDelete}`
     const req = await Ctx.client.delete(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to delete file')
+      setError(intl.formatMessage(genericFileMessages.failed_delete_file))
       setLoading(false)
       return
     }
     setLoading(false)
-    Ctx.flash(`${fileKeyToDelete} delete!`, 'success')
+    setError(intl.formatMessage(genericFileMessages.failed_delete_file))
     Ctx.refresh()
   }
 
@@ -67,7 +73,12 @@ export function IMultiAttachment({ properties, values }) {
           loading={loading}
           onCancel={() => setFileKeyToDelete(undefined)}
           onConfirm={() => deleteFile(fileKeyToDelete)}
-          message={`Are you sure to remove: ${fileKeyToDelete}?`}
+          message={
+            (intl.formatMessage(
+              genericFileMessages.confirm_message_delete_file
+            ),
+            { fileKeyToDelete })
+          }
         />
       )}
 
@@ -97,13 +108,17 @@ export function IMultiAttachment({ properties, values }) {
       ))}
       {Object.keys(values['files']).length === 0 && (
         <tr>
-          <td colSpan={2}>No files uploaded</td>
+          <td colSpan={2}>
+            {intl.formatMessage(genericFileMessages.no_files_uploaded)}
+          </td>
         </tr>
       )}
       {modifyContent && (
         <tr>
           <td colSpan={2}>
-            <label className="label">Upload a file</label>
+            <label className="label">
+              {intl.formatMessage(genericFileMessages.upload_a_file)}
+            </label>
             <form className="columns">
               <div className="column is-4">
                 <Input
@@ -127,7 +142,7 @@ export function IMultiAttachment({ properties, values }) {
                   onClick={uploadFile}
                   disabled={!fileKey && !file}
                 >
-                  Upload
+                  {intl.formatMessage(genericMessages.upload)}
                 </Button>
               </div>
             </form>

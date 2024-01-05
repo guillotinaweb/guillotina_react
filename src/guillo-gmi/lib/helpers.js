@@ -1,3 +1,5 @@
+import { genericMessages } from '../locales/generic_messages'
+
 export const classnames = (classNames) => {
   return classNames.filter(Boolean).join(' ').trim()
 }
@@ -53,3 +55,21 @@ export function sleep(ms) {
     }, ms)
   })
 }
+
+export const getActionsObject = (intl, multiple = false) => ({
+  DELETE: {
+    text: intl.formatMessage(genericMessages.delete),
+    perms: ['guillotina.DeleteContent'],
+    action: multiple ? 'removeItems' : 'removeItem',
+  },
+  MOVE: {
+    text: intl.formatMessage(genericMessages.move_to),
+    perms: ['guillotina.MoveContent'],
+    action: multiple ? 'moveItems' : 'moveItem',
+  },
+  COPY: {
+    text: intl.formatMessage(genericMessages.copy_to),
+    perms: ['guillotina.DuplicateContent'],
+    action: multiple ? 'copyItems' : 'copyItem',
+  },
+})

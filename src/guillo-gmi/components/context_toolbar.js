@@ -9,11 +9,14 @@ import { useTraversal } from '../contexts'
 import { useConfig } from '../hooks/useConfig'
 import { useLocation } from '../hooks/useLocation'
 import { Select } from './input/select'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 /* eslint jsx-a11y/anchor-is-valid: "off" */
 const initialState = { types: undefined }
 
 export function CreateButton() {
+  const intl = useIntl()
   const [state, setState] = useSetState(initialState)
   const Ctx = useTraversal()
   const Config = useConfig()
@@ -38,7 +41,7 @@ export function CreateButton() {
         onClick={() => doAction(state.types[0])}
         dataTest="itemAddTypeTest"
       >
-        Add {state.types[0]}
+        {intl.formatMessage(genericMessages.add_type, { type: state.types[0] })}
       </Button>
     )
   }
@@ -63,6 +66,7 @@ export function CreateButton() {
 }
 
 export function ContextToolbar({ AddButton, ...props }) {
+  const intl = useIntl()
   const [state, setState] = useSetState(initialState)
   const [location, setLocation, del] = useLocation()
   const traversal = useTraversal()
@@ -110,7 +114,7 @@ export function ContextToolbar({ AddButton, ...props }) {
                 onChange={(ev) => setSearchValue(ev.target.value)}
                 type="text"
                 className="input is-size-7"
-                placeholder="Search..."
+                placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
               />
             </div>

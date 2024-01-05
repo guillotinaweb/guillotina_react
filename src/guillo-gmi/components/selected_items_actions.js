@@ -2,35 +2,20 @@ import React, { createContext, useState, useContext } from 'react'
 import Dropdown from './input/dropdown'
 import { Checkbox } from './input/checkbox'
 import { useTraversal } from '../contexts'
+import { useIntl } from 'react-intl'
+import { getActionsObject } from '../lib/helpers'
 
 const ItemsActionsCtx = createContext({})
-
-export const actions = {
-  DELETE: {
-    text: 'Delete',
-    perms: ['guillotina.DeleteContent'],
-    action: 'removeItems',
-  },
-  MOVE: {
-    text: 'Move to...',
-    perms: ['guillotina.MoveContent'],
-    action: 'moveItems',
-  },
-  COPY: {
-    text: 'Copy to...',
-    perms: ['guillotina.DuplicateContent'],
-    action: 'copyItems',
-  },
-}
 
 /**
  * Actions to apply after select some items
  * Ex: Delete, Move, Copy...
  */
 export function ItemsActionsProvider({ items, children }) {
+  const intl = useIntl()
+  const actions = getActionsObject(intl, true)
   const traversal = useTraversal()
   const [selected, setSelected] = useState({})
-
   function onSelectAllItems(checked) {
     setSelected(
       items.reduce(
@@ -111,11 +96,13 @@ export function ItemCheckbox({ item, dataTest }) {
  * Dropdown to choose some action to apply to the selected items.
  */
 export function ItemsActionsDropdown() {
+  const intl = useIntl()
+  const ACTIONS_OBJECT = getActionsObject(intl, true)
   const traversal = useTraversal()
   const { selected, onAction } = useContext(ItemsActionsCtx)
   const disabled = Object.values(selected).every((v) => !v)
-  const options = Object.keys(actions).map((action) => ({
-    text: actions[action].text,
+  const options = Object.keys(ACTIONS_OBJECT).map((action) => ({
+    text: ACTIONS_OBJECT[action].text,
     value: action,
   }))
 
@@ -125,11 +112,16 @@ export function ItemsActionsDropdown() {
       id="items-actions"
       onChange={onAction}
       optionDisabledWhen={(o) =>
-        actions[o.value].perms.some((perm) => !traversal.hasPerm(perm))
+        ACTIONS_OBJECT[o.value].perms.some((perm) => !traversal.hasPerm(perm))
       }
       options={options}
     >
-      <div data-test="btnChooseActionTest">Choose action...</div>
+      <div data-test="btnChooseActionTest">
+        {intl.formatMessage({
+          id: 'choose_action',
+          defaultMessage: 'Choose action...',
+        })}
+      </div>
     </Dropdown>
   )
 }
