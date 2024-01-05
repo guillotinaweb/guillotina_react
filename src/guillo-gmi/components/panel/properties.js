@@ -9,6 +9,8 @@ import { useConfig } from '../../hooks/useConfig'
 import useSetState from '../../hooks/useSetState'
 import { useTraversal } from '../../contexts'
 import { get } from '../../lib/utils'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 
 const _showProperties = ['@id', '@name', '@uid']
 const _ignoreFields = [
@@ -28,6 +30,7 @@ const _ignoreFields = [
 ]
 
 export function PanelProperties() {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
   const cfg = useConfig()
@@ -90,8 +93,12 @@ export function PanelProperties() {
             <table className="table is-striped is-fullwidth is-size-7">
               <thead>
                 <tr>
-                  <th className="is-2">Prop</th>
-                  <th className="is-8">Value</th>
+                  <th className="is-2">
+                    {intl.formatMessage(genericMessages.property)}
+                  </th>
+                  <th className="is-8">
+                    {intl.formatMessage(genericMessages.value)}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -113,8 +120,12 @@ export function PanelProperties() {
               <table className="table is-striped is-fullwidth is-size-7">
                 <thead>
                   <tr>
-                    <th className="is-2">Prop</th>
-                    <th className="is-8">Value</th>
+                    <th className="is-2">
+                      {intl.formatMessage(genericMessages.property)}
+                    </th>
+                    <th className="is-8">
+                      {intl.formatMessage(genericMessages.value)}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

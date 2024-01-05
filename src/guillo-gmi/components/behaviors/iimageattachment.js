@@ -7,10 +7,16 @@ import { Delete } from '../ui'
 import { Button } from '../input/button'
 import { FileUpload } from '../input/upload'
 import { Confirm } from '../../components/modal'
+import { useIntl } from 'react-intl'
+import {
+  genericFileMessages,
+  genericMessages,
+} from '../../locales/generic_messages'
 
 const _sizesImages = ['large', 'preview', 'mini', 'thumb']
 
 export function IImageAttachment({ properties, values }) {
+  const intl = useIntl()
   const cfg = useConfig()
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
@@ -22,13 +28,12 @@ export function IImageAttachment({ properties, values }) {
 
   const uploadFile = async (ev) => {
     ev.preventDefault()
-
     setLoading(true)
     setError(undefined)
     const endpoint = `${Ctx.path}@upload/image`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to upload file')
+      setError(intl.formatMessage(genericFileMessages.error_upload_file))
       setLoading(false)
       return
     }
@@ -44,7 +49,11 @@ export function IImageAttachment({ properties, values }) {
       }
 
       if (hasError) {
-        setError(`Failed to upload file ${endpointSize}`)
+        setError(
+          intl.formatMessage(genericFileMessages.error_upload_file_size, {
+            size: sizesImages[i],
+          })
+        )
         setLoading(false)
         return
       }
@@ -52,7 +61,7 @@ export function IImageAttachment({ properties, values }) {
 
     setFile(undefined)
     setLoading(false)
-    Ctx.flash(`Image uploaded!`, 'success')
+    Ctx.flash(intl.formatMessage(genericFileMessages.image_uploaded), 'success')
     Ctx.refresh()
   }
 
@@ -62,12 +71,12 @@ export function IImageAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@delete/image`
     const req = await Ctx.client.delete(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to delete file')
+      setError(intl.formatMessage(genericFileMessages.failed_delete_file))
       setLoading(false)
       return
     }
     setLoading(false)
-    Ctx.flash(`Image deleted!`, 'success')
+    Ctx.flash(intl.formatMessage(genericFileMessages.image_deleted), 'success')
     Ctx.refresh()
   }
 
@@ -81,12 +90,14 @@ export function IImageAttachment({ properties, values }) {
           loading={loading}
           onCancel={() => setShowConfirmToDelete(false)}
           onConfirm={() => deleteFile()}
-          message={`Are you sure to remove the image?`}
+          message={intl.formatMessage(
+            genericFileMessages.confirm_message_delete_image
+          )}
         />
       )}
       {values['image'] && (
         <tr>
-          <td key={1}>Image</td>
+          <td key={1}>{intl.formatMessage(genericMessages.image)}</td>
           <td key={2}>
             <div className="is-flex is-align-items-center">
               <EditableField
@@ -111,7 +122,9 @@ export function IImageAttachment({ properties, values }) {
       {modifyContent && (
         <tr>
           <td colSpan={2}>
-            <label className="label">Upload an image</label>
+            <label className="label">
+              {intl.formatMessage(genericFileMessages.upload_an_image)}
+            </label>
             <form
               className="is-flex is-align-items-center"
               style={{ gap: '15px' }}
@@ -128,7 +141,7 @@ export function IImageAttachment({ properties, values }) {
                   onClick={uploadFile}
                   disabled={!file}
                 >
-                  Upload
+                  {intl.formatMessage(genericMessages.upload)}
                 </Button>
               </div>
             </form>

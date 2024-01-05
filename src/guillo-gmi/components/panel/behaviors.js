@@ -2,8 +2,11 @@ import React from 'react'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { Table } from '../ui/table'
 import { Button } from '../input/button'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 
 export function PanelBehaviors() {
+  const intl = useIntl()
   const { Ctx, get, result, loading, isError } = useCrudContext()
   const ops = useCrudContext()
 
@@ -28,22 +31,26 @@ export function PanelBehaviors() {
   return (
     <div className="columns behaviors">
       <div className="column is-8 is-size-7">
-        <h2 className="title is-size-5 has-text-grey-dark">Behaviors</h2>
+        <h2 className="title is-size-5 has-text-grey-dark">
+          {intl.formatMessage(genericMessages.behaviors)}
+        </h2>
         {!loading && !isError && result && (
           <React.Fragment>
             <Table>
               <tr>
                 <td colSpan="3">
-                  <h3 className="title is-size-6">Static</h3>
+                  <h3 className="title is-size-6">
+                    {intl.formatMessage(genericMessages.static)}
+                  </h3>
                 </td>
               </tr>
               {result.static.map((behavior) => (
                 <tr key={behavior}>
-                  <td>Static</td>
+                  <td>{intl.formatMessage(genericMessages.static)}</td>
                   <td>{behavior}</td>
                   <td className="">
                     <Button className="is-small is-pulled-right" disabled>
-                      Disable
+                      {intl.formatMessage(genericMessages.disable)}
                     </Button>
                   </td>
                 </tr>
@@ -52,19 +59,21 @@ export function PanelBehaviors() {
             <Table>
               <tr>
                 <td colSpan="3">
-                  <h3 className="title is-size-6">Enabled</h3>
+                  <h3 className="title is-size-6">
+                    {intl.formatMessage(genericMessages.enabled)}
+                  </h3>
                 </td>
               </tr>
               {result.dynamic.map((behavior) => (
                 <tr key={behavior}>
-                  <td>Enabled</td>
+                  <td>{intl.formatMessage(genericMessages.enabled)}</td>
                   <td>{behavior}</td>
                   <td>
                     <Button
                       className="is-small is-danger is-pulled-right"
                       onClick={disableBehavior(behavior)}
                     >
-                      Disable
+                      {intl.formatMessage(genericMessages.disable)}
                     </Button>
                   </td>
                 </tr>
@@ -73,19 +82,21 @@ export function PanelBehaviors() {
             <Table>
               <tr>
                 <td colSpan="3">
-                  <h3 className="title is-size-6">Available</h3>
+                  <h3 className="title is-size-6">
+                    {intl.formatMessage(genericMessages.available)}
+                  </h3>
                 </td>
               </tr>
               {result.available.map((behavior) => (
                 <tr key={behavior}>
-                  <td>Available</td>
+                  <td>{intl.formatMessage(genericMessages.available)}</td>
                   <td>{behavior}</td>
                   <td>
                     <Button
                       className="is-small is-primary is-pulled-right"
                       onClick={enableBehavior(behavior)}
                     >
-                      Enable
+                      {intl.formatMessage(genericMessages.enable)}
                     </Button>
                   </td>
                 </tr>

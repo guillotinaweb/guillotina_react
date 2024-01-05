@@ -1,0 +1,816 @@
+{
+  "actions": [
+    {
+      "type": 0,
+      "value": "Actions:"
+    }
+  ],
+  "add": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
+  "add_container": [
+    {
+      "type": 0,
+      "value": "Add Container"
+    }
+  ],
+  "add_group": [
+    {
+      "type": 0,
+      "value": "Add Group"
+    }
+  ],
+  "add_permissions": [
+    {
+      "type": 0,
+      "value": "Add Permissions"
+    }
+  ],
+  "add_role": [
+    {
+      "type": 0,
+      "value": "Add a Role"
+    }
+  ],
+  "add_type": [
+    {
+      "type": 0,
+      "value": "Add "
+    },
+    {
+      "type": 1,
+      "value": "type"
+    }
+  ],
+  "add_user": [
+    {
+      "type": 0,
+      "value": "Add a User"
+    }
+  ],
+  "allow": [
+    {
+      "type": 0,
+      "value": "Allow"
+    }
+  ],
+  "allow_single": [
+    {
+      "type": 0,
+      "value": "AllowSingle"
+    }
+  ],
+  "available": [
+    {
+      "type": 0,
+      "value": "Available"
+    }
+  ],
+  "available_addons": [
+    {
+      "type": 0,
+      "value": "Available Addons"
+    }
+  ],
+  "behaviors": [
+    {
+      "type": 0,
+      "value": "Behaviors"
+    }
+  ],
+  "can_not_delete_field": [
+    {
+      "type": 0,
+      "value": "You can not delete "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": "!"
+    }
+  ],
+  "cancel": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "change_password": [
+    {
+      "type": 0,
+      "value": "Change Password"
+    }
+  ],
+  "choose": [
+    {
+      "type": 0,
+      "value": "Choose..."
+    }
+  ],
+  "choose_action": [
+    {
+      "type": 0,
+      "value": "Choose action..."
+    }
+  ],
+  "choose_file": [
+    {
+      "type": 0,
+      "value": "Choose a file"
+    }
+  ],
+  "confirm": [
+    {
+      "type": 0,
+      "value": "Confirm"
+    }
+  ],
+  "confirm_message": [
+    {
+      "type": 0,
+      "value": "Are you sure to change state: "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm_message_delete_file": [
+    {
+      "type": 0,
+      "value": "Are you sure to remove: "
+    },
+    {
+      "type": 1,
+      "value": "fileKeyToDelete"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm_message_delete_image": [
+    {
+      "type": 0,
+      "value": "Are you sure to remove the image?"
+    }
+  ],
+  "container_created": [
+    {
+      "type": 0,
+      "value": "Container Created"
+    }
+  ],
+  "copy_to": [
+    {
+      "type": 0,
+      "value": "Copy to..."
+    }
+  ],
+  "create": [
+    {
+      "type": 0,
+      "value": "Create"
+    }
+  ],
+  "creation_date": [
+    {
+      "type": 0,
+      "value": "Creation Date"
+    }
+  ],
+  "current_state": [
+    {
+      "type": 0,
+      "value": "Current state: "
+    },
+    {
+      "type": 1,
+      "value": "state"
+    }
+  ],
+  "databases": [
+    {
+      "type": 0,
+      "value": "Databases"
+    }
+  ],
+  "default_value_editable_field": [
+    {
+      "type": 0,
+      "value": "Click to edit"
+    }
+  ],
+  "delete": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "deny": [
+    {
+      "type": 0,
+      "value": "Deny"
+    }
+  ],
+  "disable": [
+    {
+      "type": 0,
+      "value": "Disable"
+    }
+  ],
+  "download": [
+    {
+      "type": 0,
+      "value": "Download"
+    }
+  ],
+  "email": [
+    {
+      "type": 0,
+      "value": "Email"
+    }
+  ],
+  "enable": [
+    {
+      "type": 0,
+      "value": "Enable"
+    }
+  ],
+  "enabled": [
+    {
+      "type": 0,
+      "value": "Enabled"
+    }
+  ],
+  "error_file_key_name": [
+    {
+      "type": 0,
+      "value": "Provide a file and a key name"
+    }
+  ],
+  "error_in_field": [
+    {
+      "type": 0,
+      "value": "Error in field "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": "!"
+    }
+  ],
+  "error_provide_key_name": [
+    {
+      "type": 0,
+      "value": "Provide a key name"
+    }
+  ],
+  "error_upload_file": [
+    {
+      "type": 0,
+      "value": "Failed to upload file"
+    }
+  ],
+  "error_upload_file_size": [
+    {
+      "type": 0,
+      "value": "Failed to upload file "
+    },
+    {
+      "type": 1,
+      "value": "size"
+    }
+  ],
+  "failed_delete_file": [
+    {
+      "type": 0,
+      "value": "Failed to delete file"
+    }
+  ],
+  "failed_to_sort_images": [
+    {
+      "type": 0,
+      "value": "Failed to sort images"
+    }
+  ],
+  "failed_to_update": [
+    {
+      "type": 0,
+      "value": "Failed to update: "
+    },
+    {
+      "type": 1,
+      "value": "error"
+    }
+  ],
+  "field_deleted": [
+    {
+      "type": 0,
+      "value": "Field "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": ", deleted!"
+    }
+  ],
+  "field_is_required": [
+    {
+      "type": 0,
+      "value": "This field is required"
+    }
+  ],
+  "field_updated": [
+    {
+      "type": 0,
+      "value": "Field "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": ", updated!"
+    }
+  ],
+  "file_uploaded": [
+    {
+      "type": 0,
+      "value": "File uploaded!"
+    }
+  ],
+  "group": [
+    {
+      "type": 0,
+      "value": "Group"
+    }
+  ],
+  "image": [
+    {
+      "type": 0,
+      "value": "Image"
+    }
+  ],
+  "image_deleted": [
+    {
+      "type": 0,
+      "value": "Image deleted!"
+    }
+  ],
+  "image_uploaded": [
+    {
+      "type": 0,
+      "value": "Image uploaded!"
+    }
+  ],
+  "images_sorted": [
+    {
+      "type": 0,
+      "value": "Images sorted"
+    }
+  ],
+  "install": [
+    {
+      "type": 0,
+      "value": "Install"
+    }
+  ],
+  "installed_addons": [
+    {
+      "type": 0,
+      "value": "Installed Addons"
+    }
+  ],
+  "invalid_email": [
+    {
+      "type": 0,
+      "value": "Invalid email"
+    }
+  ],
+  "invalid_form": [
+    {
+      "type": 0,
+      "value": "Invalid form"
+    }
+  ],
+  "invalid_form_data": [
+    {
+      "type": 0,
+      "value": "Invalid form data"
+    }
+  ],
+  "load_more": [
+    {
+      "type": 0,
+      "value": "Load more"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "Loading"
+    }
+  ],
+  "mandatory_field": [
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": " is mandatory!"
+    }
+  ],
+  "modification_date": [
+    {
+      "type": 0,
+      "value": "Modification Date"
+    }
+  ],
+  "move_to": [
+    {
+      "type": 0,
+      "value": "Move to..."
+    }
+  ],
+  "name": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "no_available_addons_container": [
+    {
+      "type": 0,
+      "value": "No Addon available in this container"
+    }
+  ],
+  "no_files_uploaded": [
+    {
+      "type": 0,
+      "value": "No files uploaded"
+    }
+  ],
+  "no_images_uploaded": [
+    {
+      "type": 0,
+      "value": "No images uploaded"
+    }
+  ],
+  "no_principal_permissions": [
+    {
+      "type": 0,
+      "value": "No principal permissions defined"
+    }
+  ],
+  "no_principal_roles": [
+    {
+      "type": 0,
+      "value": "No principal roles defined"
+    }
+  ],
+  "no_results": [
+    {
+      "type": 0,
+      "value": "No results"
+    }
+  ],
+  "no_role_permissions": [
+    {
+      "type": 0,
+      "value": "No roles permissions defined"
+    }
+  ],
+  "not_allowed": [
+    {
+      "type": 0,
+      "value": "Not Allowed"
+    }
+  ],
+  "not_found": [
+    {
+      "type": 0,
+      "value": "404. Not Found"
+    }
+  ],
+  "not_implemented": [
+    {
+      "type": 0,
+      "value": "Not implemented"
+    }
+  ],
+  "open": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
+  "operation": [
+    {
+      "type": 0,
+      "value": "Operation"
+    }
+  ],
+  "pagination": [
+    {
+      "type": 1,
+      "value": "currentPage"
+    },
+    {
+      "type": 0,
+      "value": " / "
+    },
+    {
+      "type": 1,
+      "value": "totalPages"
+    },
+    {
+      "type": 0,
+      "value": " of "
+    },
+    {
+      "type": 1,
+      "value": "totalItems"
+    },
+    {
+      "type": 0,
+      "value": " items"
+    }
+  ],
+  "password": [
+    {
+      "type": 0,
+      "value": "Password"
+    }
+  ],
+  "permission": [
+    {
+      "type": 0,
+      "value": "Permission"
+    }
+  ],
+  "press_enter_to_add_value": [
+    {
+      "type": 0,
+      "value": "Press enter to add value"
+    }
+  ],
+  "principal_permissions": [
+    {
+      "type": 0,
+      "value": "Principal Permissions"
+    }
+  ],
+  "principal_roles": [
+    {
+      "type": 0,
+      "value": "Principal Roles"
+    }
+  ],
+  "property": [
+    {
+      "type": 0,
+      "value": "Property"
+    }
+  ],
+  "remove": [
+    {
+      "type": 0,
+      "value": "Remove"
+    }
+  ],
+  "role": [
+    {
+      "type": 0,
+      "value": "Role"
+    }
+  ],
+  "role_added_to_group": [
+    {
+      "type": 0,
+      "value": "Role "
+    },
+    {
+      "type": 1,
+      "value": "role"
+    },
+    {
+      "type": 0,
+      "value": " added to group"
+    }
+  ],
+  "role_permissions": [
+    {
+      "type": 0,
+      "value": "Role Permissions"
+    }
+  ],
+  "role_removed_from_group": [
+    {
+      "type": 0,
+      "value": "Role "
+    },
+    {
+      "type": 1,
+      "value": "role"
+    },
+    {
+      "type": 0,
+      "value": " removed from group"
+    }
+  ],
+  "roles": [
+    {
+      "type": 0,
+      "value": "Roles"
+    }
+  ],
+  "save": [
+    {
+      "type": 0,
+      "value": "Save"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "Search"
+    }
+  ],
+  "select_permissions": [
+    {
+      "type": 0,
+      "value": "Select permissions"
+    }
+  ],
+  "select_principal": [
+    {
+      "type": 0,
+      "value": "Select a Principal"
+    }
+  ],
+  "select_role": [
+    {
+      "type": 0,
+      "value": "Select a Role"
+    }
+  ],
+  "select_type": [
+    {
+      "type": 0,
+      "value": "Select a type:"
+    }
+  ],
+  "setting": [
+    {
+      "type": 0,
+      "value": "Setting"
+    }
+  ],
+  "something_went_wrong": [
+    {
+      "type": 0,
+      "value": "Something went wrong."
+    }
+  ],
+  "static": [
+    {
+      "type": 0,
+      "value": "Static"
+    }
+  ],
+  "status_changed_error": [
+    {
+      "type": 0,
+      "value": "Failed to status changed!: "
+    },
+    {
+      "type": 1,
+      "value": "error"
+    }
+  ],
+  "status_changed_ok": [
+    {
+      "type": 0,
+      "value": "Great status changed!"
+    }
+  ],
+  "the_user_doesnt_have_any_role": [
+    {
+      "type": 0,
+      "value": "The user doesn't have any role"
+    }
+  ],
+  "there_is_no_groups_for_this_user": [
+    {
+      "type": 0,
+      "value": "There is no groups for this user"
+    }
+  ],
+  "title": [
+    {
+      "type": 0,
+      "value": "Title"
+    }
+  ],
+  "unset": [
+    {
+      "type": 0,
+      "value": "Unset"
+    }
+  ],
+  "upload": [
+    {
+      "type": 0,
+      "value": "Upload"
+    }
+  ],
+  "upload_a_file": [
+    {
+      "type": 0,
+      "value": "Upload a file"
+    }
+  ],
+  "upload_an_image": [
+    {
+      "type": 0,
+      "value": "Upload an image"
+    }
+  ],
+  "user": [
+    {
+      "type": 0,
+      "value": "User"
+    }
+  ],
+  "user_added_to_group": [
+    {
+      "type": 0,
+      "value": "User "
+    },
+    {
+      "type": 1,
+      "value": "user"
+    },
+    {
+      "type": 0,
+      "value": " added to group"
+    }
+  ],
+  "user_removed_from_group": [
+    {
+      "type": 0,
+      "value": "User "
+    },
+    {
+      "type": 1,
+      "value": "user"
+    },
+    {
+      "type": 0,
+      "value": " removed from group"
+    }
+  ],
+  "user_updated": [
+    {
+      "type": 0,
+      "value": "User updated"
+    }
+  ],
+  "username": [
+    {
+      "type": 0,
+      "value": "Username"
+    }
+  ],
+  "users": [
+    {
+      "type": 0,
+      "value": "Users"
+    }
+  ],
+  "value": [
+    {
+      "type": 0,
+      "value": "Value"
+    }
+  ]
+}

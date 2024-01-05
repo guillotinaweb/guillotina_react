@@ -1,7 +1,10 @@
 import * as React from 'react'
 import { useTraversal } from '../../contexts'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 
 export const DownloadField = ({ value }) => {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const { data, field } = value
 
@@ -45,7 +48,7 @@ export const DownloadField = ({ value }) => {
               getField(false)
             }}
           >
-            Open
+            {intl.formatMessage(genericMessages.open)}
           </button>
         </div>
         <div className="column">
@@ -57,7 +60,7 @@ export const DownloadField = ({ value }) => {
               getField(true)
             }}
           >
-            Download
+            {intl.formatMessage(genericMessages.download)}
           </button>
         </div>
       </div>

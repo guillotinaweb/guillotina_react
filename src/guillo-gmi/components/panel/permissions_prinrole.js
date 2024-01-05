@@ -6,8 +6,11 @@ import { Button } from '../input/button'
 import { Select } from '../input/select'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { useTraversal } from '../../contexts'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 
 export function PermissionPrinrole({ principals, roles, operations, refresh }) {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
   const [state, setState] = useSetState({
@@ -23,7 +26,7 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
 
   const savePermission = async () => {
     if (!state.principal || !state.setting || state.roles.length === 0) {
-      setState({ error: 'Invalid form' })
+      setState({ error: intl.formatMessage(genericMessages.invalid_form_data) })
       return
     }
     setState({ error: undefined })
@@ -46,9 +49,15 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
   return (
     <div className="container">
       {loading}
-      {state.error && <ErrorZone>Invalid form data</ErrorZone>}
+      {state.error && (
+        <ErrorZone>
+          {intl.formatMessage(genericMessages.invalid_form_data)}
+        </ErrorZone>
+      )}
       <div className="field">
-        <label className="label">Select a Principal</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.select_principal)}
+        </label>
         <Select
           appendDefault
           options={principals}
@@ -57,7 +66,9 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
         />
       </div>
       <div className="field">
-        <label className="label">Select a Role</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.select_role)}
+        </label>
         <Select
           options={roles}
           onChange={getMultiples('roles', setState)}
@@ -67,7 +78,9 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
         />
       </div>
       <div className="field">
-        <label className="label">Operation</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.operation)}
+        </label>
         <Select
           appendDefault
           options={operations}
@@ -81,7 +94,7 @@ export function PermissionPrinrole({ principals, roles, operations, refresh }) {
         onClick={savePermission}
         dataTest="btnSubmitPermissionsTest"
       >
-        Save
+        {intl.formatMessage(genericMessages.save)}
       </Button>
     </div>
   )

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import ErrorZone from '../error_zone'
 import { classnames, generateUID } from '../../lib/helpers'
 import { get } from '../../lib/utils'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 // @ TODO implement hasErrors
 
 /** @type any */
@@ -29,6 +31,7 @@ export const Select = React.forwardRef(
     },
     ref
   ) => {
+    const intl = useIntl()
     const [uid] = useState(generateUID('select'))
 
     const onUpdate = (ev) => {
@@ -45,7 +48,9 @@ export const Select = React.forwardRef(
     }
 
     if (appendDefault) {
-      options = [{ text: 'Choose...', value: '' }].concat(options)
+      options = [
+        { text: intl.formatMessage(genericMessages.choose), value: '' },
+      ].concat(options)
     }
     const statusClasses = error ? 'is-danger' : ''
 

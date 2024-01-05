@@ -6,6 +6,8 @@ import { Button } from '../input/button'
 import { Select } from '../input/select'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { useTraversal } from '../../contexts'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 
 export function PermissionRoleperm({
   roles,
@@ -13,6 +15,7 @@ export function PermissionRoleperm({
   operations,
   refresh,
 }) {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
   const [state, setState] = useSetState({
@@ -28,7 +31,7 @@ export function PermissionRoleperm({
 
   const savePermission = async () => {
     if (!state.role || !state.setting || state.permission.length === 0) {
-      setState({ error: 'Invalid form' })
+      setState({ error: intl.formatMessage(genericMessages.invalid_form) })
       return
     }
     setState({ error: undefined })
@@ -52,9 +55,15 @@ export function PermissionRoleperm({
   return (
     <div className="container">
       {loading}
-      {state.error && <ErrorZone>Invalid form data</ErrorZone>}
+      {state.error && (
+        <ErrorZone>
+          {intl.formatMessage(genericMessages.invalid_form_data)}
+        </ErrorZone>
+      )}
       <div className="field">
-        <label className="label">Select a Role</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.select_role)}
+        </label>
         <Select
           appendDefault
           options={roles}
@@ -63,7 +72,9 @@ export function PermissionRoleperm({
         />
       </div>
       <div className="field">
-        <label className="label">Select permissions</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.select_permissions)}
+        </label>
         <Select
           options={permissions}
           onChange={getMultiples('permission', setState)}
@@ -73,7 +84,9 @@ export function PermissionRoleperm({
         />
       </div>
       <div className="field">
-        <label className="label">Operation</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.operation)}
+        </label>
         <Select
           appendDefault
           options={operations}
@@ -87,7 +100,7 @@ export function PermissionRoleperm({
         onClick={savePermission}
         dataTest="btnSubmitPermissionsTest"
       >
-        Save
+        {intl.formatMessage(genericMessages.save)}
       </Button>
     </div>
   )

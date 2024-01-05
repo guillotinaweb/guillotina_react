@@ -3,8 +3,33 @@ import { useTraversal } from '../../contexts'
 import { Confirm } from '../modal'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { ItemModel } from '../../models'
+import { defineMessages, useIntl } from 'react-intl'
+
+const messages = defineMessages({
+  status_changed_ok: {
+    id: 'status_changed_ok',
+    defaultMessage: 'Great status changed!',
+  },
+  status_changed_error: {
+    id: 'status_changed_error',
+    defaultMessage: 'Failed to status changed!: {error}',
+  },
+  confirm_message: {
+    id: 'confirm_message',
+    defaultMessage: 'Are you sure to change state: {title}?',
+  },
+  current_state: {
+    id: 'current_state',
+    defaultMessage: 'Current state: {state}',
+  },
+  actions: {
+    id: 'actions',
+    defaultMessage: 'Actions:',
+  },
+})
 
 export function IWorkflow() {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
@@ -34,9 +59,14 @@ export function IWorkflow() {
     )
     await loadDefinition()
     if (!isError) {
-      Ctx.flash(`Great status changed!`, 'success')
+      Ctx.flash(intl.formatMessage(messages.status_changed_ok), 'success')
     } else {
-      Ctx.flash(`Failed to status changed!: ${errorMessage}`, 'danger')
+      Ctx.flash(
+        intl.formatMessage(messages.status_changed_error, {
+          error: errorMessage,
+        }),
+        'danger'
+      )
     }
 
     Ctx.refresh()
@@ -51,9 +81,9 @@ export function IWorkflow() {
           loading={loading}
           onCancel={() => setWorkflowAction(null)}
           onConfirm={doWorkflowAction}
-          message={`Are you sure to change state: ${
-            Ctx.context.title || Ctx.context['@name']
-          }?`}
+          message={intl.formatMessage(messages.confirm_message, {
+            title: Ctx.context.title || Ctx.context['@name'],
+          })}
         />
       )}
 
@@ -62,7 +92,7 @@ export function IWorkflow() {
           className="has-text-weight-bold"
           data-test={`textInfoStatus-${currentState}`}
         >
-          Current state: {currentState}
+          {intl.formatMessage(messages.current_state, { state: currentState })}
         </div>
       </div>
       {modifyContent && (
@@ -70,7 +100,7 @@ export function IWorkflow() {
           className=" is-flex is-align-items-center has-text-weight-bold"
           data-test={`textInfoStatus-${currentState}`}
         >
-          <label>Accions:</label>&nbsp;&nbsp;
+          <label>{intl.formatMessage(messages.actions)}</label>&nbsp;&nbsp;
           {definition.transitions.map((transition) => {
             return (
               <button

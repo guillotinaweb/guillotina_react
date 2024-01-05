@@ -20,7 +20,8 @@ import { useLocation } from '../../hooks/useLocation'
 import { Select } from '../input/select'
 import { Input } from '../input/input'
 import { SelectVocabulary } from '../input/select_vocabulary'
-
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 const initialState = {
   page: 0,
   items: [],
@@ -31,6 +32,7 @@ const initialState = {
 export function PanelItems() {
   const [location, setLocation, del] = useLocation()
   const { PageSize, SearchEngine } = useConfig()
+  const intl = useIntl()
 
   const Ctx = useTraversal()
   const [state, setState] = useSetState(initialState)
@@ -341,7 +343,7 @@ export function PanelItems() {
             {items && items.length === 0 && (
               <tr>
                 <td colSpan="6" className="has-text-centered">
-                  Anything here!
+                  {intl.formatMessage(genericMessages.no_results)}
                 </td>
               </tr>
             )}

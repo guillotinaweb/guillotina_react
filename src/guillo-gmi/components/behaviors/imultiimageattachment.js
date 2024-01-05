@@ -9,10 +9,16 @@ import { EditableField } from '../fields/editableField'
 import { useConfig } from '../../hooks/useConfig'
 import { Table } from '../ui'
 import { Input } from '../input/input'
+import { useIntl } from 'react-intl'
+import {
+  genericFileMessages,
+  genericMessages,
+} from '../../locales/generic_messages'
 
 const _sizesImages = ['large', 'preview', 'mini', 'thumb']
 
 export function IMultiImageAttachment({ properties, values }) {
+  const intl = useIntl()
   const cfg = useConfig()
   const [fileKey, setFileKey] = useState('')
   const [file, setFile] = useState(null)
@@ -27,7 +33,7 @@ export function IMultiImageAttachment({ properties, values }) {
   const uploadFile = async (ev) => {
     ev.preventDefault()
     if (!fileKey && !file) {
-      setError('Provide a file and a key name')
+      setError(intl.formatMessage(genericFileMessages.error_file_key_name))
       return
     }
     setLoading(true)
@@ -35,7 +41,7 @@ export function IMultiImageAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@upload/images/${fileKey}`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to upload file')
+      setError(intl.formatMessage(genericFileMessages.error_upload_file))
       setLoading(false)
       return
     }
@@ -51,7 +57,11 @@ export function IMultiImageAttachment({ properties, values }) {
       }
 
       if (hasError) {
-        setError(`Failed to upload file ${endpointSize}`)
+        setError(
+          intl.formatMessage(genericFileMessages.error_upload_file_size, {
+            size: sizesImages[i],
+          })
+        )
         setLoading(false)
         return
       }
@@ -60,7 +70,7 @@ export function IMultiImageAttachment({ properties, values }) {
     setFileKey('')
     setFile(undefined)
     setLoading(false)
-    Ctx.flash(`${fileKey} uploaded!`, 'success')
+    Ctx.flash(intl.formatMessage(genericFileMessages.image_uploaded), 'success')
     Ctx.refresh()
   }
 
@@ -70,12 +80,12 @@ export function IMultiImageAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@delete/images/${fileKeyToDelete}`
     const req = await Ctx.client.delete(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to delete file')
+      setError(intl.formatMessage(genericFileMessages.failed_delete_file))
       setLoading(false)
       return
     }
     setLoading(false)
-    Ctx.flash(`${fileKeyToDelete} delete!`, 'success')
+    Ctx.flash(intl.formatMessage(genericFileMessages.image_deleted), 'success')
     Ctx.refresh()
   }
 
@@ -89,7 +99,12 @@ export function IMultiImageAttachment({ properties, values }) {
           loading={loading}
           onCancel={() => setFileKeyToDelete(undefined)}
           onConfirm={() => deleteFile()}
-          message={`Are you sure to remove: ${fileKeyToDelete}?`}
+          message={
+            (intl.formatMessage(
+              genericFileMessages.confirm_message_delete_file
+            ),
+            { fileKeyToDelete })
+          }
         />
       )}
 
@@ -120,13 +135,18 @@ export function IMultiImageAttachment({ properties, values }) {
       ))}
       {Object.keys(values['images']).length === 0 && (
         <tr>
-          <td colSpan={2}>No images uploaded</td>
+          <td colSpan={2}>
+            {intl.formatMessage(genericFileMessages.no_images_uploaded)}
+          </td>
         </tr>
       )}
       {modifyContent && (
         <tr>
           <td colSpan={2}>
-            <label className="label">Upload an image</label>
+            <label className="label">
+              {' '}
+              {intl.formatMessage(genericFileMessages.upload_an_image)}
+            </label>
             <form className="columns" data-test="formMultiimageAttachmentTest">
               <div className="column is-4">
                 <Input
@@ -150,7 +170,7 @@ export function IMultiImageAttachment({ properties, values }) {
                   onClick={uploadFile}
                   disabled={!fileKey && !file}
                 >
-                  Upload
+                  {intl.formatMessage(genericMessages.upload)}
                 </Button>
               </div>
             </form>

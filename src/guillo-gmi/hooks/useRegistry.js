@@ -165,7 +165,6 @@ export function useRegistry(data) {
   // if data is provided we need to merge it into actual registry
   const ref = React.useRef()
   if (data && !ref.current) {
-    console.log('registry initialized')
     ref.current = true
     Object.keys(data).map(
       (key) => (registry[key] = { ...registry[key], ...data[key] })

@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { Input } from './input'
+import { useIntl } from 'react-intl'
 
 export const InputList = React.forwardRef(
   ({ value, onChange, dataTest }, ref) => {
+    const intl = useIntl()
     const [inputValue, setInputValue] = React.useState('')
     const addTags = (event) => {
       if (event.key === 'Enter' && event.target.value !== '') {
@@ -33,7 +35,10 @@ export const InputList = React.forwardRef(
         </div>
         <Input
           type="text"
-          placeholder="Press enter to add value"
+          placeholder={intl.formatMessage({
+            id: 'press_enter_to_add_value',
+            defaultMessage: 'Press enter to add value',
+          })}
           onKeyUp={(event) => addTags(event)}
           value={inputValue}
           ref={ref}

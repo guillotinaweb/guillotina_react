@@ -1,0 +1,347 @@
+{
+  "actions": {
+    "defaultMessage": "Accions:"
+  },
+  "add": {
+    "defaultMessage": "Afegeix"
+  },
+  "add_container": {
+    "defaultMessage": "Afegeix un Contenidor"
+  },
+  "add_group": {
+    "defaultMessage": "Afegeix un Grup"
+  },
+  "add_permissions": {
+    "defaultMessage": "Afegeix Permisos"
+  },
+  "add_role": {
+    "defaultMessage": "Afegeix un Rol"
+  },
+  "add_type": {
+    "defaultMessage": "Afegeix {type}"
+  },
+  "add_user": {
+    "defaultMessage": "Afegeix un Usuari"
+  },
+  "allow": {
+    "defaultMessage": "Permet"
+  },
+  "allow_single": {
+    "defaultMessage": "Permet Únic"
+  },
+  "available": {
+    "defaultMessage": "Disponible"
+  },
+  "available_addons": {
+    "defaultMessage": "Addons Disponibles"
+  },
+  "behaviors": {
+    "defaultMessage": "Comportaments"
+  },
+  "can_not_delete_field": {
+    "defaultMessage": "No pots eliminar el {field}!"
+  },
+  "cancel": {
+    "defaultMessage": "Cancel·la"
+  },
+  "change_password": {
+    "defaultMessage": "Canvia la Contrasenya"
+  },
+  "choose": {
+    "defaultMessage": "Trieu..."
+  },
+  "choose_action": {
+    "defaultMessage": "Trieu una acció..."
+  },
+  "choose_file": {
+    "defaultMessage": "Tria un arxiu"
+  },
+  "confirm": {
+    "defaultMessage": "Confirma"
+  },
+  "confirm_message": {
+    "defaultMessage": "Estàs segur de canviar l'estat: {title}?"
+  },
+  "confirm_message_delete_file": {
+    "defaultMessage": "Estàs segur de eliminar: {fileKeyToDelete}?"
+  },
+  "confirm_message_delete_image": {
+    "defaultMessage": "Estàs segur d'eliminar la imatge?"
+  },
+  "container_created": {
+    "defaultMessage": "Contenidor Creat"
+  },
+  "copy_to": {
+    "defaultMessage": "Copia a..."
+  },
+  "create": {
+    "defaultMessage": "Crea"
+  },
+  "creation_date": {
+    "defaultMessage": "Data de Creació"
+  },
+  "current_state": {
+    "defaultMessage": "Estat actual: {state}"
+  },
+  "databases": {
+    "defaultMessage": "Bases de Dades"
+  },
+  "default_value_editable_field": {
+    "defaultMessage": "Clica per editar"
+  },
+  "delete": {
+    "defaultMessage": "Elimina"
+  },
+  "deny": {
+    "defaultMessage": "Denega"
+  },
+  "disable": {
+    "defaultMessage": "Desactiva"
+  },
+  "download": {
+    "defaultMessage": "Descarrega"
+  },
+  "email": {
+    "defaultMessage": "Correu Electrònic"
+  },
+  "enable": {
+    "defaultMessage": "Activa"
+  },
+  "enabled": {
+    "defaultMessage": "Activat"
+  },
+  "error_file_key_name": {
+    "defaultMessage": "Proporciona un arxiu i un nom de clau"
+  },
+  "error_in_field": {
+    "defaultMessage": "Error en el camp {field}!"
+  },
+  "error_provide_key_name": {
+    "defaultMessage": "Proporciona un nom de clau"
+  },
+  "error_upload_file": {
+    "defaultMessage": "Error en pujar l'arxiu"
+  },
+  "error_upload_file_size": {
+    "defaultMessage": "Error en pujar l'arxiu {size}"
+  },
+  "failed_delete_file": {
+    "defaultMessage": "Error en eliminar l'arxiu"
+  },
+  "failed_to_sort_images": {
+    "defaultMessage": "Error en ordenar les imatges"
+  },
+  "failed_to_update": {
+    "defaultMessage": "Error en actualitzar: {error}"
+  },
+  "field_deleted": {
+    "defaultMessage": "Camp {field}, eliminat!"
+  },
+  "field_is_required": {
+    "defaultMessage": "Aquest camp és obligatori"
+  },
+  "field_updated": {
+    "defaultMessage": "Camp {field}, actualitzat!"
+  },
+  "file_uploaded": {
+    "defaultMessage": "Arxiu pujat!"
+  },
+  "group": {
+    "defaultMessage": "Grup"
+  },
+  "image": {
+    "defaultMessage": "Imatge"
+  },
+  "image_deleted": {
+    "defaultMessage": "Imatge eliminada!"
+  },
+  "image_uploaded": {
+    "defaultMessage": "Imatge pujada!"
+  },
+  "images_sorted": {
+    "defaultMessage": "Imatges ordenades"
+  },
+  "install": {
+    "defaultMessage": "Instal·la"
+  },
+  "installed_addons": {
+    "defaultMessage": "Addons Instal·lats"
+  },
+  "invalid_email": {
+    "defaultMessage": "Correu electrònic no vàlid"
+  },
+  "invalid_form": {
+    "defaultMessage": "Formulari no vàlid"
+  },
+  "invalid_form_data": {
+    "defaultMessage": "Dades del formulari no vàlides"
+  },
+  "load_more": {
+    "defaultMessage": "Carrega més"
+  },
+  "loading": {
+    "defaultMessage": "Carregant"
+  },
+  "mandatory_field": {
+    "defaultMessage": "{field} és obligatori!"
+  },
+  "modification_date": {
+    "defaultMessage": "Data de Modificació"
+  },
+  "move_to": {
+    "defaultMessage": "Mou a..."
+  },
+  "name": {
+    "defaultMessage": "Nom"
+  },
+  "no_available_addons_container": {
+    "defaultMessage": "No hi ha Addons disponibles en aquest contenidor"
+  },
+  "no_files_uploaded": {
+    "defaultMessage": "No hi ha arxius pujats"
+  },
+  "no_images_uploaded": {
+    "defaultMessage": "No hi ha imatges pujades"
+  },
+  "no_principal_permissions": {
+    "defaultMessage": "No hi ha permisos pels usuaris definits"
+  },
+  "no_principal_roles": {
+    "defaultMessage": "No hi ha rols pels usuaris definits"
+  },
+  "no_results": {
+    "defaultMessage": "Sense resultats"
+  },
+  "no_role_permissions": {
+    "defaultMessage": "No hi ha permisos de rol definits"
+  },
+  "not_allowed": {
+    "defaultMessage": "No Permès"
+  },
+  "not_found": {
+    "defaultMessage": "404. No Trobat"
+  },
+  "not_implemented": {
+    "defaultMessage": "No implementat"
+  },
+  "open": {
+    "defaultMessage": "Obre"
+  },
+  "operation": {
+    "defaultMessage": "Operació"
+  },
+  "pagination": {
+    "defaultMessage": "{currentPage} / {totalPages} de {totalItems} elements"
+  },
+  "password": {
+    "defaultMessage": "Contrasenya"
+  },
+  "permission": {
+    "defaultMessage": "Permís"
+  },
+  "press_enter_to_add_value": {
+    "defaultMessage": "Prem enter per afegir un valor"
+  },
+  "principal_permissions": {
+    "defaultMessage": "Permisos - Usuaris"
+  },
+  "principal_roles": {
+    "defaultMessage": "Rols - Usuaris"
+  },
+  "property": {
+    "defaultMessage": "Propietat"
+  },
+  "remove": {
+    "defaultMessage": "Elimina"
+  },
+  "role": {
+    "defaultMessage": "Rol"
+  },
+  "role_added_to_group": {
+    "defaultMessage": "Rol {role} afegit al grup"
+  },
+  "role_permissions": {
+    "defaultMessage": "Permisos del Rol"
+  },
+  "role_removed_from_group": {
+    "defaultMessage": "Rol {role} eliminat del grup"
+  },
+  "roles": {
+    "defaultMessage": "Rols"
+  },
+  "save": {
+    "defaultMessage": "Desa"
+  },
+  "search": {
+    "defaultMessage": "Cerca"
+  },
+  "select_permissions": {
+    "defaultMessage": "Selecciona els permisos"
+  },
+  "select_principal": {
+    "defaultMessage": "Selecciona un Usuari"
+  },
+  "select_role": {
+    "defaultMessage": "Selecciona un Rol"
+  },
+  "select_type": {
+    "defaultMessage": "Selecciona un tipus:"
+  },
+  "setting": {
+    "defaultMessage": "Configuració"
+  },
+  "something_went_wrong": {
+    "defaultMessage": "Alguna cosa ha anat malament."
+  },
+  "static": {
+    "defaultMessage": "Estàtic"
+  },
+  "status_changed_error": {
+    "defaultMessage": "Error en canvi de l'estat!: {error}"
+  },
+  "status_changed_ok": {
+    "defaultMessage": "Genial, l'estat ha canviat!"
+  },
+  "the_user_doesnt_have_any_role": {
+    "defaultMessage": "L'usuari no té cap rol"
+  },
+  "there_is_no_groups_for_this_user": {
+    "defaultMessage": "No hi ha grups per aquest usuari"
+  },
+  "title": {
+    "defaultMessage": "Títol"
+  },
+  "unset": {
+    "defaultMessage": "Desestableix"
+  },
+  "upload": {
+    "defaultMessage": "Puja"
+  },
+  "upload_a_file": {
+    "defaultMessage": "Puja un arxiu"
+  },
+  "upload_an_image": {
+    "defaultMessage": "Puja una imatge"
+  },
+  "user": {
+    "defaultMessage": "Usuari"
+  },
+  "user_added_to_group": {
+    "defaultMessage": "Usuari {user} afegit al grup"
+  },
+  "user_removed_from_group": {
+    "defaultMessage": "Usuari {user} eliminat del grup"
+  },
+  "user_updated": {
+    "defaultMessage": "Usuari actualitzat"
+  },
+  "username": {
+    "defaultMessage": "Nom d'usuari"
+  },
+  "users": {
+    "defaultMessage": "Usuaris"
+  },
+  "value": {
+    "defaultMessage": "Valor"
+  }
+}

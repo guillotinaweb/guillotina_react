@@ -6,6 +6,8 @@ import { Button } from '../input/button'
 import { Select } from '../input/select'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { useTraversal } from '../../contexts'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
 
 export function PermissionPrinperm({
   principals,
@@ -14,6 +16,7 @@ export function PermissionPrinperm({
   refresh,
 }) {
   const Ctx = useTraversal()
+  const intl = useIntl()
   const { post, loading } = useCrudContext()
   const [state, setState] = useSetState({
     principal: undefined,
@@ -28,7 +31,7 @@ export function PermissionPrinperm({
 
   const savePermission = async () => {
     if (!state.principal || !state.setting || state.permission.length === 0) {
-      setState({ error: 'Invalid form' })
+      setState({ error: intl.formatMessage(genericMessages.invalid_form) })
       return
     }
     setState({ error: undefined })
@@ -51,9 +54,15 @@ export function PermissionPrinperm({
   return (
     <div className="container">
       {loading}
-      {state.error && <ErrorZone>Invalid form data</ErrorZone>}
+      {state.error && (
+        <ErrorZone>
+          {intl.formatMessage(genericMessages.invalid_form_data)}
+        </ErrorZone>
+      )}
       <div className="field">
-        <label className="label">Select a Principal</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.select_principal)}
+        </label>
         <Select
           appendDefault
           options={principals}
@@ -62,7 +71,9 @@ export function PermissionPrinperm({
         />
       </div>
       <div className="field">
-        <label className="label">Select permissions</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.select_permissions)}
+        </label>
         <Select
           options={permissions}
           onChange={getMultiples('permission', setState)}
@@ -72,7 +83,9 @@ export function PermissionPrinperm({
         />
       </div>
       <div className="field">
-        <label className="label">Operation</label>
+        <label className="label">
+          {intl.formatMessage(genericMessages.operation)}
+        </label>
         <Select
           appendDefault
           options={operations}
@@ -86,7 +99,7 @@ export function PermissionPrinperm({
         onClick={savePermission}
         dataTest="btnSubmitPermissionsTest"
       >
-        Save
+        {intl.formatMessage(genericMessages.save)}
       </Button>
     </div>
   )

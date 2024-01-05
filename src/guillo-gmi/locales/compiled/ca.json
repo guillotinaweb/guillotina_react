@@ -1,0 +1,816 @@
+{
+  "actions": [
+    {
+      "type": 0,
+      "value": "Accions:"
+    }
+  ],
+  "add": [
+    {
+      "type": 0,
+      "value": "Afegeix"
+    }
+  ],
+  "add_container": [
+    {
+      "type": 0,
+      "value": "Afegeix un Contenidor"
+    }
+  ],
+  "add_group": [
+    {
+      "type": 0,
+      "value": "Afegeix un Grup"
+    }
+  ],
+  "add_permissions": [
+    {
+      "type": 0,
+      "value": "Afegeix Permisos"
+    }
+  ],
+  "add_role": [
+    {
+      "type": 0,
+      "value": "Afegeix un Rol"
+    }
+  ],
+  "add_type": [
+    {
+      "type": 0,
+      "value": "Afegeix "
+    },
+    {
+      "type": 1,
+      "value": "type"
+    }
+  ],
+  "add_user": [
+    {
+      "type": 0,
+      "value": "Afegeix un Usuari"
+    }
+  ],
+  "allow": [
+    {
+      "type": 0,
+      "value": "Permet"
+    }
+  ],
+  "allow_single": [
+    {
+      "type": 0,
+      "value": "Permet Únic"
+    }
+  ],
+  "available": [
+    {
+      "type": 0,
+      "value": "Disponible"
+    }
+  ],
+  "available_addons": [
+    {
+      "type": 0,
+      "value": "Addons Disponibles"
+    }
+  ],
+  "behaviors": [
+    {
+      "type": 0,
+      "value": "Comportaments"
+    }
+  ],
+  "can_not_delete_field": [
+    {
+      "type": 0,
+      "value": "No pots eliminar el "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": "!"
+    }
+  ],
+  "cancel": [
+    {
+      "type": 0,
+      "value": "Cancel·la"
+    }
+  ],
+  "change_password": [
+    {
+      "type": 0,
+      "value": "Canvia la Contrasenya"
+    }
+  ],
+  "choose": [
+    {
+      "type": 0,
+      "value": "Trieu..."
+    }
+  ],
+  "choose_action": [
+    {
+      "type": 0,
+      "value": "Trieu una acció..."
+    }
+  ],
+  "choose_file": [
+    {
+      "type": 0,
+      "value": "Tria un arxiu"
+    }
+  ],
+  "confirm": [
+    {
+      "type": 0,
+      "value": "Confirma"
+    }
+  ],
+  "confirm_message": [
+    {
+      "type": 0,
+      "value": "Estàs segur de canviar l'estat: "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm_message_delete_file": [
+    {
+      "type": 0,
+      "value": "Estàs segur de eliminar: "
+    },
+    {
+      "type": 1,
+      "value": "fileKeyToDelete"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm_message_delete_image": [
+    {
+      "type": 0,
+      "value": "Estàs segur d'eliminar la imatge?"
+    }
+  ],
+  "container_created": [
+    {
+      "type": 0,
+      "value": "Contenidor Creat"
+    }
+  ],
+  "copy_to": [
+    {
+      "type": 0,
+      "value": "Copia a..."
+    }
+  ],
+  "create": [
+    {
+      "type": 0,
+      "value": "Crea"
+    }
+  ],
+  "creation_date": [
+    {
+      "type": 0,
+      "value": "Data de Creació"
+    }
+  ],
+  "current_state": [
+    {
+      "type": 0,
+      "value": "Estat actual: "
+    },
+    {
+      "type": 1,
+      "value": "state"
+    }
+  ],
+  "databases": [
+    {
+      "type": 0,
+      "value": "Bases de Dades"
+    }
+  ],
+  "default_value_editable_field": [
+    {
+      "type": 0,
+      "value": "Clica per editar"
+    }
+  ],
+  "delete": [
+    {
+      "type": 0,
+      "value": "Elimina"
+    }
+  ],
+  "deny": [
+    {
+      "type": 0,
+      "value": "Denega"
+    }
+  ],
+  "disable": [
+    {
+      "type": 0,
+      "value": "Desactiva"
+    }
+  ],
+  "download": [
+    {
+      "type": 0,
+      "value": "Descarrega"
+    }
+  ],
+  "email": [
+    {
+      "type": 0,
+      "value": "Correu Electrònic"
+    }
+  ],
+  "enable": [
+    {
+      "type": 0,
+      "value": "Activa"
+    }
+  ],
+  "enabled": [
+    {
+      "type": 0,
+      "value": "Activat"
+    }
+  ],
+  "error_file_key_name": [
+    {
+      "type": 0,
+      "value": "Proporciona un arxiu i un nom de clau"
+    }
+  ],
+  "error_in_field": [
+    {
+      "type": 0,
+      "value": "Error en el camp "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": "!"
+    }
+  ],
+  "error_provide_key_name": [
+    {
+      "type": 0,
+      "value": "Proporciona un nom de clau"
+    }
+  ],
+  "error_upload_file": [
+    {
+      "type": 0,
+      "value": "Error en pujar l'arxiu"
+    }
+  ],
+  "error_upload_file_size": [
+    {
+      "type": 0,
+      "value": "Error en pujar l'arxiu "
+    },
+    {
+      "type": 1,
+      "value": "size"
+    }
+  ],
+  "failed_delete_file": [
+    {
+      "type": 0,
+      "value": "Error en eliminar l'arxiu"
+    }
+  ],
+  "failed_to_sort_images": [
+    {
+      "type": 0,
+      "value": "Error en ordenar les imatges"
+    }
+  ],
+  "failed_to_update": [
+    {
+      "type": 0,
+      "value": "Error en actualitzar: "
+    },
+    {
+      "type": 1,
+      "value": "error"
+    }
+  ],
+  "field_deleted": [
+    {
+      "type": 0,
+      "value": "Camp "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": ", eliminat!"
+    }
+  ],
+  "field_is_required": [
+    {
+      "type": 0,
+      "value": "Aquest camp és obligatori"
+    }
+  ],
+  "field_updated": [
+    {
+      "type": 0,
+      "value": "Camp "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": ", actualitzat!"
+    }
+  ],
+  "file_uploaded": [
+    {
+      "type": 0,
+      "value": "Arxiu pujat!"
+    }
+  ],
+  "group": [
+    {
+      "type": 0,
+      "value": "Grup"
+    }
+  ],
+  "image": [
+    {
+      "type": 0,
+      "value": "Imatge"
+    }
+  ],
+  "image_deleted": [
+    {
+      "type": 0,
+      "value": "Imatge eliminada!"
+    }
+  ],
+  "image_uploaded": [
+    {
+      "type": 0,
+      "value": "Imatge pujada!"
+    }
+  ],
+  "images_sorted": [
+    {
+      "type": 0,
+      "value": "Imatges ordenades"
+    }
+  ],
+  "install": [
+    {
+      "type": 0,
+      "value": "Instal·la"
+    }
+  ],
+  "installed_addons": [
+    {
+      "type": 0,
+      "value": "Addons Instal·lats"
+    }
+  ],
+  "invalid_email": [
+    {
+      "type": 0,
+      "value": "Correu electrònic no vàlid"
+    }
+  ],
+  "invalid_form": [
+    {
+      "type": 0,
+      "value": "Formulari no vàlid"
+    }
+  ],
+  "invalid_form_data": [
+    {
+      "type": 0,
+      "value": "Dades del formulari no vàlides"
+    }
+  ],
+  "load_more": [
+    {
+      "type": 0,
+      "value": "Carrega més"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "Carregant"
+    }
+  ],
+  "mandatory_field": [
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": " és obligatori!"
+    }
+  ],
+  "modification_date": [
+    {
+      "type": 0,
+      "value": "Data de Modificació"
+    }
+  ],
+  "move_to": [
+    {
+      "type": 0,
+      "value": "Mou a..."
+    }
+  ],
+  "name": [
+    {
+      "type": 0,
+      "value": "Nom"
+    }
+  ],
+  "no_available_addons_container": [
+    {
+      "type": 0,
+      "value": "No hi ha Addons disponibles en aquest contenidor"
+    }
+  ],
+  "no_files_uploaded": [
+    {
+      "type": 0,
+      "value": "No hi ha arxius pujats"
+    }
+  ],
+  "no_images_uploaded": [
+    {
+      "type": 0,
+      "value": "No hi ha imatges pujades"
+    }
+  ],
+  "no_principal_permissions": [
+    {
+      "type": 0,
+      "value": "No hi ha permisos pels usuaris definits"
+    }
+  ],
+  "no_principal_roles": [
+    {
+      "type": 0,
+      "value": "No hi ha rols pels usuaris definits"
+    }
+  ],
+  "no_results": [
+    {
+      "type": 0,
+      "value": "Sense resultats"
+    }
+  ],
+  "no_role_permissions": [
+    {
+      "type": 0,
+      "value": "No hi ha permisos de rol definits"
+    }
+  ],
+  "not_allowed": [
+    {
+      "type": 0,
+      "value": "No Permès"
+    }
+  ],
+  "not_found": [
+    {
+      "type": 0,
+      "value": "404. No Trobat"
+    }
+  ],
+  "not_implemented": [
+    {
+      "type": 0,
+      "value": "No implementat"
+    }
+  ],
+  "open": [
+    {
+      "type": 0,
+      "value": "Obre"
+    }
+  ],
+  "operation": [
+    {
+      "type": 0,
+      "value": "Operació"
+    }
+  ],
+  "pagination": [
+    {
+      "type": 1,
+      "value": "currentPage"
+    },
+    {
+      "type": 0,
+      "value": " / "
+    },
+    {
+      "type": 1,
+      "value": "totalPages"
+    },
+    {
+      "type": 0,
+      "value": " de "
+    },
+    {
+      "type": 1,
+      "value": "totalItems"
+    },
+    {
+      "type": 0,
+      "value": " elements"
+    }
+  ],
+  "password": [
+    {
+      "type": 0,
+      "value": "Contrasenya"
+    }
+  ],
+  "permission": [
+    {
+      "type": 0,
+      "value": "Permís"
+    }
+  ],
+  "press_enter_to_add_value": [
+    {
+      "type": 0,
+      "value": "Prem enter per afegir un valor"
+    }
+  ],
+  "principal_permissions": [
+    {
+      "type": 0,
+      "value": "Permisos - Usuaris"
+    }
+  ],
+  "principal_roles": [
+    {
+      "type": 0,
+      "value": "Rols - Usuaris"
+    }
+  ],
+  "property": [
+    {
+      "type": 0,
+      "value": "Propietat"
+    }
+  ],
+  "remove": [
+    {
+      "type": 0,
+      "value": "Elimina"
+    }
+  ],
+  "role": [
+    {
+      "type": 0,
+      "value": "Rol"
+    }
+  ],
+  "role_added_to_group": [
+    {
+      "type": 0,
+      "value": "Rol "
+    },
+    {
+      "type": 1,
+      "value": "role"
+    },
+    {
+      "type": 0,
+      "value": " afegit al grup"
+    }
+  ],
+  "role_permissions": [
+    {
+      "type": 0,
+      "value": "Permisos del Rol"
+    }
+  ],
+  "role_removed_from_group": [
+    {
+      "type": 0,
+      "value": "Rol "
+    },
+    {
+      "type": 1,
+      "value": "role"
+    },
+    {
+      "type": 0,
+      "value": " eliminat del grup"
+    }
+  ],
+  "roles": [
+    {
+      "type": 0,
+      "value": "Rols"
+    }
+  ],
+  "save": [
+    {
+      "type": 0,
+      "value": "Desa"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "Cerca"
+    }
+  ],
+  "select_permissions": [
+    {
+      "type": 0,
+      "value": "Selecciona els permisos"
+    }
+  ],
+  "select_principal": [
+    {
+      "type": 0,
+      "value": "Selecciona un Usuari"
+    }
+  ],
+  "select_role": [
+    {
+      "type": 0,
+      "value": "Selecciona un Rol"
+    }
+  ],
+  "select_type": [
+    {
+      "type": 0,
+      "value": "Selecciona un tipus:"
+    }
+  ],
+  "setting": [
+    {
+      "type": 0,
+      "value": "Configuració"
+    }
+  ],
+  "something_went_wrong": [
+    {
+      "type": 0,
+      "value": "Alguna cosa ha anat malament."
+    }
+  ],
+  "static": [
+    {
+      "type": 0,
+      "value": "Estàtic"
+    }
+  ],
+  "status_changed_error": [
+    {
+      "type": 0,
+      "value": "Error en canvi de l'estat!: "
+    },
+    {
+      "type": 1,
+      "value": "error"
+    }
+  ],
+  "status_changed_ok": [
+    {
+      "type": 0,
+      "value": "Genial, l'estat ha canviat!"
+    }
+  ],
+  "the_user_doesnt_have_any_role": [
+    {
+      "type": 0,
+      "value": "L'usuari no té cap rol"
+    }
+  ],
+  "there_is_no_groups_for_this_user": [
+    {
+      "type": 0,
+      "value": "No hi ha grups per aquest usuari"
+    }
+  ],
+  "title": [
+    {
+      "type": 0,
+      "value": "Títol"
+    }
+  ],
+  "unset": [
+    {
+      "type": 0,
+      "value": "Desestableix"
+    }
+  ],
+  "upload": [
+    {
+      "type": 0,
+      "value": "Puja"
+    }
+  ],
+  "upload_a_file": [
+    {
+      "type": 0,
+      "value": "Puja un arxiu"
+    }
+  ],
+  "upload_an_image": [
+    {
+      "type": 0,
+      "value": "Puja una imatge"
+    }
+  ],
+  "user": [
+    {
+      "type": 0,
+      "value": "Usuari"
+    }
+  ],
+  "user_added_to_group": [
+    {
+      "type": 0,
+      "value": "Usuari "
+    },
+    {
+      "type": 1,
+      "value": "user"
+    },
+    {
+      "type": 0,
+      "value": " afegit al grup"
+    }
+  ],
+  "user_removed_from_group": [
+    {
+      "type": 0,
+      "value": "Usuari "
+    },
+    {
+      "type": 1,
+      "value": "user"
+    },
+    {
+      "type": 0,
+      "value": " eliminat del grup"
+    }
+  ],
+  "user_updated": [
+    {
+      "type": 0,
+      "value": "Usuari actualitzat"
+    }
+  ],
+  "username": [
+    {
+      "type": 0,
+      "value": "Nom d'usuari"
+    }
+  ],
+  "users": [
+    {
+      "type": 0,
+      "value": "Usuaris"
+    }
+  ],
+  "value": [
+    {
+      "type": 0,
+      "value": "Valor"
+    }
+  ]
+}
