@@ -109,7 +109,7 @@ function App() {
   const [currentSchema, setCurrentSchema] = useState('/')
   const [clientInstance, setClientInstance] = useState(undefined)
   const [isLogged, setLogged] = useState(auth.isLogged)
-  console.log('auth is logged', auth.isLogged)
+
   useEffect(() => {
     setClientInstance(getClient(url, currentSchema, auth))
   }, [currentSchema])
@@ -127,11 +127,13 @@ function App() {
     return null
   }
 
+  console.log('language', navigator.language)
   return (
     <ClientProvider client={clientInstance}>
       <Layout auth={auth} onLogout={onLogout}>
         {isLogged && (
           <Guillotina
+            locale={navigator.language || 'en'}
             auth={auth}
             url={currentSchema}
             registry={{

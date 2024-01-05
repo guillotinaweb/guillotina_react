@@ -3,7 +3,7 @@ import { BREADCRUMB_SELECTORS } from '../elements/breadcrumb-selectors'
 
 Cypress.Commands.add(
   'autologin',
-  function ({ username, password, api_url } = {}) {
+  function ({ username, password, api_url, language = 'en' } = {}) {
     const url = api_url || Cypress.env('GUILLOTINA')
     const user = username || 'root'
     const pw = password || 'root'
@@ -21,7 +21,11 @@ Cypress.Commands.add(
       cy.setLocalStorage('auth_expires', new Date(response.body.exp).getTime())
     })
 
-    cy.visit('/')
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, 'language', { value: language })
+      },
+    })
     cy.get('.box > .container').should('be.visible')
   }
 )
@@ -66,14 +70,18 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'containerLogin',
-  function ({ username, password, api_url } = {}) {
+  function ({ username, password, api_url, language = 'en' } = {}) {
     cy.intercept('POST', `/@login`).as('login')
     const url = api_url || Cypress.env('GUILLOTINA')
     const user = username || 'root'
     const pw = password || 'root'
 
     cy.interceptPostObject('@login')
-    cy.visit('/')
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, 'language', { value: language })
+      },
+    })
     cy.get(LOGIN_SELECTORS.form).should('be.visible')
     cy.get(LOGIN_SELECTORS.username).type('root').should('have.value', 'root')
     cy.get(LOGIN_SELECTORS.password).type('root').should('have.value', 'root')
