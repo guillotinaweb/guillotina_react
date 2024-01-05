@@ -9,8 +9,62 @@ import { Sharing } from '../../models'
 import { Table } from '../ui/table'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { useTraversal } from '../../contexts'
+import { defineMessages, useIntl } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
+
+const messages = defineMessages({
+  role_permissions: {
+    id: 'role_permissions',
+    defaultMessage: 'Role Permissions',
+  },
+  no_role_permissions: {
+    id: 'no_role_permissions',
+    defaultMessage: 'No roles permissions defined',
+  },
+  no_principal_permissions: {
+    id: 'no_principal_permissions',
+    defaultMessage: 'No principal permissions defined',
+  },
+  no_principal_roles: {
+    id: 'no_principal_roles',
+    defaultMessage: 'No principal roles defined',
+  },
+  principal_permissions: {
+    id: 'principal_permissions',
+    defaultMessage: 'Principal Permissions',
+  },
+  principal_roles: {
+    id: 'principal_roles',
+    defaultMessage: 'Principal Roles',
+  },
+  allow: {
+    id: 'allow',
+    defaultMessage: 'Allow',
+  },
+  deny: {
+    id: 'deny',
+    defaultMessage: 'Deny',
+  },
+  allow_single: {
+    id: 'allow_single',
+    defaultMessage: 'AllowSingle',
+  },
+  unset: {
+    id: 'unset',
+    defaultMessage: 'Unset',
+  },
+  add_permissions: {
+    id: 'add_permissions',
+    defaultMessage: 'Add Permissions',
+  },
+  select_type: {
+    id: 'select_type',
+    defaultMessage: 'Select a type:',
+  },
+})
 
 export function PanelPermissions() {
+  const intl = useIntl()
   const { get, result, loading } = useCrudContext()
   const ctx = useTraversal()
 
@@ -30,9 +84,15 @@ export function PanelPermissions() {
           data-test="containerPermissionsInfoTest"
         >
           <h2 className="title is-size-5 has-text-grey-dark">
-            Role Permissions
+            {intl.formatMessage(messages.role_permissions)}
           </h2>
-          <Table headers={['Role', 'Premission', 'Setting']}>
+          <Table
+            headers={[
+              intl.formatMessage(genericMessages.role),
+              intl.formatMessage(genericMessages.permission),
+              intl.formatMessage(genericMessages.setting),
+            ]}
+          >
             {perms.roles.map((role, idx) => (
               <React.Fragment key={'ff' + idx}>
                 <tr>
@@ -55,14 +115,22 @@ export function PanelPermissions() {
             ))}
             {perms.roles.length === 0 && (
               <tr>
-                <td colSpan="3">No roles permissions defined</td>
+                <td colSpan="3">
+                  {intl.formatMessage(messages.no_role_permissions)}
+                </td>
               </tr>
             )}
           </Table>
           <h2 className="title is-size-5 has-text-grey-dark">
-            Principal Permissions
+            {intl.formatMessage(messages.principal_permissions)}
           </h2>
-          <Table headers={['Principal', 'Premission', 'Setting']}>
+          <Table
+            headers={[
+              intl.formatMessage(genericMessages.role),
+              intl.formatMessage(genericMessages.permission),
+              intl.formatMessage(genericMessages.setting),
+            ]}
+          >
             {perms.principals.map((role, idx) => (
               <React.Fragment key={'f2' + idx}>
                 <tr>
@@ -81,14 +149,22 @@ export function PanelPermissions() {
             ))}
             {perms.principals.length === 0 && (
               <tr>
-                <td colSpan="3">No principals permissions defined</td>
+                <td colSpan="3">
+                  {intl.formatMessage(messages.no_principal_permissions)}
+                </td>
               </tr>
             )}
           </Table>
           <h2 className="title is-size-5 has-text-grey-dark">
-            Principal Roles
+            {intl.formatMessage(messages.principal_roles)}
           </h2>
-          <Table headers={['Principal', 'Role', 'Setting']}>
+          <Table
+            headers={[
+              intl.formatMessage(genericMessages.role),
+              intl.formatMessage(genericMessages.permission),
+              intl.formatMessage(genericMessages.setting),
+            ]}
+          >
             {perms.prinrole.map((role, idx) => (
               <React.Fragment key={role + idx}>
                 <tr>
@@ -107,7 +183,9 @@ export function PanelPermissions() {
             ))}
             {perms.prinrole.length === 0 && (
               <tr>
-                <td colSpan="3">No principals roles defined</td>
+                <td colSpan="3">
+                  {intl.formatMessage(messages.no_role_permissions)}
+                </td>
               </tr>
             )}
           </Table>
@@ -128,23 +206,27 @@ const initial = {
   currentObj: undefined,
 }
 
-const operations = [
-  { text: 'Allow', value: 'Allow' },
-  { text: 'Deny', value: 'Deny' },
-  { text: 'AllowSingle', value: 'AllowSingle' },
-  { text: 'Unset', value: 'Unset' },
-]
-
-const defaultOptions = [
-  { text: 'Choose..', value: '' },
-  { text: 'Role Permissions', value: 'roleperm' },
-  { text: 'Principal Permissions', value: 'prinperm' },
-  { text: 'Principal Roles', value: 'prinrole' },
-]
-
 export function AddPermission({ refresh, reset }) {
   const Ctx = useTraversal()
   const [state, setState] = useSetState(initial)
+  const intl = useIntl()
+
+  const operations = [
+    { text: intl.formatMessage(messages.allow), value: 'Allow' },
+    { text: intl.formatMessage(messages.deny), value: 'Deny' },
+    { text: intl.formatMessage(messages.allow_single), value: 'AllowSingle' },
+    { text: intl.formatMessage(messages.unset), value: 'Unset' },
+  ]
+
+  const defaultOptions = [
+    { text: intl.formatMessage(genericMessages.choose), value: '' },
+    { text: intl.formatMessage(messages.role_permissions), value: 'roleperm' },
+    {
+      text: intl.formatMessage(messages.principal_permissions),
+      value: 'prinperm',
+    },
+    { text: intl.formatMessage(messages.principal_roles), value: 'prinrole' },
+  ]
 
   React.useEffect(() => {
     async function init() {
@@ -183,8 +265,10 @@ export function AddPermission({ refresh, reset }) {
 
   return (
     <div className="column is-4 is-size-7">
-      <h1 className="title is-size-5">Add Permissions</h1>
-      <p>Select a type:</p>
+      <h1 className="title is-size-5">
+        {intl.formatMessage(messages.add_permissions)}
+      </h1>
+      <p>{intl.formatMessage(messages.select_type)}</p>
       <Select
         options={defaultOptions}
         onChange={(value) => setState({ current: value })}

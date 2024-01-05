@@ -19,6 +19,7 @@
     "jwt-decode": "3.1.2",
     "prop-types": "15.7.2",
     "react-beautiful-dnd": "13.1.1",
+    "react-intl": "6.5.5",
     "react-useportal": "1.0.19",
     "uuid": "9.0.1"
   },
@@ -29,9 +30,11 @@
   "devDependencies": {
     "@babel/cli": "7.12.10",
     "@babel/core": "7.12.10",
+    "@formatjs/cli": "^6.2.4",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.6.0",
+    "babel-plugin-formatjs": "^10.5.10",
     "husky": "4.3.6",
     "microbundle": "0.13.0",
     "prettier": "2.2.1",
@@ -47,7 +50,13 @@
     "build:js": "rm -rf ./dist && microbundle --jsx React.createElement --no-compress --sourcemap",
     "build:css": "rm -rf ./dist/css && mkdir ./dist/css && sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
     "prepublish": "yarn build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "intl-extract": "formatjs extract 'src/**/*.js' --out-file src/guillo-gmi/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+    "intl-compile-en": "formatjs compile src/guillo-gmi/locales/en.json --ast --out-file src/guillo-gmi/locales/compiled/en.json",
+    "intl-compile-ca": "formatjs compile src/guillo-gmi/locales/ca.json --ast --out-file src/guillo-gmi/locales/compiled/ca.json",
+    "intl-compile-es": "formatjs compile src/guillo-gmi/locales/es.json --ast --out-file src/guillo-gmi/locales/compiled/es.json",
+    "intl-compile": "npm run intl-compile-en && npm run intl-compile-es && npm run intl-compile-ca"
+
   },
   "eslintConfig": {
     "extends": "react-app"

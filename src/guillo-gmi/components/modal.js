@@ -1,6 +1,8 @@
 import React from 'react'
 import usePortal from 'react-useportal'
 import { Button } from './input/button'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 export function Modal(props) {
   const { isActive, setActive, children } = props
@@ -25,6 +27,7 @@ export function Modal(props) {
 }
 
 export function Confirm({ message, onCancel, onConfirm, loading }) {
+  const intl = useIntl()
   const setActive = () => onCancel()
   return (
     <Modal isActive setActive={setActive} className="confirm">
@@ -38,7 +41,7 @@ export function Confirm({ message, onCancel, onConfirm, loading }) {
               onClick={() => onCancel()}
               data-test="btnCancelModalTest"
             >
-              Cancel
+              {intl.formatMessage(genericMessages.cancel)}
             </button>
             &nbsp;&nbsp;
             <Button
@@ -47,7 +50,7 @@ export function Confirm({ message, onCancel, onConfirm, loading }) {
               onClick={() => onConfirm()}
               dataTest="btnConfirmModalTest"
             >
-              Confirm
+              {intl.formatMessage(genericMessages.confirm)}
             </Button>
           </div>
         </div>
@@ -64,6 +67,7 @@ export function PathTree({
   onConfirm,
   onCancel,
 }) {
+  const intl = useIntl()
   return (
     <Modal isActive setActive={onCancel}>
       <h1>{title}</h1>
@@ -90,7 +94,7 @@ export function PathTree({
             onClick={onCancel}
             data-test="btnCancelModalTest"
           >
-            Cancel
+            {intl.formatMessage(genericMessages.cancel)}
           </button>
           &nbsp;&nbsp;
           <button
@@ -98,7 +102,7 @@ export function PathTree({
             className="button is-success"
             data-test="btnConfirmModalTest"
           >
-            Confirm
+            {intl.formatMessage(genericMessages.confirm)}
           </button>
         </div>
       </form>

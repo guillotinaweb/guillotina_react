@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTraversal } from '../contexts'
 import { get } from '../lib/utils'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 export function BehaviorsView({ context, schema }) {
   const Ctx = useTraversal()
@@ -34,9 +36,10 @@ export function BehaviorsView({ context, schema }) {
 }
 
 export function BehaviorNotImplemented() {
+  const intl = useIntl()
   return (
     <tr>
-      <td colSpan="3">Not Implemented</td>
+      <td colSpan="3">{intl.formatMessage(genericMessages.not_implemented)}</td>
     </tr>
   )
 }

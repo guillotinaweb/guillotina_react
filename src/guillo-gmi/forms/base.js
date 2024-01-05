@@ -3,15 +3,18 @@ import { useState } from 'react'
 import { Input } from '../components/input/input'
 import { Form } from '../components/input/form'
 import { stringToSlug } from '../lib/helpers'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 export function BaseForm({ onSubmit, actionName, title, dataTest, loading }) {
+  const intl = useIntl()
   const [name, setName] = useState('')
   const [id, setId] = useState('')
   const [error, setError] = useState(undefined)
 
   const submit = () => {
     if (name === '') {
-      setError('This field is required')
+      setError(intl.formatMessage(genericMessages.field_is_required))
       return
     }
     onSubmit({ title: name, id })
@@ -26,7 +29,7 @@ export function BaseForm({ onSubmit, actionName, title, dataTest, loading }) {
     <Form title={title} onSubmit={submit} dataTest={dataTest}>
       <Input
         id="title"
-        placeholder="Title"
+        placeholder={intl.formatMessage(genericMessages.title)}
         required
         value={name}
         onChange={setTitle}
@@ -49,7 +52,7 @@ export function BaseForm({ onSubmit, actionName, title, dataTest, loading }) {
           className={`button is-success ${loading ? 'is-loading' : ''}`}
           data-test="formBaseBtnTestSubmit"
         >
-          {actionName || 'Add'}
+          {actionName || intl.formatMessage(genericMessages.add)}
         </button>
       </div>
     </Form>

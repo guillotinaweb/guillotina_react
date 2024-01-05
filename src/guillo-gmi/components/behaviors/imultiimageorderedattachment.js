@@ -8,6 +8,11 @@ import { useConfig } from '../../hooks/useConfig'
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { v4 as uuidv4 } from 'uuid'
+import { defineMessages, useIntl } from 'react-intl'
+import {
+  genericFileMessages,
+  genericMessages,
+} from '../../locales/generic_messages'
 
 const StrictModeDroppable = ({ children, ...props }) => {
   const [enabled, setEnabled] = useState(false)
@@ -33,8 +38,18 @@ const reorder = (list, startIndex, endIndex) => {
 }
 
 const _sizesImages = ['large', 'preview', 'mini', 'thumb']
-
+const messages = defineMessages({
+  failed_to_sort_images: {
+    id: 'failed_to_sort_images',
+    defaultMessage: 'Failed to sort images',
+  },
+  images_sorted: {
+    id: 'images_sorted',
+    defaultMessage: 'Images sorted',
+  },
+})
 export function IMultiImageOrderedAttachment({ properties, values }) {
+  const intl = useIntl()
   const cfg = useConfig()
   const [sortedList, setSortedList] = useState(Object.keys(values['images']))
   const [file, setFile] = useState(null)
@@ -67,20 +82,20 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@sort/images/`
     const req = await Ctx.client.patch(endpoint, resultSorted)
     if (req.status !== 200) {
-      setError('Failed to sorted images')
+      setError(intl.formatMessage(messages.failed_to_sort_images))
       setLoading(false)
       return
     }
 
     setLoading(false)
-    Ctx.flash(`Images sorted`, 'success')
+    Ctx.flash(intl.formatMessage(messages.images_sorted), 'success')
     Ctx.refresh()
   }
 
   const uploadFile = async (ev) => {
     ev.preventDefault()
     if (!file) {
-      setError('Provide a file and a key name')
+      setError(intl.formatMessage(genericFileMessages.error_file_key_name))
       return
     }
     setLoading(true)
@@ -89,7 +104,7 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@upload/images/${fileKey}`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to upload file')
+      setError(intl.formatMessage(genericFileMessages.error_upload_file))
       setLoading(false)
       return
     }
@@ -105,7 +120,11 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
       }
 
       if (hasError) {
-        setError(`Failed to upload file ${endpointSize}`)
+        setError(
+          intl.formatMessage(genericFileMessages.error_upload_file_size, {
+            size: sizesImages[i],
+          })
+        )
         setLoading(false)
         return
       }
@@ -113,7 +132,7 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
 
     setFile(undefined)
     setLoading(false)
-    Ctx.flash(`Image uploaded!`, 'success')
+    Ctx.flash(intl.formatMessage(genericFileMessages.image_uploaded), 'success')
     Ctx.refresh()
   }
 
@@ -123,12 +142,12 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
     const endpoint = `${Ctx.path}@delete/images/${fileKeyToDelete}`
     const req = await Ctx.client.delete(endpoint, file)
     if (req.status !== 200) {
-      setError('Failed to delete file')
+      setError(intl.formatMessage(genericFileMessages.failed_delete_file))
       setLoading(false)
       return
     }
     setLoading(false)
-    Ctx.flash(`Image deleted!`, 'success')
+    Ctx.flash(intl.formatMessage(genericFileMessages.image_deleted), 'success')
     Ctx.refresh()
   }
 
@@ -139,7 +158,12 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
           loading={loading}
           onCancel={() => setFileKeyToDelete(undefined)}
           onConfirm={() => deleteFile()}
-          message={`Are you sure to remove the image?`}
+          message={
+            (intl.formatMessage(
+              genericFileMessages.confirm_message_delete_file
+            ),
+            { fileKeyToDelete })
+          }
         />
       )}
       <section>
@@ -189,11 +213,15 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
       </section>
 
       {Object.keys(values['images']).length === 0 && (
-        <section>No images uploaded</section>
+        <section>
+          {intl.formatMessage(genericFileMessages.no_images_uploaded)}
+        </section>
       )}
       {modifyContent && (
         <section>
-          <label className="label">Upload an image</label>
+          <label className="label">
+            {intl.formatMessage(genericFileMessages.upload_an_image)}
+          </label>
 
           <form
             className="is-flex is-align-items-center"
@@ -211,7 +239,7 @@ export function IMultiImageOrderedAttachment({ properties, values }) {
                 onClick={uploadFile}
                 disabled={!file}
               >
-                Upload
+                {intl.formatMessage(genericMessages.upload)}
               </Button>
             </div>
           </form>

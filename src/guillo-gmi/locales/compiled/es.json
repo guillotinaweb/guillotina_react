@@ -1,0 +1,816 @@
+{
+  "actions": [
+    {
+      "type": 0,
+      "value": "Acciones:"
+    }
+  ],
+  "add": [
+    {
+      "type": 0,
+      "value": "Añadir"
+    }
+  ],
+  "add_container": [
+    {
+      "type": 0,
+      "value": "Añadir Contenedor"
+    }
+  ],
+  "add_group": [
+    {
+      "type": 0,
+      "value": "Añadir Grupo"
+    }
+  ],
+  "add_permissions": [
+    {
+      "type": 0,
+      "value": "Añadir Permisos"
+    }
+  ],
+  "add_role": [
+    {
+      "type": 0,
+      "value": "Añadir un Rol"
+    }
+  ],
+  "add_type": [
+    {
+      "type": 0,
+      "value": "Añadir "
+    },
+    {
+      "type": 1,
+      "value": "type"
+    }
+  ],
+  "add_user": [
+    {
+      "type": 0,
+      "value": "Añadir un Usuario"
+    }
+  ],
+  "allow": [
+    {
+      "type": 0,
+      "value": "Permitir"
+    }
+  ],
+  "allow_single": [
+    {
+      "type": 0,
+      "value": "Permitir Único"
+    }
+  ],
+  "available": [
+    {
+      "type": 0,
+      "value": "Disponible"
+    }
+  ],
+  "available_addons": [
+    {
+      "type": 0,
+      "value": "Complementos Disponibles"
+    }
+  ],
+  "behaviors": [
+    {
+      "type": 0,
+      "value": "Comportamientos"
+    }
+  ],
+  "can_not_delete_field": [
+    {
+      "type": 0,
+      "value": "¡No puedes eliminar "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": "!"
+    }
+  ],
+  "cancel": [
+    {
+      "type": 0,
+      "value": "Cancelar"
+    }
+  ],
+  "change_password": [
+    {
+      "type": 0,
+      "value": "Cambiar Contraseña"
+    }
+  ],
+  "choose": [
+    {
+      "type": 0,
+      "value": "Elegir..."
+    }
+  ],
+  "choose_action": [
+    {
+      "type": 0,
+      "value": "Elegir acción..."
+    }
+  ],
+  "choose_file": [
+    {
+      "type": 0,
+      "value": "Elegir un archivo"
+    }
+  ],
+  "confirm": [
+    {
+      "type": 0,
+      "value": "Confirmar"
+    }
+  ],
+  "confirm_message": [
+    {
+      "type": 0,
+      "value": "¿Estás seguro de cambiar el estado: "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm_message_delete_file": [
+    {
+      "type": 0,
+      "value": "¿Estás seguro de eliminar: "
+    },
+    {
+      "type": 1,
+      "value": "fileKeyToDelete"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm_message_delete_image": [
+    {
+      "type": 0,
+      "value": "¿Estás seguro de eliminar la imagen?"
+    }
+  ],
+  "container_created": [
+    {
+      "type": 0,
+      "value": "Contenedor Creado"
+    }
+  ],
+  "copy_to": [
+    {
+      "type": 0,
+      "value": "Copiar a..."
+    }
+  ],
+  "create": [
+    {
+      "type": 0,
+      "value": "Crear"
+    }
+  ],
+  "creation_date": [
+    {
+      "type": 0,
+      "value": "Fecha de Creación"
+    }
+  ],
+  "current_state": [
+    {
+      "type": 0,
+      "value": "Estado actual: "
+    },
+    {
+      "type": 1,
+      "value": "state"
+    }
+  ],
+  "databases": [
+    {
+      "type": 0,
+      "value": "Bases de Datos"
+    }
+  ],
+  "default_value_editable_field": [
+    {
+      "type": 0,
+      "value": "Haz clic para editar"
+    }
+  ],
+  "delete": [
+    {
+      "type": 0,
+      "value": "Eliminar"
+    }
+  ],
+  "deny": [
+    {
+      "type": 0,
+      "value": "Denegar"
+    }
+  ],
+  "disable": [
+    {
+      "type": 0,
+      "value": "Deshabilitar"
+    }
+  ],
+  "download": [
+    {
+      "type": 0,
+      "value": "Descargar"
+    }
+  ],
+  "email": [
+    {
+      "type": 0,
+      "value": "Correo Electrónico"
+    }
+  ],
+  "enable": [
+    {
+      "type": 0,
+      "value": "Habilitar"
+    }
+  ],
+  "enabled": [
+    {
+      "type": 0,
+      "value": "Habilitado"
+    }
+  ],
+  "error_file_key_name": [
+    {
+      "type": 0,
+      "value": "Proporcione un archivo y un nombre de clave"
+    }
+  ],
+  "error_in_field": [
+    {
+      "type": 0,
+      "value": "Error en el campo "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": "!"
+    }
+  ],
+  "error_provide_key_name": [
+    {
+      "type": 0,
+      "value": "Proporcione un nombre de clave"
+    }
+  ],
+  "error_upload_file": [
+    {
+      "type": 0,
+      "value": "Error al subir archivo"
+    }
+  ],
+  "error_upload_file_size": [
+    {
+      "type": 0,
+      "value": "Error al subir archivo "
+    },
+    {
+      "type": 1,
+      "value": "size"
+    }
+  ],
+  "failed_delete_file": [
+    {
+      "type": 0,
+      "value": "Error al eliminar archivo"
+    }
+  ],
+  "failed_to_sort_images": [
+    {
+      "type": 0,
+      "value": "Error al ordenar imágenes"
+    }
+  ],
+  "failed_to_update": [
+    {
+      "type": 0,
+      "value": "Error al actualizar: "
+    },
+    {
+      "type": 1,
+      "value": "error"
+    }
+  ],
+  "field_deleted": [
+    {
+      "type": 0,
+      "value": "Campo "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": ", eliminado!"
+    }
+  ],
+  "field_is_required": [
+    {
+      "type": 0,
+      "value": "Este campo es obligatorio"
+    }
+  ],
+  "field_updated": [
+    {
+      "type": 0,
+      "value": "Campo "
+    },
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": ", actualizado!"
+    }
+  ],
+  "file_uploaded": [
+    {
+      "type": 0,
+      "value": "Archivo subido!"
+    }
+  ],
+  "group": [
+    {
+      "type": 0,
+      "value": "Grupo"
+    }
+  ],
+  "image": [
+    {
+      "type": 0,
+      "value": "Imagen"
+    }
+  ],
+  "image_deleted": [
+    {
+      "type": 0,
+      "value": "Imagen eliminada!"
+    }
+  ],
+  "image_uploaded": [
+    {
+      "type": 0,
+      "value": "Imagen subida!"
+    }
+  ],
+  "images_sorted": [
+    {
+      "type": 0,
+      "value": "Imágenes ordenadas"
+    }
+  ],
+  "install": [
+    {
+      "type": 0,
+      "value": "Instalar"
+    }
+  ],
+  "installed_addons": [
+    {
+      "type": 0,
+      "value": "Complementos Instalados"
+    }
+  ],
+  "invalid_email": [
+    {
+      "type": 0,
+      "value": "Correo electrónico inválido"
+    }
+  ],
+  "invalid_form": [
+    {
+      "type": 0,
+      "value": "Formulario inválido"
+    }
+  ],
+  "invalid_form_data": [
+    {
+      "type": 0,
+      "value": "Datos de formulario inválidos"
+    }
+  ],
+  "load_more": [
+    {
+      "type": 0,
+      "value": "Cargar más"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "Cargando"
+    }
+  ],
+  "mandatory_field": [
+    {
+      "type": 1,
+      "value": "field"
+    },
+    {
+      "type": 0,
+      "value": " es obligatorio!"
+    }
+  ],
+  "modification_date": [
+    {
+      "type": 0,
+      "value": "Fecha de Modificación"
+    }
+  ],
+  "move_to": [
+    {
+      "type": 0,
+      "value": "Mover a..."
+    }
+  ],
+  "name": [
+    {
+      "type": 0,
+      "value": "Nombre"
+    }
+  ],
+  "no_available_addons_container": [
+    {
+      "type": 0,
+      "value": "No hay complementos disponibles en este contenedor"
+    }
+  ],
+  "no_files_uploaded": [
+    {
+      "type": 0,
+      "value": "No se subieron archivos"
+    }
+  ],
+  "no_images_uploaded": [
+    {
+      "type": 0,
+      "value": "No se subieron imágenes"
+    }
+  ],
+  "no_principal_permissions": [
+    {
+      "type": 0,
+      "value": "No se definieron permisos para los usuarios"
+    }
+  ],
+  "no_principal_roles": [
+    {
+      "type": 0,
+      "value": "No se definieron roles para los usuarios"
+    }
+  ],
+  "no_results": [
+    {
+      "type": 0,
+      "value": "Sin resultados"
+    }
+  ],
+  "no_role_permissions": [
+    {
+      "type": 0,
+      "value": "No se definieron permisos de roles"
+    }
+  ],
+  "not_allowed": [
+    {
+      "type": 0,
+      "value": "No Permitido"
+    }
+  ],
+  "not_found": [
+    {
+      "type": 0,
+      "value": "404. No Encontrado"
+    }
+  ],
+  "not_implemented": [
+    {
+      "type": 0,
+      "value": "No implementado"
+    }
+  ],
+  "open": [
+    {
+      "type": 0,
+      "value": "Abrir"
+    }
+  ],
+  "operation": [
+    {
+      "type": 0,
+      "value": "Operación"
+    }
+  ],
+  "pagination": [
+    {
+      "type": 1,
+      "value": "currentPage"
+    },
+    {
+      "type": 0,
+      "value": " / "
+    },
+    {
+      "type": 1,
+      "value": "totalPages"
+    },
+    {
+      "type": 0,
+      "value": " de "
+    },
+    {
+      "type": 1,
+      "value": "totalItems"
+    },
+    {
+      "type": 0,
+      "value": " elementos"
+    }
+  ],
+  "password": [
+    {
+      "type": 0,
+      "value": "Contraseña"
+    }
+  ],
+  "permission": [
+    {
+      "type": 0,
+      "value": "Permiso"
+    }
+  ],
+  "press_enter_to_add_value": [
+    {
+      "type": 0,
+      "value": "Presiona enter para añadir valor"
+    }
+  ],
+  "principal_permissions": [
+    {
+      "type": 0,
+      "value": "Usuario - Permisos"
+    }
+  ],
+  "principal_roles": [
+    {
+      "type": 0,
+      "value": "Roles - Usuarios"
+    }
+  ],
+  "property": [
+    {
+      "type": 0,
+      "value": "Propiedad"
+    }
+  ],
+  "remove": [
+    {
+      "type": 0,
+      "value": "Eliminar"
+    }
+  ],
+  "role": [
+    {
+      "type": 0,
+      "value": "Rol"
+    }
+  ],
+  "role_added_to_group": [
+    {
+      "type": 0,
+      "value": "Rol "
+    },
+    {
+      "type": 1,
+      "value": "role"
+    },
+    {
+      "type": 0,
+      "value": " añadido al grupo"
+    }
+  ],
+  "role_permissions": [
+    {
+      "type": 0,
+      "value": "Permisos de Rol"
+    }
+  ],
+  "role_removed_from_group": [
+    {
+      "type": 0,
+      "value": "Rol "
+    },
+    {
+      "type": 1,
+      "value": "role"
+    },
+    {
+      "type": 0,
+      "value": " eliminado del grupo"
+    }
+  ],
+  "roles": [
+    {
+      "type": 0,
+      "value": "Roles"
+    }
+  ],
+  "save": [
+    {
+      "type": 0,
+      "value": "Guardar"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "Buscar"
+    }
+  ],
+  "select_permissions": [
+    {
+      "type": 0,
+      "value": "Seleccionar permisos"
+    }
+  ],
+  "select_principal": [
+    {
+      "type": 0,
+      "value": "Seleccionar un usuario"
+    }
+  ],
+  "select_role": [
+    {
+      "type": 0,
+      "value": "Seleccionar un Rol"
+    }
+  ],
+  "select_type": [
+    {
+      "type": 0,
+      "value": "Seleccionar un tipo:"
+    }
+  ],
+  "setting": [
+    {
+      "type": 0,
+      "value": "Setting"
+    }
+  ],
+  "something_went_wrong": [
+    {
+      "type": 0,
+      "value": "Algo salió mal."
+    }
+  ],
+  "static": [
+    {
+      "type": 0,
+      "value": "Estático"
+    }
+  ],
+  "status_changed_error": [
+    {
+      "type": 0,
+      "value": "¡Error al cambiar el estado!: "
+    },
+    {
+      "type": 1,
+      "value": "error"
+    }
+  ],
+  "status_changed_ok": [
+    {
+      "type": 0,
+      "value": "¡Cambio de estado exitoso!"
+    }
+  ],
+  "the_user_doesnt_have_any_role": [
+    {
+      "type": 0,
+      "value": "El usuario no tiene ningún rol"
+    }
+  ],
+  "there_is_no_groups_for_this_user": [
+    {
+      "type": 0,
+      "value": "No hay grupos para este usuario"
+    }
+  ],
+  "title": [
+    {
+      "type": 0,
+      "value": "Título"
+    }
+  ],
+  "unset": [
+    {
+      "type": 0,
+      "value": "Desestablecer"
+    }
+  ],
+  "upload": [
+    {
+      "type": 0,
+      "value": "Subir"
+    }
+  ],
+  "upload_a_file": [
+    {
+      "type": 0,
+      "value": "Subir un archivo"
+    }
+  ],
+  "upload_an_image": [
+    {
+      "type": 0,
+      "value": "Subir una imagen"
+    }
+  ],
+  "user": [
+    {
+      "type": 0,
+      "value": "Usuario"
+    }
+  ],
+  "user_added_to_group": [
+    {
+      "type": 0,
+      "value": "Usuario "
+    },
+    {
+      "type": 1,
+      "value": "user"
+    },
+    {
+      "type": 0,
+      "value": " añadido al grupo"
+    }
+  ],
+  "user_removed_from_group": [
+    {
+      "type": 0,
+      "value": "Usuario "
+    },
+    {
+      "type": 1,
+      "value": "user"
+    },
+    {
+      "type": 0,
+      "value": " eliminado del grupo"
+    }
+  ],
+  "user_updated": [
+    {
+      "type": 0,
+      "value": "Usuario actualizado"
+    }
+  ],
+  "username": [
+    {
+      "type": 0,
+      "value": "Nombre de Usuario"
+    }
+  ],
+  "users": [
+    {
+      "type": 0,
+      "value": "Usuarios"
+    }
+  ],
+  "value": [
+    {
+      "type": 0,
+      "value": "Valor"
+    }
+  ]
+}

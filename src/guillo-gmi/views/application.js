@@ -8,12 +8,20 @@ import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
 import { Form } from '../components/input/form'
 import { Input } from '../components/input/input'
+import { defineMessages, useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 export function ApplicationCtx(props) {
+  const intl = useIntl()
   const { databases } = props.state.context
   return (
     <React.Fragment>
-      <h3>Databases</h3>
+      <h3>
+        {intl.formatMessage({
+          id: 'databases',
+          defaultMessage: 'Databases',
+        })}
+      </h3>
       <div className="container">
         <ItemTitle title="Objects" />
         {databases.map((db) => (
@@ -52,6 +60,7 @@ export function DatabaseCtx({ state }) {
 }
 
 export function CreateContainer(props) {
+  const intl = useIntl()
   const [isActive, setActive] = useState(false)
 
   return (
@@ -64,13 +73,25 @@ export function CreateContainer(props) {
         <span className="icon is-small">
           <i className="fas fa-plus"></i>
         </span>
-        <span>Create</span>
+        <span>{intl.formatMessage(genericMessages.create)}</span>
       </button>
     </React.Fragment>
   )
 }
 
+export const messages = defineMessages({
+  add_container: {
+    id: 'add_container',
+    defaultMessage: 'Add Container',
+  },
+  container_created: {
+    id: 'container_created',
+    defaultMessage: 'Container Created',
+  },
+})
+
 function ModalAddContainer({ isActive, setActive }) {
+  const intl = useIntl()
   const Ctx = useTraversal()
   const [isLoading, setLoading] = useState(false)
   const [idField, setId] = useState('')
@@ -90,7 +111,7 @@ function ModalAddContainer({ isActive, setActive }) {
         setId('')
         setLoading(false)
         setActive(false)
-        Ctx.flash('Container created', 'primary')
+        Ctx.flash(intl.formatMessage(messages.container_created), 'primary')
       } else {
         setId('')
         setLoading(false)
@@ -104,7 +125,11 @@ function ModalAddContainer({ isActive, setActive }) {
 
   return (
     <Modal isActive={isActive} setActive={setActive}>
-      <Form onSubmit={createContainer} title="Add Container" error={error}>
+      <Form
+        onSubmit={createContainer}
+        title={intl.formatMessage(messages.add_container)}
+        error={error}
+      >
         <Input
           required
           placeholder="Container Name"
@@ -114,7 +139,9 @@ function ModalAddContainer({ isActive, setActive }) {
           value={idField}
           loading={isLoading}
         />
-        <Button loading={isLoading}>Add Container</Button>
+        <Button loading={isLoading}>
+          {intl.formatMessage(messages.add_container)}
+        </Button>
       </Form>
     </Modal>
   )

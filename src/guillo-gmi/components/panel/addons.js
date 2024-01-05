@@ -1,9 +1,27 @@
 import React from 'react'
 import { useTraversal } from '../../contexts'
 import useAsync from '../../hooks/useAsync'
+import { useIntl, defineMessages } from 'react-intl'
+import { genericMessages } from '../../locales/generic_messages'
+
+const messages = defineMessages({
+  available_addons: {
+    id: 'available_addons',
+    defaultMessage: 'Available Addons',
+  },
+  no_available_addons_container: {
+    id: 'no_available_addons_container',
+    defaultMessage: 'No Addon available in this container',
+  },
+  installed_addons: {
+    id: 'installed_addons',
+    defaultMessage: 'Installed Addons',
+  },
+})
 
 // TODO: Refactor without useAsync... just crudContext
 export function PanelAddons(props) {
+  const intl = useIntl()
   const Ctx = useTraversal()
   let [action, setAction] = React.useState(false)
 
@@ -28,18 +46,20 @@ export function PanelAddons(props) {
   return (
     <React.Fragment>
       {state.loading ? (
-        <div>loading</div>
+        <div>{intl.formatMessage(genericMessages.loading)}</div>
       ) : state.error ? (
         <p>Error: {state.error.message}</p>
       ) : (
         <div className="columns">
           <div className="column">
             <h2 className="title is-size-4 has-text-grey-dark">
-              Available Addons
+              {intl.formatMessage(messages.available_addons)}
             </h2>
             <hr />
             {state.value.available.length === 0 && (
-              <p>No Addon available in this container</p>
+              <p>
+                {intl.formatMessage(messages.no_available_addons_container)}
+              </p>
             )}
             <table className="table is-12">
               <tbody>
@@ -51,7 +71,7 @@ export function PanelAddons(props) {
                         className="button is-primary is-small"
                         onClick={() => installAddon(Ctx, addon.id)}
                       >
-                        Install
+                        {intl.formatMessage(genericMessages.install)}
                       </button>
                     </td>
                   </tr>
@@ -61,11 +81,13 @@ export function PanelAddons(props) {
           </div>
           <div className="column">
             <h2 className="title is-size-4 has-text-grey-dark">
-              Installed Addons
+              {intl.formatMessage(messages.installed_addons)}
             </h2>
             <hr />
             {state.value.installed.length === 0 && (
-              <p>No Addon installed in this container</p>
+              <p>
+                {intl.formatMessage(messages.no_available_addons_container)}
+              </p>
             )}
             <table className="table is-12">
               <tbody>
@@ -77,7 +99,7 @@ export function PanelAddons(props) {
                         className="button is-danger is-small"
                         onClick={() => removeAddon(Ctx, addon.id)}
                       >
-                        Remove
+                        {intl.formatMessage(genericMessages.remove)}
                       </button>
                     </td>
                   </tr>

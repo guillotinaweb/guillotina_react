@@ -4,6 +4,8 @@ import { Form } from '../components/input/form'
 import { stringToSlug } from '../lib/helpers'
 import { useTraversal } from '../contexts'
 import useSetState from '../hooks/useSetState'
+import { useIntl } from 'react-intl'
+import { genericMessages } from '../locales/generic_messages'
 
 const ignoreFiels = []
 const extraFields = ['title']
@@ -16,6 +18,7 @@ export function RequiredFieldsForm({
   dataTest,
   type,
 }) {
+  const intl = useIntl()
   const Ctx = useTraversal()
 
   const EditComponent = Ctx.registry.get('components', 'EditComponent')
@@ -53,7 +56,9 @@ export function RequiredFieldsForm({
 
     schema.formFields.forEach((key) => {
       if (!formData[key]) {
-        currentErrors[key] = 'This field is required'
+        currentErrors[key] = intl.formatMessage(
+          genericMessages.field_is_required
+        )
       }
     })
 
@@ -112,7 +117,7 @@ export function RequiredFieldsForm({
           className={`button is-success ${loading ? 'is-loading' : ''}`}
           data-test="formBaseBtnTestSubmit"
         >
-          {actionName || 'Add'}
+          {actionName || intl.formatMessage(genericMessages.add)}
         </button>
       </div>
     </Form>

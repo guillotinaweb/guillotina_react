@@ -2,6 +2,7 @@ import React from 'react'
 import { DownloadField } from './downloadField'
 import { useVocabulary } from '../../hooks/useVocabulary'
 import { get } from '../../lib/utils'
+import { useIntl } from 'react-intl'
 const plain = ['string', 'number', 'boolean']
 
 export function RenderField({ value, Widget }) {
@@ -39,10 +40,14 @@ const FieldValue = ({ field, value }) => (
   </div>
 )
 
-export const DEFAULT_VALUE_EDITABLE_FIELD = 'Click to edit'
-export const DEFAULT_VALUE_NO_EDITABLE_FIELD = ' -- '
-
 export function RenderFieldComponent({ schema, field, val, modifyContent }) {
+  const intl = useIntl()
+  const DEFAULT_VALUE_EDITABLE_FIELD = intl.formatMessage({
+    id: 'default_value_editable_field',
+    defaultMessage: 'Click to edit',
+  })
+  const DEFAULT_VALUE_NO_EDITABLE_FIELD = ' -- '
+
   const getRenderProps = () => {
     const renderProps = {
       value:
