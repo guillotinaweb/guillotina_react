@@ -88,6 +88,7 @@ export function UsersCtx(props) {
 }
 
 export function UserCtx() {
+  const intl = useIntl()
   const { Ctx, patch, loading } = useCrudContext()
 
   const [state, setState] = React.useState({ roles: [], gorups: [] })

@@ -12,6 +12,8 @@ const ItemsActionsCtx = createContext({})
  * Ex: Delete, Move, Copy...
  */
 export function ItemsActionsProvider({ items, children }) {
+  const intl = useIntl()
+  const actions = getActionsObject(intl, true)
   const traversal = useTraversal()
   const [selected, setSelected] = useState({})
   function onSelectAllItems(checked) {
@@ -95,7 +97,7 @@ export function ItemCheckbox({ item, dataTest }) {
  */
 export function ItemsActionsDropdown() {
   const intl = useIntl()
-  const ACTIONS_OBJECT = getActionsObject(intl)
+  const ACTIONS_OBJECT = getActionsObject(intl, true)
   const traversal = useTraversal()
   const { selected, onAction } = useContext(ItemsActionsCtx)
   const disabled = Object.values(selected).every((v) => !v)

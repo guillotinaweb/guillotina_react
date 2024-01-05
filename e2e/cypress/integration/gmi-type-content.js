@@ -75,7 +75,7 @@ LOGIN_TYPES.forEach((loginType) => {
       })
 
       cy.wait('@patch-object-test-gmi-item/@upload/**')
-      cy.get(NOTIFICATION_SELECTOR).should('contain', `file uploaded!`)
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `File uploaded!`)
 
       // Upload image
       cy.get(`[data-test='formImageAttachmentTest']`).within(() => {

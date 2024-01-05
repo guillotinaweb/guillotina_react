@@ -56,20 +56,20 @@ export function sleep(ms) {
   })
 }
 
-export const getActionsObject = (intl) => ({
+export const getActionsObject = (intl, multiple = false) => ({
   DELETE: {
     text: intl.formatMessage(genericMessages.delete),
     perms: ['guillotina.DeleteContent'],
-    action: 'removeItem',
+    action: multiple ? 'removeItems' : 'removeItem',
   },
   MOVE: {
     text: intl.formatMessage(genericMessages.move_to),
     perms: ['guillotina.MoveContent'],
-    action: 'moveItem',
+    action: multiple ? 'moveItems' : 'moveItem',
   },
   COPY: {
     text: intl.formatMessage(genericMessages.copy_to),
     perms: ['guillotina.DuplicateContent'],
-    action: 'copyItem',
+    action: multiple ? 'copyItems' : 'copyItem',
   },
 })

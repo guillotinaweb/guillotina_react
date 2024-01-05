@@ -253,7 +253,7 @@ LOGIN_TYPES.forEach((loginType) => {
 
         cy.get(CONTEXT_TOOLBAR_SELECTORS.selectFilteType).select('Item')
         cy.wait('@get-object-@search**')
-        cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'Anything here!')
+        cy.get(ITEMS_PANELS_SELECTORS.table).should('contain', 'No results')
 
         cy.visit(
           `/${Cypress.env('GUILLOTINA_DB')}/${Cypress.env(
