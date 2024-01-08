@@ -1,3 +1,7 @@
+0.24.1
+------
+- fix: Render vocabulary field
+
 0.24.0
 ------
  - feat: Implement and update some guillotina behaviors
