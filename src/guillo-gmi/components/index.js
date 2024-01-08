@@ -17,6 +17,7 @@ export * from './input/dropdown'
 export * from './fields/editableField'
 export * from './fields/renderField'
 export * from './fields/downloadField'
+export * from './fields/editComponent'
 
 export * from './behaviors/iattachment'
 export * from './behaviors/imultiattachment'

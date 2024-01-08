@@ -127,7 +127,6 @@ function App() {
     return null
   }
 
-  console.log('language', navigator.language)
   return (
     <ClientProvider client={clientInstance}>
       <Layout auth={auth} onLogout={onLogout}>

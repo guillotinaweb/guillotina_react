@@ -1,15 +1,16 @@
 import React from 'react'
 import { DownloadField } from './downloadField'
+import { useIntl } from 'react-intl'
 import { useVocabulary } from '../../hooks/useVocabulary'
 import { get } from '../../lib/utils'
-import { useIntl } from 'react-intl'
+
 const plain = ['string', 'number', 'boolean']
 
-export function RenderField({ value, Widget }) {
+export function RenderField({ value, Widget, schema }) {
   if (value === null || value === undefined) return ''
 
   if (Widget) {
-    return <Widget value={value} />
+    return <Widget value={value} schema={schema} />
   }
 
   const type = typeof value
@@ -40,13 +41,52 @@ const FieldValue = ({ field, value }) => (
   </div>
 )
 
-export function RenderFieldComponent({ schema, field, val, modifyContent }) {
-  const intl = useIntl()
-  const DEFAULT_VALUE_EDITABLE_FIELD = intl.formatMessage({
+const DEFAULT_VALUE_NO_EDITABLE_FIELD = ' -- '
+const getDefaultValueEditableField = (intl) => {
+  return intl.formatMessage({
     id: 'default_value_editable_field',
     defaultMessage: 'Click to edit',
   })
-  const DEFAULT_VALUE_NO_EDITABLE_FIELD = ' -- '
+}
+
+export const VocabularyRenderField = ({ schema, value, modifyContent }) => {
+  const intl = useIntl()
+  const DEFAULT_VALUE_EDITABLE_FIELD = getDefaultValueEditableField(intl)
+
+  const vocabularyName = schema?.items?.vocabularyName || schema?.vocabularyName
+  const vocabulary = useVocabulary(vocabularyName)
+
+  const getRenderProps = () => {
+    const renderProps = {
+      value:
+        value ??
+        (modifyContent
+          ? DEFAULT_VALUE_EDITABLE_FIELD
+          : DEFAULT_VALUE_NO_EDITABLE_FIELD),
+    }
+
+    if (schema?.vocabularyName) {
+      const vocabularyValue = get(vocabulary, 'data.items', []).find(
+        (item) => item.token === value
+      )
+      renderProps['value'] = vocabularyValue?.title ?? ''
+    } else {
+      renderProps['value'] = (renderProps['value'] ?? []).map((value) => {
+        return (
+          get(vocabulary, 'data.items', []).find((item) => item.token === value)
+            ?.title ?? ''
+        )
+      })
+    }
+
+    return renderProps
+  }
+  return <RenderField {...getRenderProps()} />
+}
+
+export function RenderFieldComponent({ schema, field, val, modifyContent }) {
+  const intl = useIntl()
+  const DEFAULT_VALUE_EDITABLE_FIELD = getDefaultValueEditableField(intl)
 
   const getRenderProps = () => {
     const renderProps = {
@@ -67,23 +107,8 @@ export function RenderFieldComponent({ schema, field, val, modifyContent }) {
     } else if (val && schema?.type === 'datetime') {
       renderProps['value'] = new Date(val).toLocaleString()
     } else if (schema?.items?.vocabularyName || schema?.vocabularyName) {
-      const vocabularyName =
-        schema?.items?.vocabularyName || schema?.vocabularyName
-      const vocabulary = useVocabulary(vocabularyName)
-      if (schema?.vocabularyName) {
-        const vocabularyValue = get(vocabulary, 'data.items', []).find(
-          (item) => item.token === val
-        )
-        renderProps['value'] = vocabularyValue?.title ?? ''
-      } else {
-        renderProps['value'] = (renderProps['value'] ?? []).map((value) => {
-          return (
-            get(vocabulary, 'data.items', []).find(
-              (item) => item.token === value
-            )?.title ?? ''
-          )
-        })
-      }
+      renderProps['Widget'] = VocabularyRenderField
+      renderProps['schema'] = schema
     }
 
     return renderProps
