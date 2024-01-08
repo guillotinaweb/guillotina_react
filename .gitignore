@@ -42,3 +42,5 @@ e2e/example/.next
 .python-version
 *.egg-info
 __pycache__
+
+.vscode
