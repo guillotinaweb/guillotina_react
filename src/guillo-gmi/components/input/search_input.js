@@ -189,7 +189,6 @@ export const SearchInput = ({
   }
 
   useEffect(() => {
-    console.log('update labels')
     if (value) {
       inicializeLabels()
     } else {
@@ -321,8 +320,17 @@ export const SearchInput = ({
 SearchInput.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
-  client: PropTypes.object,
   path: PropTypes.string,
-  PageSize: PropTypes.number,
   btnClass: PropTypes.string,
+  error: PropTypes.string,
+  errorZoneClassName: PropTypes.string,
+  traversal: PropTypes.object,
+  qs: PropTypes.array,
+  queryCondition: PropTypes.string,
+  dataTestWrapper: PropTypes.string,
+  dataTestSearchInput: PropTypes.string,
+  dataTestItem: PropTypes.string,
+  renderTextItemOption: PropTypes.func,
+  typeNameQuery: PropTypes.string,
+  labelProperty: PropTypes.string,
 }

@@ -343,9 +343,18 @@ export const SearchInputList = ({
 
 SearchInputList.propTypes = {
   onChange: PropTypes.func,
-  options: PropTypes.arrayOf(PropTypes.string),
-  client: PropTypes.object,
   path: PropTypes.string,
-  PageSize: PropTypes.number,
   btnClass: PropTypes.string,
+  dataTestWrapper: PropTypes.string,
+  dataTestSearchInput: PropTypes.string,
+  dataTestItem: PropTypes.string,
+  renderTextItemOption: PropTypes.func,
+  typeNameQuery: PropTypes.string,
+  labelProperty: PropTypes.string,
+  error: PropTypes.string,
+  errorZoneClassName: PropTypes.string,
+  traversal: PropTypes.object,
+  path: PropTypes.string,
+  qs: PropTypes.array,
+  queryCondition: PropTypes.string,
 }
