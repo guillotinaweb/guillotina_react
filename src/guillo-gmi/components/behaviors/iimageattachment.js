@@ -82,7 +82,10 @@ export function IImageAttachment({ properties, values }) {
 
   return (
     <Table
-      headers={['Field', 'Value']}
+      headers={[
+        intl.formatMessage(genericMessages.property),
+        intl.formatMessage(genericMessages.value),
+      ]}
       className="is-striped is-fullwidth is-size-7"
     >
       {showConfirmToDelete && (
@@ -97,7 +100,9 @@ export function IImageAttachment({ properties, values }) {
       )}
       {values['image'] && (
         <tr>
-          <td key={1}>{intl.formatMessage(genericMessages.image)}</td>
+          <td key={1} style={{ width: '150px' }}>
+            {intl.formatMessage(genericMessages.image)}
+          </td>
           <td key={2}>
             <div className="is-flex is-align-items-center">
               <EditableField

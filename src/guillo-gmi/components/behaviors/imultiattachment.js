@@ -65,7 +65,10 @@ export function IMultiAttachment({ properties, values }) {
 
   return (
     <Table
-      headers={['Field', 'Value']}
+      headers={[
+        intl.formatMessage(genericMessages.property),
+        intl.formatMessage(genericMessages.value),
+      ]}
       className="is-striped is-fullwidth is-size-7"
     >
       {fileKeyToDelete && (
@@ -84,7 +87,9 @@ export function IMultiAttachment({ properties, values }) {
 
       {Object.keys(values['files']).map((key) => (
         <tr key={'multiattachment_' + key}>
-          <td key={1}>{key}</td>
+          <td key={1} style={{ width: '150px' }}>
+            {key}
+          </td>
           <td key={2}>
             <div className="is-flex is-align-items-center">
               <EditableField

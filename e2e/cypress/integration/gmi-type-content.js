@@ -57,6 +57,52 @@ LOGIN_TYPES.forEach((loginType) => {
         `[data-test='${TABS_PANEL_SELECTOS.prefixTabs}-properties']`
       ).click()
 
+      // Modify search item
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-brother_gmi']`
+      ).click()
+      cy.get(`[data-test='wrapperSearchInputTest']`).click()
+      cy.findByText('Test GMI item 9').click()
+      cy.findByText('Save').click()
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field brother_gmi, updated!`
+      )
+      cy.findByText('Test GMI item 9').click()
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-brother_gmi']`
+      ).click()
+      cy.get(`[data-test='wrapperSearchInputTest']`).click()
+      cy.findByText('Test GMI item 6').click()
+      cy.findByText('Save').click()
+      cy.get(NOTIFICATION_SELECTOR).should(
+        'contain',
+        `Field brother_gmi, updated!`
+      )
+
+      // Modify search item list
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-gmi_ids']`
+      ).click()
+      cy.get(`[data-test='wrapperSearchInputTest']`).click()
+      cy.findByText('Test GMI item 9').click()
+      cy.findByText('Test GMI item 7').click()
+      cy.get(`[data-test='wrapperSearchInputTest']`).click()
+      cy.findByText('Save').click()
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Field gmi_ids, updated!`)
+      cy.findByText('Test GMI item 9')
+      cy.findByText('Test GMI item 7')
+      cy.get(
+        `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-gmi_ids']`
+      ).click()
+      cy.findAllByText('Test GMI item 9').within(() => {
+        cy.get('button').click()
+      })
+      cy.findByText('Save').click()
+      cy.get(NOTIFICATION_SELECTOR).should('contain', `Field gmi_ids, updated!`)
+      cy.findByText('Test GMI item 7')
+      cy.findByText('Test GMI item 9').should('not.exist')
+
       // Upload file
       cy.get(
         `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-file']`

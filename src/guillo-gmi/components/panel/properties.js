@@ -76,7 +76,7 @@ export function PanelProperties() {
       <div className="level">
         <div className="level-left">
           <h2 className="title is-size-4 is-primary">
-            <Icon icon={model.icon} align="is-left" className="has-text-grey" />{' '}
+            <Icon icon={model.icon} align="is-left" className="has-text-grey" />
             &nbsp;
             <span>{Ctx.context.title || Ctx.context['@name']}</span>
           </h2>
@@ -93,7 +93,7 @@ export function PanelProperties() {
             <table className="table is-striped is-fullwidth is-size-7">
               <thead>
                 <tr>
-                  <th className="is-2">
+                  <th style={{ width: '150px' }} className="is-2">
                     {intl.formatMessage(genericMessages.property)}
                   </th>
                   <th className="is-8">
@@ -104,7 +104,7 @@ export function PanelProperties() {
               <tbody>
                 {showProperties.map((prop) => (
                   <tr key={'prop' + prop}>
-                    <td>{prop}</td>
+                    <td style={{ width: '150px' }}>{prop}</td>
                     <td>
                       <EditableField
                         field={prop}
@@ -120,7 +120,7 @@ export function PanelProperties() {
               <table className="table is-striped is-fullwidth is-size-7">
                 <thead>
                   <tr>
-                    <th className="is-2">
+                    <th style={{ width: '150px' }} className="is-2">
                       {intl.formatMessage(genericMessages.property)}
                     </th>
                     <th className="is-8">
@@ -132,7 +132,7 @@ export function PanelProperties() {
                   {properties.map(({ key, value }) => {
                     return (
                       <tr key={'prop' + key}>
-                        <td>{value.title || key}</td>
+                        <td style={{ width: '150px' }}>{value.title || key}</td>
                         <td>
                           <EditableField
                             field={key}

@@ -33,7 +33,7 @@ const initialState = {
   items_total: 0,
 }
 
-export const SearchInput = ({
+export const SearchInputList = ({
   onChange,
   error,
   errorZoneClassName,
@@ -52,13 +52,14 @@ export const SearchInput = ({
 }) => {
   const intl = useIntl()
   const [options, setOptions] = useSetState(initialState)
+  const [valuesLabel, setValuesLabels] = useState(undefined)
   const [isOpen, setIsOpen] = React.useState(false)
   const [searchTerm, setSearchTerm] = React.useState('')
   const inputRef = React.useRef(null)
   const wrapperRef = React.useRef(null)
   const { PageSize, SearchEngine } = useConfig()
-  const [valueLabel, setValueLabel] = useState(undefined)
   const [isLoadingData, setIsLoadingData] = useState(false)
+
   const [uid] = useState(generateUID('search_input'))
 
   useClickAway(wrapperRef, () => {
@@ -82,51 +83,6 @@ export const SearchInput = ({
     debounce((value) => handleSearch(0, false, value), 500),
     []
   )
-
-  const inicializeLabels = async () => {
-    if (labelProperty !== 'id' && value) {
-      setIsLoadingData(true)
-      let searchTermQs = []
-      const searchTermParsed = [`id`, value]
-      const { get: getSearch } = traversal.registry
-      const fnName = getSearch('searchEngineQueryParamsFunction', SearchEngine)
-      const qsParsed = traversal.client[fnName]({
-        path: traversal.path,
-        start: 0,
-        pageSize: PageSize,
-        withDepth: false,
-      })
-      let typeNameParsed = []
-      if (typeNameQuery) {
-        typeNameParsed = parser(`type_name__in=${typeNameQuery}`)
-      }
-      if (
-        qs.length > 0 ||
-        searchTermParsed.length > 0 ||
-        qsParsed.length > 0 ||
-        typeNameParsed.length > 0
-      ) {
-        searchTermQs = buildQs([
-          ...qs,
-          searchTermParsed,
-          ...qsParsed,
-          ...typeNameParsed,
-        ])
-      }
-      const data = await traversal.client.search(
-        path ? path : traversal.client.getContainerFromPath(traversal.path),
-        searchTermQs,
-        false,
-        false
-      )
-      const newValuesLabel = data.items.reduce((result, item) => {
-        result[item.id] = get(item, labelProperty, item.id)
-        return result
-      }, {})
-      setValueLabel(newValuesLabel)
-      setIsLoadingData(false)
-    }
-  }
 
   const handleSearch = async (page = 0, concat = false, value = '') => {
     setOptions({ loading: true })
@@ -181,6 +137,53 @@ export const SearchInput = ({
     })
   }
 
+  const inicializeLabels = async () => {
+    if (labelProperty !== 'id' && value.length > 0) {
+      setIsLoadingData(true)
+      let searchTermQs = []
+      const searchTermParsed = ['__or', `id=${value.join('%26id=')}`]
+      const { get: getSearch } = traversal.registry
+      const fnName = getSearch('searchEngineQueryParamsFunction', SearchEngine)
+      const qsParsed = traversal.client[fnName]({
+        path: traversal.path,
+        start: 0,
+        pageSize: 100,
+        withDepth: false,
+      })
+      let typeNameParsed = []
+      if (typeNameQuery) {
+        typeNameParsed = parser(`type_name__in=${typeNameQuery}`)
+      }
+      if (
+        qs.length > 0 ||
+        searchTermParsed.length > 0 ||
+        qsParsed.length > 0 ||
+        typeNameParsed.length > 0
+      ) {
+        searchTermQs = buildQs([
+          ...qs,
+          searchTermParsed,
+          ...qsParsed,
+          ...typeNameParsed,
+        ])
+      }
+      const data = await traversal.client.search(
+        path ? path : traversal.client.getContainerFromPath(traversal.path),
+        searchTermQs,
+        false,
+        false,
+        0,
+        100
+      )
+      const newValuesLabel = data.items.reduce((result, item) => {
+        result[item.id] = get(item, labelProperty, item.id)
+        return result
+      }, {})
+      setValuesLabels(newValuesLabel)
+      setIsLoadingData(false)
+    }
+  }
+
   const renderTextItemOptionFn = (item) => {
     if (renderTextItemOption) {
       return renderTextItemOption(item)
@@ -188,21 +191,40 @@ export const SearchInput = ({
     return item.title || item['@name']
   }
 
-  useEffect(() => {
-    console.log('update labels')
-    if (value) {
+  React.useEffect(() => {
+    if (!options.loading && !options.items && value.length > 0) {
       inicializeLabels()
-    } else {
-      setValueLabel({})
+    } else if (value.length === 0) {
+      setValuesLabels({})
     }
-  }, [path, value])
+  }, [path, options.loading, options.items])
 
-  if (valueLabel === undefined) {
+  if (isLoadingData || valuesLabel === undefined) {
     return <div className="spinner" />
   }
 
   return (
     <React.Fragment>
+      <div className="tags mb-2">
+        {value.map((tag, index) => (
+          <div
+            key={`input_list_${tag}_${index}`}
+            className="tag is-info is-medium"
+          >
+            {get(valuesLabel, tag, tag)}
+            <button
+              className="delete is-small"
+              onClick={(ev) => {
+                ev.stopPropagation()
+                ev.preventDefault()
+                onChange([
+                  ...value.filter((tag) => value.indexOf(tag) !== index),
+                ])
+              }}
+            ></button>
+          </div>
+        ))}
+      </div>
       <div
         data-test={dataTestWrapper}
         ref={wrapperRef}
@@ -221,7 +243,7 @@ export const SearchInput = ({
           <button
             className={`button ${btnClass}`}
             onClick={(ev) => {
-              ev.target.blur()
+              ev.preventDefault()
               setIsOpen(!isOpen)
               if (!options.loading && !options.items) {
                 handleSearch(options.page)
@@ -230,11 +252,8 @@ export const SearchInput = ({
             aria-haspopup="true"
             aria-controls="dropdown-menu"
           >
-            <span>
-              {value
-                ? get(valueLabel, value, value)
-                : intl.formatMessage(genericMessages.choose)}
-            </span>
+            <span>{intl.formatMessage(genericMessages.choose)}</span>
+
             <span className="icon">
               <i className="fas fa-angle-down" aria-hidden="true"></i>
             </span>
@@ -268,15 +287,19 @@ export const SearchInput = ({
                 return (
                   <div
                     className={`dropdown-item editable ${
-                      value === item.id ? 'is-active' : ''
+                      value && value.id === item.id ? 'is-active' : ''
                     }`}
                     data-test={`${dataTestItem}-${item.id}`}
                     onMouseDown={(ev) => {
+                      ev.stopPropagation()
                       ev.preventDefault()
-                      if (onChange) {
-                        onChange(item.id)
+                      if (onChange && !value.includes(item.id)) {
+                        setValuesLabels({
+                          ...valuesLabel,
+                          [item.id]: get(item, labelProperty, item.id),
+                        })
+                        onChange([...value, item.id])
                       }
-                      setIsOpen(false)
                     }}
                     key={item.path}
                   >
@@ -318,9 +341,9 @@ export const SearchInput = ({
   )
 }
 
-SearchInput.propTypes = {
+SearchInputList.propTypes = {
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.string),
   client: PropTypes.object,
   path: PropTypes.string,
   PageSize: PropTypes.number,
