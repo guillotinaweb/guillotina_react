@@ -1,7 +1,12 @@
-import React from 'react'
 import { classnames } from '../../lib/helpers'
 
-export const Icon = ({ icon, className, align }) => {
+interface Props {
+  icon: string
+  className?: string
+  align?: string
+}
+
+export const Icon = ({ icon, className, align }: Props) => {
   const addClass = className ? className.split(' ') : [className]
 
   align = align || 'is-right'

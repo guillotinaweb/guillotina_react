@@ -1,8 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { noop } from '../../lib/helpers'
 import { classnames } from '../../lib/helpers'
 
+interface Props {
+  children: React.ReactNode
+  className?: string
+  onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
+  onReset?: (event: React.FormEvent<HTMLFormElement>) => void
+  autoComplete?: string
+  title?: string
+  error?: string
+  dataTest?: string
+}
 export const Form = ({
   children,
   className = '',
@@ -12,8 +20,7 @@ export const Form = ({
   title,
   error,
   dataTest,
-  ...rest
-}) => {
+}: Props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
     onSubmit(event)
@@ -31,18 +38,9 @@ export const Form = ({
         onReset={onReset}
         autoComplete={autoComplete}
         className={classnames(['form', className])}
-        {...rest}
       >
         {children}
       </form>
     </div>
   )
-}
-
-Form.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  onSubmit: PropTypes.func,
-  onReset: PropTypes.func,
-  autoComplete: PropTypes.string,
 }

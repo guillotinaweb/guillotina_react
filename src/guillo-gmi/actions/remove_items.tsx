@@ -1,13 +1,17 @@
-import React from 'react'
 import { Confirm } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { sleep } from '../lib/helpers'
 import { useConfig } from '../hooks/useConfig'
+import { ItemModel } from '../models'
+import { useState } from 'react'
 
-export function RemoveItems(props) {
+interface Props {
+  items: ItemModel[]
+}
+export function RemoveItems(props: Props) {
   const Ctx = useTraversal()
   const cfg = useConfig()
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = useState(false)
   const { items = [] } = props
   const last = items[items.length - 1]['@name']
   const itemsNames = items
@@ -16,7 +20,7 @@ export function RemoveItems(props) {
     .replace(`, ${last}`, ` and ${last}`)
 
   async function removeItems() {
-    let errors = []
+    const errors = []
     setLoading(true)
 
     const actions = items.map(async (item) => {

@@ -1,10 +1,16 @@
-import React from 'react'
 import usePortal from 'react-useportal'
 import { Button } from './input/button'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 
-export function Modal(props) {
+interface ModalProps {
+  isActive: boolean
+  setActive: (value: boolean) => void
+  children: React.ReactNode
+  className?: string
+}
+
+export function Modal(props: ModalProps) {
   const { isActive, setActive, children } = props
   const { Portal } = usePortal()
 
@@ -26,39 +32,55 @@ export function Modal(props) {
   )
 }
 
-export function Confirm({ message, onCancel, onConfirm, loading }) {
+interface ConfirmProps {
+  message?: string
+  onCancel: () => void
+  onConfirm: () => void
+  loading?: boolean
+}
+export function Confirm({
+  message,
+  onCancel,
+  onConfirm,
+  loading,
+}: ConfirmProps) {
   const intl = useIntl()
   const setActive = () => onCancel()
   return (
     <Modal isActive setActive={setActive} className="confirm">
-      <React.Fragment>
-        <h1 className="title is-size-5">{message || 'Are you Sure?'}</h1>
-        <div className="level" style={{ marginTop: 50 }}>
-          <div className="level-left"></div>
-          <div className="level-right">
-            <button
-              className="button is-danger"
-              onClick={() => onCancel()}
-              data-test="btnCancelModalTest"
-            >
-              {intl.formatMessage(genericMessages.cancel)}
-            </button>
-            &nbsp;&nbsp;
-            <Button
-              loading={loading}
-              className="is-success"
-              onClick={() => onConfirm()}
-              dataTest="btnConfirmModalTest"
-            >
-              {intl.formatMessage(genericMessages.confirm)}
-            </Button>
-          </div>
+      <h1 className="title is-size-5">{message || 'Are you Sure?'}</h1>
+      <div className="level" style={{ marginTop: 50 }}>
+        <div className="level-left"></div>
+        <div className="level-right">
+          <button
+            className="button is-danger"
+            onClick={() => onCancel()}
+            data-test="btnCancelModalTest"
+          >
+            {intl.formatMessage(genericMessages.cancel)}
+          </button>
+          &nbsp;&nbsp;
+          <Button
+            loading={loading}
+            className="is-success"
+            onClick={() => onConfirm()}
+            dataTest="btnConfirmModalTest"
+          >
+            {intl.formatMessage(genericMessages.confirm)}
+          </Button>
         </div>
-      </React.Fragment>
+      </div>
     </Modal>
   )
 }
 
+interface PathTreeProps {
+  title: string
+  defaultPath?: string
+  children?: React.ReactNode
+  onConfirm: (path: string, target: EventTarget) => void
+  onCancel: () => void
+}
 // @todo Improve it... Replacing the inputText to a tree
 export function PathTree({
   title,
@@ -66,7 +88,7 @@ export function PathTree({
   children,
   onConfirm,
   onCancel,
-}) {
+}: PathTreeProps) {
   const intl = useIntl()
   return (
     <Modal isActive setActive={onCancel}>

@@ -1,10 +1,14 @@
-import React from 'react'
 import { Confirm } from '../components/modal'
 import { useGuillotinaClient, useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { useLocation } from '../hooks/useLocation'
+import { ItemModel } from '../models'
 
-export function RemoveItem(props) {
+interface Props {
+  item: ItemModel
+}
+
+export function RemoveItem(props: Props) {
   const Ctx = useTraversal()
   const { del, loading } = useCrudContext()
   const [, navigate] = useLocation()

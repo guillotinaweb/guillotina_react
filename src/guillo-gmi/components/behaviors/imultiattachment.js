@@ -7,7 +7,7 @@ import { useCrudContext } from '../../hooks/useCrudContext'
 import ErrorZone from '../error_zone'
 import { EditableField } from '../fields/editableField'
 import { Delete } from '../ui'
-import { Confirm } from '../../components/modal'
+import { Confirm } from '../modal'
 import { Table } from '../ui'
 import { useIntl } from 'react-intl'
 import {

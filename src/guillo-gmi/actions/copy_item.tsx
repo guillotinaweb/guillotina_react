@@ -1,10 +1,15 @@
-import React from 'react'
+import { Fragment } from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { getNewId } from '../lib/utils'
+import { ItemModel } from '../models'
 
-export function CopyItem(props) {
+interface Props {
+  item: ItemModel
+}
+
+export function CopyItem(props: Props) {
   const Ctx = useTraversal()
   const { post } = useCrudContext()
   const { item } = props
@@ -35,7 +40,7 @@ export function CopyItem(props) {
       onConfirm={copyItem}
       onCancel={() => Ctx.cancelAction()}
     >
-      <React.Fragment>
+      <Fragment>
         <small style={{ display: 'block', marginTop: 20 }}>
           {`New id for "${item['@name']}" copy`}
         </small>
@@ -45,7 +50,7 @@ export function CopyItem(props) {
           data-test={`inputCopyIdTest-${item['@name']}`}
           defaultValue={getNewId(item['@name'])}
         />
-      </React.Fragment>
+      </Fragment>
     </PathTree>
   )
 }

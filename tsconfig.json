@@ -2,7 +2,8 @@
   "compilerOptions": {
     "strict": false,
     "removeComments": true,
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react-jsx"
   },
   "include": [
     "./src/guillo-gmi"

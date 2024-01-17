@@ -1,10 +1,14 @@
-import React from 'react'
 import { PathTree } from '../components/modal'
 import { useGuillotinaClient, useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { useLocation } from '../hooks/useLocation'
+import { ItemModel } from '../models'
 
-export function MoveItem(props) {
+interface Props {
+  item: ItemModel
+}
+
+export function MoveItem(props: Props) {
   const Ctx = useTraversal()
   const { post } = useCrudContext()
   const [, navigate] = useLocation()

@@ -1,8 +1,14 @@
-import React from 'react'
 import { classnames } from '../../lib/helpers'
 
-const noop = () => {}
-
+interface Props {
+  children: React.ReactNode
+  className?: string
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  type?: 'submit' | 'reset' | 'button'
+  loading?: boolean
+  disabled?: boolean
+  dataTest?: string
+}
 export const Button = ({
   children,
   className = 'is-primary',
@@ -11,11 +17,9 @@ export const Button = ({
   loading = false,
   disabled = false,
   dataTest,
-  ...rest
-}) => {
+}: Props) => {
   let css = [].concat('button', ...className.split(' '))
   if (loading) css = css.concat('is-loading')
-  if (disabled) onClick = noop
 
   return (
     <p className="control">
@@ -24,7 +28,6 @@ export const Button = ({
         className={classnames(css)}
         onClick={onClick}
         disabled={disabled}
-        {...rest}
         data-test={dataTest}
       >
         {children}

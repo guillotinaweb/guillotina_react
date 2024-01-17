@@ -1,10 +1,15 @@
-import React from 'react'
+import { Fragment } from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { getNewId } from '../lib/utils'
+import { ItemModel } from '../models'
 
 const withError = (res) => res.status >= 300
-export function CopyItems(props) {
+
+interface Props {
+  items: Array<ItemModel>
+}
+export function CopyItems(props: Props) {
   const Ctx = useTraversal()
   const { items = [] } = props
 
@@ -43,7 +48,7 @@ export function CopyItems(props) {
       onCancel={() => Ctx.cancelAction()}
     >
       {items.map((item) => (
-        <React.Fragment key={item.id}>
+        <Fragment key={item.id}>
           <small style={{ display: 'block', marginTop: 20 }}>
             {`New id for "${item.id}" copy`}
           </small>
@@ -53,7 +58,7 @@ export function CopyItems(props) {
             data-test={`inputCopyIdTest-${item['@name']}`}
             defaultValue={getNewId(item.id)}
           />
-        </React.Fragment>
+        </Fragment>
       ))}
       &nbsp;
     </PathTree>

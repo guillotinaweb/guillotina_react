@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Button } from '../input/button'
-import { Confirm } from '../../components/modal'
+import { Confirm } from '../modal'
 import { Delete } from '../ui'
 import { FileUpload } from '../input/upload'
 import { useCrudContext } from '../../hooks/useCrudContext'

@@ -1,30 +1,28 @@
-import React from 'react'
 import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { Input } from '../components/input/input'
 import { Button } from '../components/input/button'
 import { Form } from '../components/input/form'
+import { useState } from 'react'
 
 const initial = {
   pass1: '',
   pass2: '',
 }
 
-export function ChangePassword(props) {
-  const [state, setState] = React.useState(initial)
-  const [perror, setPerror] = React.useState(undefined)
+export function ChangePassword() {
+  const [state, setState] = useState(initial)
+  const [perror, setPerror] = useState(undefined)
 
   const Ctx = useTraversal()
   const { patch } = useCrudContext()
-
-  // const Form = getForm(type)
 
   const setActive = () => {
     Ctx.cancelAction()
   }
 
-  async function doSubmit(data) {
+  async function doSubmit() {
     if (state.pass1 === '') {
       setPerror('provide a password')
       return
@@ -37,7 +35,7 @@ export function ChangePassword(props) {
 
     setPerror(undefined)
 
-    let form = {
+    const form = {
       password: state.pass1,
     }
 
@@ -53,7 +51,7 @@ export function ChangePassword(props) {
   }
 
   const setPass = (field) => (val) => {
-    let n = {}
+    const n = {}
     n[field] = val
     setState((state) => ({ ...state, ...n }))
     setPerror(undefined)
@@ -61,12 +59,7 @@ export function ChangePassword(props) {
 
   return (
     <Modal isActive={true} setActive={setActive}>
-      <Form
-        onSubmit={doSubmit}
-        onError={(err) => console.log(err)}
-        actionName={'Change'}
-        title={'Change Password'}
-      >
+      <Form onSubmit={doSubmit} title="Change Password">
         {perror && (
           <div className="notification is-danger is-size-7">
             <button className="delete"></button>

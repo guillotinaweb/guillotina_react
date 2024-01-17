@@ -1,4 +1,4 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '../input/button'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { useConfig } from '../../hooks/useConfig'
@@ -13,6 +13,15 @@ import {
   genericMessages,
 } from '../../locales/generic_messages'
 
+interface Props {
+  field: string
+  value: any
+  ns?: string
+  schema?: any
+  modifyContent?: boolean
+  required?: boolean
+}
+
 export function EditableField({
   field,
   value,
@@ -20,9 +29,9 @@ export function EditableField({
   schema = undefined,
   modifyContent,
   required,
-}) {
+}: Props) {
   const intl = useIntl()
-  const ref = useRef()
+  const ref = useRef<HTMLElement>()
   const [isEdit, setEdit] = useState(false)
   const [val, setValue] = useState(value)
   const { patch, loading, Ctx } = useCrudContext()
@@ -134,7 +143,7 @@ export function EditableField({
   }
 
   return (
-    <React.Fragment>
+    <>
       {!isEdit && (
         <div
           className={canModified ? 'editable' : ''}
@@ -198,6 +207,6 @@ export function EditableField({
           </div>
         </div>
       )}
-    </React.Fragment>
+    </>
   )
 }

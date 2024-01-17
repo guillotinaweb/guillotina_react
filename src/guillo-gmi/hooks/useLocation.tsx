@@ -3,12 +3,13 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 // Mostly inspired from
 // https://github.com/molefrog/wouter
 
-const setURLParams = (p) =>
-  window.history['pushState'](
+const setURLParams = (p) => {
+  return window.history.pushState(
     0,
-    0,
-    (window.history.pathname || '') + '?' + p.toString().replace(/%2F/g, '/')
+    '0',
+    '' + '?' + p.toString().replace(/%2F/g, '/')
   )
+}
 
 const clean = (to) => {
   const current = new URLSearchParams()
@@ -16,7 +17,11 @@ const clean = (to) => {
   setURLParams(current)
 }
 
-export const useLocation = () => {
+export const useLocation = (): [
+  URLSearchParams,
+  (to: { [key: string]: string }, replace?: boolean) => void,
+  (param: string) => void
+] => {
   const [path, update] = useState(currentSearchParams())
   const prevPath = useRef(path)
 
@@ -40,8 +45,9 @@ export const useLocation = () => {
     // https://gist.github.com/bvaughn/e25397f70e8c65b0ae0d7c90b731b189
     checkForUpdates()
 
-    return () =>
+    return () => {
       events.map((e) => window.removeEventListener(e, checkForUpdates))
+    }
   }, [])
 
   // the 2nd argument of the `useLocation` return value is a function
@@ -55,7 +61,7 @@ export const useLocation = () => {
         clean(to)
         return
       }
-      let current = new URLSearchParams(path.toString())
+      const current = new URLSearchParams(path.toString())
       Object.keys(to).forEach((_key) => current.set(_key, to[_key]))
       setURLParams(current)
     },
@@ -64,7 +70,7 @@ export const useLocation = () => {
 
   const remove = useCallback(
     (param) => {
-      let current = new URLSearchParams(path.toString())
+      const current = new URLSearchParams(path.toString())
       current.delete(param)
       setURLParams(current)
     },
@@ -87,10 +93,11 @@ const patchHistoryEvents = () => {
   ;['pushState', 'replaceState'].map((type) => {
     const original = window.history[type]
 
-    window.history[type] = function () {
-      const result = original.apply(this, arguments)
-      const event = new Event(type)
-      event.arguments = arguments
+    window.history[type] = function (...args) {
+      const result = original.apply(this, args)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const event: any = new Event(type)
+      event.arguments = args
 
       dispatchEvent(event)
       return result

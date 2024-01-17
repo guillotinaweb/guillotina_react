@@ -1,10 +1,13 @@
-import React from 'react'
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
+import { ItemModel } from '../models'
 
 const withError = (res) => res.status >= 300
 
-export function MoveItems(props) {
+interface Props {
+  items: ItemModel[]
+}
+export function MoveItems(props: Props) {
   const Ctx = useTraversal()
   const { items = [] } = props
 

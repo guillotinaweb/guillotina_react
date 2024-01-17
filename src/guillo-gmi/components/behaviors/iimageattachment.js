@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTraversal } from '../../contexts'
 import { EditableField } from '../fields/editableField'
 import { Table } from '../ui'
@@ -6,7 +6,7 @@ import { useConfig } from '../../hooks/useConfig'
 import { Delete } from '../ui'
 import { Button } from '../input/button'
 import { FileUpload } from '../input/upload'
-import { Confirm } from '../../components/modal'
+import { Confirm } from '../modal'
 import { useIntl } from 'react-intl'
 import {
   genericFileMessages,

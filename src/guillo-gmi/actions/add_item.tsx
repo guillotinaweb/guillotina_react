@@ -1,9 +1,12 @@
-import React from 'react'
 import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
 import { useCrudContext } from '../hooks/useCrudContext'
 
-export function AddItem(props) {
+interface Props {
+  type: string
+}
+
+export function AddItem(props: Props) {
   const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
   const { type } = props
