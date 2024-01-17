@@ -73,3 +73,22 @@ class IGMI(interfaces.IFolder):
         ), 
         missing_value=[]
     )
+
+    gmi_ids = schema.List(
+        title="GMI list",
+        value_type=schema.TextLine(),
+        default=[],
+        null=True,
+        blank=True,
+        widget="search_list",
+        labelProperty="title",
+        typeNameQuery="GMI",
+    )
+
+    brother_gmi = schema.Text(
+        title="Brother GMI", 
+        widget="search",
+        typeNameQuery="GMI",
+        labelProperty="title",
+        required=False
+    )

@@ -165,12 +165,12 @@ export function GroupCtx() {
     )
   }
 
-  const addUser = async (newUser) => {
+  const addUser = async (newUserId) => {
     const data = {}
     Ctx.context.users.forEach((user) => {
       data[user] = true
     })
-    data[newUser.id] = true
+    data[newUserId] = true
     const {
       isError,
       errorMessage,
@@ -185,7 +185,7 @@ export function GroupCtx() {
           id: 'user_added_to_group',
           defaultMessage: 'User {user} added to group',
         },
-        { user: newUser.id }
+        { user: newUserId }
       ),
       errorMessage
     )

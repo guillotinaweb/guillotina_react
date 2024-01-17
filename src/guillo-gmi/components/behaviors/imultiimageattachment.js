@@ -91,7 +91,10 @@ export function IMultiImageAttachment({ properties, values }) {
 
   return (
     <Table
-      headers={['Field', 'Value']}
+      headers={[
+        intl.formatMessage(genericMessages.property),
+        intl.formatMessage(genericMessages.value),
+      ]}
       className="is-striped is-fullwidth is-size-7"
     >
       {fileKeyToDelete && (
@@ -110,7 +113,9 @@ export function IMultiImageAttachment({ properties, values }) {
 
       {Object.keys(values['images']).map((key) => (
         <tr key={`multiimageattachment_${key}`}>
-          <td key={1}>{key}</td>
+          <td key={1} style={{ width: '150px' }}>
+            {key}
+          </td>
           <td key={2}>
             <div className="is-flex is-align-items-center">
               <EditableField

@@ -1,3 +1,7 @@
+0.25.0
+------
+- feat: Add inputs search to editComponent
+
 0.24.1
 ------
 - fix: Render vocabulary field

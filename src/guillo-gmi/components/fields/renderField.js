@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { DownloadField } from './downloadField'
 import { useIntl } from 'react-intl'
 import { useVocabulary } from '../../hooks/useVocabulary'
 import { get } from '../../lib/utils'
+import { buildQs } from '../../lib/search'
+import { useTraversal } from '../../contexts'
+import { useConfig } from '../../hooks/useConfig'
 
 const plain = ['string', 'number', 'boolean']
 
@@ -47,6 +50,76 @@ const getDefaultValueEditableField = (intl) => {
     id: 'default_value_editable_field',
     defaultMessage: 'Click to edit',
   })
+}
+
+export const SearchRenderField = ({ schema, value, modifyContent }) => {
+  const [valuesLabels, setValuesLabels] = useState([])
+  const [isLoadingData, setIsLoadingData] = useState(false)
+  const traversal = useTraversal()
+  const { SearchEngine } = useConfig()
+
+  useEffect(() => {
+    const fetchData = async (valuesToSearch) => {
+      setIsLoadingData(true)
+      let searchTermQs = []
+
+      const searchTermParsed = ['__or', `id=${valuesToSearch.join('%26id=')}`]
+      const { get: getSearch } = traversal.registry
+      const fnName = getSearch('searchEngineQueryParamsFunction', SearchEngine)
+      const qsParsed = traversal.client[fnName]({
+        path: traversal.path,
+        start: 0,
+        pageSize: 100,
+        withDepth: false,
+      })
+
+      if (searchTermParsed.length > 0 || qsParsed.length > 0) {
+        searchTermQs = buildQs([searchTermParsed, ...qsParsed])
+      }
+      const data = await traversal.client.search(
+        traversal.client.getContainerFromPath(traversal.path),
+        searchTermQs,
+        false,
+        false,
+        0,
+        100
+      )
+
+      const newValuesLabel = data.items.map((item) => {
+        return get(item, schema?.labelProperty ?? 'title', item.id)
+      })
+      setValuesLabels(newValuesLabel)
+      setIsLoadingData(false)
+    }
+
+    let valuesToSearch = value
+    if (typeof valuesToSearch === 'string') {
+      valuesToSearch = [valuesToSearch]
+    }
+
+    if (valuesToSearch !== undefined && valuesToSearch.length > 0) {
+      fetchData(valuesToSearch)
+    } else {
+      setValuesLabels([])
+    }
+  }, [value])
+
+  const getRenderValue = () => {
+    console.log('get render values', value, valuesLabels)
+    if (value === undefined) {
+      if (modifyContent) {
+        return DEFAULT_VALUE_EDITABLE_FIELD
+      }
+      return DEFAULT_VALUE_NO_EDITABLE_FIELD
+    }
+    if (isLoadingData) {
+      return 'Loading...'
+    }
+
+    return valuesLabels
+  }
+
+  return <RenderField value={getRenderValue()} />
 }
 
 export const VocabularyRenderField = ({ schema, value, modifyContent }) => {
@@ -109,8 +182,14 @@ export function RenderFieldComponent({ schema, field, val, modifyContent }) {
     } else if (schema?.items?.vocabularyName || schema?.vocabularyName) {
       renderProps['Widget'] = VocabularyRenderField
       renderProps['schema'] = schema
+    } else if (
+      schema?.widget === 'search' ||
+      schema?.widget === 'search_list'
+    ) {
+      renderProps['Widget'] = SearchRenderField
+      renderProps['value'] = val
+      renderProps['schema'] = schema
     }
-
     return renderProps
   }
 

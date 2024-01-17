@@ -7,10 +7,63 @@ import { Input } from '../input/input'
 import { InputList } from '../input/input_list'
 import { get } from '../../lib/utils'
 import { SelectVocabulary } from '../input/select_vocabulary'
+import { SearchInputList } from '../input/search_input_list'
+import { SearchInput } from '../input/search_input'
+import { useTraversal } from '../../contexts'
 
 export const EditComponent = React.forwardRef(
   ({ schema, val, setValue, dataTest, className, ...rest }, ref) => {
-    if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
+    const traversal = useTraversal()
+
+    if (schema?.widget === 'search_list') {
+      return (
+        <React.Fragment>
+          {rest.placeholder && (
+            <label className="label">{rest.placeholder}</label>
+          )}
+          <SearchInputList
+            value={val || []}
+            traversal={traversal}
+            className={className}
+            onChange={(ev) => setValue(ev)}
+            queryCondition={
+              schema?.queryCondition ? schema.queryCondition : 'title__in'
+            }
+            dataTest={dataTest}
+            path={schema.queryPath}
+            labelProperty={
+              schema?.labelProperty ? schema.labelProperty : 'title'
+            }
+            typeNameQuery={schema?.typeNameQuery ? schema.typeNameQuery : null}
+            {...rest}
+          />
+        </React.Fragment>
+      )
+    } else if (schema?.widget === 'search') {
+      return (
+        <React.Fragment>
+          {rest.placeholder && (
+            <label className="label">{rest.placeholder}</label>
+          )}
+          <SearchInput
+            value={val}
+            traversal={traversal}
+            className={className}
+            onChange={(ev) => setValue(ev)}
+            queryCondition={
+              schema?.queryCondition ? schema.queryCondition : 'title__in'
+            }
+            dataTest={dataTest}
+            path={schema.queryPath}
+            labelProperty={
+              schema?.labelProperty ? schema.labelProperty : 'title'
+            }
+            typeNameQuery={schema?.typeNameQuery ? schema.typeNameQuery : null}
+            {...rest}
+          />
+        </React.Fragment>
+      )
+    } else if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
       return (
         <Textarea
           value={val || ''}
