@@ -31,3 +31,5 @@ export * from './views/folder'
 export * from './views/item'
 export * from './views/users'
 export * from './views/groups'
+
+export * from './locales/generic_messages'

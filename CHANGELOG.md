@@ -1,3 +1,7 @@
+0.25.1
+------
+- chore: export generic Messages
+
 0.25.0
 ------
 - feat: Add inputs search to editComponent
