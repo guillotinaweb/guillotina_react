@@ -58,7 +58,6 @@ export const SearchInput = ({
   const wrapperRef = React.useRef(null)
   const { PageSize, SearchEngine } = useConfig()
   const [valueLabel, setValueLabel] = useState(undefined)
-  const [isLoadingData, setIsLoadingData] = useState(false)
   const [uid] = useState(generateUID('search_input'))
 
   useClickAway(wrapperRef, () => {
@@ -85,7 +84,6 @@ export const SearchInput = ({
 
   const inicializeLabels = async () => {
     if (labelProperty !== 'id' && value) {
-      setIsLoadingData(true)
       let searchTermQs = []
       const searchTermParsed = [`id`, value]
       const { get: getSearch } = traversal.registry
@@ -124,7 +122,6 @@ export const SearchInput = ({
         return result
       }, {})
       setValueLabel(newValuesLabel)
-      setIsLoadingData(false)
     }
   }
 
@@ -143,7 +140,7 @@ export const SearchInput = ({
       pageSize: PageSize,
       withDepth: false,
     })
-    let sortParsed = parser(`_sort_des=title`)
+    let sortParsed = parser(`_sort_des=${labelProperty}`)
     let typeNameParsed = []
     if (typeNameQuery) {
       typeNameParsed = parser(`type_name__in=${typeNameQuery}`)
@@ -185,7 +182,7 @@ export const SearchInput = ({
     if (renderTextItemOption) {
       return renderTextItemOption(item)
     }
-    return item.title || item['@name']
+    return get(item, labelProperty, item.title) || item['@name']
   }
 
   useEffect(() => {
