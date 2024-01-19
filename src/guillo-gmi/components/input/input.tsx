@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { InputHTMLAttributes, forwardRef, useRef, useState } from 'react'
 import { classnames, generateUID } from '../../lib/helpers'
 import ErrorZone from '../error_zone'
 import useInput from '../../hooks/useInput'
@@ -7,9 +6,27 @@ import { notEmpty } from '../../lib/validators'
 import { useEffect } from 'react'
 
 const noop = () => true
+interface Props {
+  icon?: JSX.Element
+  iconPosition?: 'has-icons-left' | 'has-icons-right'
+  error?: string
+  errorZoneClassName?: string
+  autoComplete?: string
+  className?: string
+  widget?: string
+  loading?: boolean
+  validator?: ((value: string) => boolean) | ((value: string) => boolean)[]
+  errorMessage?: string
+  dataTest?: string
+  autofocus?: boolean
+  onChange?: (value: string) => void
+}
 
 /** @type any */
-export const Input = React.forwardRef(
+export const Input = forwardRef<
+  HTMLInputElement,
+  Props & InputHTMLAttributes<HTMLInputElement>
+>(
   (
     {
       icon,
@@ -20,8 +37,6 @@ export const Input = React.forwardRef(
       className = '',
       widget = 'input',
       type = 'text',
-      onPressEnter,
-      isSubmitted,
       loading = false,
       required = false,
       id,
@@ -32,28 +47,30 @@ export const Input = React.forwardRef(
       validator = noop,
       errorMessage,
       dataTest = 'testInput',
-      ...rest
+      disabled,
+      onKeyUp,
     },
     ref
   ) => {
+    let validatorFn = null
     if (required) {
-      validator = Array.isArray(validator)
+      validatorFn = Array.isArray(validator)
         ? validator.push(notEmpty)
         : [validator, notEmpty]
     }
 
-    const { state, ...handlers } = useInput(onChange, value ?? '', validator)
+    const { state, ...handlers } = useInput(onChange, value ?? '', validatorFn)
     const [uid] = useState(generateUID('input'))
     const [mounted, setMounted] = useState(false)
     // eslint-disable-next-line
-    ref = ref || React.useRef()
+    ref = ref || useRef()
 
     useEffect(() => {
       setMounted(true)
     }, [])
 
     useEffect(() => {
-      if (autofocus && !error) {
+      if (autofocus && !error && ref != null && typeof ref !== 'function') {
         ref.current.focus()
       }
     }, [mounted, autofocus, ref, error])
@@ -73,7 +90,6 @@ export const Input = React.forwardRef(
         <div className={classnames(cssControl())}>
           <input
             className={classnames([widget, className, statusClasses])}
-            aria-invalid={theError}
             aria-describedby={uid}
             id={id}
             ref={ref}
@@ -81,11 +97,11 @@ export const Input = React.forwardRef(
             value={state.value}
             placeholder={placeholder}
             autoComplete={autoComplete}
-            disabled={loading || rest.disabled}
+            disabled={loading || disabled}
             required={required}
             data-test={dataTest}
+            onKeyUp={onKeyUp}
             {...handlers}
-            {...rest}
           />
           {icon && icon}
         </div>
@@ -96,33 +112,3 @@ export const Input = React.forwardRef(
     )
   }
 )
-
-Input.propTypes = {
-  icon: PropTypes.node,
-  iconPosition: PropTypes.arrayOf(
-    PropTypes.oneOf(['has-icons-left', 'has-icons-right', ''])
-  ),
-  error: PropTypes.string,
-  errorZoneClassName: PropTypes.string,
-  autoComplete: PropTypes.string,
-  autoFocus: PropTypes.bool,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  loading: PropTypes.bool,
-  isSubmitted: PropTypes.bool,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onKeyUp: PropTypes.func,
-  onPressEnter: PropTypes.func,
-  placeholder: PropTypes.string,
-  readOnly: PropTypes.bool,
-  required: PropTypes.bool,
-  type: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]),
-}

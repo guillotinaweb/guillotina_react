@@ -1,5 +1,3 @@
-import React from 'react'
-
 /*
   This hook allows to bind (remote) fields on the DOM
   to a form generated with Formbuilder.
@@ -17,8 +15,10 @@ import React from 'react'
 
 */
 
+import { useState } from 'react'
+
 export const useRemoteField = (initial) => {
-  const [remotes, setRemote] = React.useState(initial)
+  const [remotes, setRemote] = useState(initial)
 
   const updateRemote = (name) => (value) => {
     setRemote({

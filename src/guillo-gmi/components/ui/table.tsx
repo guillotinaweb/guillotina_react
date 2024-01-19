@@ -1,12 +1,16 @@
-import React from 'react'
 import { classnames } from '../../lib/helpers'
 
-export function Table({ headers, children, className }) {
-  className = className
+interface Props {
+  headers?: string[]
+  className?: string
+  children: React.ReactNode
+}
+export function Table({ headers, children, className }: Props) {
+  const parsedClassName = className
     ? className.split(' ')
     : ' is-full is-fullwidth is-narrow'.split(' ')
   return (
-    <table className={classnames(['table', ...className])}>
+    <table className={classnames(['table', ...parsedClassName])}>
       <thead>
         <tr>
           {headers &&

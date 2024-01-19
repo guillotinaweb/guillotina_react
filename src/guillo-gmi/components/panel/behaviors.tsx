@@ -1,16 +1,16 @@
-import React from 'react'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { Table } from '../ui/table'
 import { Button } from '../input/button'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
+import { Fragment, useEffect, useState } from 'react'
 
 export function PanelBehaviors() {
   const intl = useIntl()
   const { Ctx, get, result, loading, isError } = useCrudContext()
   const ops = useCrudContext()
 
-  const [state, setState] = React.useState(false)
+  const [state, setState] = useState(false)
 
   const enableBehavior = (behavior) => async () => {
     await ops.patch({ behavior }, '@behaviors')
@@ -24,7 +24,7 @@ export function PanelBehaviors() {
     Ctx.refresh()
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     get('@behaviors')
   }, [])
 
@@ -35,10 +35,10 @@ export function PanelBehaviors() {
           {intl.formatMessage(genericMessages.behaviors)}
         </h2>
         {!loading && !isError && result && (
-          <React.Fragment>
+          <Fragment>
             <Table>
               <tr>
-                <td colSpan="3">
+                <td colSpan={3}>
                   <h3 className="title is-size-6">
                     {intl.formatMessage(genericMessages.static)}
                   </h3>
@@ -58,7 +58,7 @@ export function PanelBehaviors() {
             </Table>
             <Table>
               <tr>
-                <td colSpan="3">
+                <td colSpan={3}>
                   <h3 className="title is-size-6">
                     {intl.formatMessage(genericMessages.enabled)}
                   </h3>
@@ -81,7 +81,7 @@ export function PanelBehaviors() {
             </Table>
             <Table>
               <tr>
-                <td colSpan="3">
+                <td colSpan={3}>
                   <h3 className="title is-size-6">
                     {intl.formatMessage(genericMessages.available)}
                   </h3>
@@ -102,7 +102,7 @@ export function PanelBehaviors() {
                 </tr>
               ))}
             </Table>
-          </React.Fragment>
+          </Fragment>
         )}
       </div>
       <div className="column is-4"></div>

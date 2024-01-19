@@ -1,7 +1,7 @@
-import React from 'react'
 import { useTraversal } from '../../contexts'
 import { useIntl } from 'react-intl'
 import { getActionsObject } from '../../lib/helpers'
+import { Fragment } from 'react'
 
 export function PanelActions() {
   const traversal = useTraversal()
@@ -19,7 +19,7 @@ export function PanelActions() {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       {Object.keys(ACTIONS_OBJECT).map((actionKey) => {
         if (hasPerm(ACTIONS_OBJECT[actionKey].perms)) {
           return (
@@ -35,6 +35,6 @@ export function PanelActions() {
           )
         }
       })}
-    </React.Fragment>
+    </Fragment>
   )
 }

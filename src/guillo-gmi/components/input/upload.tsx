@@ -1,8 +1,16 @@
-import React from 'react'
+import { InputHTMLAttributes } from 'react'
 import { lightFileReader } from '../../lib/client'
 import { useIntl } from 'react-intl'
 
-export function FileUpload({ label, onChange, ...props }) {
+interface Props {
+  label?: string
+  dataTest?: string
+}
+export function FileUpload({
+  label,
+  onChange,
+  dataTest,
+}: Props & InputHTMLAttributes<HTMLInputElement>) {
   const intl = useIntl()
   const changed = async (event) => {
     const file = await lightFileReader(event.target.files[0])
@@ -14,10 +22,10 @@ export function FileUpload({ label, onChange, ...props }) {
       <label className="file-label">
         <input
           className="file-input"
-          {...props}
           type="file"
           name="file"
           onChange={changed}
+          data-test={dataTest}
         />
         <span className="file-cta">
           <span className="file-icon">

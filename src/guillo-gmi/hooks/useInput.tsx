@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 
 const applyValidators = (value, validators) => {
   let validation = Array.isArray(validators) ? validators : [validators]
@@ -12,7 +12,7 @@ const applyValidators = (value, validators) => {
 }
 
 const useInput = (onChange, value, validator) => {
-  let [state, setState] = React.useState({ hasError: false, value: value })
+  let [state, setState] = useState({ hasError: false, value: value })
 
   const onUpdate = (ev) => {
     const value = ev && ev.target ? ev.target.value : ev ? ev : ''
@@ -31,7 +31,7 @@ const useInput = (onChange, value, validator) => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setState({ value, hasError: false })
   }, [value])
 

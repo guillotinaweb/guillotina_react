@@ -1,8 +1,7 @@
-import React from 'react'
 import { useTraversal } from '../../contexts'
-import useAsync from '../../hooks/useAsync'
 import { useIntl, defineMessages } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
+import { Fragment, useEffect, useState } from 'react'
 
 const messages = defineMessages({
   available_addons: {
@@ -20,10 +19,29 @@ const messages = defineMessages({
 })
 
 // TODO: Refactor without useAsync... just crudContext
-export function PanelAddons(props) {
+export function PanelAddons() {
   const intl = useIntl()
   const Ctx = useTraversal()
-  let [action, setAction] = React.useState(false)
+  let [action, setAction] = useState(false)
+  const [state, setState] = useState({
+    data: undefined,
+    loading: false,
+    error: undefined,
+  })
+
+  useEffect(() => {
+    ;(async () => {
+      if (!state.loading && !state.data && !state.error) {
+        try {
+          const response = await Ctx.client.getAddons(Ctx.pathPrefix)
+          const data = await response.json()
+          setState({ ...state, loading: false, data: prepareData(data) })
+        } catch (err) {
+          setState({ ...state, loading: false, error: err })
+        }
+      }
+    })()
+  }, [action])
 
   const installAddon = async (Ctx, key) => {
     await Ctx.client.installAddon(Ctx.pathPrefix, key)
@@ -37,14 +55,8 @@ export function PanelAddons(props) {
     setAction(!action)
   }
 
-  const state = useAsync(async () => {
-    const response = await Ctx.client.getAddons(Ctx.pathPrefix)
-    const data = await response.json()
-    return prepareData(data)
-  }, [action])
-
   return (
-    <React.Fragment>
+    <Fragment>
       {state.loading ? (
         <div>{intl.formatMessage(genericMessages.loading)}</div>
       ) : state.error ? (
@@ -56,14 +68,14 @@ export function PanelAddons(props) {
               {intl.formatMessage(messages.available_addons)}
             </h2>
             <hr />
-            {state.value.available.length === 0 && (
+            {state.data.available.length === 0 && (
               <p>
                 {intl.formatMessage(messages.no_available_addons_container)}
               </p>
             )}
             <table className="table is-12">
               <tbody>
-                {state.value.available.map((addon) => (
+                {state.data.available.map((addon) => (
                   <tr>
                     <td>{addon.title}</td>
                     <td>
@@ -84,14 +96,14 @@ export function PanelAddons(props) {
               {intl.formatMessage(messages.installed_addons)}
             </h2>
             <hr />
-            {state.value.installed.length === 0 && (
+            {state.data.installed.length === 0 && (
               <p>
                 {intl.formatMessage(messages.no_available_addons_container)}
               </p>
             )}
             <table className="table is-12">
               <tbody>
-                {state.value.installed.map((addon) => (
+                {state.data.installed.map((addon) => (
                   <tr>
                     <td>{addon.title}</td>
                     <td>
@@ -109,7 +121,7 @@ export function PanelAddons(props) {
           </div>
         </div>
       )}
-    </React.Fragment>
+    </Fragment>
   )
 }
 
