@@ -99,7 +99,7 @@ export const SearchInputList = ({
       pageSize: PageSize,
       withDepth: false,
     })
-    let sortParsed = parser(`_sort_des=title`)
+    let sortParsed = parser(`_sort_des=${labelProperty}`)
     let typeNameParsed = []
     if (typeNameQuery) {
       typeNameParsed = parser(`type_name__in=${typeNameQuery}`)
@@ -188,7 +188,7 @@ export const SearchInputList = ({
     if (renderTextItemOption) {
       return renderTextItemOption(item)
     }
-    return item.title || item['@name']
+    return get(item, labelProperty, item.title) || item['@name']
   }
 
   React.useEffect(() => {
