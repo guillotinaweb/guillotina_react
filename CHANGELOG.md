@@ -1,3 +1,11 @@
+0.25.2
+------
+- feat: use label property to render info in search inputs and to sort elements
+
+0.25.1
+------
+- chore: export generic Messages
+
 0.25.0
 ------
 - feat: Add inputs search to editComponent
