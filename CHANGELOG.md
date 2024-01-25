@@ -1,3 +1,7 @@
+0.26.0
+------
+- Feat: Add possibility to translate the workflow texts
+
 0.25.2
 ------
 - feat: use label property to render info in search inputs and to sort elements
