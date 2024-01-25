@@ -132,7 +132,11 @@ function App() {
       <Layout auth={auth} onLogout={onLogout}>
         {isLogged && (
           <Guillotina
-            locale={navigator.language || 'en'}
+            locale={
+              ['ca', 'en', 'es'].includes(navigator.language)
+                ? navigator.language
+                : 'en'
+            }
             auth={auth}
             url={currentSchema}
             registry={{
