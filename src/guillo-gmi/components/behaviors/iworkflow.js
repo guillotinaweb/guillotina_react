@@ -75,12 +75,10 @@ export function IWorkflow() {
     setWorkflowAction(null)
   }
   const getStateTitle = () => {
-    console.log('getStateTitle', vocabulary)
     if (vocabulary.data?.items?.length > 0) {
       const vocabularyValue = vocabulary.data.items.find(
         (item) => item.token === currentState
       )
-      console.log('state title', vocabularyValue, intl.locale)
       if (vocabularyValue) {
         const translatedValue = get(
           vocabularyValue,
@@ -102,7 +100,7 @@ export function IWorkflow() {
     }
     return currentState
   }
-  console.log('Workflow log')
+
   if (definition === undefined) return null
 
   return (
