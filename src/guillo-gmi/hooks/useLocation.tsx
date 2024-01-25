@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { IndexSignature } from '../types/global'
 
 // Mostly inspired from
 // https://github.com/molefrog/wouter
@@ -19,7 +20,7 @@ const clean = (to) => {
 
 export const useLocation = (): [
   URLSearchParams,
-  (to: { [key: string]: string }, replace?: boolean) => void,
+  (to: IndexSignature, replace?: boolean) => void,
   (param: string) => void
 ] => {
   const [path, update] = useState(currentSearchParams())

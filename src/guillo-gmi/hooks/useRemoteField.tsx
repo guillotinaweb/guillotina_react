@@ -16,8 +16,9 @@
 */
 
 import { useState } from 'react'
+import { IndexSignature } from '../types/global'
 
-export const useRemoteField = (initial) => {
+export const useRemoteField = (initial: IndexSignature) => {
   const [remotes, setRemote] = useState(initial)
 
   const updateRemote = (name) => (value) => {

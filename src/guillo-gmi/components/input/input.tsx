@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, forwardRef, useRef, useState } from 'react'
+import { forwardRef, useRef, useState } from 'react'
 import { classnames, generateUID } from '../../lib/helpers'
 import ErrorZone from '../error_zone'
 import useInput from '../../hooks/useInput'
@@ -20,13 +20,16 @@ interface Props {
   dataTest?: string
   autofocus?: boolean
   onChange?: (value: string) => void
+  type?: string
+  value?: string
+  required?: boolean
+  id?: string
+  placeholder?: string
+  disabled?: boolean
+  onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
-/** @type any */
-export const Input = forwardRef<
-  HTMLInputElement,
-  Props & InputHTMLAttributes<HTMLInputElement>
->(
+export const Input = forwardRef<HTMLInputElement, Props>(
   (
     {
       icon,
@@ -112,3 +115,6 @@ export const Input = forwardRef<
     )
   }
 )
+
+Input.displayName = 'Input'
+export default Input

@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react'
 
-export default function useSetState(initialState) {
-  const [state, set] = useState(initialState)
+export default function useSetState<T>(
+  initialState
+): [T, (value: Partial<T>) => void] {
+  const [state, set] = useState<T>(initialState)
   const setState = useCallback(
     (patch) => {
       set((prevState) =>

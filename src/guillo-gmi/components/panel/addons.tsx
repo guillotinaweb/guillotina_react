@@ -22,7 +22,7 @@ const messages = defineMessages({
 export function PanelAddons() {
   const intl = useIntl()
   const Ctx = useTraversal()
-  let [action, setAction] = useState(false)
+  const [action, setAction] = useState(false)
   const [state, setState] = useState({
     data: undefined,
     loading: false,
@@ -76,7 +76,7 @@ export function PanelAddons() {
             <table className="table is-12">
               <tbody>
                 {state.data.available.map((addon) => (
-                  <tr>
+                  <tr key={addon.id}>
                     <td>{addon.title}</td>
                     <td>
                       <button
@@ -104,7 +104,7 @@ export function PanelAddons() {
             <table className="table is-12">
               <tbody>
                 {state.data.installed.map((addon) => (
-                  <tr>
+                  <tr key={addon.id}>
                     <td>{addon.title}</td>
                     <td>
                       <button

@@ -31,6 +31,7 @@
     "@babel/cli": "7.12.10",
     "@babel/core": "7.12.10",
     "@formatjs/cli": "^6.2.4",
+    "@formatjs/ts-transformer": "^3.13.11",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.6.0",
@@ -44,8 +45,8 @@
     "prettier": "2.2.1",
     "sass": "1.69.5",
     "serialize-javascript": "5.0.1",
-    "vitest": "^0.34.6",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^0.34.6"
   },
   "scripts": {
     "format": "prettier --write \"src/**/*.js\"",

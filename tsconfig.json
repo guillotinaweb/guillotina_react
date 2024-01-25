@@ -3,7 +3,9 @@
     "strict": false,
     "removeComments": true,
     "allowJs": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports":true,
+    "resolveJsonModule":true
   },
   "include": [
     "./src/guillo-gmi"
