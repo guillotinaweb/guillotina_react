@@ -1,2 +1,2 @@
 guillotina==7.0.2
-pillow==9.5
+pillow==10.2.0
