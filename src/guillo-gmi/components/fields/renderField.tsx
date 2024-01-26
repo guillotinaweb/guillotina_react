@@ -113,7 +113,6 @@ export const SearchRenderField = ({ schema, value, modifyContent }) => {
   }, [value])
 
   const getRenderValue = () => {
-    console.log('get render values', value, valuesLabels)
     if (value === undefined) {
       if (modifyContent) {
         return DEFAULT_VALUE_EDITABLE_FIELD

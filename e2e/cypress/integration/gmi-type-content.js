@@ -269,15 +269,15 @@ LOGIN_TYPES.forEach((loginType) => {
       )
 
       // Modify workflow
-      cy.findByText(/Current state: private/)
+      cy.findByText(/Current state: Private/)
       cy.findByText('Publish').click()
       cy.findByText('Confirm').click()
       cy.get(NOTIFICATION_SELECTOR).should('contain', `Great status changed!`)
-      cy.findByText(/Current state: public/)
+      cy.findByText(/Current state: Public/)
       cy.findByText('Retire').click()
       cy.findByText('Confirm').click()
       cy.get(NOTIFICATION_SELECTOR).should('contain', `Great status changed!`)
-      cy.findByText(/Current state: private/)
+      cy.findByText(/Current state: Private/)
 
       // Upload multiple image
       cy.get(`[data-test='formMultiimageOrderedAttachmentTest']`).within(() => {

@@ -5,6 +5,8 @@ import { ItemModel } from '../../models'
 import { defineMessages, useIntl } from 'react-intl'
 import { useEffect, useState } from 'react'
 
+import { useVocabulary } from '../../hooks/useVocabulary'
+import { get } from '../../lib/utils'
 const messages = defineMessages({
   status_changed_ok: {
     id: 'status_changed_ok',
@@ -36,6 +38,7 @@ export function IWorkflow() {
   const [definition, setDefinition] = useState(undefined)
   const [workflowAction, setWorkflowAction] = useState(null)
   const model = new ItemModel(Ctx.context)
+  const vocabulary = useVocabulary('workflow_states')
   const currentState =
     model.item['guillotina.contrib.workflows.interfaces.IWorkflowBehavior'][
       'review_state'
@@ -72,6 +75,33 @@ export function IWorkflow() {
     Ctx.refresh()
     setWorkflowAction(null)
   }
+  const getStateTitle = () => {
+    if (vocabulary.data?.items?.length > 0) {
+      const vocabularyValue = vocabulary.data.items.find(
+        (item) => item.token === currentState
+      )
+      if (vocabularyValue) {
+        const translatedValue = get(
+          vocabularyValue,
+          `title.translated_title.${intl.locale}`,
+          null
+        )
+        if (translatedValue !== null) {
+          return translatedValue
+        }
+        const titleValue = get(
+          vocabularyValue,
+          `title.title.${intl.locale}`,
+          null
+        )
+        if (titleValue !== null) {
+          return titleValue
+        }
+      }
+    }
+    return currentState
+  }
+
   if (definition === undefined) return null
 
   return (
@@ -92,10 +122,12 @@ export function IWorkflow() {
           className="has-text-weight-bold"
           data-test={`textInfoStatus-${currentState}`}
         >
-          {intl.formatMessage(messages.current_state, { state: currentState })}
+          {intl.formatMessage(messages.current_state, {
+            state: getStateTitle(),
+          })}
         </div>
       </div>
-      {modifyContent && (
+      {modifyContent && definition.transitions.length > 0 && (
         <div
           className=" is-flex is-align-items-center has-text-weight-bold"
           data-test={`textInfoStatus-${currentState}`}
@@ -112,7 +144,11 @@ export function IWorkflow() {
                   )
                 }
               >
-                {transition.title}
+                {get(
+                  transition,
+                  `metadata.translated_title.${intl.locale}`,
+                  transition.title
+                )}
               </button>
             )
           })}
