@@ -1,6 +1,8 @@
-export type FileWithFileName = {
+export interface LightFile {
   filename: string
-} & File
+  data: ArrayBuffer | string
+  'content-type': string
+}
 
 export interface IndexSignature<T = any> {
   [key: string]: T

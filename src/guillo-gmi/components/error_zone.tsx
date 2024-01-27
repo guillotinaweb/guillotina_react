@@ -3,7 +3,7 @@ import { classnames } from '../lib/helpers'
 
 interface Props {
   children: React.ReactNode
-  id: string
+  id?: string
   className?: string
 }
 

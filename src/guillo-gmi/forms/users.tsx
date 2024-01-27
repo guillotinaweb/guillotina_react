@@ -23,7 +23,10 @@ export const UserForm = ({
   const intl = useIntl()
 
   const schema = {
+    $schema: '',
+    title: '',
     type: 'object',
+    definitions: {},
     required: ['username', 'password'],
     properties: {
       username: {

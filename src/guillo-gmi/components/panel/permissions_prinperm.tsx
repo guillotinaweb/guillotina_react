@@ -7,16 +7,28 @@ import { useTraversal } from '../../contexts'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
+interface State {
+  principal: string
+  permission: string[]
+  setting: string
+  error: string
+}
+interface Props {
+  principals: { text: string; value: string }[]
+  permissions: { text: string; value: string }[]
+  operations: { text: string; value: string }[]
+  refresh: (value: number) => void
+}
 export function PermissionPrinperm({
   principals,
   permissions,
   operations,
   refresh,
-}) {
+}: Props) {
   const Ctx = useTraversal()
   const intl = useIntl()
   const { post, loading } = useCrudContext()
-  const [state, setState] = useSetState({
+  const [state, setState] = useSetState<State>({
     principal: undefined,
     permission: [],
     setting: undefined,
@@ -64,7 +76,7 @@ export function PermissionPrinperm({
         <Select
           appendDefault
           options={principals}
-          onChange={(value) => setState({ principal: value })}
+          onChange={(value: string) => setState({ principal: value })}
           dataTest="selectPrincipalTest"
         />
       </div>
@@ -87,7 +99,7 @@ export function PermissionPrinperm({
         <Select
           appendDefault
           options={operations}
-          onChange={(value) => setState({ setting: value })}
+          onChange={(value: string) => setState({ setting: value })}
           dataTest="operationPermissionsTest"
         />
       </div>

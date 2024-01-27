@@ -10,6 +10,7 @@ import { useTraversal } from '../../contexts'
 import { defineMessages, useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import { Fragment, useEffect, useState } from 'react'
+import { GuillotinaSharing } from '../../types/guillotina'
 
 const messages = defineMessages({
   role_permissions: {
@@ -64,7 +65,7 @@ const messages = defineMessages({
 
 export function PanelPermissions() {
   const intl = useIntl()
-  const { get, result, loading } = useCrudContext()
+  const { get, result, loading } = useCrudContext<GuillotinaSharing>()
   const ctx = useTraversal()
 
   const [reset, setReset] = useState(1)
@@ -197,17 +198,26 @@ export function PanelPermissions() {
   )
 }
 
-const initial = {
+interface State {
+  permissions: { text: string; value: string }[]
+  roles: { text: string; value: string }[]
+  principals: { text: string; value: string }[]
+  current: string
+}
+const initial: State = {
   permissions: undefined,
   roles: [],
   principals: undefined,
   current: '',
-  currentObj: undefined,
 }
 
-export function AddPermission({ refresh, reset }) {
+interface AddPermissionProps {
+  refresh: (state: number) => void
+  reset: number
+}
+export function AddPermission({ refresh, reset }: AddPermissionProps) {
   const Ctx = useTraversal()
-  const [state, setState] = useSetState(initial)
+  const [state, setState] = useSetState<State>(initial)
   const intl = useIntl()
 
   const operations = [
@@ -238,7 +248,7 @@ export function AddPermission({ refresh, reset }) {
       let principals = []
       let roles = []
 
-      let principalsData = await Ctx.client.getPrincipals(Ctx.path)
+      const principalsData = await Ctx.client.getPrincipals(Ctx.path)
       const groups = principalsData.groups.map((group) => ({
         text: group.id,
         value: group.id,
@@ -270,7 +280,7 @@ export function AddPermission({ refresh, reset }) {
       <p>{intl.formatMessage(messages.select_type)}</p>
       <Select
         options={defaultOptions}
-        onChange={(value) => setState({ current: value })}
+        onChange={(value: string) => setState({ current: value })}
         dataTest="selectPermissionTypeTest"
       />
       <hr />

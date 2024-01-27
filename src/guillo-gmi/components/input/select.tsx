@@ -1,6 +1,5 @@
 import ErrorZone from '../error_zone'
 import { classnames, generateUID } from '../../lib/helpers'
-import { get } from '../../lib/utils'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import { forwardRef, useState } from 'react'
@@ -58,8 +57,7 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
         }
         onChange(selectValue)
       } else {
-        const selectValue = get(ev, 'target.value', undefined)
-        onChange(selectValue)
+        onChange(ev.target.value)
       }
     }
 
@@ -112,3 +110,6 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
     )
   }
 )
+
+Select.displayName = 'Select'
+export default Select

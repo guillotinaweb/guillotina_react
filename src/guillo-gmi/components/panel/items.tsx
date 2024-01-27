@@ -20,11 +20,12 @@ import { Input } from '../input/input'
 import { SelectVocabulary } from '../input/select_vocabulary'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
-import { ItemModel } from '../../models'
+
+import { SearchItem } from '../../types/guillotina'
 
 interface InitialState {
   page: number
-  items: ItemModel[]
+  items: SearchItem[]
   loading: boolean
   total: number
 }

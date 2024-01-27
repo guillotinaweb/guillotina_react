@@ -5,8 +5,12 @@ import { PasswordInput } from './password'
 import { Button } from './button'
 import { Checkbox } from './checkbox'
 import { generateUID } from '../../lib/helpers'
-import { Children, cloneElement, useRef } from 'react'
+import { Children, cloneElement, isValidElement, useRef } from 'react'
 import { IndexSignature } from '../../types/global'
+import {
+  GuillotinaSchema,
+  GuillotinaSchemaProperty,
+} from '../../types/guillotina'
 
 const formComponents = {
   string: Input,
@@ -16,11 +20,11 @@ const formComponents = {
 }
 
 interface Props {
-  schema: any
+  schema: GuillotinaSchema
   formData?: any
   onSubmit: (formData: any, initialData: any) => void
   actionName: string
-  children?: any
+  children?: React.ReactNode
   exclude?: string[]
   remotes?: IndexSignature
   submitButton?: boolean
@@ -67,13 +71,13 @@ export function FormBuilder({
   }
 
   const GetTag = ({ field }: { field: string }) => {
-    const Tag =
-      formComponents[properties[field].widget || properties[field].type]
+    const property = properties[field] as GuillotinaSchemaProperty
+    const Tag = formComponents[property.widget || property.type]
 
     const props = {
       value: initialState[field],
       onChange: onUpdate(field),
-      placeholder: properties[field].title || '',
+      placeholder: property.title || '',
       id: generateUID(),
       dataTest: `${field}TestInput`,
       required: false,
@@ -87,9 +91,13 @@ export function FormBuilder({
     return <Tag {...props} />
   }
 
-  const children_ = Children.map(children, (child) =>
-    cloneElement(child, { onChange: onUpdate })
-  )
+  const children_ = Children.map(children, (child) => {
+    if (isValidElement(child)) {
+      const props = { onChange: onUpdate }
+      return cloneElement(child, props)
+    }
+    return child
+  })
 
   const changes = () => {
     onSubmit(ref.current, values)

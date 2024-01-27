@@ -4,10 +4,17 @@ import { Button } from '../input/button'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import { Fragment, useEffect, useState } from 'react'
+import { GuillotinaBehaviors } from '../../types/guillotina'
 
 export function PanelBehaviors() {
   const intl = useIntl()
-  const { Ctx, get, result, loading, isError } = useCrudContext()
+  const {
+    Ctx,
+    get,
+    result,
+    loading,
+    isError,
+  } = useCrudContext<GuillotinaBehaviors>()
   const ops = useCrudContext()
 
   const [state, setState] = useState(false)

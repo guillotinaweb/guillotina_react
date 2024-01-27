@@ -24,7 +24,7 @@ import { IMultiImageOrderedAttachment } from '../components/behaviors/imultiimag
 import { IWorkflow } from '../components/behaviors/iworkflow'
 import { GroupsCtx } from '../views/groups'
 import { GroupCtx } from '../views/groups'
-import ErrorBoundary from '../components/error_boundary'
+import { ErrorBoundary } from '../components/error_boundary'
 import React from 'react'
 import { NotAllowed } from '../components/notallowed'
 import { NotFound } from '../components/notfound'
@@ -37,7 +37,7 @@ export interface IRegistry {
     [key: string]: React.FC
   }
   views: {
-    [key: string]: React.FC
+    [key: string]: React.FC | React.ComponentType
   }
   actions: {
     [key: string]: React.FC

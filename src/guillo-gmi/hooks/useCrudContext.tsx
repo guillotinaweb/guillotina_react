@@ -1,11 +1,11 @@
 import { useTraversal } from '../contexts'
 import useSetState from './useSetState'
 
-interface State {
+interface State<T = unknown> {
   loading?: boolean
   isError?: boolean
   errorMessage?: string
-  result?: unknown
+  result?: T
   response?: unknown
 }
 const initial: State = {
@@ -62,10 +62,10 @@ const patch = (setState, Ctx) => async (
 }
 
 const del = (setState, Ctx) => async (
-  data,
+  data = {},
   endpoint = undefined,
   body = false
-) => {
+): Promise<State> => {
   setState({ loading: true })
   let newState = {}
   try {
@@ -84,7 +84,7 @@ const post = (setState, Ctx) => async (
   data,
   endpoint = undefined,
   body = true
-) => {
+): Promise<State> => {
   setState({ loading: true })
   let newState = {}
   try {
@@ -99,18 +99,25 @@ const post = (setState, Ctx) => async (
   return newState
 }
 
-const get = (setState, Ctx) => async (endpoint = undefined) => {
+const get = (setState, Ctx) => async (endpoint = undefined): Promise<State> => {
   setState({ loading: true })
-  const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
-  const req = await Ctx.client.get(path)
-  const data = await req.json()
-  setState({ loading: false, result: data, response: req })
-  return data
+  let newState = {}
+  try {
+    const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
+    const res = await Ctx.client.get(path)
+    newState = await processResponse(res, true)
+  } catch (e) {
+    console.error('Error', e)
+    newState = { isError: true, errorMessage: 'unhandled exception' }
+  }
+
+  setState(newState)
+  return newState
 }
 
-export function useCrudContext() {
+export function useCrudContext<T>() {
   const Ctx = useTraversal()
-  const [state, setState] = useSetState<State>(initial)
+  const [state, setState] = useSetState<State<T>>(initial)
 
   return {
     ...state,

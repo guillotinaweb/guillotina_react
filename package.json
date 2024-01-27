@@ -7,7 +7,7 @@
   "files": [
     "dist"
   ],
-  "source": "./src/guillo-gmi/index.js",
+  "source": "./src/guillo-gmi/index.ts",
   "main": "./dist/react-gmi.js",
   "exports": "./dist/react-gmi.modern.js",
   "types": "./dist/index.d.ts",
@@ -49,12 +49,12 @@
     "vitest": "^0.34.6"
   },
   "scripts": {
-    "format": "prettier --write \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "format:tests": "prettier --write \"e2e/cypress/**/*.js\"",
     "format:check": "prettier --check \"src/**/*.js\"",
     "build": "yarn build:js && yarn build:css",
     "build:js": "rm -rf ./dist && microbundle --jsx React.createElement --no-compress --sourcemap",
-    "build:css": "rm -rf ./dist/css && mkdir ./dist/css && sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
+    "build:css": "rm -rf ./dist/css && mkdir -p ./dist/css && sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
     "prepublish": "yarn build",
     "test": "vitest run",
     "lint": "eslint src",

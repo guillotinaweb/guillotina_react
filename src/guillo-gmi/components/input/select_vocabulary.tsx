@@ -2,6 +2,7 @@ import { Select } from './select'
 import { get } from '../../lib/utils'
 import { useVocabulary } from '../../hooks/useVocabulary'
 import { forwardRef } from 'react'
+import { GuillotinaVocabularyItem } from '../../types/guillotina'
 
 interface Props {
   vocabularyName: string
@@ -33,10 +34,10 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
     const vocabulary = useVocabulary(vocabularyName)
 
     const getOptions = () => {
-      if (get(vocabulary, 'data.items', null)) {
+      if (get<GuillotinaVocabularyItem>(vocabulary, 'data.items', null)) {
         const vocData = vocabulary.data.items.map((item) => {
           return {
-            text: item.title.default ?? item.title,
+            text: item.title,
             value: item.token,
           }
         })

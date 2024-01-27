@@ -13,12 +13,16 @@ import {
   genericFileMessages,
   genericMessages,
 } from '../../locales/generic_messages'
-import { FileWithFileName } from '../../types/global'
+import { LightFile } from '../../types/global'
 
-export function IMultiAttachment({ properties, values }) {
+interface Props {
+  properties: any
+  values: any
+}
+export function IMultiAttachment({ properties, values }: Props) {
   const intl = useIntl()
   const [fileKey, setFileKey] = useState('')
-  const [file, setFile] = useState<FileWithFileName | undefined>(undefined)
+  const [file, setFile] = useState<LightFile | undefined>(undefined)
   const [fileKeyToDelete, setFileKeyToDelete] = useState(undefined)
 
   const [loading, setLoading] = useState(false)

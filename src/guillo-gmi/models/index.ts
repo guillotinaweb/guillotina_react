@@ -1,10 +1,11 @@
 import { formatDate } from '../lib/utils'
 import { useConfig } from '../hooks/useConfig'
+import { SearchItem } from '../types/guillotina'
 
 export * from './sharing'
 
 export class ItemModel {
-  item: any
+  item: SearchItem
   url: string
   constructor(item, url = '') {
     this.item = item
@@ -13,7 +14,9 @@ export class ItemModel {
 
   get path() {
     // Compat
-    let item = this.item['@id'] ? this.item['@id'] : this.item['@absolute_url']
+    const item = this.item['@id']
+      ? this.item['@id']
+      : this.item['@absolute_url']
     let path = item.split('//')[1].split('/').splice(1).join('/')
     path = `/${path}/`
     if (this.url.length > 0) {
@@ -62,7 +65,7 @@ export class ItemModel {
     if (this.item.id) {
       return this.item.id
     }
-    let id = this.item['@id'].split('&')[0].split('/')
+    const id = this.item['@id'].split('&')[0].split('/')
     return id[id.length - 1]
   }
 

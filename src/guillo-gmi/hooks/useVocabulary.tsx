@@ -8,7 +8,7 @@ interface State {
   loading: boolean
   error: any
 }
-export function useVocabulary(vocabularyName: string, path: string) {
+export function useVocabulary(vocabularyName: string, path: string = null) {
   const traversal = useTraversal()
 
   const [vocabulary, setVocabulary] = useSetState<State>({

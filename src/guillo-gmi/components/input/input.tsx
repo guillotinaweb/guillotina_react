@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 
 const noop = () => true
 interface Props {
+  name?: string
   icon?: JSX.Element
   iconPosition?: 'has-icons-left' | 'has-icons-right'
   error?: string

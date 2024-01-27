@@ -6,13 +6,17 @@ import { get } from '../../lib/utils'
 import { buildQs } from '../../lib/search'
 import { useTraversal } from '../../contexts'
 import { useConfig } from '../../hooks/useConfig'
+import {
+  GuillotinaSchemaProperty,
+  GuillotinaVocabularyItem,
+} from '../../types/guillotina'
 
 const plain = ['string', 'number', 'boolean']
 
 interface RenderFieldProps {
   value: any
-  Widget?: React.ComponentType<{ value: any; schema: any }>
-  schema?: any
+  Widget?: React.ComponentType<{ value: any; schema: GuillotinaSchemaProperty }>
+  schema?: GuillotinaSchemaProperty
 }
 
 export function RenderField({ value, Widget, schema }: RenderFieldProps) {
@@ -41,7 +45,11 @@ export function RenderField({ value, Widget, schema }: RenderFieldProps) {
   return <p>No render for {JSON.stringify(value)}</p>
 }
 
-const FieldValue = ({ field, value }) => (
+interface FieldValueProps {
+  field: string
+  value: unknown
+}
+const FieldValue = ({ field, value }: FieldValueProps) => (
   <div className="field">
     <div className="label">{field}</div>
     <div className="value">
@@ -58,7 +66,16 @@ const getDefaultValueEditableField = (intl) => {
   })
 }
 
-export const SearchRenderField = ({ schema, value, modifyContent }) => {
+interface SearchRenderFieldProps {
+  schema: GuillotinaSchemaProperty
+  value: string | string[]
+  modifyContent: boolean
+}
+export const SearchRenderField = ({
+  schema,
+  value,
+  modifyContent,
+}: SearchRenderFieldProps) => {
   const intl = useIntl()
   const [valuesLabels, setValuesLabels] = useState([])
   const [isLoadingData, setIsLoadingData] = useState(false)
@@ -69,7 +86,7 @@ export const SearchRenderField = ({ schema, value, modifyContent }) => {
   useEffect(() => {
     const fetchData = async (valuesToSearch) => {
       setIsLoadingData(true)
-      let searchTermQs = []
+      let searchTermQs = ''
 
       const searchTermParsed = ['__or', `id=${valuesToSearch.join('%26id=')}`]
       const { get: getSearch } = traversal.registry
@@ -129,7 +146,16 @@ export const SearchRenderField = ({ schema, value, modifyContent }) => {
   return <RenderField value={getRenderValue()} />
 }
 
-export const VocabularyRenderField = ({ schema, value, modifyContent }) => {
+interface VocabularyRenderFieldProps {
+  schema: GuillotinaSchemaProperty
+  value: string | string[]
+  modifyContent: boolean
+}
+export const VocabularyRenderField = ({
+  schema,
+  value,
+  modifyContent,
+}: VocabularyRenderFieldProps) => {
   const intl = useIntl()
   const DEFAULT_VALUE_EDITABLE_FIELD = getDefaultValueEditableField(intl)
 
@@ -146,15 +172,18 @@ export const VocabularyRenderField = ({ schema, value, modifyContent }) => {
     }
 
     if (schema?.vocabularyName) {
-      const vocabularyValue = get(vocabulary, 'data.items', []).find(
-        (item) => item.token === value
-      )
+      const vocabularyValue = get<GuillotinaVocabularyItem[]>(
+        vocabulary,
+        'data.items',
+        []
+      ).find((item) => item.token === value)
       renderProps['value'] = vocabularyValue?.title ?? ''
     } else {
       renderProps['value'] = (renderProps['value'] ?? []).map((value) => {
         return (
-          get(vocabulary, 'data.items', []).find((item) => item.token === value)
-            ?.title ?? ''
+          get<GuillotinaVocabularyItem[]>(vocabulary, 'data.items', []).find(
+            (item) => item.token === value
+          )?.title ?? ''
         )
       })
     }
@@ -164,7 +193,18 @@ export const VocabularyRenderField = ({ schema, value, modifyContent }) => {
   return <RenderField {...getRenderProps()} />
 }
 
-export function RenderFieldComponent({ schema, field, val, modifyContent }) {
+interface RenderFieldComponentProps {
+  schema: GuillotinaSchemaProperty
+  field: string
+  val: any
+  modifyContent: boolean
+}
+export function RenderFieldComponent({
+  schema,
+  field,
+  val,
+  modifyContent,
+}: RenderFieldComponentProps) {
   const intl = useIntl()
   const DEFAULT_VALUE_EDITABLE_FIELD = getDefaultValueEditableField(intl)
 

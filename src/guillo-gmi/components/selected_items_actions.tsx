@@ -4,14 +4,14 @@ import { Checkbox } from './input/checkbox'
 import { useTraversal } from '../contexts'
 import { useIntl } from 'react-intl'
 import { getActionsObject } from '../lib/helpers'
-import { ItemModel } from '../models'
+import { SearchItem } from '../types/guillotina'
 
 const ItemsActionsCtx = createContext<{
   selected?: {
     all: boolean
     [key: string]: boolean
   }
-  onSelectOneItem?: (item: ItemModel) => void
+  onSelectOneItem?: (item: SearchItem) => void
   onSelectAllItems?: (chedked: boolean) => void
   onAction?: (action: string) => void
 }>({
@@ -25,7 +25,7 @@ const ItemsActionsCtx = createContext<{
  * Ex: Delete, Move, Copy...
  */
 interface PropsItemsActionsProvider {
-  items: ItemModel[]
+  items: SearchItem[]
   children: React.ReactNode
 }
 export function ItemsActionsProvider({
@@ -98,7 +98,7 @@ export function AllItemsCheckbox({ dataTest }: { dataTest?: string }) {
  * Checkbox component to select ONE item.
  */
 interface PropsItemCheckbox {
-  item: ItemModel
+  item: SearchItem
   dataTest?: string
 }
 export function ItemCheckbox({ item, dataTest }: PropsItemCheckbox) {

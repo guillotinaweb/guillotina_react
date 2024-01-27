@@ -7,6 +7,7 @@ import { Icon } from './ui/icon'
 import { ItemCheckbox } from './selected_items_actions'
 import { Delete } from './ui'
 import { IColumn } from '../reducers/guillotina'
+import { SearchItem } from '../types/guillotina'
 
 interface ItemProps {
   item: ItemModel
@@ -30,14 +31,14 @@ const smallcss = {
 }
 
 interface RItemProps {
-  item: ItemModel
+  item: SearchItem
   search: string
   columns: IColumn[]
 }
 export function RItem({ item, search, columns }: RItemProps) {
   const [, navigate] = useLocation()
   const traversal = useTraversal()
-  const model = new ItemModel(item, traversal.url, traversal.path)
+  const model = new ItemModel(item)
   const link = () => navigate({ path: model.path }, true)
 
   return (

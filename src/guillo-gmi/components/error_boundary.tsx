@@ -47,4 +47,7 @@ class ErrorBoundaryComponent extends Component<
   }
 }
 
-export default injectIntl(ErrorBoundaryComponent)
+export const ErrorBoundary: React.ComponentType<{
+  intl: IntlShape
+  children: React.ReactNode
+}> = injectIntl(ErrorBoundaryComponent)

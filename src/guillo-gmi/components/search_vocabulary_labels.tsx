@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Tag } from './ui/tag'
 import { useLocation } from '../hooks/useLocation'
 import { useVocabulary } from '../hooks/useVocabulary'
-import { get } from '../lib/utils'
 
 interface Props {
   query?: string
@@ -16,9 +15,10 @@ export function SearchVocabularyLabels({ query = 'q', vocabularyName }: Props) {
   const defaultRenderValue = location.get(query)
 
   useEffect(() => {
-    let value = defaultRenderValue
-    if (get(vocabulary, 'data.items', []).length > 0) {
-      const vocabularyValue = get(vocabulary, 'data.items', []).find(
+    let value: string = defaultRenderValue
+
+    if ((vocabulary?.data?.items ?? []).length > 0) {
+      const vocabularyValue = vocabulary.data.items.find(
         (item) => item.token === value
       )
       if (vocabularyValue) {

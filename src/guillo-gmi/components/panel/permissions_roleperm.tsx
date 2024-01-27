@@ -7,16 +7,28 @@ import { useTraversal } from '../../contexts'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
+interface State {
+  role: string
+  permission: string[]
+  setting: string
+  error: string
+}
+interface Props {
+  roles: { text: string; value: string }[]
+  permissions: { text: string; value: string }[]
+  operations: { text: string; value: string }[]
+  refresh: (value: number) => void
+}
 export function PermissionRoleperm({
   roles,
   permissions,
   operations,
   refresh,
-}) {
+}: Props) {
   const intl = useIntl()
   const Ctx = useTraversal()
   const { post, loading } = useCrudContext()
-  const [state, setState] = useSetState({
+  const [state, setState] = useSetState<State>({
     role: undefined,
     permission: [],
     setting: undefined,
@@ -65,7 +77,7 @@ export function PermissionRoleperm({
         <Select
           appendDefault
           options={roles}
-          onChange={(value) => setState({ role: value })}
+          onChange={(value: string) => setState({ role: value })}
           dataTest="selectRoleTest"
         />
       </div>
@@ -88,7 +100,7 @@ export function PermissionRoleperm({
         <Select
           appendDefault
           options={operations}
-          onChange={(value) => setState({ setting: value })}
+          onChange={(value: string) => setState({ setting: value })}
           dataTest="operationPermissionsTest"
         />
       </div>

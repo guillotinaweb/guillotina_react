@@ -4,6 +4,7 @@ import { Icon } from '../components/ui'
 import { toQueryString } from './helpers'
 import { RestClient } from './rest'
 import { parser } from './search'
+import { LightFile } from '../types/global'
 
 const cacheTypes = {}
 const cacheSchemas = {}
@@ -326,8 +327,8 @@ export function getClient(url, container, auth) {
   )
 }
 
-export const lightFileReader = async (file) => {
-  return new Promise((resolve) => {
+export const lightFileReader = (file) => {
+  return new Promise<LightFile>((resolve) => {
     const reader = new FileReader()
     reader.readAsArrayBuffer(file)
     reader.onloadend = (e) => {

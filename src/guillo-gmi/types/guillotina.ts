@@ -42,8 +42,8 @@ export interface GuillotinaSchemaProperty {
   vocabularyName?: string
   vocabulary?: string[]
   items?: Items
-  properties: GuillotinaSchemaProperties
-  additionalProperties: GuillotinaSchemaProperties
+  properties?: GuillotinaSchemaProperties
+  additionalProperties?: GuillotinaSchemaProperties
   typeNameQuery?: string
   labelProperty?: string
 }
@@ -78,17 +78,22 @@ export type SearchItem = {
   path: string
   tid: string
   uuid: string
+  title: string
+  type_name: string
+  creation_date: string
+  modification_date: string
 } & ItemsPropertyObject
 
 export interface GuillotinaVocabulary {
   '@id': string
-  items: {
-    title: string
-    token: string
-  }[]
+  items: GuillotinaVocabularyItem[]
   items_total: number
 }
 
+export interface GuillotinaVocabularyItem {
+  title: string
+  token: string
+}
 export interface GuillotinaSharing {
   local: GuillotinaSharingMap
   inherit: GuillotinaSharingInheritItem[]
@@ -107,4 +112,10 @@ export interface GuillotinaSharingMap {
   prinrole: {
     [key: string]: IndexSignature<string>
   }
+}
+
+export interface GuillotinaBehaviors {
+  static: string[]
+  dynamic: string[]
+  available: string[]
 }
