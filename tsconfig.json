@@ -5,7 +5,8 @@
     "allowJs": true,
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports":true,
-    "resolveJsonModule":true
+    "resolveJsonModule":true,
+    "declaration": true
   },
   "include": [
     "./src/guillo-gmi"
