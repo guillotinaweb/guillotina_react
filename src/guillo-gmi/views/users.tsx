@@ -1,4 +1,3 @@
-import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { PanelItems } from '../components/panel/items'
 import { useTraversal } from '../contexts'
@@ -12,6 +11,7 @@ import { useRemoteField } from '../hooks/useRemoteField'
 import { useLocation } from '../hooks/useLocation'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
+import { useEffect, useRef, useState } from 'react'
 
 const tabs = {
   Users: PanelItems,
@@ -20,7 +20,7 @@ const tabs = {
 export function UsersToolbar() {
   const intl = useIntl()
   const Ctx = useTraversal()
-  const ref = React.useRef(null)
+  const ref = useRef(null)
   const [location, setLocation] = useLocation()
   const searchText = location.get('q')
 
@@ -31,14 +31,14 @@ export function UsersToolbar() {
   }
 
   // cleanup form on state.search change
-  React.useEffect(() => {
+  useEffect(() => {
     if (!searchText || searchText === '') {
       ref.current.value = ''
     }
   }, [searchText])
 
   return (
-    <React.Fragment>
+    <>
       <div className="level-item">
         <form action="" className="form" onSubmit={onSearchQuery}>
           <div className="field has-addons">
@@ -72,7 +72,7 @@ export function UsersToolbar() {
         <Icon icon="fas fa-user" />
         <span>{intl.formatMessage(genericMessages.add_user)}</span>
       </button>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -87,11 +87,15 @@ export function UsersCtx(props) {
   )
 }
 
+interface State {
+  roles: string[]
+  groups: string[]
+}
 export function UserCtx() {
   const intl = useIntl()
   const { Ctx, patch, loading } = useCrudContext()
 
-  const [state, setState] = React.useState({ roles: [], gorups: [] })
+  const [state, setState] = useState<State>({ roles: [], groups: [] })
 
   const fields = {
     user_groups: [],
@@ -100,7 +104,7 @@ export function UserCtx() {
 
   const [remotes, updateRemote] = useRemoteField(fields)
 
-  React.useEffect(() => {
+  useEffect(() => {
     ;(async () => {
       const [requestGetGroups, requestGetRoles] = await Promise.all([
         Ctx.client.search(Ctx.path, { type_name: 'Group' }, true),
@@ -209,7 +213,6 @@ export function UserCtx() {
           <UserForm
             actionName="Save"
             onSubmit={(ev) => updateObject(ev)}
-            isEdit={true}
             formData={Ctx.context}
             exclude={['password']}
             remotes={remotes}

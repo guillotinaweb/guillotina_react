@@ -1,17 +1,25 @@
-const base = {
+import {
+  GuillotinaSharing,
+  GuillotinaSharingInheritItem,
+  GuillotinaSharingMap,
+} from '../types/guillotina'
+
+const base: GuillotinaSharing = {
   local: {
     roleperm: {},
     prinperm: {},
     prinrole: {},
   },
-  inherit: {},
+  inherit: [],
 }
 
 export class Sharing {
+  local: GuillotinaSharingMap
+  inherit: GuillotinaSharingInheritItem[]
+
   constructor(element) {
     Object.assign(this, element || base)
   }
-
   get roles() {
     return Object.keys(this.local.roleperm)
   }

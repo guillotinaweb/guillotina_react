@@ -1,8 +1,10 @@
-import React from 'react'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 
-export function PanelNotImplemented(props) {
+interface Props {
+  title: string
+}
+export function PanelNotImplemented(props: Props) {
   const intl = useIntl()
   return (
     <div className="container">

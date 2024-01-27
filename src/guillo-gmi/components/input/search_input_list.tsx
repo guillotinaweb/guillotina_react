@@ -29,7 +29,13 @@ function debounce(func, wait) {
   }
 }
 
-const initialState = {
+interface State {
+  page: number
+  items: SearchItem[]
+  loading: boolean
+  items_total: number
+}
+const initialState: State = {
   page: 0,
   items: undefined,
   loading: false,
@@ -37,14 +43,14 @@ const initialState = {
 }
 
 interface Props {
-  onChange: (value: SearchItem[]) => void
+  onChange: (value: string[]) => void
   error?: string
   errorZoneClassName?: string
   traversal?: any
   path?: string
   qs?: string[]
   queryCondition?: string
-  value: SearchItem[]
+  value: string[]
   btnClass?: string
   dataTestWrapper?: string
   dataTestSearchInput?: string
@@ -72,7 +78,7 @@ export const SearchInputList = ({
   labelProperty = 'id',
 }: Props) => {
   const intl = useIntl()
-  const [options, setOptions] = useSetState(initialState)
+  const [options, setOptions] = useSetState<State>(initialState)
   const [valuesLabel, setValuesLabels] = useState(undefined)
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -107,7 +113,7 @@ export const SearchInputList = ({
 
   const handleSearch = async (page = 0, concat = false, value = '') => {
     setOptions({ loading: true })
-    let searchTermQs = []
+    let searchTermQs = ''
     let searchTermParsed = []
     if (value !== '') {
       searchTermParsed = parser(`${queryCondition}=${value}`)
@@ -161,7 +167,7 @@ export const SearchInputList = ({
   const inicializeLabels = async () => {
     if (labelProperty !== 'id' && value.length > 0) {
       setIsLoadingData(true)
-      let searchTermQs = []
+      let searchTermQs = ''
       const searchTermParsed = ['__or', `id=${value.join('%26id=')}`]
       const { get: getSearch } = traversal.registry
       const fnName = getSearch('searchEngineQueryParamsFunction', SearchEngine)

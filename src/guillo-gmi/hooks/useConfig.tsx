@@ -25,6 +25,9 @@ interface IConfig {
   Permissions: string[]
   SearchEngine: string
   SizeImages?: string[]
+  icons?: string[]
+  properties_default?: string[]
+  properties_ignore_fields?: string[]
   fieldHaveDeleteButton: (schema: GuillotinaSchemaProperty) => boolean
 }
 export const Config: IConfig = {

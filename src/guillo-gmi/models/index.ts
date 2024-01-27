@@ -4,10 +4,11 @@ import { useConfig } from '../hooks/useConfig'
 export * from './sharing'
 
 export class ItemModel {
-  constructor(item, url, path) {
+  item: any
+  url: string
+  constructor(item, url = '') {
     this.item = item
     this.url = url
-    this._path = path
   }
 
   get path() {
@@ -54,7 +55,7 @@ export class ItemModel {
   }
 
   get fullPath() {
-    return this._url + this.item.id
+    return this.url + this.item.id
   }
 
   get id() {

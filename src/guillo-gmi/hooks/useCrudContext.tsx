@@ -2,11 +2,11 @@ import { useTraversal } from '../contexts'
 import useSetState from './useSetState'
 
 interface State {
-  loading: boolean
-  isError: boolean
-  errorMessage: string
-  result: unknown
-  response: unknown
+  loading?: boolean
+  isError?: boolean
+  errorMessage?: string
+  result?: unknown
+  response?: unknown
 }
 const initial: State = {
   loading: undefined,
@@ -42,9 +42,13 @@ const processResponse = async (res, ready_body = true) => {
     }
 }
 
-const patch = (setState, Ctx) => async (data, endpoint, body = false) => {
+const patch = (setState, Ctx) => async (
+  data,
+  endpoint = undefined,
+  body = false
+): Promise<State> => {
   setState({ loading: true })
-  let newState = {}
+  let newState: State = {}
   try {
     const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
     const res = await Ctx.client.patch(path, data)
@@ -57,7 +61,11 @@ const patch = (setState, Ctx) => async (data, endpoint, body = false) => {
   return newState
 }
 
-const del = (setState, Ctx) => async (data, endpoint, body = false) => {
+const del = (setState, Ctx) => async (
+  data,
+  endpoint = undefined,
+  body = false
+) => {
   setState({ loading: true })
   let newState = {}
   try {
@@ -72,7 +80,11 @@ const del = (setState, Ctx) => async (data, endpoint, body = false) => {
   return newState
 }
 
-const post = (setState, Ctx) => async (data, endpoint, body = true) => {
+const post = (setState, Ctx) => async (
+  data,
+  endpoint = undefined,
+  body = true
+) => {
   setState({ loading: true })
   let newState = {}
   try {
@@ -87,7 +99,7 @@ const post = (setState, Ctx) => async (data, endpoint, body = true) => {
   return newState
 }
 
-const get = (setState, Ctx) => async (endpoint) => {
+const get = (setState, Ctx) => async (endpoint = undefined) => {
   setState({ loading: true })
   const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
   const req = await Ctx.client.get(path)

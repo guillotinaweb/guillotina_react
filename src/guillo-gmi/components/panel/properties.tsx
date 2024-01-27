@@ -11,6 +11,10 @@ import { useTraversal } from '../../contexts'
 import { get } from '../../lib/utils'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
+import {
+  GuillotinaSchema,
+  GuillotinaSchemaProperty,
+} from '../../types/guillotina'
 
 const _showProperties = ['@id', '@name', '@uid']
 const _ignoreFields = [
@@ -29,13 +33,19 @@ const _ignoreFields = [
   'title',
 ]
 
+interface State {
+  data: GuillotinaSchema
+  loading: boolean
+  error: string
+}
+
 export function PanelProperties() {
   const intl = useIntl()
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
   const cfg = useConfig()
 
-  const [schema, setSchema] = useSetState({
+  const [schema, setSchema] = useSetState<State>({
     data: undefined,
     loading: false,
     error: undefined,
@@ -55,7 +65,10 @@ export function PanelProperties() {
 
   const properties = Object.keys(schema?.data?.properties || [])
     .filter((key) => !ignoreFields.includes(key))
-    .map((key) => ({ key, value: schema.data.properties[key] }))
+    .map((key) => ({
+      key,
+      value: schema.data.properties[key] as GuillotinaSchemaProperty,
+    }))
 
   useEffect(() => {
     ;(async () => {
@@ -139,7 +152,7 @@ export function PanelProperties() {
                             value={Ctx.context[key]}
                             schema={value}
                             modifyContent={modifyContent}
-                            required={get(schema.data, 'required', []).includes(
+                            required={(schema.data?.required ?? []).includes(
                               key
                             )}
                           />

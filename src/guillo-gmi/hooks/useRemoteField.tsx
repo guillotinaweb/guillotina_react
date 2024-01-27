@@ -18,10 +18,12 @@
 import { useState } from 'react'
 import { IndexSignature } from '../types/global'
 
-export const useRemoteField = (initial: IndexSignature) => {
+export const useRemoteField = (
+  initial: IndexSignature<string[]>
+): [IndexSignature<string[]>, (name: string) => (value: string[]) => void] => {
   const [remotes, setRemote] = useState(initial)
 
-  const updateRemote = (name) => (value) => {
+  const updateRemote = (name: string) => (value: string[]) => {
     setRemote({
       ...remotes,
       [name]: value,

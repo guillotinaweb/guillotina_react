@@ -14,6 +14,14 @@ const prepareAvailable = (items, already, title) => {
   return [def].concat(items).filter((item) => !already.includes(item.value))
 }
 
+interface Props {
+  items: string[]
+  available?: string[]
+  title: string
+  noData: string
+  onChange: (items: string[]) => void
+  loading?: boolean
+}
 export function TagsWidget({
   items,
   available,
@@ -21,11 +29,11 @@ export function TagsWidget({
   noData,
   onChange,
   loading,
-}) {
+}: Props) {
   const selectRef = useRef<HTMLSelectElement>()
 
   const [result, setResult] = useState(items)
-  available = prepareAvailable(available || [], result, title)
+  const availableData = prepareAvailable(available || [], result, title)
 
   const remove = (value) => {
     const items = result.filter((item) => item !== value)
@@ -61,7 +69,7 @@ export function TagsWidget({
         {available.length > 1 && (
           <li className="widget-list-add select is-small">
             <Select
-              options={available}
+              options={availableData}
               ref={selectRef}
               onChange={(value) => {
                 addItem(value)

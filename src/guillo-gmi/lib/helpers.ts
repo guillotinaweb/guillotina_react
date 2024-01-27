@@ -10,7 +10,7 @@ let current = 0
 
 export const generateUID = (prefix) => `${prefix || 'id'}-${current++}`
 
-export const toQueryString = (params) => {
+export const toQueryString = (params: string[][]) => {
   return Object.keys(params)
     .map((key) => {
       return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
@@ -51,7 +51,7 @@ export function stringToSlug(str) {
 export function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(function () {
-      resolve()
+      resolve(null)
     }, ms)
   })
 }

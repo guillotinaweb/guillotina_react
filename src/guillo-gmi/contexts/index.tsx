@@ -10,7 +10,6 @@ export const AuthContext = createContext({})
 export const ClientContext = createContext<GuillotinaClient>(null)
 
 interface PropsTraversal {
-  url: string
   client: GuillotinaClient
   auth: Auth
   state: GuillotinaGlobalState
@@ -19,13 +18,12 @@ interface PropsTraversal {
   flash: (action: string, result: string) => void
 }
 
-class Traversal {
+export class Traversal {
   private dispatch
-  private state
+  public state
   public client
   public registry
   public auth
-  private url
 
   constructor({ flash, ...props }: PropsTraversal) {
     this.dispatch = props.dispatch
@@ -33,7 +31,6 @@ class Traversal {
     this.client = props.client
     this.registry = props.registry
     this.auth = props.auth
-    this.url = props.url
     if (typeof flash === 'function') this.flash = flash
   }
 
@@ -71,7 +68,7 @@ class Traversal {
     this.dispatch({ type: 'CLEAR_FLASH' })
   }
 
-  doAction(action, params) {
+  doAction(action, params = {}) {
     this.dispatch({ type: 'SET_ACTION', payload: { action, params } })
   }
 

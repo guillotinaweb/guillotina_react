@@ -12,6 +12,7 @@ import { genericMessages } from '../../locales/generic_messages'
 import useClickAway from '../../hooks/useClickAway'
 import { get } from '../../lib/utils'
 import { SearchItem } from '../../types/guillotina'
+import { Traversal } from '../../contexts'
 
 function debounce(func, wait) {
   let timeout
@@ -27,7 +28,13 @@ function debounce(func, wait) {
   }
 }
 
-const initialState = {
+interface State {
+  page: number
+  items: SearchItem[]
+  loading: boolean
+  items_total: number
+}
+const initialState: State = {
   page: 0,
   items: undefined,
   loading: false,
@@ -35,14 +42,14 @@ const initialState = {
 }
 
 interface Props {
-  onChange?: (value: SearchItem) => void
+  onChange?: (value: string) => void
   error?: string
   errorZoneClassName?: string
-  traversal?: any
+  traversal?: Traversal
   path?: string
   qs?: string[][]
   queryCondition?: string
-  value: SearchItem
+  value?: string
   btnClass?: string
   dataTestWrapper?: string
   dataTestSearchInput?: string
@@ -70,13 +77,13 @@ export const SearchInput = ({
   labelProperty = 'id',
 }: Props) => {
   const intl = useIntl()
-  const [options, setOptions] = useSetState(initialState)
+  const [options, setOptions] = useSetState<State>(initialState)
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const inputRef = useRef(null)
   const wrapperRef = useRef(null)
   const { PageSize, SearchEngine } = useConfig()
-  const [valueLabel, setValueLabel] = useState(undefined)
+  const [valueLabel, setValueLabel] = useState<Partial<SearchItem>>(undefined)
   const [uid] = useState(generateUID('search_input'))
 
   useClickAway(wrapperRef, () => {
@@ -103,7 +110,7 @@ export const SearchInput = ({
 
   const inicializeLabels = async () => {
     if (labelProperty !== 'id' && value) {
-      let searchTermQs = []
+      let searchTermQs = ''
       const searchTermParsed = [`id`, value]
       const { get: getSearch } = traversal.registry
       const fnName = getSearch('searchEngineQueryParamsFunction', SearchEngine)
@@ -146,7 +153,7 @@ export const SearchInput = ({
 
   const handleSearch = async (page = 0, concat = false, value = '') => {
     setOptions({ loading: true })
-    let searchTermQs = []
+    let searchTermQs = ''
     let searchTermParsed = []
     if (value !== '') {
       searchTermParsed = parser(`${queryCondition}=${value}`)

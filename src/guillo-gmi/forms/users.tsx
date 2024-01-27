@@ -9,7 +9,7 @@ interface Props {
   formData?: IndexSignature
   exclude?: string[]
   remotes?: IndexSignature
-  submitButon?: boolean
+  submitButton?: boolean
 }
 export const UserForm = ({
   children,
@@ -18,7 +18,7 @@ export const UserForm = ({
   formData,
   exclude,
   remotes,
-  submitButon,
+  submitButton,
 }: Props) => {
   const intl = useIntl()
 
@@ -71,7 +71,7 @@ export const UserForm = ({
       formData={formData}
       exclude={exclude}
       remotes={remotes}
-      submitButton={submitButon}
+      submitButton={submitButton}
     >
       {children}
     </FormBuilder>

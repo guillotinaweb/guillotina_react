@@ -2,7 +2,7 @@ const SEP = '='
 const DEFAULT_FIELD = 'title__in'
 const CLEANER = '||'
 
-export function parser(qs, defaultField = DEFAULT_FIELD) {
+export function parser(qs: string, defaultField = DEFAULT_FIELD): string[][] {
   if (qs.includes(SEP) && Array.isArray(defaultField)) {
     throw new Error('This option is not supported')
   }
@@ -23,8 +23,8 @@ export function parser(qs, defaultField = DEFAULT_FIELD) {
     qs = qs.replace(/"(\w+) (\w+)"/, `$1${CLEANER}$2`)
   }
 
-  qs = qs.split(' ')
-  return qs.map((part) => {
+  const qsSplit = qs.split(' ')
+  return qsSplit.map((part) => {
     if (part.includes(CLEANER)) {
       part = part.replace('||', ' ')
     }
@@ -37,7 +37,7 @@ export function parser(qs, defaultField = DEFAULT_FIELD) {
   })
 }
 
-export function buildQs(parsedQuery) {
+export function buildQs(parsedQuery: string[][]): string {
   return parsedQuery
     .map(
       ([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`

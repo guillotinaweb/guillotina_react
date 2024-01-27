@@ -1,11 +1,17 @@
 import { useTraversal } from '../contexts'
+import { GuillotinaVocabulary } from '../types/guillotina'
 import useSetState from './useSetState'
 import { useEffect } from 'react'
 
-export function useVocabulary(vocabularyName, path) {
+interface State {
+  data: GuillotinaVocabulary
+  loading: boolean
+  error: any
+}
+export function useVocabulary(vocabularyName: string, path: string) {
   const traversal = useTraversal()
 
-  const [vocabulary, setVocabulary] = useSetState({
+  const [vocabulary, setVocabulary] = useSetState<State>({
     data: undefined,
     loading: false,
     error: undefined,
@@ -29,7 +35,7 @@ export function useVocabulary(vocabularyName, path) {
           const dataJson = await data.json()
           setVocabulary({ loading: false, data: dataJson })
         } catch (err) {
-          setVocabulary({ loading: false, error: err, data: {} })
+          setVocabulary({ loading: false, error: err, data: undefined })
         }
       }
     })()

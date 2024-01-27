@@ -1,3 +1,5 @@
+import { IndexSignature } from './global'
+
 type ItemsPropertyObject = {
   '@id': string
   '@name': string
@@ -77,3 +79,32 @@ export type SearchItem = {
   tid: string
   uuid: string
 } & ItemsPropertyObject
+
+export interface GuillotinaVocabulary {
+  '@id': string
+  items: {
+    title: string
+    token: string
+  }[]
+  items_total: number
+}
+
+export interface GuillotinaSharing {
+  local: GuillotinaSharingMap
+  inherit: GuillotinaSharingInheritItem[]
+}
+
+export interface GuillotinaSharingInheritItem extends GuillotinaSharingMap {
+  '@id': string
+}
+export interface GuillotinaSharingMap {
+  roleperm: {
+    [key: string]: IndexSignature<string>
+  }
+  prinperm: {
+    [key: string]: IndexSignature<string>
+  }
+  prinrole: {
+    [key: string]: IndexSignature<string>
+  }
+}

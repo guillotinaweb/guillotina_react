@@ -46,11 +46,11 @@ export class GuillotinaClient {
     }
   }
 
-  async get(path, fetchData) {
+  async get(path) {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
-    return await this.rest.get(path, fetchData)
+    return await this.rest.get(path)
   }
 
   getQueryParamsPostresql({ start = 0, pageSize = 10, withDepth = true }) {
@@ -167,11 +167,10 @@ export class GuillotinaClient {
   }
 
   async search(
-    path,
-    params,
+    path: string,
+    params: string | string[][],
     container = false,
-    prepare = true,
-    fetchData = {}
+    prepare = true
   ) {
     if (path.startsWith('/')) {
       path = path.slice(1)
@@ -181,9 +180,9 @@ export class GuillotinaClient {
       path = this.getContainerFromPath(path)
     }
 
-    const query = prepare ? toQueryString(params) : params
+    const query = prepare ? toQueryString(params as string[][]) : params
     const url = `${path}@search?${query}`
-    const res = await this.rest.get(url, fetchData)
+    const res = await this.rest.get(url)
     const data = await res.json()
     return this.applyCompat(data)
   }

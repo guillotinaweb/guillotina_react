@@ -1,11 +1,17 @@
+import { Auth } from './auth'
+
 export class RestClient {
-  constructor(url, container, auth) {
+  url: string
+  container: string
+  auth: Auth
+
+  constructor(url: string, container: string, auth: Auth) {
     this.auth = auth
     this.url = url
     this.container = container
   }
 
-  async request(path, data, headers) {
+  async request(path, data = undefined, headers = {}) {
     if (path.indexOf(this.url) !== -1) {
       path = path.replace(this.url, '')
     }
@@ -39,8 +45,8 @@ export class RestClient {
     })
   }
 
-  async get(path, fetchData) {
-    return await this.request(path, fetchData)
+  async get(path) {
+    return await this.request(path)
   }
 
   async put(path, data) {

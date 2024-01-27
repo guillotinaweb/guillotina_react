@@ -1,10 +1,9 @@
-import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { PanelItems } from '../components/panel/items'
 import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { Icon } from '../components/ui/icon'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { Select } from '../components/input/select'
 import { SearchInput } from '../components/input/search_input'
@@ -22,7 +21,7 @@ const tabs = {
 export function GroupToolbar() {
   const intl = useIntl()
   const Ctx = useTraversal()
-  const ref = React.useRef(null)
+  const ref = useRef(null)
   const [location, setLocation] = useLocation()
   const searchText = location.get('q')
 
@@ -33,14 +32,14 @@ export function GroupToolbar() {
   }
 
   // cleanup form on state.search change
-  React.useEffect(() => {
+  useEffect(() => {
     if (!searchText || searchText === '') {
       ref.current.value = ''
     }
   }, [searchText])
 
   return (
-    <React.Fragment>
+    <>
       <div className="level-item">
         <form action="" className="form" onSubmit={onSearchQuery}>
           <div className="field has-addons">
@@ -79,7 +78,7 @@ export function GroupToolbar() {
           })}
         </span>
       </button>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -267,6 +266,7 @@ export function GroupCtx() {
                 name={urole}
                 onRemove={() => removeRole(urole)}
                 size="is-small"
+                id={`roles_${urole}`}
               />
             </p>
           ))}
@@ -293,6 +293,7 @@ export function GroupCtx() {
                 name={user}
                 onRemove={() => removeUser(user)}
                 size="is-small"
+                id={`user_${user}`}
               />
             </p>
           ))}
