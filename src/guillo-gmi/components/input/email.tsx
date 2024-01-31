@@ -26,7 +26,7 @@ export const EmailInput = ({
         defaultMessage: 'Invalid email',
       })}
       value={value}
-      data-test={dataTest}
+      dataTest={dataTest}
       icon={<Icon icon="fas fa-envelope" />}
       id={id}
       placeholder={placeholder}

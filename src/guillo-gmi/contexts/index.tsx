@@ -16,6 +16,7 @@ interface PropsTraversal {
   dispatch: Dispatch<{ type: string; payload: IndexSignature }>
   registry: IndexSignature
   flash: (action: string, result: string) => void
+  url: string
 }
 
 export class Traversal {
@@ -23,6 +24,7 @@ export class Traversal {
   public state
   public client
   public registry
+  public url
   public auth
 
   constructor({ flash, ...props }: PropsTraversal) {
@@ -31,6 +33,7 @@ export class Traversal {
     this.client = props.client
     this.registry = props.registry
     this.auth = props.auth
+    this.url = props.url
     if (typeof flash === 'function') this.flash = flash
   }
 

@@ -104,7 +104,7 @@ export function FormBuilder({
   }
 
   return (
-    <Form onSubmit={changes}>
+    <Form onSubmit={changes} dataTest={`formAddUserTest`}>
       {fields.map((field) => (
         <GetTag field={field} key={field} />
       ))}

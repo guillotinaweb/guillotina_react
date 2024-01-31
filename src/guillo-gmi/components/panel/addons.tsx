@@ -68,14 +68,14 @@ export function PanelAddons() {
               {intl.formatMessage(messages.available_addons)}
             </h2>
             <hr />
-            {state.data.available.length === 0 && (
+            {(state.data?.available ?? []).length === 0 && (
               <p>
                 {intl.formatMessage(messages.no_available_addons_container)}
               </p>
             )}
             <table className="table is-12">
               <tbody>
-                {state.data.available.map((addon) => (
+                {(state.data?.available ?? []).map((addon) => (
                   <tr key={addon.id}>
                     <td>{addon.title}</td>
                     <td>
@@ -96,14 +96,14 @@ export function PanelAddons() {
               {intl.formatMessage(messages.installed_addons)}
             </h2>
             <hr />
-            {state.data.installed.length === 0 && (
+            {(state.data?.installed ?? []).length === 0 && (
               <p>
                 {intl.formatMessage(messages.no_available_addons_container)}
               </p>
             )}
             <table className="table is-12">
               <tbody>
-                {state.data.installed.map((addon) => (
+                {(state.data?.installed ?? []).map((addon) => (
                   <tr key={addon.id}>
                     <td>{addon.title}</td>
                     <td>
