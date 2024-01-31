@@ -10,7 +10,7 @@ import { IColumn } from '../reducers/guillotina'
 import { SearchItem } from '../types/guillotina'
 
 interface ItemProps {
-  item: ItemModel
+  item: { id: string; path: string }
   icon?: string
 }
 export function Item({ item, icon }: ItemProps) {

@@ -59,9 +59,12 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
     dispatch({ type: 'SET_PATH', payload: searchPath })
   }, [searchPath])
 
+  console.log('Guillotina component')
   useEffect(() => {
     ;(async () => {
+      console.log('Get context data', path)
       const data = await client.getContext(path)
+      console.log('Get context data', data)
       if (data.status === 401) {
         dispatch({ type: 'SET_ERROR', payload: 'notallowed' })
         return

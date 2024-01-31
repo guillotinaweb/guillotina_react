@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
 const applyValidators = (value, validators) => {
-  let validation = Array.isArray(validators) ? validators : [validators]
+  const validation = Array.isArray(validators) ? validators : [validators]
   let result = true
   validation.forEach((func) => {
-    if (func(value) === false) {
+    if (func && func(value) === false) {
       result = false
     }
   })
@@ -12,7 +12,7 @@ const applyValidators = (value, validators) => {
 }
 
 const useInput = (onChange, value, validator) => {
-  let [state, setState] = useState({ hasError: false, value: value })
+  const [state, setState] = useState({ hasError: false, value: value })
 
   const onUpdate = (ev) => {
     const value = ev && ev.target ? ev.target.value : ev ? ev : ''

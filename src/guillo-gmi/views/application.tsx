@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Item } from '../components/item'
 import { ItemTitle } from '../components/item'
 import { Button } from '../components/input/button'
@@ -10,14 +8,13 @@ import { Form } from '../components/input/form'
 import { Input } from '../components/input/input'
 import { defineMessages, useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
-import { ItemModel } from '../models'
 
 export function ApplicationCtx() {
   const intl = useIntl()
   const context = useTraversal()
   const { databases } = context.state.context
   return (
-    <React.Fragment>
+    <>
       <h3>
         {intl.formatMessage({
           id: 'databases',
@@ -28,13 +25,13 @@ export function ApplicationCtx() {
         <ItemTitle title="Objects" />
         {databases.map((db) => (
           <Item
-            item={new ItemModel({ id: db, path: `/${db}/` })}
+            item={{ id: db, path: `/${db}/` }}
             key={db}
             icon={'fas fa-database'}
           />
         ))}
       </div>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -43,14 +40,14 @@ export function DatabaseCtx() {
   const { containers } = context.state.context
   const { path } = context.state
   return (
-    <React.Fragment>
+    <>
       <div className="container">
         <ItemTitle title="Containers" actions={<CreateContainer />} />
         <table className="table is-fullwidth is-hoverable">
           <tbody>
             {containers.map((db) => (
               <Item
-                item={new ItemModel({ id: db, path: `${path}${db}/` })}
+                item={{ id: db, path: `${path}${db}/` }}
                 key={db}
                 icon={'fas fa-archive'}
               />
@@ -58,7 +55,7 @@ export function DatabaseCtx() {
           </tbody>
         </table>
       </div>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -67,7 +64,7 @@ export function CreateContainer() {
   const [isActive, setActive] = useState(false)
 
   return (
-    <React.Fragment>
+    <>
       <ModalAddContainer isActive={isActive} setActive={setActive} />
       <button
         className="button is-warning is-pulled-right"
@@ -78,7 +75,7 @@ export function CreateContainer() {
         </span>
         <span>{intl.formatMessage(genericMessages.create)}</span>
       </button>
-    </React.Fragment>
+    </>
   )
 }
 

@@ -11,7 +11,7 @@ export class RestClient {
     this.container = container
   }
 
-  async request(path, data = undefined, headers = {}) {
+  async request(path, data = undefined, headers = undefined) {
     if (path.indexOf(this.url) !== -1) {
       path = path.replace(this.url, '')
     }
