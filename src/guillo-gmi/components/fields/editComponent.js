@@ -121,14 +121,19 @@ export const EditComponent = React.forwardRef(
         }
       }
       return (
-        <InputList
-          value={val || []}
-          className={className}
-          onChange={(ev) => setValue(ev)}
-          ref={ref}
-          dataTest={dataTest}
-          {...rest}
-        />
+        <React.Fragment>
+          {rest.placeholder && (
+            <label className="label">{rest.placeholder}</label>
+          )}
+          <InputList
+            value={val || []}
+            className={className}
+            onChange={(ev) => setValue(ev)}
+            ref={ref}
+            dataTest={dataTest}
+            {...rest}
+          />
+        </React.Fragment>
       )
     } else if (schema?.widget === 'file') {
       return (

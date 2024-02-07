@@ -1,3 +1,7 @@
+0.27.0
+------
+- Feat: Add label to input list
+
 0.26.0
 ------
 - Feat: Add possibility to translate the workflow texts
