@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '../input/button'
 import { useCrudContext } from '../../hooks/useCrudContext'
 import { useConfig } from '../../hooks/useConfig'
