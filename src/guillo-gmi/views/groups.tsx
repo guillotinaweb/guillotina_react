@@ -93,8 +93,8 @@ export function GroupsCtx(props) {
   )
 }
 
-let sortParsed = parser(`_sort_asc=id`)
-let searchParsed = parser('type_name=User')
+const sortParsed = parser(`_sort_asc=id`)
+const searchParsed = parser('type_name=User')
 
 export function GroupCtx() {
   const intl = useIntl()
@@ -102,7 +102,7 @@ export function GroupCtx() {
   const [roles, setRoles] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    async function getRoles() {
       const requestGetRoles = await Ctx.client.getRoles(Ctx.path)
       let roles = []
 
@@ -113,7 +113,8 @@ export function GroupCtx() {
         }))
       }
       setRoles(roles)
-    })()
+    }
+    getRoles()
   }, [])
 
   const handleResponse = async (isError, message, errorMessage) => {

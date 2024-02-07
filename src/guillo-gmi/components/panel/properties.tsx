@@ -8,7 +8,6 @@ import { PropertiesView } from '../properties_view'
 import { useConfig } from '../../hooks/useConfig'
 import useSetState from '../../hooks/useSetState'
 import { useTraversal } from '../../contexts'
-import { get } from '../../lib/utils'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import {
@@ -71,7 +70,7 @@ export function PanelProperties() {
     }))
 
   useEffect(() => {
-    ;(async () => {
+    async function getSchema() {
       if (!schema.loading && !schema.data && !schema.error) {
         try {
           setSchema({ loading: true })
@@ -81,7 +80,8 @@ export function PanelProperties() {
           setSchema({ loading: false, error: err })
         }
       }
-    })()
+    }
+    getSchema()
   }, [schema])
 
   return (

@@ -12,10 +12,20 @@ import {
   genericFileMessages,
   genericMessages,
 } from '../../locales/generic_messages'
+import {
+  GuillotinaFile,
+  GuillotinaSchemaProperties,
+} from '../../types/guillotina'
 
 const _sizesImages = ['large', 'preview', 'mini', 'thumb']
 
-export function IImageAttachment({ properties, values }) {
+interface Props {
+  properties: GuillotinaSchemaProperties
+  values: {
+    image: GuillotinaFile
+  }
+}
+export function IImageAttachment({ properties, values }: Props) {
   const intl = useIntl()
   const cfg = useConfig()
   const Ctx = useTraversal()

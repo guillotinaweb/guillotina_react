@@ -63,3 +63,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
     )
   }
 )
+
+Textarea.displayName = 'Textarea'
+export default Textarea

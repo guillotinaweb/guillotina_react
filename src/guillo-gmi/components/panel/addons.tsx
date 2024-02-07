@@ -30,7 +30,7 @@ export function PanelAddons() {
   })
 
   useEffect(() => {
-    ;(async () => {
+    const getAddons = async () => {
       if (!state.loading && !state.data && !state.error) {
         try {
           const response = await Ctx.client.getAddons(Ctx.pathPrefix)
@@ -40,7 +40,8 @@ export function PanelAddons() {
           setState({ ...state, loading: false, error: err })
         }
       }
-    })()
+    }
+    getAddons()
   }, [action])
 
   const installAddon = async (Ctx, key) => {

@@ -2,8 +2,13 @@ import { useTraversal } from '../contexts'
 import { get } from '../lib/utils'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
+import { GuillotinaCommonObject, GuillotinaSchema } from '../types/guillotina'
 
-export function BehaviorsView({ context, schema }) {
+interface Props {
+  context: GuillotinaCommonObject
+  schema: GuillotinaSchema
+}
+export function BehaviorsView({ context, schema }: Props) {
   const Ctx = useTraversal()
   const { getBehavior } = Ctx.registry
 

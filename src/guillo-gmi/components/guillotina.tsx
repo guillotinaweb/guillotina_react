@@ -61,10 +61,8 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
 
   console.log('Guillotina component')
   useEffect(() => {
-    ;(async () => {
-      console.log('Get context data', path)
+    const initContext = async () => {
       const data = await client.getContext(path)
-      console.log('Get context data', data)
       if (data.status === 401) {
         dispatch({ type: 'SET_ERROR', payload: 'notallowed' })
         return
@@ -76,7 +74,8 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
       const pr = await client.canido(path, Permissions)
       const permissions = await pr.json()
       dispatch({ type: 'SET_CONTEXT', payload: { context, permissions } })
-    })()
+    }
+    initContext()
   }, [path, refresh, client])
 
   const ErrorBoundary = registry.get('views', 'ErrorBoundary')

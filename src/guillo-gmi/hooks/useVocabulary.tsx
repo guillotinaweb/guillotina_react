@@ -23,7 +23,7 @@ export function useVocabulary(vocabularyName: string, path: string = null) {
   }
 
   useEffect(() => {
-    ;(async () => {
+    const getVocabulary = async () => {
       if (
         vocabularyName &&
         vocabulary.data === undefined &&
@@ -38,7 +38,8 @@ export function useVocabulary(vocabularyName: string, path: string = null) {
           setVocabulary({ loading: false, error: err, data: undefined })
         }
       }
-    })()
+    }
+    getVocabulary()
   }, [vocabularyName, vocabulary, path])
 
   return vocabulary

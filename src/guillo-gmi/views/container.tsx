@@ -1,4 +1,3 @@
-import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { ContextToolbar } from '../components/context_toolbar'
 import { PanelItems } from '../components/panel/items'

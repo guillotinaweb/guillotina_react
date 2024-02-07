@@ -5,10 +5,16 @@ import { EditableField } from '../fields/editableField'
 import { Table } from '../ui'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
+import {
+  GuillotinaFile,
+  GuillotinaSchemaProperties,
+} from '../../types/guillotina'
 
 interface Props {
-  properties: { [key: string]: any }
-  values: { [key: string]: any }
+  properties: GuillotinaSchemaProperties
+  values: {
+    file: GuillotinaFile
+  }
 }
 
 export function IAttachment({ properties, values }: Props) {

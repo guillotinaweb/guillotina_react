@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { MouseEvent } from 'react'
 import { buildQs } from '../../lib/search'
 import { parser } from '../../lib/search'
 import useSetState from '../../hooks/useSetState'
@@ -17,7 +16,9 @@ import { Traversal } from '../../contexts'
 function debounce(func, wait) {
   let timeout
   return function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const context = this
+    // eslint-disable-next-line prefer-rest-params
     const args = arguments
     const later = function () {
       timeout = null
@@ -54,7 +55,7 @@ interface Props {
   dataTestWrapper?: string
   dataTestSearchInput?: string
   dataTestItem?: string
-  renderTextItemOption?: (item: any) => string
+  renderTextItemOption?: (item: SearchItem) => string
   typeNameQuery?: string
   labelProperty?: string
 }
@@ -160,13 +161,13 @@ export const SearchInput = ({
     }
     const { get } = traversal.registry
     const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
-    let qsParsed = traversal.client[fnName]({
+    const qsParsed = traversal.client[fnName]({
       path: traversal.path,
       start: page * PageSize,
       pageSize: PageSize,
       withDepth: false,
     })
-    let sortParsed = parser(`_sort_des=${labelProperty}`)
+    const sortParsed = parser(`_sort_des=${labelProperty}`)
     let typeNameParsed = []
     if (typeNameQuery) {
       typeNameParsed = parser(`type_name__in=${typeNameQuery}`)

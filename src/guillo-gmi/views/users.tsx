@@ -105,13 +105,13 @@ export function UserCtx() {
   const [remotes, updateRemote] = useRemoteField(fields)
 
   useEffect(() => {
-    ;(async () => {
+    async function getRolesAndGroups() {
       const [requestGetGroups, requestGetRoles] = await Promise.all([
         Ctx.client.search(Ctx.path, { type_name: 'Group' }, true),
         Ctx.client.getRoles(Ctx.path),
       ])
 
-      let groups = requestGetGroups
+      const groups = requestGetGroups
       let roles = []
 
       if (requestGetRoles.ok) {
@@ -125,7 +125,8 @@ export function UserCtx() {
           text: item['@name'],
         })),
       })
-    })()
+    }
+    getRolesAndGroups()
   }, [])
 
   const updateObject = async (data) => {

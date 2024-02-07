@@ -57,3 +57,6 @@ export const InputList = forwardRef<
     </div>
   )
 })
+
+InputList.displayName = 'InputList'
+export default InputList

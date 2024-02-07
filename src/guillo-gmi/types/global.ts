@@ -4,6 +4,7 @@ export interface LightFile {
   'content-type': string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface IndexSignature<T = any> {
   [key: string]: T
 }

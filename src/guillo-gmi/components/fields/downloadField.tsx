@@ -2,7 +2,16 @@ import { useTraversal } from '../../contexts'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
-export const DownloadField = ({ value }) => {
+interface DownloadFieldProps {
+  value: {
+    data: {
+      filename: string
+      content_type: string
+    }
+    field: string
+  }
+}
+export const DownloadField = ({ value }: DownloadFieldProps) => {
   const intl = useIntl()
   const Ctx = useTraversal()
   const { data, field } = value

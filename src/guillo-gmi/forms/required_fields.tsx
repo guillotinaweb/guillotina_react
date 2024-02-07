@@ -48,7 +48,7 @@ export function RequiredFieldsForm({
   })
 
   useEffect(() => {
-    ;(async () => {
+    const getSchema = async () => {
       if (!schema.loading && !schema.data && !schema.error) {
         try {
           setSchema({ loading: true })
@@ -62,7 +62,8 @@ export function RequiredFieldsForm({
           setSchema({ loading: false, error: err })
         }
       }
-    })()
+    }
+    getSchema()
   }, [schema])
 
   const submit = () => {

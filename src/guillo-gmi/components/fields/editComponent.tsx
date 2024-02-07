@@ -10,9 +10,10 @@ import { SearchInputList } from '../input/search_input_list'
 import { SearchInput } from '../input/search_input'
 import { useTraversal } from '../../contexts'
 import { Ref, forwardRef } from 'react'
+import { GuillotinaItemsProperty } from '../../types/guillotina'
 
 interface Props {
-  schema: any
+  schema: GuillotinaItemsProperty
   val: any
   setValue: (value: any) => void
   dataTest?: string

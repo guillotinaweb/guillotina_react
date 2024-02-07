@@ -14,10 +14,22 @@ import {
   genericFileMessages,
   genericMessages,
 } from '../../locales/generic_messages'
+import {
+  GuillotinaFile,
+  GuillotinaSchemaProperties,
+} from '../../types/guillotina'
 
 const _sizesImages = ['large', 'preview', 'mini', 'thumb']
 
-export function IMultiImageAttachment({ properties, values }) {
+interface Props {
+  properties: GuillotinaSchemaProperties
+  values: {
+    images: {
+      [key: string]: GuillotinaFile
+    }
+  }
+}
+export function IMultiImageAttachment({ properties, values }: Props) {
   const intl = useIntl()
   const cfg = useConfig()
   const [fileKey, setFileKey] = useState('')

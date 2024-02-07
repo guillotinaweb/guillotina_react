@@ -1,4 +1,3 @@
-import React from 'react'
 import { TabsPanel } from '../components/tabs'
 import { useTraversal } from '../contexts'
 import { PanelPermissions } from '../components/panel/permissions'

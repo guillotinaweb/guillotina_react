@@ -23,12 +23,13 @@ export function CreateButton() {
   const Ctx = useTraversal()
   const Config = useConfig()
   useEffect(() => {
-    ;(async function anyNameFunction() {
+    async function anyNameFunction() {
       const types = await Ctx.client.getTypes(Ctx.path)
       setState({
         types: types.filter((item) => !Config.DisabledTypes.includes(item)),
       })
-    })()
+    }
+    anyNameFunction()
   }, [Ctx.path])
 
   const doAction = (item) => {

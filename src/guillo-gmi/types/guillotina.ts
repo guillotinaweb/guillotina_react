@@ -5,6 +5,8 @@ type ItemsPropertyObject = {
   '@name': string
   '@type': string
   '@uid': string
+  __behaviors__: string[]
+  '@static_behaviors': string[]
 }
 
 export interface GuillotinaSchema {
@@ -26,12 +28,17 @@ export interface Definitions {
   }
 }
 
-export interface Items {
+export interface GuillotinaItemsProperty {
   type: string
   widget?: string
   properties?: GuillotinaSchemaProperties
   vocabulary?: string[]
   vocabularyName?: string
+  queryCondition?: string
+  queryPath?: string
+  labelProperty?: string
+  typeNameQuery?: string
+  items: GuillotinaItemsProperty
 }
 export interface GuillotinaSchemaProperty {
   type: string
@@ -41,7 +48,7 @@ export interface GuillotinaSchemaProperty {
   description?: string
   vocabularyName?: string
   vocabulary?: string[]
-  items?: Items
+  items?: GuillotinaItemsProperty
   properties?: GuillotinaSchemaProperties
   additionalProperties?: GuillotinaSchemaProperties
   typeNameQuery?: string

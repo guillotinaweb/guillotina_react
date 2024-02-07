@@ -14,10 +14,18 @@ import {
   genericMessages,
 } from '../../locales/generic_messages'
 import { LightFile } from '../../types/global'
+import {
+  GuillotinaFile,
+  GuillotinaSchemaProperties,
+} from '../../types/guillotina'
 
 interface Props {
-  properties: any
-  values: any
+  properties: GuillotinaSchemaProperties
+  values: {
+    files: {
+      [key: string]: GuillotinaFile
+    }
+  }
 }
 export function IMultiAttachment({ properties, values }: Props) {
   const intl = useIntl()

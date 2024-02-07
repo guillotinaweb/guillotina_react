@@ -6,15 +6,35 @@ import { useCrudContext } from '../../hooks/useCrudContext'
 import { EditableField } from '../fields/editableField'
 import { useConfig } from '../../hooks/useConfig'
 import { useEffect, useState } from 'react'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DroppableProvided,
+  DroppableStateSnapshot,
+} from 'react-beautiful-dnd'
 import { v4 as uuidv4 } from 'uuid'
 import { defineMessages, useIntl } from 'react-intl'
 import {
   genericFileMessages,
   genericMessages,
 } from '../../locales/generic_messages'
+import {
+  GuillotinaFile,
+  GuillotinaSchemaProperties,
+} from '../../types/guillotina'
 
-const StrictModeDroppable = ({ children, ...props }) => {
+interface StrictModeDroppableProps {
+  children(
+    provided: DroppableProvided,
+    snapshot: DroppableStateSnapshot
+  ): React.ReactElement<HTMLElement>
+  droppableId: string
+}
+const StrictModeDroppable = ({
+  children,
+  droppableId,
+}: StrictModeDroppableProps) => {
   const [enabled, setEnabled] = useState(false)
   useEffect(() => {
     const animation = requestAnimationFrame(() => setEnabled(true))
@@ -26,7 +46,7 @@ const StrictModeDroppable = ({ children, ...props }) => {
   if (!enabled) {
     return null
   }
-  return <Droppable {...props}>{children}</Droppable>
+  return <Droppable droppableId={droppableId}>{children}</Droppable>
 }
 
 const reorder = (list, startIndex, endIndex) => {
@@ -48,7 +68,14 @@ const messages = defineMessages({
     defaultMessage: 'Images sorted',
   },
 })
-export function IMultiImageOrderedAttachment({ properties, values }) {
+
+interface Props {
+  properties: GuillotinaSchemaProperties
+  values: {
+    images: GuillotinaFile[]
+  }
+}
+export function IMultiImageOrderedAttachment({ properties, values }: Props) {
   const intl = useIntl()
   const cfg = useConfig()
   const [sortedList, setSortedList] = useState<string[]>(
