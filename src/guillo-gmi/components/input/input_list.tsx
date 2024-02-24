@@ -22,7 +22,8 @@ export const InputList = forwardRef<
 
   return (
     <div className="control">
-      <div className="tags">
+       {(value ?? []).length > 0 && (
+        <div className="tags">
         {value.map((tag, index) => (
           <div
             key={`input_list_${tag}_${index}`}
@@ -40,6 +41,8 @@ export const InputList = forwardRef<
           </div>
         ))}
       </div>
+       )}
+      
       <Input
         type="text"
         placeholder={intl.formatMessage({
