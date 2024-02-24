@@ -22,27 +22,27 @@ export const InputList = forwardRef<
 
   return (
     <div className="control">
-       {(value ?? []).length > 0 && (
+      {(value ?? []).length > 0 && (
         <div className="tags">
-        {value.map((tag, index) => (
-          <div
-            key={`input_list_${tag}_${index}`}
-            className="tag is-info is-medium"
-          >
-            {tag}
-            <button
-              className="delete is-small"
-              onClick={() =>
-                onChange([
-                  ...value.filter((tag) => value.indexOf(tag) !== index),
-                ])
-              }
-            ></button>
-          </div>
-        ))}
-      </div>
-       )}
-      
+          {value.map((tag, index) => (
+            <div
+              key={`input_list_${tag}_${index}`}
+              className="tag is-info is-medium"
+            >
+              {tag}
+              <button
+                className="delete is-small"
+                onClick={() =>
+                  onChange([
+                    ...value.filter((tag) => value.indexOf(tag) !== index),
+                  ])
+                }
+              ></button>
+            </div>
+          ))}
+        </div>
+      )}
+
       <Input
         type="text"
         placeholder={intl.formatMessage({
