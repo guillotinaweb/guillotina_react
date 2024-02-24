@@ -116,10 +116,8 @@ export const EditComponent = forwardRef(
         }
       }
       return (
-        <React.Fragment>
-          {rest.placeholder && (
-            <label className="label">{rest.placeholder}</label>
-          )}
+        <>
+          {placeholder && <label className="label">{placeholder}</label>}
           <InputList
             value={val || []}
             className={className}
@@ -127,7 +125,7 @@ export const EditComponent = forwardRef(
             ref={ref as Ref<HTMLInputElement>}
             dataTest={dataTest}
           />
-        </React.Fragment>
+        </>
       )
     } else if (schema?.widget === 'file') {
       return (
