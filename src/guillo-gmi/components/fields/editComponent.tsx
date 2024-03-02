@@ -11,6 +11,7 @@ import { SearchInput } from '../input/search_input'
 import { useTraversal } from '../../contexts'
 import { Ref, forwardRef } from 'react'
 import { GuillotinaItemsProperty } from '../../types/guillotina'
+import { IndexSignature } from '../../types/global'
 
 interface Props {
   schema: GuillotinaItemsProperty
@@ -19,10 +20,24 @@ interface Props {
   dataTest?: string
   className?: string
   placeholder?: string
+  id?: string
+  required?: boolean
 }
 
 export const EditComponent = forwardRef(
-  ({ schema, val, setValue, dataTest, className, placeholder }: Props, ref) => {
+  (
+    {
+      schema,
+      val,
+      setValue,
+      dataTest,
+      className,
+      placeholder,
+      id,
+      required,
+    }: Props,
+    ref
+  ) => {
     const traversal = useTraversal()
 
     if (schema?.widget === 'search_list') {
@@ -71,6 +86,8 @@ export const EditComponent = forwardRef(
           onChange={(ev) => setValue(ev)}
           ref={ref as Ref<HTMLTextAreaElement>}
           dataTest={dataTest}
+          placeholder={placeholder}
+          id={id}
         />
       )
     } else if (schema?.type === 'boolean') {
@@ -94,6 +111,8 @@ export const EditComponent = forwardRef(
               dataTest={dataTest}
               onChange={setValue}
               multiple
+              placeholder={placeholder}
+              id={id}
             />
           )
         } else if (schema?.items?.vocabulary) {
@@ -111,6 +130,8 @@ export const EditComponent = forwardRef(
               })}
               multiple
               onChange={setValue}
+              placeholder={placeholder}
+              id={id}
             />
           )
         }
@@ -146,6 +167,8 @@ export const EditComponent = forwardRef(
             dataTest={dataTest}
             onChange={setValue}
             vocabularyName={get(schema, 'vocabularyName', null)}
+            placeholder={placeholder}
+            id={id}
           />
         )
       }
@@ -164,7 +187,34 @@ export const EditComponent = forwardRef(
             }
           })}
           onChange={setValue}
+          placeholder={placeholder}
+          id={id}
         />
+      )
+    } else if (schema?.type === 'object' && schema.widget !== 'file') {
+      const value = val as IndexSignature
+      return (
+        <>
+          {schema.title && <h4 className="subtitle mt-2">{schema.title}</h4>}
+          {Object.keys(get(schema, 'properties', {})).map((key) => {
+            const subSchema = get(schema, 'properties', {})[key]
+            const requiredFields: string[] = get(schema, 'required', [])
+            return (
+              <EditComponent
+                key={`${id}[${key}]`}
+                id={`${id}[${key}]`}
+                schema={subSchema}
+                val={value && key in value ? value[key] : ''}
+                placeholder={subSchema?.title ?? ''}
+                required={requiredFields.includes(key)}
+                setValue={(ev) => {
+                  setValue({ ...value, [key]: ev })
+                }}
+                dataTest={`${key}TestInput`}
+              />
+            )
+          })}
+        </>
       )
     }
     const getInputType = () => {
@@ -175,6 +225,8 @@ export const EditComponent = forwardRef(
           return 'date'
         case 'datetime':
           return 'datetime-local'
+        case 'time':
+          return 'time'
         default:
           return 'text'
       }
@@ -187,6 +239,9 @@ export const EditComponent = forwardRef(
         onChange={(ev) => setValue(ev)}
         ref={ref as Ref<HTMLInputElement>}
         type={getInputType()}
+        required={required}
+        placeholder={placeholder}
+        id={id}
       />
     )
   }

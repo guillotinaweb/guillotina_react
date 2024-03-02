@@ -34,7 +34,6 @@ export function MoveItem(props: Props) {
       Ctx.flash(`Failed to move item!: ${errorMessage}`, 'danger')
     }
 
-    Ctx.refresh()
     Ctx.cancelAction()
   }
 

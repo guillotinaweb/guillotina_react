@@ -31,6 +31,7 @@ import { NotFound } from '../components/notfound'
 import { Path } from '../components/path'
 import { EditComponent } from '../components/fields/editComponent'
 import { RenderFieldComponent } from '../components/fields/renderField'
+import { GuillotinaSchema } from '../types/guillotina'
 
 export interface IRegistry {
   paths: {
@@ -48,8 +49,17 @@ export interface IRegistry {
   behaviors: {
     [key: string]: React.FC
   }
-  itemsColumn: any
-  schemas: any
+  itemsColumn: {
+    [key: string]: () => {
+      label: string
+      key: string
+      isSortable?: boolean
+      child: React.ReactNode
+    }[]
+  }
+  schemas: {
+    [key: string]: GuillotinaSchema
+  }
   properties: {
     [key: string]: React.FC
   }

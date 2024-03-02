@@ -87,7 +87,7 @@ export class GuillotinaClient {
     result = [
       ...parser(start.toString(), '_from'),
       ...parser(pageSize.toString(), 'size'),
-      ...parser('*', '_metadata=*'),
+      ...parser('*', '_metadata'),
     ]
 
     if (withDepth) {

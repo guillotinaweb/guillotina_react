@@ -39,6 +39,7 @@ export interface GuillotinaItemsProperty {
   labelProperty?: string
   typeNameQuery?: string
   items: GuillotinaItemsProperty
+  title: string
 }
 export interface GuillotinaSchemaProperty {
   type: string

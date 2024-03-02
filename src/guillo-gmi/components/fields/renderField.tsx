@@ -39,7 +39,12 @@ export function RenderField({ value, Widget, schema }: RenderFieldProps) {
       ))
     }
     return Object.keys(value).map((key) => (
-      <FieldValue field={key} value={value[key]} key={key} />
+      <FieldValue
+        field={get(schema, `properties.${key}.title`, key)}
+        schema={get(schema, `properties.${key}`, {})}
+        value={value[key]}
+        key={key}
+      />
     ))
   }
   return <p>No render for {JSON.stringify(value)}</p>
@@ -48,12 +53,13 @@ export function RenderField({ value, Widget, schema }: RenderFieldProps) {
 interface FieldValueProps {
   field: string
   value: unknown
+  schema: GuillotinaSchemaProperty
 }
-const FieldValue = ({ field, value }: FieldValueProps) => (
+const FieldValue = ({ field, value, schema }: FieldValueProps) => (
   <div className="field">
     <div className="label">{field}</div>
     <div className="value">
-      <RenderField value={value} />
+      <RenderFieldComponent val={value} schema={schema} field={field} />
     </div>
   </div>
 )
@@ -197,7 +203,7 @@ interface RenderFieldComponentProps {
   schema: GuillotinaSchemaProperty
   field: string
   val: any
-  modifyContent: boolean
+  modifyContent?: boolean
 }
 export function RenderFieldComponent({
   schema,
@@ -215,6 +221,7 @@ export function RenderFieldComponent({
         (modifyContent
           ? DEFAULT_VALUE_EDITABLE_FIELD
           : DEFAULT_VALUE_NO_EDITABLE_FIELD),
+      schema: schema,
     }
     if (val && schema?.widget === 'file') {
       renderProps['value'] = {
@@ -228,14 +235,12 @@ export function RenderFieldComponent({
       renderProps['value'] = new Date(val).toLocaleString()
     } else if (schema?.items?.vocabularyName || schema?.vocabularyName) {
       renderProps['Widget'] = VocabularyRenderField
-      renderProps['schema'] = schema
     } else if (
       schema?.widget === 'search' ||
       schema?.widget === 'search_list'
     ) {
       renderProps['Widget'] = SearchRenderField
       renderProps['value'] = val
-      renderProps['schema'] = schema
     }
     return renderProps
   }

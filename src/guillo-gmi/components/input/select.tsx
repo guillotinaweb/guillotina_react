@@ -3,6 +3,7 @@ import { classnames, generateUID } from '../../lib/helpers'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import { forwardRef, useState } from 'react'
+import { IndexSignature } from '../../types/global'
 // @ TODO implement hasErrors
 
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
   onChange?: (value: string | string[]) => void
   options: { text: string; value: string }[]
   appendDefault?: boolean
-  style?: any
+  style?: IndexSignature
   dataTest?: string
   value?: string | string[]
 }

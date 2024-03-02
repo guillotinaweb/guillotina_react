@@ -28,7 +28,6 @@ export function RemoveItem(props: Props) {
       Ctx.flash(`Failed to delete item!: ${errorMessage}`, 'danger')
     }
 
-    Ctx.refresh()
     Ctx.cancelAction()
   }
 

@@ -141,6 +141,7 @@ export class Auth {
     if (!authToken) return {}
 
     if (this.willExpire(expires) && this.retryRefresh < this.maxRetry) {
+      // eslint-disable-next-line no-extra-semi
       ;(async () => await this.refreshToken())()
     }
 

@@ -10,8 +10,23 @@ JSON_EXAMPLE_SCHEMA = json.dumps(
         "type": "object", 
         "properties": {
             "items": {
-                "type": "array"
-            }
+                "type": "array",
+                "title": "Array in json"
+            },
+            "text": {
+                "type": "string", 
+                "title": "Text in json"
+            },
+            "second_level": {
+                "type": "object",
+                "title": "Two levels",
+                "properties": {
+                    "first_item_second_level": {
+                        "type": "string",
+                        "title": "Item second level text",
+                    },
+                },
+            },
         }
     }
 )
@@ -24,6 +39,9 @@ class IGMI(interfaces.IFolder):
 
     index_field("text_field", type="searchabletext")
     text_field = schema.Text(title="Text field", required=False)
+
+    index_field("textarea_field", type="searchabletext")
+    textarea_field = schema.Text(title="Text area field", required=True, widget="textarea")
 
 
     text_line_field = schema.TextLine(title="Text line field")
@@ -44,6 +62,7 @@ class IGMI(interfaces.IFolder):
     choice_field_vocabulary = schema.Choice(
         title="Choice field vocabulary",
         vocabulary="gmi_vocabulary",
+        required=True,
     )
 
     index_field("choice_field", type="keyword")
@@ -83,6 +102,7 @@ class IGMI(interfaces.IFolder):
         widget="search_list",
         labelProperty="title",
         typeNameQuery="GMI",
+        required=True
     )
 
     brother_gmi = schema.Text(

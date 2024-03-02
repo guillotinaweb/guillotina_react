@@ -22,7 +22,6 @@ export function Layout({ children, onLogout, auth }: Props) {
             </a>
             <a
               id="burger"
-              href="/"
               role="button"
               className="navbar-burger burger"
               aria-label="menu"
