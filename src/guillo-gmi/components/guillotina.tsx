@@ -59,7 +59,6 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
     dispatch({ type: 'SET_PATH', payload: searchPath })
   }, [searchPath])
 
-  console.log('Guillotina component')
   useEffect(() => {
     const initContext = async () => {
       const data = await client.getContext(path)

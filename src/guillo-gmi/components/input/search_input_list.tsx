@@ -12,6 +12,7 @@ import { genericMessages } from '../../locales/generic_messages'
 import useClickAway from '../../hooks/useClickAway'
 import { get } from '../../lib/utils'
 import { SearchItem } from '../../types/guillotina'
+import { Traversal } from '../../contexts'
 
 function debounce(func, wait) {
   let timeout
@@ -46,7 +47,7 @@ interface Props {
   onChange: (value: string[]) => void
   error?: string
   errorZoneClassName?: string
-  traversal?: any
+  traversal?: Traversal
   path?: string
   qs?: string[]
   queryCondition?: string
@@ -55,7 +56,7 @@ interface Props {
   dataTestWrapper?: string
   dataTestSearchInput?: string
   dataTestItem?: string
-  renderTextItemOption?: (item: any) => string
+  renderTextItemOption?: (item: SearchItem) => string
   typeNameQuery?: string
   labelProperty?: string
 }
@@ -211,11 +212,13 @@ export const SearchInputList = ({
     }
   }
 
-  const renderTextItemOptionFn = (item) => {
+  const renderTextItemOptionFn = (
+    item: SearchItem
+  ): string | React.ReactNode => {
     if (renderTextItemOption) {
       return renderTextItemOption(item)
     }
-    return get(item, labelProperty, item.title) || item['@name']
+    return get<string>(item, labelProperty, item.title) || item['@name']
   }
 
   useEffect(() => {

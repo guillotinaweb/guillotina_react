@@ -244,6 +244,7 @@ export const SearchInput = ({
           <button
             className={`button ${btnClass}`}
             onClick={(ev) => {
+              ev.preventDefault()
               if (ev.target instanceof HTMLElement) {
                 ev.target.blur()
               }
@@ -298,6 +299,7 @@ export const SearchInput = ({
                     }`}
                     data-test={`${dataTestItem}-${item.id}`}
                     onMouseDown={(ev) => {
+                      ev.stopPropagation()
                       ev.preventDefault()
                       if (onChange) {
                         onChange(item.id)
