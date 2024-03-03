@@ -22,4 +22,5 @@ def includeme(root):
     configure.scan("guillotina_react_app.vocabularies")
     configure.scan("guillotina_react_app.gmi")
     configure.scan("guillotina_react_app.gmi_behaviors")
+    configure.scan("guillotina_react_app.gmi_required")
     configure.scan("guillotina_react_app.workflow")
