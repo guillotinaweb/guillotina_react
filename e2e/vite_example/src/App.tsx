@@ -150,6 +150,7 @@ function App() {
               },
               forms: {
                 GMI: RequiredFieldsForm,
+                GMIAllRequired: RequiredFieldsForm,
               },
               itemsColumn: {
                 Container: () => {
