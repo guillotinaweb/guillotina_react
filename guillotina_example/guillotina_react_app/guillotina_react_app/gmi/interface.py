@@ -41,7 +41,7 @@ class IGMI(interfaces.IFolder):
     text_field = schema.Text(title="Text field", required=False)
 
     index_field("textarea_field", type="searchabletext")
-    textarea_field = schema.Text(title="Text area field", required=True, widget="textarea")
+    textarea_field = schema.Text(title="Text area field", required=False, widget="textarea")
 
 
     text_line_field = schema.TextLine(title="Text line field")
@@ -62,7 +62,6 @@ class IGMI(interfaces.IFolder):
     choice_field_vocabulary = schema.Choice(
         title="Choice field vocabulary",
         vocabulary="gmi_vocabulary",
-        required=True,
     )
 
     index_field("choice_field", type="keyword")
@@ -102,7 +101,6 @@ class IGMI(interfaces.IFolder):
         widget="search_list",
         labelProperty="title",
         typeNameQuery="GMI",
-        required=True
     )
 
     brother_gmi = schema.Text(
