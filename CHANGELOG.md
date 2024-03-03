@@ -1,3 +1,11 @@
+0.28.1
+------
+- Fix: Layout menu mobile
+
+0.28.0
+------
+- Feat: Update to typescript
+
 0.27.0
 ------
 - Feat: Add label to input list

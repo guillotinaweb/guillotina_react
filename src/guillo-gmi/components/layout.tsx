@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Auth } from '../lib/auth'
 import { Icon } from './ui/icon'
+import { classnames } from '../lib/helpers'
 
 interface Props {
   children: React.ReactNode
@@ -7,6 +9,7 @@ interface Props {
   auth: Auth
 }
 export function Layout({ children, onLogout, auth }: Props) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const doLogout = () => {
     auth.logout()
     onLogout()
@@ -16,24 +19,32 @@ export function Layout({ children, onLogout, auth }: Props) {
     <>
       <header>
         <nav className="navbar" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
+          <div className="navbar-brand" style={{ alignItems: 'center' }}>
             <a className="navbar-item" href="/">
               <img src="/logo.svg" alt="Guillotina logo" height="80" />
             </a>
-            <a
+            <div
               id="burger"
               role="button"
-              className="navbar-burger burger"
+              className={classnames([
+                'navbar-burger',
+                'burger',
+                isMenuOpen && 'is-active',
+              ])}
               aria-label="menu"
               aria-expanded="false"
               data-target="navbarmenu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
-            </a>
+            </div>
           </div>
-          <div id="navbarmenu" className="navbar-menu">
+          <div
+            id="navbarmenu"
+            className={classnames(['navbar-menu', isMenuOpen && 'is-active'])}
+          >
             <div className="navbar-start"></div>
             <div className="navbar-end">
               <div className="navbar-item">
