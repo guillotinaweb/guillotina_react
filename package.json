@@ -1,5 +1,5 @@
 {
-  "version": "0.27.0",
+  "version": "0.28.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:guillotinaweb/guillotina_react.git"
@@ -7,7 +7,7 @@
   "files": [
     "dist"
   ],
-  "source": "./src/guillo-gmi/index.js",
+  "source": "./src/guillo-gmi/index.ts",
   "main": "./dist/react-gmi.js",
   "exports": "./dist/react-gmi.modern.js",
   "types": "./dist/index.d.ts",
@@ -31,32 +31,39 @@
     "@babel/cli": "7.12.10",
     "@babel/core": "7.12.10",
     "@formatjs/cli": "^6.2.4",
+    "@formatjs/ts-transformer": "^3.13.11",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
     "babel-plugin-formatjs": "^10.5.10",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
     "husky": "4.3.6",
     "microbundle": "0.13.0",
     "prettier": "2.2.1",
     "sass": "1.69.5",
     "serialize-javascript": "5.0.1",
-    "vitest": "^0.34.6"
+    "typescript": "^5.3.3",
+    "vitest": "^0.34.6",
+    "@types/react-beautiful-dnd": "13.1.8"
   },
   "scripts": {
-    "format": "prettier --write \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "format:tests": "prettier --write \"e2e/cypress/**/*.js\"",
     "format:check": "prettier --check \"src/**/*.js\"",
     "build": "yarn build:js && yarn build:css",
     "build:js": "rm -rf ./dist && microbundle --jsx React.createElement --no-compress --sourcemap",
-    "build:css": "rm -rf ./dist/css && mkdir ./dist/css && sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
+    "build:css": "rm -rf ./dist/css && mkdir -p ./dist/css && sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
     "prepublish": "yarn build",
     "test": "vitest run",
+    "lint": "eslint src",
     "intl-extract": "formatjs extract 'src/**/*.js' --out-file src/guillo-gmi/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
     "intl-compile-en": "formatjs compile src/guillo-gmi/locales/en.json --ast --out-file src/guillo-gmi/locales/compiled/en.json",
     "intl-compile-ca": "formatjs compile src/guillo-gmi/locales/ca.json --ast --out-file src/guillo-gmi/locales/compiled/ca.json",
     "intl-compile-es": "formatjs compile src/guillo-gmi/locales/es.json --ast --out-file src/guillo-gmi/locales/compiled/es.json",
     "intl-compile": "npm run intl-compile-en && npm run intl-compile-es && npm run intl-compile-ca"
-
   },
   "eslintConfig": {
     "extends": "react-app"
