@@ -1,3 +1,7 @@
+0.28.3
+------
+- chore: export inputs
+
 0.28.2
 ------
 - chore: export guillotina types
