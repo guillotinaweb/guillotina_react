@@ -1,3 +1,7 @@
+0.28.2
+------
+- chore: export guillotina types
+
 0.28.1
 ------
 - Fix: Layout menu mobile
