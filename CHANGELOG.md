@@ -1,3 +1,7 @@
+0.28.4
+------
+- chore: version
+
 0.28.3
 ------
 - chore: export inputs
