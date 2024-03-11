@@ -118,7 +118,18 @@ export function PanelItems() {
       setState({ loading: true, total: Ctx.context.length })
       const { get } = Ctx.registry
       const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
-
+      if (sortParsed === undefined) {
+        const defaultSortValue = Ctx.registry.getDefaultSortValue(
+          Ctx.context['@type'],
+          {
+            key: 'id',
+            direction: 'des',
+          }
+        )
+        sortParsed = parser(
+          `_sort_${defaultSortValue.direction}=${defaultSortValue.key}}`
+        )
+      }
       const qsParsed = Ctx.client[fnName]({
         path: Ctx.path,
         start: page * PageSize,
