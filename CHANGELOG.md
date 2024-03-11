@@ -1,3 +1,7 @@
+0.29.1
+------
+- fix: Default sort parsed
+
 0.29.0
 ------
 - feat: Add default sort value

@@ -127,7 +127,7 @@ export function PanelItems() {
           }
         )
         sortParsed = parser(
-          `_sort_${defaultSortValue.direction}=${defaultSortValue.key}}`
+          `_sort_${defaultSortValue.direction}=${defaultSortValue.key}`
         )
       }
       const qsParsed = Ctx.client[fnName]({
@@ -136,7 +136,7 @@ export function PanelItems() {
         pageSize: PageSize,
       })
       let qs = ''
-      if (search || type || sort || resultQueryParams.length > 0) {
+      if (search || type || resultQueryParams.length > 0) {
         qs = buildQs([
           ...qsParsed,
           ...(searchParsed ?? []),
@@ -145,7 +145,7 @@ export function PanelItems() {
           ...resultQueryParams,
         ])
       } else {
-        qs = buildQs(qsParsed)
+        qs = buildQs([...qsParsed, ...(sortParsed ?? [])])
       }
 
       const { signal } = controller
