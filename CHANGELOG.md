@@ -1,3 +1,7 @@
+0.29.0
+------
+- feat: Add default sort value
+
 0.28.4
 ------
 - chore: version

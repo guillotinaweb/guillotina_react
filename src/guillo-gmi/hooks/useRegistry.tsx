@@ -72,6 +72,12 @@ export interface IRegistry {
   fieldsToFilter: {
     [key: string]: string[]
   }
+  defaultSortValue: {
+    [key: string]: {
+      direction: 'asc' | 'des'
+      field: string
+    }
+  }
 }
 const registry: IRegistry = {
   paths: {},
@@ -131,6 +137,7 @@ const registry: IRegistry = {
   fieldsToFilter: {
     UserManager: ['id', 'email', 'user_name'],
   },
+  defaultSortValue: {},
 }
 
 const get = (key, param, fallback = undefined) => {
@@ -198,6 +205,10 @@ const getFieldsToFilter = (type: string, fallback) => {
   return registry.fieldsToFilter[type] || fallback
 }
 
+const getDefaultSortValue = (type: string, fallback) => {
+  return registry.defaultSortValue[type] || fallback
+}
+
 export const defaultComponent = (context) => {
   return context.is_folderish ? FolderCtx : ItemCtx
 }
@@ -222,6 +233,7 @@ export function useRegistry(data) {
     getProperties,
     getItemsColumn,
     getFieldsToFilter,
+    getDefaultSortValue,
     getSchemas,
   }
 }
