@@ -15,6 +15,7 @@ export const EmailInput = ({
   dataTest,
   placeholder,
   id,
+  onChange,
 }: Props) => {
   const intl = useIntl()
   return (
@@ -30,6 +31,7 @@ export const EmailInput = ({
       icon={<Icon icon="fas fa-envelope" />}
       id={id}
       placeholder={placeholder}
+      onChange={onChange}
     />
   )
 }

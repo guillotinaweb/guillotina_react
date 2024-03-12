@@ -1,3 +1,7 @@
+0.29.2
+------
+- fix: Email input
+
 0.29.1
 ------
 - fix: Default sort parsed
