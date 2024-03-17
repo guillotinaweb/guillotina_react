@@ -25,12 +25,13 @@ interface IConfig {
   Permissions: string[]
   SearchEngine: string
   SizeImages?: string[]
-  icons?: string[]
+  icons?: { [key: string]: string }
   properties_default?: string[]
   properties_ignore_fields?: string[]
   fieldHaveDeleteButton: (schema: GuillotinaSchemaProperty) => boolean
 }
-export const Config: IConfig = {
+
+export const defaultConfig: IConfig = {
   DisabledTypes: ['UserManager', 'GroupManager'],
   PageSize: 10,
   DelayActions: 200,
@@ -45,24 +46,37 @@ export const Config: IConfig = {
   },
 }
 
-let calculated = Object.assign({}, Config)
+let calculated = Object.assign({}, defaultConfig)
 
-const addConfig = (additional: Partial<IConfig>, original: IConfig) => {
-  const rest = Object.assign({}, original)
-  Object.keys(additional).forEach((item) => {
-    if (typeof Config[item] === 'object' && Array.isArray(Config[item])) {
-      rest[item] = [].concat(Config[item], additional[item])
-    } else if (typeof Config[item] === 'object') {
-      rest[item] = Object.assign({}, Config[item], additional[item])
+function addConfig(updates: Partial<IConfig>, currentConfig: IConfig): IConfig {
+  const updatedConfig: Partial<IConfig> = { ...currentConfig }
+
+  Object.entries(updates).forEach(([key, value]) => {
+    const currentKey = key as keyof IConfig
+    const currentValue = currentConfig[currentKey]
+
+    if (Array.isArray(value) && Array.isArray(currentValue)) {
+      // Correctly type the array concatenation
+      updatedConfig[currentKey] = [...currentValue, ...value] as any
+    } else if (isPlainObject(value) && isPlainObject(currentValue)) {
+      // Correctly type the object merging
+      updatedConfig[currentKey] = { ...currentValue, ...value } as any
     } else {
-      rest[item] = additional[item]
+      // Directly assign all other types
+      updatedConfig[currentKey] = value as any
     }
   })
-  return rest
+
+  return updatedConfig as IConfig
+}
+
+// Helper function to check if a value is a plain object (and not a React node, etc.)
+function isPlainObject(value: any): value is object {
+  return Object.prototype.toString.call(value) === '[object Object]'
 }
 
 export function useConfig(cfg = {}) {
-  const ref = useRef<unknown>()
+  const ref = useRef<IConfig>()
   if (cfg && !ref.current) {
     calculated = addConfig(cfg, calculated)
     ref.current = calculated

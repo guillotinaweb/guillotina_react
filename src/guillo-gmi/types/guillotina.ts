@@ -5,6 +5,7 @@ type ItemsPropertyObject = {
   '@name': string
   '@type': string
   '@uid': string
+  '@absolute_url': string
   __behaviors__: string[]
   '@static_behaviors': string[]
 }
@@ -40,6 +41,7 @@ export interface GuillotinaItemsProperty {
   typeNameQuery?: string
   items: GuillotinaItemsProperty
   title: string
+  enum?: string[]
 }
 export interface GuillotinaSchemaProperty {
   type: string
@@ -54,6 +56,7 @@ export interface GuillotinaSchemaProperty {
   additionalProperties?: GuillotinaSchemaProperties
   typeNameQuery?: string
   labelProperty?: string
+  enum?: string[]
 }
 export interface GuillotinaSchemaProperties {
   [key: string]: GuillotinaSchemaProperty | { $ref: string }[]
@@ -126,4 +129,59 @@ export interface GuillotinaBehaviors {
   static: string[]
   dynamic: string[]
   available: string[]
+}
+
+export interface AllPermissions {
+  [key: string]: AllPermissionsItem
+}
+
+export interface AllPermissionsItem {
+  prinperm?: PrimPerm[]
+  prinrole?: Prinrole[]
+  roleperm?: Roleperm[]
+  perminhe?: Perminhe[]
+}
+
+export interface Prinrole {
+  principal: string
+  role: string
+  setting: Setting
+}
+
+export interface Roleperm {
+  permission: string
+  role: string
+  setting: Setting
+}
+export interface PrimPerm {
+  principal: string
+  permission: string
+  setting: Setting
+}
+export interface Perminhe {
+  permission: string
+  setting: Setting
+}
+
+export enum Setting {
+  Allow = 'Allow',
+  AllowSingle = 'AllowSingle',
+  Deny = 'Deny',
+  Unset = 'Unset',
+}
+
+export interface GuillotinaGroups {
+  '@name': string
+  id: string
+  title: null
+  users: string[]
+  roles: string[]
+}
+
+export interface GuillotinaUser {
+  '@name': string
+  id: string
+  fullname: string
+  email: string
+  roles: string[]
 }

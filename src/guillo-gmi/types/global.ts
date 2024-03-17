@@ -1,3 +1,5 @@
+import { GuillotinaFile } from './guillotina'
+
 export interface LightFile {
   filename: string
   data: ArrayBuffer | string
@@ -8,3 +10,14 @@ export interface LightFile {
 export interface IndexSignature<T = any> {
   [key: string]: T
 }
+
+export type EditableFieldValue =
+  | GuillotinaFile
+  | LightFile
+  | IndexSignature
+  | string
+  | string[]
+  | boolean
+  | Date
+  | undefined
+  | null

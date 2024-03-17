@@ -10,13 +10,17 @@ import { SearchInputList } from '../input/search_input_list'
 import { SearchInput } from '../input/search_input'
 import { useTraversal } from '../../contexts'
 import { Ref, forwardRef } from 'react'
-import { GuillotinaItemsProperty } from '../../types/guillotina'
-import { IndexSignature } from '../../types/global'
+import { GuillotinaFile, GuillotinaItemsProperty } from '../../types/guillotina'
+import {
+  EditableFieldValue,
+  IndexSignature,
+  LightFile,
+} from '../../types/global'
 
 interface Props {
   schema: GuillotinaItemsProperty
-  val: any
-  setValue: (value: any) => void
+  val: EditableFieldValue
+  setValue: (value: EditableFieldValue) => void
   dataTest?: string
   className?: string
   placeholder?: string
@@ -45,7 +49,7 @@ export const EditComponent = forwardRef(
         <>
           {placeholder && <label className="label">{placeholder}</label>}
           <SearchInputList
-            value={val || []}
+            value={(val || []) as string[]}
             traversal={traversal}
             onChange={(ev) => setValue(ev)}
             queryCondition={
@@ -55,7 +59,7 @@ export const EditComponent = forwardRef(
             labelProperty={
               schema?.labelProperty ? schema.labelProperty : 'title'
             }
-            typeNameQuery={schema?.typeNameQuery ? schema.typeNameQuery : null}
+            typeNameQuery={schema?.typeNameQuery}
           />
         </>
       )
@@ -64,7 +68,7 @@ export const EditComponent = forwardRef(
         <>
           {placeholder && <label className="label">{placeholder}</label>}
           <SearchInput
-            value={val}
+            value={val as string}
             traversal={traversal}
             onChange={(ev) => setValue(ev)}
             queryCondition={
@@ -74,14 +78,14 @@ export const EditComponent = forwardRef(
             labelProperty={
               schema?.labelProperty ? schema.labelProperty : 'title'
             }
-            typeNameQuery={schema?.typeNameQuery ? schema.typeNameQuery : null}
+            typeNameQuery={schema?.typeNameQuery}
           />
         </>
       )
     } else if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
       return (
         <Textarea
-          value={val || ''}
+          value={(val || '') as string}
           className={className}
           onChange={(ev) => setValue(ev)}
           ref={ref as Ref<HTMLTextAreaElement>}
@@ -104,8 +108,8 @@ export const EditComponent = forwardRef(
         if (schema.items.vocabularyName) {
           return (
             <SelectVocabulary
-              vocabularyName={get(schema, 'items.vocabularyName', null)}
-              val={val || []}
+              vocabularyName={get(schema, 'items.vocabularyName', '')}
+              val={(val || []) as string[]}
               className={className}
               classWrap="is-fullwidth"
               dataTest={dataTest}
@@ -118,7 +122,7 @@ export const EditComponent = forwardRef(
         } else if (schema?.items?.vocabulary) {
           return (
             <Select
-              value={val || []}
+              value={(val || []) as string[]}
               className={className}
               classWrap="is-fullwidth"
               dataTest={dataTest}
@@ -140,19 +144,20 @@ export const EditComponent = forwardRef(
         <>
           {placeholder && <label className="label">{placeholder}</label>}
           <InputList
-            value={val || []}
+            value={(val || []) as string[]}
             className={className}
-            onChange={(ev) => setValue(ev)}
+            onChange={(val) => setValue(val as string[])}
             ref={ref as Ref<HTMLInputElement>}
             dataTest={dataTest}
           />
         </>
       )
     } else if (schema?.widget === 'file') {
+      const value = val as GuillotinaFile
       return (
         <FileUpload
-          onChange={(ev) => setValue(ev)}
-          label={get(val, 'filename', null)}
+          onChange={(ev) => setValue(ev as LightFile)}
+          label={get(value, 'filename', undefined)}
           dataTest={dataTest}
         />
       )
@@ -160,13 +165,13 @@ export const EditComponent = forwardRef(
       if (schema?.vocabularyName) {
         return (
           <SelectVocabulary
-            val={val || ''}
+            val={(val || '') as string}
             className={className}
             appendDefault
             classWrap="is-fullwidth"
             dataTest={dataTest}
             onChange={setValue}
-            vocabularyName={get(schema, 'vocabularyName', null)}
+            vocabularyName={get(schema, 'vocabularyName', '')}
             placeholder={placeholder}
             id={id}
           />
@@ -175,12 +180,12 @@ export const EditComponent = forwardRef(
 
       return (
         <Select
-          value={val || ''}
+          value={(val || '') as string}
           className={className}
           appendDefault
           classWrap="is-fullwidth"
           dataTest={dataTest}
-          options={schema?.vocabulary.map((item) => {
+          options={(schema?.vocabulary ?? []).map((item) => {
             return {
               text: item,
               value: item,
@@ -197,8 +202,13 @@ export const EditComponent = forwardRef(
         <>
           {schema.title && <h4 className="subtitle mt-2">{schema.title}</h4>}
           {Object.keys(get(schema, 'properties', {})).map((key) => {
-            const subSchema = get(schema, 'properties', {})[key]
+            const subSchema = get<GuillotinaItemsProperty | null>(
+              schema,
+              `properties.${key}`,
+              null
+            )
             const requiredFields: string[] = get(schema, 'required', [])
+            if (!subSchema) return null
             return (
               <EditComponent
                 key={`${id}[${key}]`}
@@ -208,7 +218,7 @@ export const EditComponent = forwardRef(
                 placeholder={subSchema?.title ?? ''}
                 required={requiredFields.includes(key)}
                 setValue={(ev) => {
-                  setValue({ ...value, [key]: ev })
+                  setValue({ ...value, [key]: ev } as IndexSignature)
                 }}
                 dataTest={`${key}TestInput`}
               />
@@ -233,7 +243,7 @@ export const EditComponent = forwardRef(
     }
     return (
       <Input
-        value={val || ''}
+        value={(val || '') as string}
         className={className}
         dataTest={dataTest}
         onChange={(ev) => setValue(ev)}

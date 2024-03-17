@@ -14,7 +14,7 @@ interface State {
   error: string
 }
 interface Props {
-  principals: { text: string; value: string }[]
+  principals?: { text: string; value: string }[]
   roles: { text: string; value: string }[]
   operations: { text: string; value: string }[]
   refresh: (value: number) => void
@@ -34,10 +34,6 @@ export function PermissionPrinrole({
     setting: undefined,
     error: undefined,
   })
-
-  const getMultiples = (field, setter) => (values) => {
-    setter({ [field]: values })
-  }
 
   const savePermission = async () => {
     if (!state.principal || !state.setting || state.roles.length === 0) {
@@ -75,8 +71,8 @@ export function PermissionPrinrole({
         </label>
         <Select
           appendDefault
-          options={principals}
-          onChange={(value: string) => setState({ principal: value })}
+          options={principals ?? []}
+          onChange={(value) => setState({ principal: value as string })}
           dataTest="selectPrincipalTest"
         />
       </div>
@@ -86,7 +82,9 @@ export function PermissionPrinrole({
         </label>
         <Select
           options={roles}
-          onChange={getMultiples('roles', setState)}
+          onChange={(values) => {
+            setState({ roles: values as string[] })
+          }}
           size={5}
           multiple
           dataTest="selectRoleTest"
@@ -99,7 +97,7 @@ export function PermissionPrinrole({
         <Select
           appendDefault
           options={operations}
-          onChange={(value: string) => setState({ setting: value })}
+          onChange={(value) => setState({ setting: value as string })}
           dataTest="operationPermissionsTest"
         />
       </div>

@@ -199,9 +199,9 @@ export function PanelPermissions() {
 }
 
 interface State {
-  permissions: { text: string; value: string }[]
+  permissions?: { text: string; value: string }[]
   roles: { text: string; value: string }[]
-  principals: { text: string; value: string }[]
+  principals?: { text: string; value: string }[]
   current: string
 }
 const initial: State = {
@@ -261,7 +261,7 @@ export function AddPermission({ refresh, reset }: AddPermissionProps) {
 
       const req = await Ctx.client.getRoles(Ctx.path)
       if (req.ok) {
-        roles = (await req.json()).map((role) => ({
+        roles = (await req.json()).map((role: string) => ({
           text: role,
           value: role,
         }))
@@ -280,7 +280,7 @@ export function AddPermission({ refresh, reset }: AddPermissionProps) {
       <p>{intl.formatMessage(messages.select_type)}</p>
       <Select
         options={defaultOptions}
-        onChange={(value: string) => setState({ current: value })}
+        onChange={(value) => setState({ current: value as string })}
         dataTest="selectPermissionTypeTest"
       />
       <hr />

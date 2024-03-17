@@ -14,9 +14,12 @@ export const InputList = forwardRef<
 >(({ value, onChange, dataTest, id }, ref) => {
   const intl = useIntl()
   const [inputValue, setInputValue] = useState('')
-  const addTags = (event) => {
-    if (event.key === 'Enter' && event.target.value !== '') {
-      onChange([...value, event.target.value])
+  const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key === 'Enter' &&
+      (event.target as HTMLInputElement).value !== ''
+    ) {
+      onChange([...value, (event.target as HTMLInputElement).value])
       setInputValue('')
     }
   }

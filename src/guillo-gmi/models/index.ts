@@ -7,7 +7,7 @@ export * from './sharing'
 export class ItemModel {
   item: SearchItem
   url: string
-  constructor(item, url = '') {
+  constructor(item: SearchItem, url = '') {
     this.item = item
     this.url = url
   }
@@ -73,7 +73,7 @@ export class ItemModel {
     return this.item['@uid']
   }
 
-  get type() {
+  get type(): string {
     return this.item['@type'] || this.item.type_name
   }
 

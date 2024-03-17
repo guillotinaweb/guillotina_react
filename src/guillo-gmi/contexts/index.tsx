@@ -1,5 +1,4 @@
-import { Dispatch, useContext } from 'react'
-import { createContext } from 'react'
+import { Dispatch, useContext, createContext } from 'react'
 import { GuillotinaClient } from '../lib/client.js'
 import { Auth } from '../lib/auth.js'
 import { IndexSignature } from '../types/global'
@@ -7,13 +6,13 @@ import { GuillotinaGlobalState } from '../reducers/guillotina'
 
 export const AuthContext = createContext({})
 
-export const ClientContext = createContext<GuillotinaClient>(null)
+export const ClientContext = createContext<GuillotinaClient | null>(null)
 
 interface PropsTraversal {
   client: GuillotinaClient
   auth: Auth
   state: GuillotinaGlobalState
-  dispatch: Dispatch<{ type: string; payload: IndexSignature }>
+  dispatch: Dispatch<{ type: string; payload?: IndexSignature }>
   registry: IndexSignature
   flash: (action: string, result: string) => void
   url: string
@@ -57,12 +56,12 @@ export class Traversal {
     return this.client.getContainerFromPath(this.path)
   }
 
-  apply(data) {
+  apply(data: IndexSignature) {
     // apply a optimistic update to context
     this.dispatch({ type: 'APPLY', payload: data })
   }
 
-  flash(message, type) {
+  flash(message: string, type: string) {
     this.dispatch({ type: 'SET_FLASH', payload: { flash: { message, type } } })
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }
@@ -71,7 +70,7 @@ export class Traversal {
     this.dispatch({ type: 'CLEAR_FLASH' })
   }
 
-  doAction(action, params = {}) {
+  doAction(action: string, params = {}) {
     this.dispatch({ type: 'SET_ACTION', payload: { action, params } })
   }
 
@@ -79,12 +78,12 @@ export class Traversal {
     this.dispatch({ type: 'CLEAR_ACTION' })
   }
 
-  hasPerm(permission) {
+  hasPerm(permission: string) {
     return this.state.permissions[permission] === true
   }
 
-  filterTabs(tabs, tabsPermissions) {
-    const result = {}
+  filterTabs(tabs: IndexSignature, tabsPermissions: IndexSignature) {
+    const result: IndexSignature = {}
     Object.keys(tabs).forEach((item) => {
       const perm = tabsPermissions[item]
       if (perm && this.hasPerm(perm)) {
@@ -97,7 +96,7 @@ export class Traversal {
   }
 }
 
-export const TraversalContext = createContext<Traversal>(null)
+export const TraversalContext = createContext<Traversal | null>(null)
 export function TraversalProvider({
   children,
   ...props
@@ -110,7 +109,7 @@ export function TraversalProvider({
 }
 
 export function useTraversal() {
-  return useContext(TraversalContext)
+  return useContext(TraversalContext)!
 }
 
 interface PropsClient {

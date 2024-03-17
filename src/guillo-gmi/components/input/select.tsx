@@ -50,15 +50,19 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
     const intl = useIntl()
     const [uid] = useState(generateUID('select'))
 
-    const onUpdate = (ev) => {
+    const onUpdate = (ev: React.ChangeEvent<HTMLSelectElement>) => {
       if (multiple) {
-        let selectValue = []
+        let selectValue: string[] = []
         for (let i = 0; i < ev.target.selectedOptions.length; i++) {
           selectValue = selectValue.concat([ev.target.selectedOptions[i].value])
         }
-        onChange(selectValue)
+        if (onChange) {
+          onChange(selectValue)
+        }
       } else {
-        onChange(ev.target.value)
+        if (onChange) {
+          onChange(ev.target.value)
+        }
       }
     }
 

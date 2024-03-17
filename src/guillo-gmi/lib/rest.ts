@@ -1,3 +1,4 @@
+import { LightFile } from '../types/global'
 import { Auth } from './auth'
 
 export class RestClient {
@@ -11,7 +12,7 @@ export class RestClient {
     this.container = container
   }
 
-  async request(path, data = undefined, headers = undefined) {
+  async request(path: string, data?: RequestInit, headers?: HeadersInit) {
     if (path.indexOf(this.url) !== -1) {
       path = path.replace(this.url, '')
     }
@@ -23,63 +24,68 @@ export class RestClient {
     if (!path.startsWith('/')) {
       path = `/${path}`
     }
-    data = data || {}
-    data.headers = headers || this.getHeaders()
-    return await fetch(`${this.url}${path}`, data)
+    const dataRequest = data || {}
+    dataRequest.headers = headers || this.getHeaders()
+    return await fetch(`${this.url}${path}`, dataRequest)
   }
 
-  getHeaders() {
+  getHeaders(): HeadersInit {
     const authToken = this.auth.getToken()
-    if (!authToken) return {}
-    return {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + authToken,
-    }
+    const headersInit: HeadersInit = {}
+
+    if (!authToken) return headersInit
+
+    headersInit.Accept = 'application/json'
+    headersInit['Content-Type'] = 'application/json'
+    headersInit.Authorization = 'Bearer ' + authToken
+    return headersInit
   }
 
-  async post(path, data) {
+  async post(path: string, data: unknown) {
     return await this.request(path, {
       method: 'post',
       body: JSON.stringify(data),
     })
   }
 
-  async get(path) {
+  async get(path: string) {
     return await this.request(path)
   }
 
-  async put(path, data) {
+  async put(path: string, data: unknown) {
     return await this.request(path, {
       method: 'put',
       body: JSON.stringify(data),
     })
   }
 
-  async patch(path, data) {
+  async patch(path: string, data: unknown) {
     return await this.request(path, {
       method: 'PATCH',
       body: JSON.stringify(data),
     })
   }
 
-  async upload(path, data) {
+  async upload(path: string, data: LightFile) {
     const headers = this.getHeaders()
-    delete headers['Content-Type']
-    headers['Content-Type'] = data['content-type']
-    headers['X-UPLOAD-FILENAME'] = data.filename
-    headers['Content-Encoding'] = 'base64'
+    const newHeaders: HeadersInit = {}
+    newHeaders['Content-Type'] = data['content-type']
+    newHeaders['X-UPLOAD-FILENAME'] = data.filename
+    newHeaders['Content-Encoding'] = 'base64'
     return await this.request(
       path,
       {
         method: 'PATCH',
         body: data.data,
       },
-      headers
+      {
+        ...headers,
+        ...newHeaders,
+      }
     )
   }
 
-  async delete(path, data = undefined) {
+  async delete(path: string, data: unknown) {
     return await this.request(path, {
       method: 'delete',
       body: JSON.stringify(data),

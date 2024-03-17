@@ -8,10 +8,10 @@ interface Props {
   vocabularyName: string
   className?: string
   classWrap?: string
-  val?: string
+  val?: string | string[]
   dataTest?: string
   multiple?: boolean
-  onChange?: (value: string) => void
+  onChange?: (value: string | string[]) => void
   appendDefault?: boolean
   id?: string
   placeholder?: string
@@ -34,7 +34,9 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
     const vocabulary = useVocabulary(vocabularyName)
 
     const getOptions = () => {
-      if (get<GuillotinaVocabularyItem>(vocabulary, 'data.items', null)) {
+      if (
+        get<GuillotinaVocabularyItem | null>(vocabulary, 'data.items', null)
+      ) {
         const vocData = vocabulary.data.items.map((item) => {
           return {
             text: item.title,

@@ -4,10 +4,13 @@ import { Icon } from '../components/ui'
 import { toQueryString } from './helpers'
 import { RestClient } from './rest'
 import { parser } from './search'
-import { LightFile } from '../types/global'
+import { IndexSignature, LightFile } from '../types/global'
+import { ItemModel } from '../models'
+import { Auth } from './auth'
+import { GuillotinaGroups, GuillotinaUser } from '../types/guillotina'
 
-const cacheTypes = {}
-const cacheSchemas = {}
+const cacheTypes: IndexSignature = {}
+const cacheSchemas: IndexSignature = {}
 
 export class GuillotinaClient {
   rest: RestClient
@@ -17,7 +20,7 @@ export class GuillotinaClient {
     this.pathContainsContainer = pathContainsContainer
   }
 
-  getContainerFromPath = (path) => {
+  getContainerFromPath = (path: string) => {
     if (this.pathContainsContainer) {
       if (path.startsWith('/')) {
         path = path.substring(1)
@@ -28,14 +31,14 @@ export class GuillotinaClient {
     return ''
   }
 
-  clearContainerFromPath = (path) => {
+  clearContainerFromPath = (path: string) => {
     if (this.pathContainsContainer) {
       return `/${this.cleanPath(path)}`
     }
     return path
   }
 
-  async getContext(path) {
+  async getContext(path: string) {
     switch (path) {
       case '/':
         return await this.rest.get('')
@@ -47,7 +50,7 @@ export class GuillotinaClient {
     }
   }
 
-  async get(path) {
+  async get(path: string) {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
@@ -72,6 +75,11 @@ export class GuillotinaClient {
     pageSize = 10,
     path,
     withDepth = true,
+  }: {
+    start?: number
+    pageSize?: number
+    path: string
+    withDepth?: boolean
   }) {
     let result = []
     let containerPath = this.getContainerFromPath(path)
@@ -107,13 +115,15 @@ export class GuillotinaClient {
       {
         label: '',
         isSortable: false,
-        child: (m) => <td style={smallcss}>{<Icon icon={m.icon} />}</td>,
+        child: (m: ItemModel) => (
+          <td style={smallcss}>{<Icon icon={m.icon} />}</td>
+        ),
       },
       {
         label: 'type',
         key: 'type_name',
         isSortable: false,
-        child: (m) => (
+        child: (m: ItemModel) => (
           <TdLink style={smallcss} model={m}>
             <span className="tag">{m.type}</span>
           </TdLink>
@@ -123,7 +133,7 @@ export class GuillotinaClient {
         label: 'id/name',
         key: 'title',
         isSortable: true,
-        child: (m, navigate, search) => (
+        child: (m: ItemModel, _navigate: () => void, search: boolean) => (
           <TdLink model={m}>
             {m.name}
             {search && (
@@ -139,7 +149,7 @@ export class GuillotinaClient {
         label: 'created',
         key: 'creation_date',
         isSortable: true,
-        child: (m) => {
+        child: (m: ItemModel) => {
           return (
             <td style={mediumcss} className="is-size-7 is-vcentered">
               {m.created}
@@ -151,7 +161,7 @@ export class GuillotinaClient {
         label: 'modified',
         key: 'modification_date',
         isSortable: true,
-        child: (m) => (
+        child: (m: ItemModel) => (
           <td style={mediumcss} className="is-size-7 is-vcentered">
             {m.updated}
           </td>
@@ -161,10 +171,14 @@ export class GuillotinaClient {
   }
 
   // BBB API changes. Compat G5 and G6
-  applyCompat(data) {
-    data.member = data.items
-    data.items_count = data.items_total
-    return data
+  applyCompat(data: { items: unknown[]; items_total: number }) {
+    const result: {
+      member: unknown[]
+      items_count: number
+      items: unknown[]
+      items_total: number
+    } = { ...data, member: data.items, items_count: data.items_total }
+    return result
   }
 
   async search(
@@ -188,7 +202,7 @@ export class GuillotinaClient {
     return this.applyCompat(data)
   }
 
-  async canido(path, permissions) {
+  async canido(path: string, permissions: string | string[]) {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
@@ -199,52 +213,52 @@ export class GuillotinaClient {
     return await this.rest.get(url)
   }
 
-  async createObject(path, data) {
+  async createObject(path: string, data: unknown) {
     return await this.rest.post(path, data)
   }
 
-  cleanPath(path) {
+  cleanPath(path: string) {
     const url = path.split('/').slice(3)
     return `${url.join('/')}`
   }
 
-  async delete(path, data) {
+  async delete(path: string, data: unknown) {
     return await this.rest.delete(path, data)
   }
 
-  async create(path, data) {
+  async create(path: string, data: unknown) {
     if (path.startsWith('/')) {
       path = path.substring(1)
     }
     return await this.rest.post(path, data)
   }
 
-  async post(path, data) {
+  async post(path: string, data: unknown) {
     return await this.create(path, data)
   }
 
-  async patch(path, data) {
+  async patch(path: string, data: unknown) {
     if (path.startsWith('/')) {
       path = path.substring(1)
     }
     return await this.rest.patch(path, data)
   }
 
-  async upload(path, file) {
+  async upload(path: string, file: LightFile) {
     if (path.startsWith('/')) {
       path = path.substring(1)
     }
     return await this.rest.upload(path, file)
   }
 
-  async download(path) {
+  async download(path: string) {
     if (path.startsWith('/')) {
       path = path.substring(1)
     }
     return await this.rest.get(path)
   }
 
-  async getTypeSchema(path, name) {
+  async getTypeSchema(path: string, name: string) {
     if (!cacheSchemas[name]) {
       const url = this.getContainerFromPath(path)
       // todo: handle db case (only addable containers)
@@ -254,29 +268,34 @@ export class GuillotinaClient {
     return cacheSchemas[name]
   }
 
-  async getAddons(path) {
+  async getAddons(path: string) {
     return await this.rest.get(`${path}@addons`)
   }
 
-  async installAddon(path, key) {
+  async installAddon(path: string, key: string) {
     return await this.rest.post(`${path}@addons`, { id: key })
   }
 
-  async removeAddon(path, key) {
+  async removeAddon(path: string, key: string) {
     return await this.rest.delete(`${path}@addons`, { id: key })
   }
 
-  async getGroups(path) {
+  async getGroups(path: string) {
     const endpoint = `${this.getContainerFromPath(path)}@groups`
     return await this.rest.get(endpoint)
   }
 
-  async getUsers(path) {
+  async getUsers(path: string) {
     const endpoint = `${this.getContainerFromPath(path)}@users`
     return await this.rest.get(endpoint)
   }
 
-  async getPrincipals(path) {
+  async getPrincipals(
+    path: string
+  ): Promise<{
+    groups: GuillotinaGroups[]
+    users: GuillotinaUser[]
+  }> {
     const groups = this.getGroups(path)
     const users = this.getUsers(path)
     const [gr, usr] = await Promise.all([groups, users])
@@ -287,12 +306,12 @@ export class GuillotinaClient {
     }
   }
 
-  async getRoles(path) {
+  async getRoles(path: string) {
     const endpoint = `${this.getContainerFromPath(path)}@available-roles`
     return await this.rest.get(endpoint)
   }
 
-  async getAllPermissions(path) {
+  async getAllPermissions(path: string) {
     // paths used to query the API always has to start without a "/"
     if (path.startsWith('/')) {
       path = path.slice(1)
@@ -303,7 +322,7 @@ export class GuillotinaClient {
     return permissions
   }
 
-  async getTypes(path) {
+  async getTypes(path: string) {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
@@ -320,30 +339,34 @@ export class GuillotinaClient {
   }
 }
 
-export function getClient(url, container, auth) {
+export function getClient(url: string, container: string, auth: Auth) {
   return new GuillotinaClient(
     new RestClient(url, container, auth),
     container === '/'
   )
 }
 
-export const lightFileReader = (file) => {
-  return new Promise<LightFile>((resolve) => {
+export const lightFileReader = (file: File) => {
+  return new Promise<LightFile>((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsArrayBuffer(file)
     reader.onloadend = (e) => {
-      const fileData = e.target.result
-      resolve({
-        filename: file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
-        data: fileData,
-        'content-type': file.type,
-      })
+      const fileData = e?.target?.result
+      if (fileData) {
+        resolve({
+          filename: file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
+          data: fileData,
+          'content-type': file.type,
+        })
+      } else {
+        reject('Error reading file')
+      }
     }
   })
 }
 
-const extractPermissions = (data) => {
-  let result = []
+const extractPermissions = (data: IndexSignature) => {
+  let result: string[] = []
   if (typeof data !== 'object') {
     // do nothing
   } else if (!Array.isArray(data) && data.permission) {

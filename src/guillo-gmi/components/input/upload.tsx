@@ -15,8 +15,10 @@ export function FileUpload({
 }: Props & InputHTMLAttributes<HTMLInputElement>) {
   const intl = useIntl()
   const changed = async (event: ChangeEvent<HTMLInputElement>) => {
-    const fileToUpload = await lightFileReader(event.target.files[0])
-    onChange(fileToUpload)
+    if (event.target.files) {
+      const fileToUpload = await lightFileReader(event.target.files[0])
+      onChange(fileToUpload)
+    }
   }
 
   return (

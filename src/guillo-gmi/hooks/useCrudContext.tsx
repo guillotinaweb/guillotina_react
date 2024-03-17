@@ -1,4 +1,4 @@
-import { useTraversal } from '../contexts'
+import { Traversal, useTraversal } from '../contexts'
 import useSetState from './useSetState'
 
 interface State<T = unknown> {
@@ -16,7 +16,14 @@ const initial: State = {
   response: undefined,
 }
 
-const getErrorMessage = (dataError, defaultValue) => {
+interface DataError {
+  details: string
+  reason: string
+}
+const getErrorMessage = (
+  dataError: DataError,
+  defaultValue: string | number
+) => {
   if (dataError && dataError.details) {
     return dataError.details
   } else if (dataError && dataError.reason) {
@@ -25,7 +32,10 @@ const getErrorMessage = (dataError, defaultValue) => {
   return defaultValue
 }
 
-const processResponse = async (res, ready_body = true) => {
+async function processResponse<T>(
+  res: Response,
+  ready_body = true
+): Promise<State<T>> {
   if (res.status < 400)
     return {
       isError: false,
@@ -37,83 +47,90 @@ const processResponse = async (res, ready_body = true) => {
     return {
       isError: true,
       loading: false,
-      errorMessage: getErrorMessage(await res.json(), res.status),
+      errorMessage: getErrorMessage(await res.json(), res.status).toString(),
       response: res,
     }
 }
 
-const patch = (setState, Ctx) => async (
-  data,
-  endpoint = undefined,
-  body = false
-): Promise<State> => {
-  setState({ loading: true })
-  let newState: State = {}
-  try {
-    const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
-    const res = await Ctx.client.patch(path, data)
-    newState = await processResponse(res, body)
-  } catch (e) {
-    console.error('Error', e)
-    newState = { isError: true, errorMessage: 'unhandled exception' }
+function patch<T>(
+  setState: (value: Partial<State<T>>) => void,
+  Ctx: Traversal
+) {
+  return async (
+    data = {},
+    endpoint?: string,
+    body = false
+  ): Promise<State<T>> => {
+    setState({ loading: true })
+    let newState = {}
+    try {
+      const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
+      const res = await Ctx.client.patch(path, data)
+      newState = await processResponse<T>(res, body)
+    } catch (e) {
+      console.error('Error', e)
+      newState = { isError: true, errorMessage: 'unhandled exception' }
+    }
+    setState(newState)
+    return newState
   }
-  setState(newState)
-  return newState
 }
 
-const del = (setState, Ctx) => async (
-  data = {},
-  endpoint = undefined,
-  body = false
-): Promise<State> => {
-  setState({ loading: true })
-  let newState = {}
-  try {
-    const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
-    const res = await Ctx.client.delete(path, data)
-    newState = await processResponse(res, body)
-  } catch (e) {
-    console.error('Error', e)
-    newState = { isError: true, errorMessage: 'unhandled exception' }
+function del<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
+  return async (data = {}, endpoint?: string, body = false): Promise<State> => {
+    setState({ loading: true })
+    let newState = {}
+    try {
+      const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
+      const res = await Ctx.client.delete(path, data)
+      newState = await processResponse(res, body)
+    } catch (e) {
+      console.error('Error', e)
+      newState = { isError: true, errorMessage: 'unhandled exception' }
+    }
+    setState(newState)
+    return newState
   }
-  setState(newState)
-  return newState
 }
 
-const post = (setState, Ctx) => async (
-  data,
-  endpoint = undefined,
-  body = true
-): Promise<State> => {
-  setState({ loading: true })
-  let newState = {}
-  try {
-    const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
-    const res = await Ctx.client.post(path, data)
-    newState = await processResponse(res, body)
-  } catch (e) {
-    console.error('Error', e)
-    newState = { isError: true, errorMessage: 'unhandled exception' }
+function post<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
+  return async (data = {}, endpoint?: string, body = true): Promise<State> => {
+    setState({ loading: true })
+    let newState = {}
+    try {
+      const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
+      const res = await Ctx.client.post(path, data)
+      newState = await processResponse(res, body)
+    } catch (e) {
+      console.error('Error', e)
+      newState = { isError: true, errorMessage: 'unhandled exception' }
+    }
+    setState(newState)
+    return newState
   }
-  setState(newState)
-  return newState
 }
 
-const get = (setState, Ctx) => async (endpoint = undefined): Promise<State> => {
-  setState({ loading: true })
-  let newState = {}
-  try {
-    const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
-    const res = await Ctx.client.get(path)
-    newState = await processResponse(res, true)
-  } catch (e) {
-    console.error('Error', e)
-    newState = { isError: true, errorMessage: 'unhandled exception' }
-  }
+function get<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
+  return async (endpoint?: string): Promise<State> => {
+    setState({ loading: true })
+    let newState = {}
+    try {
+      const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
+      const res = await Ctx.client.get(path)
+      newState = await processResponse(res, true)
+    } catch (e) {
+      console.error('Error', e)
+      newState = { isError: true, errorMessage: 'unhandled exception' }
+    }
 
-  setState(newState)
-  return newState
+    setState(newState)
+    return newState
+  }
 }
+// const get = (
+//   setState: (value: Partial<State>) => void,
+//   Ctx: Traversal
+// ) =>
 
 export function useCrudContext<T>() {
   const Ctx = useTraversal()
