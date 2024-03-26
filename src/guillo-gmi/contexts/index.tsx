@@ -2,7 +2,10 @@ import { Dispatch, useContext, createContext } from 'react'
 import { GuillotinaClient } from '../lib/client.js'
 import { Auth } from '../lib/auth.js'
 import { IndexSignature } from '../types/global'
-import { GuillotinaGlobalState } from '../reducers/guillotina'
+import {
+  GuillotinaGlobalState,
+  GuillotinaReducerActionTypes,
+} from '../reducers/guillotina'
 
 export const AuthContext = createContext({})
 
@@ -12,10 +15,14 @@ interface PropsTraversal {
   client: GuillotinaClient
   auth: Auth
   state: GuillotinaGlobalState
-  dispatch: Dispatch<{ type: string; payload?: IndexSignature }>
+  dispatch: Dispatch<{
+    type: GuillotinaReducerActionTypes
+    payload: IndexSignature
+  }>
   registry: IndexSignature
   flash: (action: string, result: string) => void
   url: string
+  children?: React.ReactNode
 }
 
 export class Traversal {
@@ -37,7 +44,10 @@ export class Traversal {
   }
 
   refresh({ transparent = false } = {}) {
-    this.dispatch({ type: 'REFRESH', payload: { transparent } })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.REFRESH,
+      payload: { transparent },
+    })
   }
 
   get path() {
@@ -58,24 +68,39 @@ export class Traversal {
 
   apply(data: IndexSignature) {
     // apply a optimistic update to context
-    this.dispatch({ type: 'APPLY', payload: data })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.APPLY,
+      payload: { context: data },
+    })
   }
 
   flash(message: string, type: string) {
-    this.dispatch({ type: 'SET_FLASH', payload: { flash: { message, type } } })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.SET_FLASH,
+      payload: { flash: { message, type } },
+    })
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }
 
   clearFlash() {
-    this.dispatch({ type: 'CLEAR_FLASH' })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.CLEAR_FLASH,
+      payload: {},
+    })
   }
 
   doAction(action: string, params = {}) {
-    this.dispatch({ type: 'SET_ACTION', payload: { action, params } })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.SET_ACTION,
+      payload: { action, params },
+    })
   }
 
   cancelAction() {
-    this.dispatch({ type: 'CLEAR_ACTION' })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.CLEAR_ACTION,
+      payload: {},
+    })
   }
 
   hasPerm(permission: string) {
@@ -123,5 +148,9 @@ export function ClientProvider({ children, client }: PropsClient) {
 }
 
 export function useGuillotinaClient() {
-  return useContext(ClientContext)
+  const client = useContext(ClientContext)
+  if (!client) {
+    throw new Error('useGuillotinaClient must be used within a ClientProvider')
+  }
+  return client
 }

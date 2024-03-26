@@ -10,23 +10,23 @@ interface Props {
 
 export function MoveItem(props: Props) {
   const Ctx = useTraversal()
-  const { post } = useCrudContext()
+  const { post } = useCrudContext<{ '@url': string }>()
   const [, navigate] = useLocation()
   const client = useGuillotinaClient()
   const { item } = props
 
-  async function moveItem(path) {
+  async function moveItem(path: string) {
     const { isError, errorMessage, result } = await post(
       {
         destination: path,
-        new_id: item['@name'],
+        new_id: item.id,
       },
       '@move'
     )
 
     if (!isError) {
       navigate({
-        path: `/${client.cleanPath(result['@url'])}/`,
+        path: `/${client.cleanPath(result!['@url'])}/`,
         tab: '',
       })
       Ctx.flash(`Field moved!`, 'success')

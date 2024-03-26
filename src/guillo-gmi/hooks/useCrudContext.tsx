@@ -94,9 +94,13 @@ function del<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
 }
 
 function post<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
-  return async (data = {}, endpoint?: string, body = true): Promise<State> => {
+  return async (
+    data = {},
+    endpoint?: string,
+    body = true
+  ): Promise<State<T>> => {
     setState({ loading: true })
-    let newState = {}
+    let newState: State<T> = {}
     try {
       const path = endpoint ? `${Ctx.path}${endpoint}` : Ctx.path
       const res = await Ctx.client.post(path, data)

@@ -18,7 +18,7 @@ export const Button = ({
   disabled = false,
   dataTest,
 }: Props) => {
-  let css = [].concat('button', ...className.split(' '))
+  let css = [...className.split(' '), 'button']
   if (loading) css = css.concat('is-loading')
 
   return (

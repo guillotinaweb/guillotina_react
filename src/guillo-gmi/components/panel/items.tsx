@@ -56,26 +56,26 @@ export function PanelItems() {
   const type = location.get('type')
   const sort = location.get('sort')
   const sortDirection = location.get('sort_direction')
-  let page
+  let page: number | undefined
 
   try {
-    page = parseInt(location.get('page')) || 0
+    page = parseInt(location.get('page') || '0')
   } catch {
     page = 0
   }
 
-  let searchParsed = undefined
+  let searchParsed: string[][] | undefined = undefined
   if (search && search !== '') {
     const fieldsToFilter = Ctx.registry.getFieldsToFilter(Ctx.context['@type'])
     searchParsed = parser(search, fieldsToFilter)
   }
 
-  let typeParsed = undefined
+  let typeParsed: string[][] | undefined = undefined
   if (type && type !== '') {
     typeParsed = parser(type, 'type_name')
   }
 
-  let sortParsed = undefined
+  let sortParsed: string[][] | undefined = undefined
   if (sort && sort !== '') {
     if (sortDirection === 'asc') {
       sortParsed = parser(`_sort_asc=${sort}`)
@@ -84,7 +84,7 @@ export function PanelItems() {
     }
   }
 
-  const onSort = (key) => {
+  const onSort = (key: string) => {
     if (sort === key && sortDirection === 'des') {
       setLocation({
         sort: key,
@@ -100,8 +100,8 @@ export function PanelItems() {
     }
   }
 
-  let resultQueryParams = []
-  const resultDynamicLocation = []
+  let resultQueryParams: string[][] = []
+  const resultDynamicLocation: string[] = []
   filterSchema.forEach((filter) => {
     const itemParam = location.get(filter.attribute_key)
     resultDynamicLocation.push(itemParam)
@@ -120,11 +120,7 @@ export function PanelItems() {
       const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
       if (sortParsed === undefined) {
         const defaultSortValue = Ctx.registry.getDefaultSortValue(
-          Ctx.context['@type'],
-          {
-            key: 'id',
-            direction: 'des',
-          }
+          Ctx.context['@type']
         )
         sortParsed = parser(
           `_sort_${defaultSortValue.direction}=${defaultSortValue.key}`

@@ -10,6 +10,18 @@ type ItemsPropertyObject = {
   '@static_behaviors': string[]
 }
 
+export interface IBehaviorDublinCore {
+  title: string
+  description: string | null
+  creation_date: string
+  modification_date: string
+  effective_date: string | null
+  expiration_date: string | null
+  creators: string[]
+  tags: string[] | null
+  publisher: string | null
+  contributors: string[]
+}
 export interface GuillotinaSchema {
   title: string
   $schema: string
@@ -17,6 +29,10 @@ export interface GuillotinaSchema {
   required: string[]
   definitions: Definitions
   properties: GuillotinaSchemaProperties
+}
+
+export interface GuillotinaSchemaProperties {
+  [key: string]: GuillotinaSchemaProperty | { $ref: string }[]
 }
 
 export interface Definitions {
@@ -27,6 +43,22 @@ export interface Definitions {
     title: string
     description: string
   }
+}
+
+export interface GuillotinaSchemaProperty {
+  type: string
+  title: string
+  widget?: string
+  readonly?: boolean
+  description?: string
+  vocabularyName?: string
+  vocabulary?: string[]
+  items?: GuillotinaItemsProperty
+  properties?: GuillotinaSchemaProperties
+  additionalProperties?: GuillotinaSchemaProperties
+  typeNameQuery?: string
+  labelProperty?: string
+  enum?: string[]
 }
 
 export interface GuillotinaItemsProperty {
@@ -43,31 +75,26 @@ export interface GuillotinaItemsProperty {
   title: string
   enum?: string[]
 }
-export interface GuillotinaSchemaProperty {
-  type: string
-  title: string
-  widget?: string
-  readonly?: boolean
-  description?: string
-  vocabularyName?: string
-  vocabulary?: string[]
-  items?: GuillotinaItemsProperty
-  properties?: GuillotinaSchemaProperties
-  additionalProperties?: GuillotinaSchemaProperties
-  typeNameQuery?: string
-  labelProperty?: string
-  enum?: string[]
-}
-export interface GuillotinaSchemaProperties {
-  [key: string]: GuillotinaSchemaProperty | { $ref: string }[]
-}
 
+interface GuillotinaParentObject {
+  '@id': string
+  '@name': string
+  '@type': string
+  '@uid': string
+}
 export type GuillotinaCommonObject = {
   creation_date: Date
   modification_date: string
   title: string
   type_name: string
   uuid: string
+  is_folderish: boolean
+  parent: GuillotinaParentObject
+  __behaviors__?: string[]
+  'guillotina.behaviors.dublincore.IDublinCore'?: IBehaviorDublinCore
+  'guillotina.behaviors.attachment.IAttachment'?: {
+    file: GuillotinaFile
+  }
   'guillotina.behaviors.attachment.IMultiAttachment'?: {
     files: {
       [key: string]: GuillotinaFile

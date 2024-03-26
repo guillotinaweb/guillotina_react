@@ -12,16 +12,21 @@ export function BehaviorsView({ context, schema }: Props) {
   const Ctx = useTraversal()
   const { getBehavior } = Ctx.registry
 
-  const behaviors = [].concat(
-    context.__behaviors__,
-    context['@static_behaviors']
-  )
-  const GetBehavior = (b) => {
-    const Cls = getBehavior(b, BehaviorNotImplemented)
+  const behaviors: string[] = [
+    ...(context.__behaviors__ ?? []),
+    ...Object(context['@static_behaviors']),
+  ]
+
+  const GetBehavior = (behaviorName: string) => {
+    const Cls = getBehavior(behaviorName, BehaviorNotImplemented)
     return (
       <Cls
-        values={context[b]}
-        properties={get(schema, ['definitions', b, 'properties'], {})}
+        values={context[behaviorName as keyof GuillotinaCommonObject]}
+        properties={get(
+          schema,
+          ['definitions', behaviorName, 'properties'],
+          {}
+        )}
       />
     )
   }

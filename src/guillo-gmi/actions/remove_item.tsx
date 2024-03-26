@@ -36,7 +36,7 @@ export function RemoveItem(props: Props) {
       loading={loading}
       onCancel={() => Ctx.cancelAction()}
       onConfirm={removeItem}
-      message={`Are you sure to remove: ${item['@name']}?`}
+      message={`Are you sure to remove: ${item.id}?`}
     />
   )
 }

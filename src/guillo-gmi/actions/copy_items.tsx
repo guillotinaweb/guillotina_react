@@ -3,8 +3,9 @@ import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { getNewId } from '../lib/utils'
 import { ItemModel } from '../models'
+import { IndexSignature } from '../types/global'
 
-const withError = (res) => res.status >= 300
+const withError = (res: Response) => res.status >= 300
 
 interface Props {
   items: Array<ItemModel>
@@ -13,11 +14,11 @@ export function CopyItems(props: Props) {
   const Ctx = useTraversal()
   const { items = [] } = props
 
-  async function copyItems(path, form) {
+  async function copyItems(path: string, form: IndexSignature) {
     const responses = await Promise.all(
       items.map((item, i) => {
         const input = form[i + 1] || {}
-        return Ctx.client.post(`${Ctx.path}${item['@name']}/@duplicate`, {
+        return Ctx.client.post(`${Ctx.path}${item.id}/@duplicate`, {
           destination: path,
           new_id: input.value || getNewId(item.id),
         })
@@ -55,7 +56,7 @@ export function CopyItems(props: Props) {
           <input
             type="text"
             className="input"
-            data-test={`inputCopyIdTest-${item['@name']}`}
+            data-test={`inputCopyIdTest-${item.id}`}
             defaultValue={getNewId(item.id)}
           />
         </Fragment>

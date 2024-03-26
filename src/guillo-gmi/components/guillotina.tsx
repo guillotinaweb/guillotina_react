@@ -6,7 +6,11 @@ import { TraversalProvider, useGuillotinaClient } from '../contexts'
 import { useConfig } from '../hooks/useConfig'
 import { IRegistry, useRegistry } from '../hooks/useRegistry'
 import { useLocation } from '../hooks/useLocation'
-import { guillotinaReducer } from '../reducers/guillotina'
+import {
+  GuillotinaGlobalState,
+  GuillotinaReducerActionTypes,
+  guillotinaReducer,
+} from '../reducers/guillotina'
 import { initialState } from '../reducers/guillotina'
 import { Loading } from './ui/loading'
 import { IntlProvider } from 'react-intl'
@@ -16,7 +20,7 @@ import langEN from '../locales/compiled/en.json'
 import { Auth } from '../lib/auth'
 import { IndexSignature } from '../types/global'
 
-function loadLocaleData(locale) {
+function loadLocaleData(locale: string) {
   switch (locale) {
     case 'ca':
       return langCA
@@ -41,7 +45,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   const client = useGuillotinaClient()
 
   const { Permissions } = useConfig(config)
-  const registry = useRegistry(props.registry || {})
+  const registry = useRegistry(props.registry)
   // Location is cooked routing solution (only uses search params)
   const [location] = useLocation()
 
@@ -56,31 +60,51 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   const { path, refresh } = state
 
   useEffect(() => {
-    dispatch({ type: 'SET_PATH', payload: searchPath })
+    dispatch({
+      type: GuillotinaReducerActionTypes.SET_PATH,
+      payload: {
+        path: searchPath,
+      },
+    })
   }, [searchPath])
 
   useEffect(() => {
     const initContext = async () => {
       const data = await client.getContext(path)
       if (data.status === 401) {
-        dispatch({ type: 'SET_ERROR', payload: 'notallowed' })
+        dispatch({
+          type: GuillotinaReducerActionTypes.SET_ERROR,
+          payload: {
+            errorStatus: 'notallowed',
+          },
+        })
         return
       } else if (data.status === 404) {
-        dispatch({ type: 'SET_ERROR', payload: 'notfound' })
+        dispatch({
+          type: GuillotinaReducerActionTypes.SET_ERROR,
+          payload: {
+            errorStatus: 'notallowed',
+          },
+        })
         return
       }
       const context = await data.json()
       const pr = await client.canido(path, Permissions)
       const permissions = await pr.json()
-      dispatch({ type: 'SET_CONTEXT', payload: { context, permissions } })
+      dispatch({
+        type: GuillotinaReducerActionTypes.SET_CONTEXT,
+        payload: { context, permissions },
+      })
     }
     initContext()
   }, [path, refresh, client])
 
-  const ErrorBoundary = registry.get('views', 'ErrorBoundary')
-  const NotAllowed = registry.get('views', 'NotAllowed')
-  const NotFound = registry.get('views', 'NotFound')
-  const Path = registry.get('components', 'Path')
+  const ErrorBoundary: React.ComponentType<{
+    children: React.ReactNode
+  }> = registry.getView('ErrorBoundary')
+  const NotAllowed = registry.getView('NotAllowed')
+  const NotFound = registry.getView('NotFound')
+  const Path = registry.getView('Path')
 
   const contextData = {
     url,
@@ -93,8 +117,12 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }
 
   const { action, errorStatus, permissions } = state
-  const Main = registry.getComponent(state.context, path)
-  const Action = action.action ? registry.getAction(action.action) : null
+  const Main = registry.getComponent(state.context!, path) as React.FC<{
+    state: GuillotinaGlobalState
+  }>
+  const Action = action.action
+    ? (registry.getAction(action.action) as React.FC<any>)
+    : null
 
   return (
     <IntlProvider locale={locale} defaultLocale="en" messages={messages}>
@@ -103,7 +131,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
           <TraversalProvider {...contextData}>
             {permissions && (
               <React.Fragment>
-                {action.action && <Action {...action.params} />}
+                {action.action && Action && <Action {...action.params} />}
                 <div className="level">
                   <div className="level-left">
                     <div className="level-item">

@@ -4,6 +4,7 @@ import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { getNewId } from '../lib/utils'
 import { ItemModel } from '../models'
+import { IndexSignature } from '../types/global'
 
 interface Props {
   item: ItemModel
@@ -14,12 +15,12 @@ export function CopyItem(props: Props) {
   const { post } = useCrudContext()
   const { item } = props
 
-  async function copyItem(path, form) {
+  async function copyItem(path: string, form: IndexSignature) {
     const input = form[1] || {}
     const { isError, errorMessage } = await post(
       {
         destination: path,
-        new_id: input.value || getNewId(item['@name']),
+        new_id: input.value || getNewId(item.id),
       },
       '@duplicate'
     )
@@ -42,13 +43,13 @@ export function CopyItem(props: Props) {
     >
       <Fragment>
         <small style={{ display: 'block', marginTop: 20 }}>
-          {`New id for "${item['@name']}" copy`}
+          {`New id for "${item.id}" copy`}
         </small>
         <input
           type="text"
           className="input"
-          data-test={`inputCopyIdTest-${item['@name']}`}
-          defaultValue={getNewId(item['@name'])}
+          data-test={`inputCopyIdTest-${item.id}`}
+          defaultValue={getNewId(item.id)}
         />
       </Fragment>
     </PathTree>

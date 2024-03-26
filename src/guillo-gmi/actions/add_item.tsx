@@ -1,6 +1,7 @@
 import { useTraversal } from '../contexts'
 import { Modal } from '../components/modal'
 import { useCrudContext } from '../hooks/useCrudContext'
+import { IndexSignature } from '../types/global'
 
 interface Props {
   type: string
@@ -18,7 +19,7 @@ export function AddItem(props: Props) {
     Ctx.cancelAction()
   }
 
-  async function doSubmit(data) {
+  async function doSubmit(data: IndexSignature) {
     const form = Object.assign(
       {},
       { '@type': type },

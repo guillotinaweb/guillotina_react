@@ -2,7 +2,7 @@ import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { ItemModel } from '../models'
 
-const withError = (res) => res.status >= 300
+const withError = (res: Response) => res.status >= 300
 
 interface Props {
   items: ItemModel[]
@@ -11,12 +11,12 @@ export function MoveItems(props: Props) {
   const Ctx = useTraversal()
   const { items = [] } = props
 
-  async function moveItems(path) {
+  async function moveItems(path: string) {
     const responses = await Promise.all(
       items.map((item) => {
-        return Ctx.client.post(`${Ctx.path}${item['@name']}/@move`, {
+        return Ctx.client.post(`${Ctx.path}${item.id}/@move`, {
           destination: path,
-          new_id: item['@name'],
+          new_id: item.id,
         })
       })
     )

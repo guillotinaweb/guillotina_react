@@ -12,13 +12,13 @@ import {
   genericMessages,
 } from '../../locales/generic_messages'
 import { EditableFieldValue, LightFile } from '../../types/global'
-import { GuillotinaItemsProperty } from '../../types/guillotina'
+import { GuillotinaSchemaProperty } from '../../types/guillotina'
 
 interface Props {
   field: string
   value: EditableFieldValue
   ns?: string
-  schema?: GuillotinaItemsProperty
+  schema?: GuillotinaSchemaProperty
   modifyContent?: boolean
   required?: boolean
 }
@@ -144,7 +144,7 @@ export function EditableField({
       Ctx.refresh()
     } else if (schema?.type === 'string' && schema?.enum) {
       setValue(null)
-    } else if (schema?.type === 'array' && schema?.items.type === 'string') {
+    } else if (schema?.type === 'array' && schema?.items?.type === 'string') {
       setValue([])
     }
   }

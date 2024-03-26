@@ -1,11 +1,11 @@
-import { Component } from 'react'
+import { Component, ErrorInfo } from 'react'
 import { IntlShape, injectIntl } from 'react-intl'
 
 const style = { color: '#F44336', fontSize: 20, paddingBottom: 20 }
 
 class ErrorBoundaryComponent extends Component<
   { intl: IntlShape; children: React.ReactNode },
-  { hasError: boolean; errorMsg: string; errorStack: string }
+  { hasError: boolean; errorMsg: string; errorStack: string | null | undefined }
 > {
   state = {
     hasError: false,
@@ -13,7 +13,7 @@ class ErrorBoundaryComponent extends Component<
     errorStack: '',
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       hasError: true,
       errorMsg: error.message,

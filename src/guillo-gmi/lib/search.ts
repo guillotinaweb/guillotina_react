@@ -8,7 +8,7 @@ export function parser(qs: string, defaultField = DEFAULT_FIELD): string[][] {
   }
 
   if (Array.isArray(defaultField)) {
-    const orParser = []
+    const orParser: string[] = []
     defaultField.forEach((field) => {
       const parsed = parser(qs, field)
       orParser.push(buildQs(parsed))
@@ -16,7 +16,7 @@ export function parser(qs: string, defaultField = DEFAULT_FIELD): string[][] {
     const result = [['__or', orParser.join('&')]]
     return result
   }
-  let lastKey = undefined
+  let lastKey: string | undefined = undefined
   qs.trim()
 
   if (qs.includes('"')) {

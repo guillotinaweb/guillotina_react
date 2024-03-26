@@ -49,7 +49,7 @@ export const defaultConfig: IConfig = {
 let calculated = Object.assign({}, defaultConfig)
 
 function addConfig(updates: Partial<IConfig>, currentConfig: IConfig): IConfig {
-  const updatedConfig: Partial<IConfig> = { ...currentConfig }
+  let updatedConfig: IConfig = { ...currentConfig }
 
   Object.entries(updates).forEach(([key, value]) => {
     const currentKey = key as keyof IConfig
@@ -57,13 +57,22 @@ function addConfig(updates: Partial<IConfig>, currentConfig: IConfig): IConfig {
 
     if (Array.isArray(value) && Array.isArray(currentValue)) {
       // Correctly type the array concatenation
-      updatedConfig[currentKey] = [...currentValue, ...value] as any
+      updatedConfig = {
+        ...updatedConfig,
+        [currentKey]: [...currentValue, ...value],
+      }
     } else if (isPlainObject(value) && isPlainObject(currentValue)) {
       // Correctly type the object merging
-      updatedConfig[currentKey] = { ...currentValue, ...value } as any
+      updatedConfig = {
+        ...updatedConfig,
+        [currentKey]: { ...currentValue, ...value },
+      }
     } else {
       // Directly assign all other types
-      updatedConfig[currentKey] = value as any
+      updatedConfig = {
+        ...updatedConfig,
+        [currentKey]: value,
+      }
     }
   })
 

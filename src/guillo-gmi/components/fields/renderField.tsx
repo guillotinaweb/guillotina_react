@@ -41,7 +41,7 @@ export function RenderField({ value, Widget, schema }: RenderFieldProps) {
     return Object.keys(value).map((key) => (
       <FieldValue
         field={get(schema, `properties.${key}.title`, key)}
-        schema={get(schema, `properties.${key}`, {})}
+        schema={schema['properties']['key'] as GuillotinaSchemaProperty}
         value={value[key]}
         key={key}
       />
