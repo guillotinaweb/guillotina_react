@@ -3,11 +3,11 @@ import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { getNewId } from '../lib/utils'
-import { ItemModel } from '../models'
 import { IndexSignature } from '../types/global'
+import { GuillotinaCommonObject } from '../types/guillotina'
 
 interface Props {
-  item: ItemModel
+  item: GuillotinaCommonObject
 }
 
 export function CopyItem(props: Props) {
@@ -20,7 +20,7 @@ export function CopyItem(props: Props) {
     const { isError, errorMessage } = await post(
       {
         destination: path,
-        new_id: input.value || getNewId(item.id),
+        new_id: input.value || getNewId(item['@name']),
       },
       '@duplicate'
     )
@@ -43,13 +43,13 @@ export function CopyItem(props: Props) {
     >
       <Fragment>
         <small style={{ display: 'block', marginTop: 20 }}>
-          {`New id for "${item.id}" copy`}
+          {`New id for "${item['@name']}" copy`}
         </small>
         <input
           type="text"
           className="input"
-          data-test={`inputCopyIdTest-${item.id}`}
-          defaultValue={getNewId(item.id)}
+          data-test={`inputCopyIdTest-${item['@name']}`}
+          defaultValue={getNewId(item['@name'])}
         />
       </Fragment>
     </PathTree>

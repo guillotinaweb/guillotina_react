@@ -6,6 +6,7 @@ import {
   GuillotinaGlobalState,
   GuillotinaReducerActionTypes,
 } from '../reducers/guillotina'
+import { GuillotinaCommonObject } from '../types/guillotina.js'
 
 export const AuthContext = createContext({})
 
@@ -58,7 +59,7 @@ export class Traversal {
     return this.state.path.slice(1)
   }
 
-  get context() {
+  get context(): GuillotinaCommonObject {
     return this.state.context
   }
 
@@ -134,7 +135,11 @@ export function TraversalProvider({
 }
 
 export function useTraversal() {
-  return useContext(TraversalContext)!
+  const traversal = useContext(TraversalContext)
+  if (!traversal || !traversal.context) {
+    throw new Error('useTraversal must be used within a TraversalProvider')
+  }
+  return traversal
 }
 
 interface PropsClient {

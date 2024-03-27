@@ -42,7 +42,6 @@ export function AddItem(props: Props) {
       <Form
         loading={loading}
         onSubmit={doSubmit}
-        onError={(err) => console.log(err)}
         actionName={'Add ' + type}
         title={'Add ' + type}
         type={type}

@@ -21,7 +21,7 @@ import { SelectVocabulary } from '../input/select_vocabulary'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
-import { SearchItem } from '../../types/guillotina'
+import { RegistrySchemaFilter, SearchItem } from '../../types/guillotina'
 
 interface InitialState {
   page: number
@@ -45,7 +45,7 @@ export function PanelItems() {
   const [state, setState] = useSetState<InitialState>(initialState)
   const { items, loading, total } = state
 
-  const filterSchema =
+  const filterSchema: RegistrySchemaFilter[] =
     Ctx.registry.getSchemas(Ctx.context['@type']).filters || []
 
   const columns =
@@ -56,7 +56,7 @@ export function PanelItems() {
   const type = location.get('type')
   const sort = location.get('sort')
   const sortDirection = location.get('sort_direction')
-  let page: number | undefined
+  let page: number
 
   try {
     page = parseInt(location.get('page') || '0')
@@ -103,7 +103,7 @@ export function PanelItems() {
   let resultQueryParams: string[][] = []
   const resultDynamicLocation: string[] = []
   filterSchema.forEach((filter) => {
-    const itemParam = location.get(filter.attribute_key)
+    const itemParam = location.get(filter.attribute_key) || ''
     resultDynamicLocation.push(itemParam)
     if (itemParam) {
       const filterParsed = parser(itemParam, filter.attribute_key)
@@ -126,7 +126,7 @@ export function PanelItems() {
           `_sort_${defaultSortValue.direction}=${defaultSortValue.key}`
         )
       }
-      const qsParsed = Ctx.client[fnName]({
+      const qsParsed = Ctx.client.getQueryParamsSearchFunction(fnName)({
         path: Ctx.path,
         start: page * PageSize,
         pageSize: PageSize,

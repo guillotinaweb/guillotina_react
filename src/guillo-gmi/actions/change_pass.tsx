@@ -5,6 +5,7 @@ import { Input } from '../components/input/input'
 import { Button } from '../components/input/button'
 import { Form } from '../components/input/form'
 import { useState } from 'react'
+import { IndexSignature } from '../types/global'
 
 const initial = {
   pass1: '',
@@ -13,7 +14,7 @@ const initial = {
 
 export function ChangePassword() {
   const [state, setState] = useState(initial)
-  const [perror, setPerror] = useState(undefined)
+  const [perror, setPerror] = useState<string | undefined>(undefined)
 
   const Ctx = useTraversal()
   const { patch } = useCrudContext()
@@ -50,8 +51,8 @@ export function ChangePassword() {
     Ctx.refresh()
   }
 
-  const setPass = (field) => (val) => {
-    const n = {}
+  const setPass = (field: string) => (val: string) => {
+    const n: IndexSignature = {}
     n[field] = val
     setState((state) => ({ ...state, ...n }))
     setPerror(undefined)

@@ -30,7 +30,12 @@ import { NotFound } from '../components/notfound'
 import { Path } from '../components/path'
 import { EditComponent } from '../components/fields/editComponent'
 import { RenderFieldComponent } from '../components/fields/renderField'
-import { GuillotinaCommonObject, GuillotinaSchema } from '../types/guillotina'
+import {
+  GuillotinaCommonObject,
+  GuillotinaSchema,
+  RegistrySchema,
+} from '../types/guillotina'
+import { IndexSignature } from '../types/global'
 
 export interface IRegistry {
   paths: {
@@ -57,7 +62,7 @@ export interface IRegistry {
     }[]
   }
   schemas: {
-    [key: string]: GuillotinaSchema
+    [key: string]: RegistrySchema
   }
   properties: {
     [key: string]: React.FC
@@ -193,19 +198,8 @@ const getProperties = (type: string) => {
   return registry.properties[type] || {}
 }
 
-const getSchemas = (type: string) => {
+const getSchemas = (type: string): RegistrySchema => {
   return registry.schemas[type] || {}
-  /*
-    filters: [
-      {
-        attribute_key: string,
-        label: string,
-        type: 'select' | 'input'
-        vocabulary: string | undefined
-        values: {[key:string]:any}[]
-      }
-    ]
-  */
 }
 
 const getFieldsToFilter = (type: string, fallback: string[] = ['title']) => {

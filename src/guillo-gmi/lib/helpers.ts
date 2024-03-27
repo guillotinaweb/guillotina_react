@@ -1,6 +1,8 @@
+import { IntlShape } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
+import { IndexSignature } from '../types/global'
 
-export const classnames = (classNames) => {
+export const classnames = (classNames: string[]) => {
   return classNames.filter(Boolean).join(' ').trim()
 }
 
@@ -10,7 +12,7 @@ let current = 0
 
 export const generateUID = (prefix = '') => `${prefix || 'id'}-${current++}`
 
-export const toQueryString = (params: string[][]) => {
+export const toQueryString = (params: IndexSignature<string>) => {
   return Object.keys(params)
     .map((key) => {
       return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
@@ -18,7 +20,7 @@ export const toQueryString = (params: string[][]) => {
     .join('&')
 }
 
-export function base64ToArrayBuffer(base64) {
+export function base64ToArrayBuffer(base64: string) {
   const binaryString = window.atob(base64)
   const binaryLen = binaryString.length
   const bytes = new Uint8Array(binaryLen)
@@ -29,7 +31,7 @@ export function base64ToArrayBuffer(base64) {
   return bytes
 }
 
-export function stringToSlug(str) {
+export function stringToSlug(str: string) {
   str = str.replace(/^\s+|\s+$/g, '') // trim
   str = str.toLowerCase()
 
@@ -48,15 +50,24 @@ export function stringToSlug(str) {
   return str
 }
 
-export function sleep(ms): Promise<void> {
+export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(function () {
-      resolve(null)
+      resolve()
     }, ms)
   })
 }
 
-export const getActionsObject = (intl, multiple = false) => ({
+export const getActionsObject = (
+  intl: IntlShape,
+  multiple = false
+): {
+  [key: string]: {
+    text: string
+    perms: string[]
+    action: string
+  }
+} => ({
   DELETE: {
     text: intl.formatMessage(genericMessages.delete),
     perms: ['guillotina.DeleteContent'],

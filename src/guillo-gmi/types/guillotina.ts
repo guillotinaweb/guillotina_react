@@ -53,27 +53,14 @@ export interface GuillotinaSchemaProperty {
   description?: string
   vocabularyName?: string
   vocabulary?: string[]
-  items?: GuillotinaItemsProperty
+  items?: GuillotinaSchemaProperty
   properties?: GuillotinaSchemaProperties
   additionalProperties?: GuillotinaSchemaProperties
   typeNameQuery?: string
   labelProperty?: string
   enum?: string[]
-}
-
-export interface GuillotinaItemsProperty {
-  type: string
-  widget?: string
-  properties?: GuillotinaSchemaProperties
-  vocabulary?: string[]
-  vocabularyName?: string
   queryCondition?: string
   queryPath?: string
-  labelProperty?: string
-  typeNameQuery?: string
-  items: GuillotinaItemsProperty
-  title: string
-  enum?: string[]
 }
 
 interface GuillotinaParentObject {
@@ -90,8 +77,12 @@ export type GuillotinaCommonObject = {
   uuid: string
   is_folderish: boolean
   parent: GuillotinaParentObject
+  length: number
   __behaviors__?: string[]
   'guillotina.behaviors.dublincore.IDublinCore'?: IBehaviorDublinCore
+  'guillotina.contrib.workflows.interfaces.IWorkflowBehavior'?: {
+    review_state: string
+  }
   'guillotina.behaviors.attachment.IAttachment'?: {
     file: GuillotinaFile
   }
@@ -211,4 +202,54 @@ export interface GuillotinaUser {
   fullname: string
   email: string
   roles: string[]
+}
+
+export interface Workflow {
+  '@id': string
+  history: History[]
+  transitions: Transition[]
+}
+
+export interface History {
+  actor: string
+  comments: string
+  time: string
+  title: string
+  type: string
+  data: Data
+}
+
+export interface Data {
+  action: null
+  review_state: string
+}
+
+export interface Transition {
+  '@id': string
+  title: string
+  metadata: IndexSignature
+}
+
+export interface Addons {
+  available: AddonAvailable[]
+  installed: string[]
+}
+
+export interface AddonAvailable {
+  id: string
+  title: string
+  dependencies: any[]
+}
+
+export interface RegistrySchema {
+  filters: RegistrySchemaFilter[]
+}
+
+export interface RegistrySchemaFilter {
+  attribute_key: string
+  label: string
+  type: string
+  values?: { value: string; text: string }[]
+  vocabulary?: string
+  input_type?: string
 }

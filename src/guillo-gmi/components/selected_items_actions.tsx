@@ -7,7 +7,7 @@ import { getActionsObject } from '../lib/helpers'
 import { SearchItem } from '../types/guillotina'
 
 const ItemsActionsCtx = createContext<{
-  selected?: {
+  selected: {
     all: boolean
     [key: string]: boolean
   }
@@ -35,22 +35,27 @@ export function ItemsActionsProvider({
   const intl = useIntl()
   const actions = getActionsObject(intl, true)
   const traversal = useTraversal()
-  const [selected, setSelected] = useState({
+  const [selected, setSelected] = useState<{
+    all: boolean
+    [key: string]: boolean
+  }>({
     all: false,
   })
-  function onSelectAllItems(checked) {
+  function onSelectAllItems(checked: boolean) {
     setSelected(
       items.reduce(
         (obj, item) => {
-          obj[`${item.path}/${item.id}`] = checked
-          return obj
+          return {
+            ...obj,
+            [`${item.path}/${item.id}`]: checked,
+          }
         },
         { all: checked }
       )
     )
   }
 
-  function onSelectOneItem(item) {
+  function onSelectOneItem(item: SearchItem) {
     setSelected((state) => ({
       ...state,
       all: false,
@@ -58,7 +63,7 @@ export function ItemsActionsProvider({
     }))
   }
 
-  function onAction(actionKey) {
+  function onAction(actionKey: string) {
     traversal.doAction(actions[actionKey].action, {
       items: items.filter((item) => selected[`${item.path}/${item.id}`]),
     })
@@ -78,12 +83,21 @@ export function ItemsActionsProvider({
   )
 }
 
+const useItemsActions = () => {
+  const { onAction, onSelectOneItem, onSelectAllItems, selected } = useContext(
+    ItemsActionsCtx
+  )
+  if (!onAction || !onSelectOneItem || !onSelectAllItems || !selected) {
+    throw new Error('useItemsActions must be used inside ItemsActionsProvider')
+  }
+  return { onAction, onSelectOneItem, onSelectAllItems, selected }
+}
 /**
  * Checkbox component without props that consume the ItemsActionsContext
  * and it select/unselect all items of the page.
  */
 export function AllItemsCheckbox({ dataTest }: { dataTest?: string }) {
-  const { onSelectAllItems, selected } = useContext(ItemsActionsCtx)
+  const { onSelectAllItems, selected } = useItemsActions()
 
   return (
     <Checkbox
@@ -102,7 +116,7 @@ interface PropsItemCheckbox {
   dataTest?: string
 }
 export function ItemCheckbox({ item, dataTest }: PropsItemCheckbox) {
-  const { selected, onSelectOneItem } = useContext(ItemsActionsCtx)
+  const { selected, onSelectOneItem } = useItemsActions()
   const absId = `${item.path}/${item.id}`
   const value = selected[absId]
 
@@ -122,7 +136,7 @@ export function ItemsActionsDropdown() {
   const intl = useIntl()
   const ACTIONS_OBJECT = getActionsObject(intl, true)
   const traversal = useTraversal()
-  const { selected, onAction } = useContext(ItemsActionsCtx)
+  const { selected, onAction } = useItemsActions()
   const disabled = Object.values(selected).every((v) => !v)
   const options = Object.keys(ACTIONS_OBJECT).map((action) => ({
     text: ACTIONS_OBJECT[action].text,

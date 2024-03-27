@@ -10,7 +10,10 @@ import { SearchInputList } from '../input/search_input_list'
 import { SearchInput } from '../input/search_input'
 import { useTraversal } from '../../contexts'
 import { Ref, forwardRef } from 'react'
-import { GuillotinaFile, GuillotinaItemsProperty } from '../../types/guillotina'
+import {
+  GuillotinaFile,
+  GuillotinaSchemaProperty,
+} from '../../types/guillotina'
 import {
   EditableFieldValue,
   IndexSignature,
@@ -18,7 +21,7 @@ import {
 } from '../../types/global'
 
 interface Props {
-  schema: GuillotinaItemsProperty
+  schema: GuillotinaSchemaProperty
   val: EditableFieldValue
   setValue: (value: EditableFieldValue) => void
   dataTest?: string
@@ -202,7 +205,7 @@ export const EditComponent = forwardRef(
         <>
           {schema.title && <h4 className="subtitle mt-2">{schema.title}</h4>}
           {Object.keys(get(schema, 'properties', {})).map((key) => {
-            const subSchema = get<GuillotinaItemsProperty | null>(
+            const subSchema = get<GuillotinaSchemaProperty | null>(
               schema,
               `properties.${key}`,
               null

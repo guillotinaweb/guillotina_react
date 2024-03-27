@@ -121,7 +121,7 @@ export const SearchInputList = ({
     }
     const { get } = traversal.registry
     const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
-    const qsParsed = traversal.client[fnName]({
+    const qsParsed = traversal.client.getQueryParamsSearchFunction(fnName)({
       path: traversal.path,
       start: page * PageSize,
       pageSize: PageSize,

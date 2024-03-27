@@ -2,10 +2,10 @@ import { PathTree } from '../components/modal'
 import { useGuillotinaClient, useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { useLocation } from '../hooks/useLocation'
-import { ItemModel } from '../models'
+import { GuillotinaCommonObject } from '../types/guillotina'
 
 interface Props {
-  item: ItemModel
+  item: GuillotinaCommonObject
 }
 
 export function MoveItem(props: Props) {
@@ -19,7 +19,7 @@ export function MoveItem(props: Props) {
     const { isError, errorMessage, result } = await post(
       {
         destination: path,
-        new_id: item.id,
+        new_id: item['@name'],
       },
       '@move'
     )

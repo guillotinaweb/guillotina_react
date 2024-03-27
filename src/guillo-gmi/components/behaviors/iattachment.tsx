@@ -5,11 +5,14 @@ import { EditableField } from '../fields/editableField'
 import { Table } from '../ui'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
-import { GuillotinaFile, GuillotinaItemsProperty } from '../../types/guillotina'
+import {
+  GuillotinaFile,
+  GuillotinaSchemaProperty,
+} from '../../types/guillotina'
 
 interface Props {
   properties: {
-    file: GuillotinaItemsProperty
+    file: GuillotinaSchemaProperty
   }
   values: {
     file: GuillotinaFile

@@ -17,7 +17,9 @@ import { LightFile } from '../../types/global'
 import {
   GuillotinaFile,
   GuillotinaSchemaProperties,
+  GuillotinaSchemaProperty,
 } from '../../types/guillotina'
+import { get } from '../../lib/utils'
 
 interface Props {
   properties: GuillotinaSchemaProperties
@@ -31,14 +33,16 @@ export function IMultiAttachment({ properties, values }: Props) {
   const intl = useIntl()
   const [fileKey, setFileKey] = useState('')
   const [file, setFile] = useState<LightFile | undefined>(undefined)
-  const [fileKeyToDelete, setFileKeyToDelete] = useState(undefined)
+  const [fileKeyToDelete, setFileKeyToDelete] = useState<string | undefined>(
+    undefined
+  )
 
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
+  const [error, setError] = useState<string | undefined>(undefined)
   const { Ctx } = useCrudContext()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
-  const uploadFile = async (ev) => {
+  const uploadFile = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault()
     if (!fileKey && !file) {
       setError(intl.formatMessage(genericFileMessages.error_file_key_name))
@@ -46,6 +50,9 @@ export function IMultiAttachment({ properties, values }: Props) {
     }
     setLoading(true)
     setError(undefined)
+    if (!file) {
+      return
+    }
     const endpoint = `${Ctx.path}@upload/files/${fileKey}`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
@@ -106,7 +113,13 @@ export function IMultiAttachment({ properties, values }: Props) {
                 field={`files/${key}`}
                 value={values['files'][key]}
                 ns="guillotina.behaviors.attachment.IMultiAttachment.files"
-                schema={properties['files']['additionalProperties']}
+                schema={
+                  get(
+                    properties,
+                    'files.additionalProperties',
+                    {}
+                  ) as GuillotinaSchemaProperty
+                }
                 modifyContent={false}
               />
               <div className="ml-5">

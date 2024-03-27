@@ -16,7 +16,7 @@ export const DownloadField = ({ value }: DownloadFieldProps) => {
   const Ctx = useTraversal()
   const { data, field } = value
 
-  const getField = async (downloadFile) => {
+  const getField = async (downloadFile: boolean) => {
     const endpoint = `${Ctx.path}@download/${field}`
     const res = await Ctx.client.download(endpoint)
     const text = await res.blob()

@@ -57,6 +57,12 @@ export class GuillotinaClient {
     return await this.rest.get(path)
   }
 
+  getQueryParamsSearchFunction(name: string) {
+    if (name === 'getQueryParamsElasticsearch') {
+      return this.getQueryParamsElasticsearch
+    }
+    return this.getQueryParamsPostresql
+  }
   getQueryParamsPostresql({ start = 0, pageSize = 10, withDepth = true }) {
     let result = []
 
@@ -171,19 +177,19 @@ export class GuillotinaClient {
   }
 
   // BBB API changes. Compat G5 and G6
-  applyCompat(data: { items: unknown[]; items_total: number }) {
+  applyCompat<T>(data: { items: T[]; items_total: number }) {
     const result: {
-      member: unknown[]
+      member: T[]
       items_count: number
-      items: unknown[]
+      items: T[]
       items_total: number
     } = { ...data, member: data.items, items_count: data.items_total }
     return result
   }
 
-  async search(
+  async search<T>(
     path: string,
-    params: string | string[][],
+    params: string | IndexSignature<string>,
     container = false,
     prepare = true
   ) {
@@ -195,11 +201,13 @@ export class GuillotinaClient {
       path = this.getContainerFromPath(path)
     }
 
-    const query = prepare ? toQueryString(params as string[][]) : params
+    const query = prepare
+      ? toQueryString(params as IndexSignature<string>)
+      : params
     const url = `${path}@search?${query}`
     const res = await this.rest.get(url)
     const data = await res.json()
-    return this.applyCompat(data)
+    return this.applyCompat<T>(data)
   }
 
   async canido(path: string, permissions: string | string[]) {

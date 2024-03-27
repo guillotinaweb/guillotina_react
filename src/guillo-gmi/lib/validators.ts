@@ -13,4 +13,4 @@ export const isEmail = (value = '') => REGEX_EMAIL.test(value)
 export const isURL = (value = '') => REGEX_URL.test(value)
 export const isHexColor = (value = '') => REGEX_HEX_COLOR.test(value)
 export const isNumber = (value = '') => REGEX_NUMBER.test(value)
-export const notEmpty = (value) => !!value.length
+export const notEmpty = (value: string) => !!value.length

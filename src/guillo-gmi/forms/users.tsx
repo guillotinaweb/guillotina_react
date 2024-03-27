@@ -5,7 +5,7 @@ import { IndexSignature } from '../types/global'
 interface Props {
   children: React.ReactNode
   onSubmit: (data: IndexSignature) => void
-  actionName?: string
+  actionName: string
   formData?: IndexSignature
   exclude?: string[]
   remotes?: IndexSignature

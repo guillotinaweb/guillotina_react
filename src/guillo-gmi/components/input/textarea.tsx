@@ -1,6 +1,6 @@
 import ErrorZone from '../error_zone'
 import { classnames, generateUID } from '../../lib/helpers'
-import { forwardRef, useState } from 'react'
+import { ChangeEvent, forwardRef, useState } from 'react'
 
 interface Props {
   value: string
@@ -32,7 +32,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
   ) => {
     const [uid] = useState(generateUID('select'))
 
-    const onUpdate = (ev) => {
+    const onUpdate = (ev: ChangeEvent<HTMLTextAreaElement>) => {
       if (onChange) {
         onChange(ev.target.value)
       }
