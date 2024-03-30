@@ -13,6 +13,9 @@ import { EditableField } from '../components/fields/editableField'
 import { useLocation } from '../hooks/useLocation'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
+import { FilterFormElement } from '../types/global'
+import { GuillotinaGroup } from '../types/guillotina'
+import { processResponse } from '../lib/processResponse'
 
 const tabs = {
   Groups: PanelItems,
@@ -21,19 +24,18 @@ const tabs = {
 export function GroupToolbar() {
   const intl = useIntl()
   const Ctx = useTraversal()
-  const ref = useRef(null)
+  const ref = useRef<HTMLInputElement>(null)
   const [location, setLocation] = useLocation()
   const searchText = location.get('q')
 
-  const onSearchQuery = (ev) => {
-    const search = ev.target[0].value
-    setLocation({ q: search, page: 0 })
-    ev.preventDefault()
+  const onSearchQuery = (event: React.FormEvent<FilterFormElement>) => {
+    event.preventDefault()
+    setLocation({ q: event.currentTarget.elements.filterInput.value, page: 0 })
   }
 
   // cleanup form on state.search change
   useEffect(() => {
-    if (!searchText || searchText === '') {
+    if (ref.current && (!searchText || searchText === '')) {
       ref.current.value = ''
     }
   }, [searchText])
@@ -50,6 +52,7 @@ export function GroupToolbar() {
                 className="input is-size-7"
                 placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
+                id="filterInput"
               />
             </div>
             <div className="control">
@@ -82,13 +85,12 @@ export function GroupToolbar() {
   )
 }
 
-export function GroupsCtx(props) {
+export function GroupsCtx() {
   return (
     <TabsPanel
       tabs={tabs}
       currentTab="Groups"
       rightToolbar={<GroupToolbar />}
-      {...props}
     />
   )
 }
@@ -99,7 +101,8 @@ const searchParsed = parser('type_name=User')
 export function GroupCtx() {
   const intl = useIntl()
   const { Ctx, patch } = useCrudContext()
-  const [roles, setRoles] = useState([])
+  const [roles, setRoles] = useState<{ text: string; value: string }[]>([])
+  const groupDataContext = Ctx.context as GuillotinaGroup
 
   useEffect(() => {
     async function getRoles() {
@@ -107,7 +110,7 @@ export function GroupCtx() {
       let roles = []
 
       if (requestGetRoles.ok) {
-        roles = (await requestGetRoles.json()).map((role) => ({
+        roles = (await requestGetRoles.json()).map((role: string) => ({
           text: role,
           value: role,
         }))
@@ -117,7 +120,11 @@ export function GroupCtx() {
     getRoles()
   }, [])
 
-  const handleResponse = async (isError, message, errorMessage) => {
+  const handleResponse = async (
+    isError: boolean,
+    message: string,
+    errorMessage: string
+  ) => {
     if (!isError) {
       Ctx.flash(message, 'success')
       Ctx.refresh()
@@ -131,12 +138,12 @@ export function GroupCtx() {
     }
   }
 
-  const addRole = async (role) => {
+  const addRole = async (role: string) => {
     const { isError, errorMessage } = await patch({
-      user_roles: Ctx.context.user_roles.concat(role),
+      user_roles: groupDataContext.user_roles.concat(role),
     })
     handleResponse(
-      isError,
+      !!isError,
       intl.formatMessage(
         {
           id: 'role_added_to_group',
@@ -144,16 +151,16 @@ export function GroupCtx() {
         },
         { role }
       ),
-      errorMessage
+      errorMessage ?? ''
     )
   }
 
-  const removeRole = async (role) => {
+  const removeRole = async (role: string) => {
     const { isError, errorMessage } = await patch({
-      user_roles: Ctx.context.user_roles.filter((r) => r !== role),
+      user_roles: groupDataContext.user_roles.filter((r) => r !== role),
     })
     handleResponse(
-      isError,
+      !!isError,
       intl.formatMessage(
         {
           id: 'role_removed_from_group',
@@ -161,23 +168,21 @@ export function GroupCtx() {
         },
         { role }
       ),
-      errorMessage
+      errorMessage ?? ''
     )
   }
 
-  const addUser = async (newUserId) => {
-    const data = {}
-    Ctx.context.users.forEach((user) => {
+  const addUser = async (newUserId: string) => {
+    const data: { [key: string]: boolean } = {}
+    groupDataContext.users.forEach((user) => {
       data[user] = true
     })
     data[newUserId] = true
-    const {
-      isError,
-      errorMessage,
-    } = await Ctx.client.rest.patch(
+    const response = await Ctx.client.rest.patch(
       `${Ctx.containerPath}@groups/${Ctx.context['@name']}`,
       { users: data }
     )
+    const { isError, errorMessage } = await processResponse(response)
     handleResponse(
       isError,
       intl.formatMessage(
@@ -187,22 +192,20 @@ export function GroupCtx() {
         },
         { user: newUserId }
       ),
-      errorMessage
+      errorMessage ?? ''
     )
   }
 
-  const removeUser = async (userToRemove) => {
-    const data = {}
-    Ctx.context.users.forEach((user) => {
+  const removeUser = async (userToRemove: string) => {
+    const data: { [key: string]: boolean } = {}
+    groupDataContext.users.forEach((user: string) => {
       data[user] = userToRemove !== user
     })
-    const {
-      isError,
-      errorMessage,
-    } = await Ctx.client.rest.patch(
+    const response = await Ctx.client.rest.patch(
       `${Ctx.containerPath}@groups/${Ctx.context['@name']}`,
       { users: data }
     )
+    const { isError, errorMessage } = await processResponse(response)
     handleResponse(
       isError,
       intl.formatMessage(
@@ -212,7 +215,7 @@ export function GroupCtx() {
         },
         { user: userToRemove }
       ),
-      errorMessage
+      errorMessage ?? ''
     )
   }
 
@@ -255,13 +258,13 @@ export function GroupCtx() {
           </p>
           <Select
             options={roles.filter(
-              (role) => !Ctx.context.user_roles.includes(role.value)
+              (role) => !groupDataContext.user_roles.includes(role.value)
             )}
             appendDefault
-            onChange={addRole}
+            onChange={(value) => addRole(value as string)}
           />
           <hr />
-          {Ctx.context.user_roles.map((urole) => (
+          {groupDataContext.user_roles.map((urole) => (
             <p className="control" key={`roles_${urole}`}>
               <Tag
                 name={urole}
@@ -288,7 +291,7 @@ export function GroupCtx() {
             btnClass="is-small"
           />
           <hr />
-          {Ctx.context.users.map((user) => (
+          {groupDataContext.users.map((user) => (
             <p className="control" key={`user_${user}`}>
               <Tag
                 name={user}

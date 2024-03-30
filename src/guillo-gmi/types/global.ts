@@ -21,3 +21,10 @@ export type EditableFieldValue =
   | Date
   | undefined
   | null
+
+interface FormElements extends HTMLFormControlsCollection {
+  filterInput: HTMLInputElement
+}
+export interface FilterFormElement extends HTMLFormElement {
+  readonly elements: FormElements
+}

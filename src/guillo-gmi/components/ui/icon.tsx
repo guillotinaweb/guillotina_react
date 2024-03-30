@@ -6,7 +6,7 @@ interface Props {
   align?: string
 }
 
-export const Icon = ({ icon, className, align }: Props) => {
+export const Icon = ({ icon, className = '', align }: Props) => {
   const addClass = className ? className.split(' ') : [className]
 
   align = align || 'is-right'

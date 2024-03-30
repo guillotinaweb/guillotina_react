@@ -12,7 +12,12 @@ export class RestClient {
     this.container = container
   }
 
-  async request(path: string, data?: RequestInit, headers?: HeadersInit) {
+  async request(
+    path: string,
+    data?: RequestInit,
+    headers?: HeadersInit,
+    signal?: AbortSignal
+  ) {
     if (path.indexOf(this.url) !== -1) {
       path = path.replace(this.url, '')
     }
@@ -25,7 +30,13 @@ export class RestClient {
       path = `/${path}`
     }
     const dataRequest = data || {}
-    dataRequest.headers = headers || this.getHeaders()
+    dataRequest.headers = this.getHeaders()
+    if (headers) {
+      dataRequest.headers = { ...dataRequest.headers, ...headers }
+    }
+    if (signal) {
+      dataRequest.signal = signal
+    }
     return await fetch(`${this.url}${path}`, dataRequest)
   }
 
@@ -48,8 +59,8 @@ export class RestClient {
     })
   }
 
-  async get(path: string) {
-    return await this.request(path)
+  async get(path: string, signal?: AbortSignal) {
+    return await this.request(path, undefined, undefined, signal)
   }
 
   async put(path: string, data: unknown) {

@@ -1,4 +1,5 @@
 import { Traversal, useTraversal } from '../contexts'
+import { processResponse } from '../lib/processResponse'
 import useSetState from './useSetState'
 
 interface State<T = unknown> {
@@ -14,42 +15,6 @@ const initial: State = {
   errorMessage: undefined,
   result: undefined,
   response: undefined,
-}
-
-interface DataError {
-  details: string
-  reason: string
-}
-const getErrorMessage = (
-  dataError: DataError,
-  defaultValue: string | number
-) => {
-  if (dataError && dataError.details) {
-    return dataError.details
-  } else if (dataError && dataError.reason) {
-    return dataError.reason
-  }
-  return defaultValue
-}
-
-async function processResponse<T>(
-  res: Response,
-  ready_body = true
-): Promise<State<T>> {
-  if (res.status < 400)
-    return {
-      isError: false,
-      loading: false,
-      result: ready_body ? await res.json() : res.status,
-      response: res,
-    }
-  else
-    return {
-      isError: true,
-      loading: false,
-      errorMessage: getErrorMessage(await res.json(), res.status).toString(),
-      response: res,
-    }
 }
 
 function patch<T>(

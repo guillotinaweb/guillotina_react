@@ -8,11 +8,13 @@ import { Form } from '../components/input/form'
 import { Input } from '../components/input/input'
 import { defineMessages, useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
+import { GuillotinaApplication, GuillotinaDatabase } from '../types/guillotina'
 
 export function ApplicationCtx() {
   const intl = useIntl()
-  const context = useTraversal()
-  const { databases } = context.state.context
+  const traversal = useTraversal()
+  const appContext = traversal.state.context as GuillotinaApplication
+  const { databases } = appContext
   return (
     <>
       <h3>
@@ -36,9 +38,9 @@ export function ApplicationCtx() {
 }
 
 export function DatabaseCtx() {
-  const context = useTraversal()
-  const { containers } = context.state.context
-  const { path } = context.state
+  const traversal = useTraversal()
+  const { containers } = traversal.state.context as GuillotinaDatabase
+  const { path } = traversal.state
   return (
     <>
       <div className="container">
@@ -99,7 +101,7 @@ function ModalAddContainer({ isActive, setActive }: ModalAddContainerProps) {
   const Ctx = useTraversal()
   const [isLoading, setLoading] = useState(false)
   const [idField, setId] = useState('')
-  const [error, setError] = useState(undefined)
+  const [error, setError] = useState<string | undefined>(undefined)
 
   async function createContainer() {
     setLoading(true)

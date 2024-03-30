@@ -8,9 +8,9 @@ function FallbackTab({ title }: { title: string }) {
 
 interface Props {
   tabs: IndexSignature
-  currentTab?: string
+  currentTab: string
   rightToolbar?: React.ReactNode
-  fallback?: React.ComponentType
+  fallback?: React.ComponentType<{ title: string }>
 }
 
 export function TabsPanel({
@@ -21,12 +21,7 @@ export function TabsPanel({
 }: Props) {
   const [location, setLocation] = useLocation()
 
-  if (location.get('tab')) {
-    currentTab = location.get('tab')
-  } else {
-    currentTab = currentTab || Object.keys(tabs)[0]
-  }
-
+  currentTab = location.get('tab') || Object.keys(tabs)[0]
   /*if (!Object.keys(tabs).includes(currentTab)) {
     setLocation(defaultTab)
     currentTab = defaultTab
@@ -42,7 +37,7 @@ export function TabsPanel({
     }
   }, [currentTab, tabs])
 
-  const changeTab = (tab) => {
+  const changeTab = (tab: string) => {
     setLocation({ tab: tab })
   }
 

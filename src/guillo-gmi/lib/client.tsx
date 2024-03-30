@@ -7,7 +7,11 @@ import { parser } from './search'
 import { IndexSignature, LightFile } from '../types/global'
 import { ItemModel } from '../models'
 import { Auth } from './auth'
-import { GuillotinaGroups, GuillotinaUser } from '../types/guillotina'
+import {
+  GuillotinaGroups,
+  GuillotinaUser,
+  ReturnSearchCompatible,
+} from '../types/guillotina'
 
 const cacheTypes: IndexSignature = {}
 const cacheSchemas: IndexSignature = {}
@@ -63,7 +67,16 @@ export class GuillotinaClient {
     }
     return this.getQueryParamsPostresql
   }
-  getQueryParamsPostresql({ start = 0, pageSize = 10, withDepth = true }) {
+  getQueryParamsPostresql({
+    start = 0,
+    pageSize = 10,
+    withDepth = true,
+  }: {
+    start?: number
+    pageSize?: number
+    path?: string
+    withDepth?: boolean
+  }) {
     let result = []
 
     result = [
@@ -178,12 +191,11 @@ export class GuillotinaClient {
 
   // BBB API changes. Compat G5 and G6
   applyCompat<T>(data: { items: T[]; items_total: number }) {
-    const result: {
-      member: T[]
-      items_count: number
-      items: T[]
-      items_total: number
-    } = { ...data, member: data.items, items_count: data.items_total }
+    const result: ReturnSearchCompatible<T> = {
+      ...data,
+      member: data.items,
+      items_count: data.items_total,
+    }
     return result
   }
 
@@ -191,7 +203,8 @@ export class GuillotinaClient {
     path: string,
     params: string | IndexSignature<string>,
     container = false,
-    prepare = true
+    prepare = true,
+    signal?: AbortSignal
   ) {
     if (path.startsWith('/')) {
       path = path.slice(1)
@@ -205,7 +218,7 @@ export class GuillotinaClient {
       ? toQueryString(params as IndexSignature<string>)
       : params
     const url = `${path}@search?${query}`
-    const res = await this.rest.get(url)
+    const res = await this.rest.get(url, signal)
     const data = await res.json()
     return this.applyCompat<T>(data)
   }

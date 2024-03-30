@@ -12,7 +12,7 @@ export function Link({ aRef, model, children, ...props }: Props) {
   const [path, navigate] = useLocation()
   const aStyle = { textDecoration: 'none', color: 'currentColor' }
 
-  function onClick(e) {
+  function onClick(e: React.MouseEvent<HTMLAnchorElement>) {
     e.stopPropagation()
     if (actAsLink(e)) return
     e.preventDefault()
@@ -32,6 +32,6 @@ export function Link({ aRef, model, children, ...props }: Props) {
   )
 }
 
-function actAsLink(e) {
+function actAsLink(e: React.MouseEvent<HTMLAnchorElement>) {
   return e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.button !== 0
 }

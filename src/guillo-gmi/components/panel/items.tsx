@@ -21,7 +21,11 @@ import { SelectVocabulary } from '../input/select_vocabulary'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
-import { RegistrySchemaFilter, SearchItem } from '../../types/guillotina'
+import {
+  ItemColumn,
+  RegistrySchemaFilter,
+  SearchItem,
+} from '../../types/guillotina'
 
 interface InitialState {
   page: number
@@ -145,11 +149,15 @@ export function PanelItems() {
       }
 
       const { signal } = controller
-      const data = await Ctx.client.search(Ctx.path, qs, false, false, {
-        signal,
-      })
+      const data = await Ctx.client.search<SearchItem>(
+        Ctx.path,
+        qs,
+        false,
+        false,
+        signal
+      )
       setState({
-        items: data.member,
+        items: data.items,
         loading: false,
         total: data.items_count,
       })
@@ -167,11 +175,11 @@ export function PanelItems() {
     ...resultDynamicLocation,
   ])
 
-  const doPaginate = (page) => {
+  const doPaginate = (page: number) => {
     setLocation({ page: page })
   }
 
-  const getIcon = (key, isSortable) => {
+  const getIcon = (key: string, isSortable: boolean) => {
     let icon = null
     if (isSortable) {
       if (sort !== key) {
@@ -198,7 +206,7 @@ export function PanelItems() {
                   placeholder={filter.label}
                   appendDefault
                   classWrap="is-size-7 is-fullwidth"
-                  options={filter.values}
+                  options={filter.values ?? []}
                   value={location.get(filter.attribute_key) || ''}
                   dataTest={`filterInput${filter.attribute_key}`}
                   onChange={(value) => {
@@ -330,7 +338,7 @@ export function PanelItems() {
               <th>
                 <AllItemsCheckbox />
               </th>
-              {columns.map((column) => (
+              {columns.map((column: ItemColumn) => (
                 <th
                   key={`table-col-${column.label}`}
                   onClick={() => column.isSortable && onSort(column.key)}
@@ -338,7 +346,7 @@ export function PanelItems() {
                 >
                   <div className="has-text-info is-flex is-align-items-center">
                     <span>{column.label}</span>
-                    {getIcon(column.key, column.isSortable)}
+                    {getIcon(column.key, !!column.isSortable)}
                   </div>
                 </th>
               ))}
@@ -351,7 +359,7 @@ export function PanelItems() {
                 <RItem
                   item={item}
                   key={item['@uid']}
-                  search={search}
+                  search={search ?? ''}
                   columns={columns}
                 />
               ))}

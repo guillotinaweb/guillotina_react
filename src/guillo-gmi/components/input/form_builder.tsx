@@ -21,8 +21,8 @@ const formComponents = {
 
 interface Props {
   schema: GuillotinaSchema
-  formData?: any
-  onSubmit: (formData: any, initialData: any) => void
+  formData?: IndexSignature
+  onSubmit: (formData: IndexSignature, initialData: IndexSignature) => void
   actionName: string
   children?: React.ReactNode
   exclude?: string[]
@@ -40,12 +40,12 @@ export function FormBuilder({
   remotes = {},
   submitButton = true,
 }: Props) {
-  const ref = useRef<unknown>()
+  const ref = useRef<IndexSignature | null>(null)
   const { properties, required } = schema
   const values = Object.assign({}, formData || {})
 
   // build initial state
-  const initialState = {}
+  const initialState: IndexSignature = {}
   const fields = Object.keys(properties).filter((x) => !exclude.includes(x))
 
   fields.forEach((element) => {
@@ -53,26 +53,29 @@ export function FormBuilder({
   })
 
   // Register remotes
-  if (!ref.current) {
+  if (ref.current === null) {
     ref.current = {}
-    Object.keys(remotes).forEach((item) => (ref.current[item] = remotes[item]))
+    Object.keys(remotes).forEach((item) => (ref.current![item] = remotes[item]))
   } else {
     // apply remote changes
     Object.keys(remotes).forEach((key) => {
-      if (JSON.stringify(ref.current[key]) !== JSON.stringify(remotes[key])) {
-        ref.current[key] = remotes[key]
+      if (JSON.stringify(ref.current![key]) !== JSON.stringify(remotes[key])) {
+        ref.current![key] = remotes[key]
       }
     })
   }
 
   ref.current = ref.current || {}
-  const onUpdate = (field) => (ev) => {
-    ref.current[field] = ev.target ? ev.target.value : ev.value || ev
+  const onUpdate = (field: string) => (value: boolean | string) => {
+    ref.current![field] = value
   }
 
   const GetTag = ({ field }: { field: string }) => {
     const property = properties[field] as GuillotinaSchemaProperty
-    const Tag = formComponents[property.widget || property.type]
+    const key = (property.widget ||
+      property.type) as keyof typeof formComponents
+
+    const Tag: React.ComponentType<any> = formComponents[key]
 
     const props = {
       value: initialState[field],
@@ -87,7 +90,6 @@ export function FormBuilder({
       props.required = true
       props.placeholder += ' *'
     }
-    Tag.displayName = `${field}Field`
     return <Tag {...props} />
   }
 
@@ -100,7 +102,7 @@ export function FormBuilder({
   })
 
   const changes = () => {
-    onSubmit(ref.current, values)
+    onSubmit(ref.current!, values)
   }
 
   return (

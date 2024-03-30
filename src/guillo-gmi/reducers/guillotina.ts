@@ -5,7 +5,7 @@ import { GuillotinaCommonObject } from '../types/guillotina'
 export interface GuillotinaGlobalState {
   path: string
   loading: boolean
-  context: GuillotinaCommonObject
+  context?: GuillotinaCommonObject
   flash: {
     message?: string
     type?: string
@@ -20,7 +20,7 @@ export interface GuillotinaGlobalState {
   refresh?: number
 }
 
-export const initialState: Partial<GuillotinaGlobalState> = {
+export const initialState: GuillotinaGlobalState = {
   path: '',
   loading: false,
   context: undefined,

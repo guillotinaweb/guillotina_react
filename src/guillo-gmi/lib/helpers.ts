@@ -2,7 +2,7 @@ import { IntlShape } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 import { IndexSignature } from '../types/global'
 
-export const classnames = (classNames: string[]) => {
+export const classnames = (classNames: (string | boolean)[]) => {
   return classNames.filter(Boolean).join(' ').trim()
 }
 

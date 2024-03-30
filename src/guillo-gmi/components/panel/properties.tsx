@@ -14,6 +14,7 @@ import {
   GuillotinaSchema,
   GuillotinaSchemaProperty,
 } from '../../types/guillotina'
+import { get } from '../../lib/utils'
 
 const _showProperties = ['@id', '@name', '@uid']
 const _ignoreFields = [
@@ -35,7 +36,7 @@ const _ignoreFields = [
 interface State {
   data: GuillotinaSchema
   loading: boolean
-  error: string
+  error: string | unknown
 }
 
 export function PanelProperties() {
@@ -52,7 +53,7 @@ export function PanelProperties() {
 
   const model = new ItemModel(Ctx.context)
 
-  const showProperties =
+  const showProperties: string[] =
     Ctx.registry.getProperties(Ctx.context['@type']).default ||
     cfg.properties_default ||
     _showProperties
@@ -74,7 +75,10 @@ export function PanelProperties() {
       if (!schema.loading && !schema.data && !schema.error) {
         try {
           setSchema({ loading: true })
-          const dataJson = await Ctx.client.getTypeSchema(Ctx.path, model.type)
+          const dataJson = await Ctx.client.getTypeSchema(
+            Ctx.path,
+            Ctx.context.type_name
+          )
           setSchema({ loading: false, data: dataJson })
         } catch (err) {
           setSchema({ loading: false, error: err })
@@ -121,7 +125,7 @@ export function PanelProperties() {
                     <td>
                       <EditableField
                         field={prop}
-                        value={Ctx.context[prop]}
+                        value={get(Ctx.context, prop, '')}
                         modifyContent={false}
                       />
                     </td>
@@ -149,7 +153,7 @@ export function PanelProperties() {
                         <td>
                           <EditableField
                             field={key}
-                            value={Ctx.context[key]}
+                            value={get(Ctx.context, key, '')}
                             schema={value}
                             modifyContent={modifyContent}
                             required={(schema.data?.required ?? []).includes(

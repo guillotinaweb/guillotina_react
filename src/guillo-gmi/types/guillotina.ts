@@ -70,7 +70,7 @@ interface GuillotinaParentObject {
   '@uid': string
 }
 export type GuillotinaCommonObject = {
-  creation_date: Date
+  creation_date: string
   modification_date: string
   title: string
   type_name: string
@@ -196,14 +196,6 @@ export interface GuillotinaGroups {
   roles: string[]
 }
 
-export interface GuillotinaUser {
-  '@name': string
-  id: string
-  fullname: string
-  email: string
-  roles: string[]
-}
-
 export interface Workflow {
   '@id': string
   history: History[]
@@ -253,3 +245,44 @@ export interface RegistrySchemaFilter {
   vocabulary?: string
   input_type?: string
 }
+
+export type ReturnSearch<T> = {
+  items: T[]
+  items_total: number
+}
+
+export type ReturnSearchCompatible<T> = {
+  member: T[]
+  items_count: number
+  items: T[]
+  items_total: number
+}
+
+export interface ItemColumn {
+  label: string
+  key: string
+  isSortable?: boolean
+  child: React.ReactNode
+}
+
+export type GuillotinaUser = {
+  user_roles: string[]
+  user_groups: string[]
+  user_permissions: string[]
+  fullname: string
+  email: string
+  username: string
+} & GuillotinaCommonObject
+
+export type GuillotinaGroup = {
+  user_roles: string[]
+  users: string[]
+} & GuillotinaCommonObject
+
+export type GuillotinaApplication = {
+  databases: string[]
+} & GuillotinaCommonObject
+
+export type GuillotinaDatabase = {
+  containers: string[]
+} & GuillotinaCommonObject

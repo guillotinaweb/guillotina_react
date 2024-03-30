@@ -32,10 +32,9 @@ import { EditComponent } from '../components/fields/editComponent'
 import { RenderFieldComponent } from '../components/fields/renderField'
 import {
   GuillotinaCommonObject,
-  GuillotinaSchema,
+  ItemColumn,
   RegistrySchema,
 } from '../types/guillotina'
-import { IndexSignature } from '../types/global'
 
 export interface IRegistry {
   paths: {
@@ -54,12 +53,7 @@ export interface IRegistry {
     [key: string]: (props: any | undefined) => JSX.Element | null
   }
   itemsColumn: {
-    [key: string]: () => {
-      label: string
-      key: string
-      isSortable?: boolean
-      child: React.ReactNode
-    }[]
+    [key: string]: () => ItemColumn[]
   }
   schemas: {
     [key: string]: RegistrySchema

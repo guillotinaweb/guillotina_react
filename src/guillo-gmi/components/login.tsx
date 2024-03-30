@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import useSetState from '../hooks/useSetState'
 import { Auth } from '../lib/auth'
 
-const ERRORS = {
+const ERRORS: { [key: string]: string } = {
   failed_to_fetch: 'Failed to fetch data: Backend not running?',
   invalid_credentials: 'Failed! Invalid credentials',
 }
@@ -34,15 +34,15 @@ export const Login = ({
   onLogin,
 }: Props) => {
   const [state, setState] = useSetState<State>(initialState)
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    if (inputRef) {
+    if (inputRef && inputRef.current) {
       inputRef.current.focus()
     }
   }, [inputRef])
 
-  const doLogin = async (ev) => {
+  const doLogin = async (ev: React.FormEvent) => {
     ev.preventDefault()
     setState({ loading: true, errors: undefined })
     const { username, password } = state

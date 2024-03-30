@@ -10,12 +10,13 @@ import { useLocation } from '../hooks/useLocation'
 import { Select } from './input/select'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
+import { FilterFormElement } from '../types/global'
 
 interface State {
-  types?: string[]
+  types: string[]
   isActive?: boolean
 }
-const initialState = { types: undefined }
+const initialState = { types: [] }
 
 export function CreateButton() {
   const intl = useIntl()
@@ -24,7 +25,7 @@ export function CreateButton() {
   const Config = useConfig()
   useEffect(() => {
     async function anyNameFunction() {
-      const types = await Ctx.client.getTypes(Ctx.path)
+      const types: string[] = await Ctx.client.getTypes(Ctx.path)
       setState({
         types: types.filter((item) => !Config.DisabledTypes.includes(item)),
       })
@@ -32,7 +33,7 @@ export function CreateButton() {
     anyNameFunction()
   }, [Ctx.path])
 
-  const doAction = (item) => {
+  const doAction = (item: string) => {
     Ctx.doAction('addItem', { type: item })
     setState({ isActive: false })
   }
@@ -77,7 +78,7 @@ export function ContextToolbar({ AddButton }: Props) {
   const [location, setLocation, del] = useLocation()
   const traversal = useTraversal()
   const Config = useConfig()
-  const searchText = location.get('q')
+  const searchText = location.get('q') || ''
   const [searchValue, setSearchValue] = useState(searchText || '')
 
   useEffect(() => {
@@ -89,19 +90,22 @@ export function ContextToolbar({ AddButton }: Props) {
   }, [searchText])
 
   async function loadTypes() {
-    const types = await traversal.client.getTypes(traversal.path)
+    const types: string[] = await traversal.client.getTypes(traversal.path)
     setState({
       types: types.filter((item) => !Config.DisabledTypes.includes(item)),
     })
   }
 
-  const onSearchQuery = (ev) => {
-    const search = ev.target[0].value
-    setLocation({ q: search, tab: 'Items', page: 0 })
-    ev.preventDefault()
+  const onSearchQuery = (event: React.FormEvent<FilterFormElement>) => {
+    event.preventDefault()
+    setLocation({
+      q: event.currentTarget.elements.filterInput.value,
+      tab: 'Items',
+      page: 0,
+    })
   }
 
-  const onSearchByType = (typeText) => {
+  const onSearchByType = (typeText: string) => {
     if (typeText && typeText !== '') {
       setLocation({ type: typeText, tab: 'Items', page: 0 })
     } else {
@@ -122,6 +126,7 @@ export function ContextToolbar({ AddButton }: Props) {
                 className="input is-size-7"
                 placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
+                id="filterInput"
               />
             </div>
             <div className="control">
@@ -145,7 +150,7 @@ export function ContextToolbar({ AddButton }: Props) {
             text: item,
             value: item,
           }))}
-          onChange={onSearchByType}
+          onChange={(value) => onSearchByType(value as string)}
         />
       </div>
       {traversal.hasPerm('guillotina.AddContent') && (

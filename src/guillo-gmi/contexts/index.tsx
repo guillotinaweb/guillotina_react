@@ -60,6 +60,9 @@ export class Traversal {
   }
 
   get context(): GuillotinaCommonObject {
+    if (this.state.context === undefined) {
+      throw new Error('Context is not loaded')
+    }
     return this.state.context
   }
 
