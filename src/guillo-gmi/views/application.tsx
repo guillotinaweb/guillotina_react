@@ -25,13 +25,17 @@ export function ApplicationCtx() {
       </h3>
       <div className="container">
         <ItemTitle title="Objects" />
-        {databases.map((db) => (
-          <Item
-            item={{ id: db, path: `/${db}/` }}
-            key={db}
-            icon={'fas fa-database'}
-          />
-        ))}
+        <table>
+          <tbody>
+            {databases.map((db) => (
+              <Item
+                item={{ id: db, path: `/${db}/` }}
+                key={db}
+                icon={'fas fa-database'}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   )

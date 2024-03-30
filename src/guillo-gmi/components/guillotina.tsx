@@ -104,7 +104,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }> = registry.getView('ErrorBoundary')
   const NotAllowed = registry.getView('NotAllowed')
   const NotFound = registry.getView('NotFound')
-  const Path = registry.getView('Path')
+  const Path = registry.get('components', 'Path') as React.ComponentType
 
   const contextData = {
     url,
@@ -117,7 +117,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }
 
   const { action, errorStatus, permissions } = state
-  const Main = registry.getComponent(state.context!, path) as React.FC<{
+  const Main = registry.getComponent(state.context, path) as React.FC<{
     state: GuillotinaGlobalState
   }>
   const Action = action.action
@@ -131,7 +131,9 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
           <TraversalProvider {...contextData}>
             {permissions && (
               <React.Fragment>
-                {action.action && Action && <Action {...action.params} />}
+                {action.action && Action !== null && (
+                  <Action {...action.params} />
+                )}
                 <div className="level">
                   <div className="level-left">
                     <div className="level-item">
@@ -140,7 +142,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
                   </div>
                 </div>
                 <Flash />
-                {Main && (
+                {Main !== undefined && (
                   <ErrorBoundary>
                     <div className="box main-panel">
                       {state.loading && <Loading />}

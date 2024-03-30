@@ -139,7 +139,7 @@ export function TraversalProvider({
 
 export function useTraversal() {
   const traversal = useContext(TraversalContext)
-  if (!traversal || !traversal.context) {
+  if (!traversal) {
     throw new Error('useTraversal must be used within a TraversalProvider')
   }
   return traversal

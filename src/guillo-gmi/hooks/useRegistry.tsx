@@ -144,7 +144,7 @@ const get = (key: keyof IRegistry, param: string, fallback = undefined) => {
 }
 
 const getComponent = (
-  context: GuillotinaCommonObject,
+  context: GuillotinaCommonObject | undefined,
   path: string,
   fallback = undefined
 ) => {
