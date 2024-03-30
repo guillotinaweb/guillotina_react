@@ -18,7 +18,7 @@ export function SearchVocabularyLabels({ query = 'q', vocabularyName }: Props) {
     let value: string = defaultRenderValue
 
     if ((vocabulary?.data?.items ?? []).length > 0) {
-      const vocabularyValue = vocabulary.data.items.find(
+      const vocabularyValue = vocabulary?.data?.items.find(
         (item) => item.token === value
       )
       if (vocabularyValue) {

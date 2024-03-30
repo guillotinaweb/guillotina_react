@@ -8,10 +8,10 @@ import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
 interface State {
-  principal: string
+  principal?: string
   roles: string[]
-  setting: string
-  error: string
+  setting?: string
+  error?: string
 }
 interface Props {
   principals?: { text: string; value: string }[]

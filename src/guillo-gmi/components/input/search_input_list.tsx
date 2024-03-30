@@ -10,25 +10,10 @@ import { useConfig } from '../../hooks/useConfig'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import useClickAway from '../../hooks/useClickAway'
-import { get } from '../../lib/utils'
+import { debounce, get } from '../../lib/utils'
 import { SearchItem } from '../../types/guillotina'
 import { Traversal } from '../../contexts'
-
-function debounce(func, wait) {
-  let timeout
-  return function () {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const context = this
-    // eslint-disable-next-line prefer-rest-params
-    const args = arguments
-    const later = function () {
-      timeout = null
-      func.apply(context, args)
-    }
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-  }
-}
+import { IndexSignature } from '../../types/global'
 
 interface State {
   page: number
@@ -38,7 +23,7 @@ interface State {
 }
 const initialState: State = {
   page: 0,
-  items: undefined,
+  items: [],
   loading: false,
   items_total: 0,
 }
@@ -47,9 +32,9 @@ interface Props {
   onChange: (value: string[]) => void
   error?: string
   errorZoneClassName?: string
-  traversal?: Traversal
+  traversal: Traversal
   path?: string
-  qs?: string[]
+  qs?: string[][]
   queryCondition?: string
   value: string[]
   btnClass?: string
@@ -65,8 +50,8 @@ export const SearchInputList = ({
   onChange,
   error,
   errorZoneClassName,
-  traversal = null,
-  path = null,
+  traversal,
+  path = undefined,
   qs = [],
   queryCondition = 'id__in',
   value,
@@ -74,17 +59,19 @@ export const SearchInputList = ({
   dataTestWrapper = 'wrapperSearchInputTest',
   dataTestSearchInput = 'searchInputTest',
   dataTestItem = 'searchInputItemTest',
-  renderTextItemOption = null,
-  typeNameQuery = null,
+  renderTextItemOption = undefined,
+  typeNameQuery = undefined,
   labelProperty = 'id',
 }: Props) => {
   const intl = useIntl()
   const [options, setOptions] = useSetState<State>(initialState)
-  const [valuesLabel, setValuesLabels] = useState(undefined)
+  const [valuesLabel, setValuesLabels] = useState<IndexSignature | undefined>(
+    undefined
+  )
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const inputRef = useRef(null)
-  const wrapperRef = useRef(null)
+  const wrapperRef = useRef<HTMLInputElement>(null)
   const { PageSize, SearchEngine } = useConfig()
   const [isLoadingData, setIsLoadingData] = useState(false)
 
@@ -115,7 +102,7 @@ export const SearchInputList = ({
   const handleSearch = async (page = 0, concat = false, value = '') => {
     setOptions({ loading: true })
     let searchTermQs = ''
-    let searchTermParsed = []
+    let searchTermParsed: string[][] = []
     if (value !== '') {
       searchTermParsed = parser(`${queryCondition}=${value}`)
     }
@@ -128,7 +115,7 @@ export const SearchInputList = ({
       withDepth: false,
     })
     const sortParsed = parser(`_sort_des=${labelProperty}`)
-    let typeNameParsed = []
+    let typeNameParsed: string[][] = []
     if (typeNameQuery) {
       typeNameParsed = parser(`type_name__in=${typeNameQuery}`)
     }
@@ -148,13 +135,13 @@ export const SearchInputList = ({
       ])
     }
 
-    const data = await traversal.client.search(
+    const data = await traversal.client.search<SearchItem>(
       path ? path : traversal.client.getContainerFromPath(traversal.path),
       searchTermQs,
       false,
       false
     )
-    const newItems =
+    const newItems: SearchItem[] =
       options.items && concat ? [...options.items, ...data.items] : data.items
 
     setOptions({
@@ -172,13 +159,13 @@ export const SearchInputList = ({
       const searchTermParsed = ['__or', `id=${value.join('%26id=')}`]
       const { get: getSearch } = traversal.registry
       const fnName = getSearch('searchEngineQueryParamsFunction', SearchEngine)
-      const qsParsed = traversal.client[fnName]({
+      const qsParsed = traversal.client.getQueryParamsSearchFunction(fnName)({
         path: traversal.path,
         start: 0,
         pageSize: 100,
         withDepth: false,
       })
-      let typeNameParsed = []
+      let typeNameParsed: string[][] = []
       if (typeNameQuery) {
         typeNameParsed = parser(`type_name__in=${typeNameQuery}`)
       }
@@ -195,18 +182,19 @@ export const SearchInputList = ({
           ...typeNameParsed,
         ])
       }
-      const data = await traversal.client.search(
+      const data = await traversal.client.search<SearchItem>(
         path ? path : traversal.client.getContainerFromPath(traversal.path),
         searchTermQs,
         false,
-        false,
-        0,
-        100
+        false
       )
-      const newValuesLabel = data.items.reduce((result, item) => {
-        result[item.id] = get(item, labelProperty, item.id)
-        return result
-      }, {})
+      const newValuesLabel = data.items.reduce<IndexSignature<string>>(
+        (result, item) => {
+          result[item.id] = get(item, labelProperty, item.id)
+          return result
+        },
+        {}
+      )
       setValuesLabels(newValuesLabel)
       setIsLoadingData(false)
     }

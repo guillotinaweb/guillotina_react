@@ -4,11 +4,11 @@ import useSetState from './useSetState'
 import { useEffect } from 'react'
 
 interface State {
-  data: GuillotinaVocabulary
+  data?: GuillotinaVocabulary
   loading: boolean
   error: any
 }
-export function useVocabulary(vocabularyName: string, path: string = null) {
+export function useVocabulary(vocabularyName: string, path?: string) {
   const traversal = useTraversal()
 
   const [vocabulary, setVocabulary] = useSetState<State>({

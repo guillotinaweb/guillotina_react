@@ -2,14 +2,14 @@ import { Traversal, useTraversal } from '../contexts'
 import { processResponse } from '../lib/processResponse'
 import useSetState from './useSetState'
 
-interface State<T = unknown> {
+interface State<T> {
   loading?: boolean
   isError?: boolean
   errorMessage?: string
   result?: T
   response?: unknown
 }
-const initial: State = {
+const initial = {
   loading: undefined,
   isError: false,
   errorMessage: undefined,
@@ -42,7 +42,11 @@ function patch<T>(
 }
 
 function del<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
-  return async (data = {}, endpoint?: string, body = false): Promise<State> => {
+  return async (
+    data = {},
+    endpoint?: string,
+    body = false
+  ): Promise<State<T>> => {
     setState({ loading: true })
     let newState = {}
     try {
@@ -80,7 +84,7 @@ function post<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
 }
 
 function get<T>(setState: (value: Partial<State<T>>) => void, Ctx: Traversal) {
-  return async (endpoint?: string): Promise<State> => {
+  return async (endpoint?: string): Promise<State<T>> => {
     setState({ loading: true })
     let newState = {}
     try {

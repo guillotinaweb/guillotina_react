@@ -77,8 +77,8 @@ export function IWorkflow() {
   }
 
   const getStateTitle = () => {
-    if (vocabulary.data?.items?.length > 0) {
-      const vocabularyValue = vocabulary.data.items.find(
+    if ((vocabulary.data?.items ?? []).length > 0) {
+      const vocabularyValue = vocabulary?.data?.items.find(
         (item) => item.token === currentState
       )
       if (vocabularyValue) {

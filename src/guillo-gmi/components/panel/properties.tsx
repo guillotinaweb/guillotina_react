@@ -34,7 +34,7 @@ const _ignoreFields = [
 ]
 
 interface State {
-  data: GuillotinaSchema
+  data?: GuillotinaSchema
   loading: boolean
   error: string | unknown
 }
@@ -67,7 +67,7 @@ export function PanelProperties() {
     .filter((key) => !ignoreFields.includes(key))
     .map((key) => ({
       key,
-      value: schema.data.properties[key] as GuillotinaSchemaProperty,
+      value: schema?.data?.properties[key] as GuillotinaSchemaProperty,
     }))
 
   useEffect(() => {

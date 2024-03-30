@@ -8,7 +8,7 @@ import { IndexSignature, LightFile } from '../types/global'
 import { ItemModel } from '../models'
 import { Auth } from './auth'
 import {
-  GuillotinaGroups,
+  GuillotinaGroup,
   GuillotinaUser,
   ReturnSearchCompatible,
 } from '../types/guillotina'
@@ -314,16 +314,55 @@ export class GuillotinaClient {
   async getPrincipals(
     path: string
   ): Promise<{
-    groups: GuillotinaGroups[]
+    groups: GuillotinaGroup[]
     users: GuillotinaUser[]
   }> {
     const groups = this.getGroups(path)
     const users = this.getUsers(path)
-    const [gr, usr] = await Promise.all([groups, users])
+    const [responseGroups, responseUsers] = await Promise.all([groups, users])
+    let groupsData: GuillotinaGroup[] = []
+    let usersData: GuillotinaUser[] = []
 
+    if (responseGroups.ok) {
+      const groupsDataResponse = await responseGroups.json()
+      groupsData = groupsDataResponse.map(
+        (group: {
+          '@name': string
+          id: string
+          title: string
+          users: string[]
+          roles: string[]
+        }) => {
+          return {
+            '@name': group.id,
+            user_roles: group.roles,
+            users: group.users,
+          }
+        }
+      )
+    }
+    if (responseUsers) {
+      const usersDataResponse = await responseUsers.json()
+      usersData = usersDataResponse.map(
+        (user: {
+          '@name': string
+          id: string
+          fullname: string
+          email: string
+          roles: string[]
+        }) => {
+          return {
+            '@name': user.id,
+            user_roles: user.roles,
+            fullname: user.fullname,
+            email: user.email,
+          }
+        }
+      )
+    }
     return {
-      groups: gr.ok ? await gr.json() : [],
-      users: usr.ok ? await usr.json() : [],
+      groups: groupsData,
+      users: usersData,
     }
   }
 

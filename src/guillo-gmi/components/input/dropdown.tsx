@@ -20,7 +20,7 @@ export default function Dropdown({
   optionDisabledWhen,
   options,
 }: Props) {
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const [isActive, setIsActive] = useState(false)
   const position = isRight ? 'is-right' : ''
   const status = isActive

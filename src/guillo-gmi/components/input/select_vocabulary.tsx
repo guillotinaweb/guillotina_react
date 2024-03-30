@@ -37,7 +37,7 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
       if (
         get<GuillotinaVocabularyItem | null>(vocabulary, 'data.items', null)
       ) {
-        const vocData = vocabulary.data.items.map((item) => {
+        const vocData = (vocabulary?.data?.items ?? []).map((item) => {
           return {
             text: item.title,
             value: item.token,

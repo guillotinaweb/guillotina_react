@@ -250,12 +250,12 @@ export function AddPermission({ refresh, reset }: AddPermissionProps) {
 
       const principalsData = await Ctx.client.getPrincipals(Ctx.path)
       const groups = principalsData.groups.map((group) => ({
-        text: group.id,
-        value: group.id,
+        text: group['@name'],
+        value: group['@name'],
       }))
       const users = principalsData.users.map((user) => ({
-        text: user.fullname || user.id,
-        value: user.id,
+        text: user.fullname || user['@name'],
+        value: user['@name'],
       }))
       principals = [...groups, ...users]
 

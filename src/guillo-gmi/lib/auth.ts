@@ -7,23 +7,23 @@ export class Auth {
   events = {}
   url: string
   base_url: string
-  errors: string
+  errors?: string
 
-  constructor(url) {
+  constructor(url: string) {
     this.url = url
     this.base_url = url
     this.errors = undefined
   }
 
-  getUrl(endpoint) {
+  getUrl(endpoint: string) {
     return `${this.url}${endpoint}`
   }
 
-  setAccount(account) {
+  setAccount(account: string) {
     this.url = this.base_url + account
   }
 
-  async login(username, password) {
+  async login(username: string, password: string) {
     const url = this.getUrl('@login')
     try {
       const data = await fetch(url, {
@@ -68,12 +68,12 @@ export class Auth {
       return false
     }
     const [token] = this._getToken()
-    const data: IndexSignature = jwt_decode(token)
+    const data: IndexSignature = jwt_decode(token as string)
     console.log(token)
     return data.id
   }
 
-  storeAuth(data) {
+  storeAuth(data: { token: string; exp: number }) {
     localStorage.setItem('auth', data.token)
     localStorage.setItem(
       'auth_expires',
@@ -111,7 +111,7 @@ export class Auth {
     return res.token
   }
 
-  willExpire(expiration) {
+  willExpire(expiration: string) {
     const now = new Date().getTime()
     if (parseInt(expiration) * 1000 < now + 10 * 1000) {
       return true
@@ -119,7 +119,7 @@ export class Auth {
     return false
   }
 
-  isExpired(expiration) {
+  isExpired(expiration: string) {
     const now = new Date().getTime()
     if (parseInt(expiration) * 1000 > now) {
       return false
@@ -136,11 +136,11 @@ export class Auth {
     return token
   }
 
-  getHeaders() {
+  getHeaders(): HeadersInit {
     const [authToken, expires] = this._getToken()
     if (!authToken) return {}
 
-    if (this.willExpire(expires) && this.retryRefresh < this.maxRetry) {
+    if (this.willExpire(expires ?? '') && this.retryRefresh < this.maxRetry) {
       // eslint-disable-next-line no-extra-semi
       ;(async () => await this.refreshToken())()
     }

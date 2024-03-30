@@ -188,14 +188,6 @@ export enum Setting {
   Unset = 'Unset',
 }
 
-export interface GuillotinaGroups {
-  '@name': string
-  id: string
-  title: null
-  users: string[]
-  roles: string[]
-}
-
 export interface Workflow {
   '@id': string
   history: History[]

@@ -10,12 +10,12 @@ interface State {
   username: string
   password: string
   loading: boolean
-  errors: string
+  errors?: string
 }
 const initialState = {
   username: '',
   password: '',
-  loading: undefined,
+  loading: false,
   errors: undefined,
 }
 

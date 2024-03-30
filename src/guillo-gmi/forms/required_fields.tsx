@@ -11,7 +11,7 @@ const ignoreFiels: string[] = []
 const extraFields = ['title']
 
 interface Props {
-  onSubmit: (data: { [key: string]: any }) => void
+  onSubmit: (data: IndexSignature) => void
   actionName?: string
   title?: string
   dataTest?: string
@@ -19,9 +19,9 @@ interface Props {
   type: string
 }
 interface State {
-  data: any
+  data: IndexSignature
   loading: boolean
-  error: any
+  error?: unknown
   formFields: string[]
 }
 export function RequiredFieldsForm({
@@ -41,7 +41,7 @@ export function RequiredFieldsForm({
   const [errors, setErrors] = useState<IndexSignature<string>>({})
 
   const [schema, setSchema] = useSetState<State>({
-    data: undefined,
+    data: {},
     loading: false,
     error: undefined,
     formFields: [],

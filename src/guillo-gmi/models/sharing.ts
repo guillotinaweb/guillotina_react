@@ -17,14 +17,18 @@ export class Sharing {
   local: GuillotinaSharingMap
   inherit: GuillotinaSharingInheritItem[]
 
-  constructor(element) {
-    Object.assign(this, element || base)
+  constructor(element: GuillotinaSharing | undefined) {
+    if (element === undefined) {
+      throw new Error('Sharing element is undefined')
+    }
+    this.local = element.local || base.local
+    this.inherit = element.inherit || base.inherit
   }
   get roles() {
     return Object.keys(this.local.roleperm)
   }
 
-  getRole(role) {
+  getRole(role: string) {
     return this.local.roleperm[role]
   }
 
@@ -32,7 +36,7 @@ export class Sharing {
     return Object.keys(this.local.prinperm)
   }
 
-  getPrincipals(principal) {
+  getPrincipals(principal: string) {
     return this.local.prinperm[principal]
   }
 
@@ -40,7 +44,7 @@ export class Sharing {
     return Object.keys(this.local.prinrole)
   }
 
-  getPrinroles(role) {
+  getPrinroles(role: string) {
     return this.local.prinrole[role]
   }
 }
