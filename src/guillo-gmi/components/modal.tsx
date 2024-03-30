@@ -97,7 +97,7 @@ export function PathTree({
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          onConfirm(get(e, 'e.target.0.value', ''), e.target)
+          onConfirm(get(e, 'target.0.value', ''), e.target)
         }}
       >
         <small style={{ display: 'block', marginTop: 20 }}>

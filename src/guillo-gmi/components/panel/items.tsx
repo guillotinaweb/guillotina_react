@@ -118,7 +118,7 @@ export function PanelItems() {
   useEffect(() => {
     const controller = new AbortController()
     if (Ctx.state.loading) return
-    ;(async () => {
+    const getData = async () => {
       setState({ loading: true, total: Ctx.context.length })
       const { get } = Ctx.registry
       const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
@@ -161,7 +161,8 @@ export function PanelItems() {
         loading: false,
         total: data.items_count,
       })
-    })()
+    }
+    getData()
     return () => {
       controller.abort()
     }

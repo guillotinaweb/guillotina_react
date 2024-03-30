@@ -9,7 +9,7 @@ import { useCrudContext } from '../../hooks/useCrudContext'
 import { useTraversal } from '../../contexts'
 import { defineMessages, useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { GuillotinaSharing } from '../../types/guillotina'
 
 const messages = defineMessages({
@@ -74,8 +74,15 @@ export function PanelPermissions() {
     get('@sharing')
   }, [reset])
 
-  const perms = new Sharing(result)
-
+  const perms = useMemo(() => {
+    if (result) {
+      return new Sharing(result)
+    }
+    return null
+  }, [result])
+  if (perms === null) {
+    return null
+  }
   return (
     <div className="columns">
       {!loading && (

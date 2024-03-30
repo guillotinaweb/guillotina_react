@@ -19,7 +19,7 @@ interface Props {
   type: string
 }
 interface State {
-  data: IndexSignature
+  data?: IndexSignature
   loading: boolean
   error?: unknown
   formFields: string[]
@@ -41,7 +41,7 @@ export function RequiredFieldsForm({
   const [errors, setErrors] = useState<IndexSignature<string>>({})
 
   const [schema, setSchema] = useSetState<State>({
-    data: {},
+    data: undefined,
     loading: false,
     error: undefined,
     formFields: [],
@@ -92,7 +92,7 @@ export function RequiredFieldsForm({
         !schema.loading &&
         schema.formFields.map((key) => {
           if (!ignoreFiels.includes(key)) {
-            const value = schema.data.properties[key]
+            const value = schema.data?.properties[key]
             return (
               <EditComponent
                 key={key}
@@ -100,7 +100,7 @@ export function RequiredFieldsForm({
                 placeholder={value?.title ?? ''}
                 className=""
                 required
-                schema={schema.data.properties[key]}
+                schema={schema.data?.properties[key]}
                 setValue={(value: string) => {
                   if (key === 'title') {
                     setFormData({
