@@ -17,13 +17,13 @@ import { IndexSignature } from '../../types/global'
 
 interface State {
   page: number
-  items: SearchItem[]
+  items?: SearchItem[]
   loading: boolean
   items_total: number
 }
 const initialState: State = {
   page: 0,
-  items: [],
+  items: undefined,
   loading: false,
   items_total: 0,
 }

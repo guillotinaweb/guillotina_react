@@ -91,6 +91,7 @@ export const SearchRenderField = ({
   value,
   modifyContent,
 }: SearchRenderFieldProps) => {
+  console.log('search render fields')
   const intl = useIntl()
   const [valuesLabels, setValuesLabels] = useState<string[]>([])
   const [isLoadingData, setIsLoadingData] = useState(false)
@@ -133,12 +134,13 @@ export const SearchRenderField = ({
       setIsLoadingData(false)
     }
 
-    let valuesToSearch = value
-    if (typeof valuesToSearch === 'string') {
-      valuesToSearch = [valuesToSearch]
+    let valuesToSearch: string[] = []
+    if (typeof value === 'string' && value) {
+      valuesToSearch = [value]
+    } else if (Array.isArray(value)) {
+      valuesToSearch = value
     }
-
-    if (valuesToSearch !== undefined && valuesToSearch.length > 0) {
+    if (valuesToSearch.length > 0) {
       fetchData(valuesToSearch)
     } else {
       setValuesLabels([])

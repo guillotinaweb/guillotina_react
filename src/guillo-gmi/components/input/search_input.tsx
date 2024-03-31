@@ -16,13 +16,13 @@ import { IndexSignature } from '../../types/global'
 
 interface State {
   page: number
-  items: SearchItem[]
+  items?: SearchItem[]
   loading: boolean
   items_total: number
 }
 const initialState: State = {
   page: 0,
-  items: [],
+  items: undefined,
   loading: false,
   items_total: 0,
 }
@@ -143,6 +143,7 @@ export const SearchInput = ({
   }
 
   const handleSearch = async (page = 0, concat = false, value = '') => {
+    console.log('handle search input')
     setOptions({ loading: true })
     let searchTermQs = ''
     let searchTermParsed: string[][] = []
@@ -167,7 +168,8 @@ export const SearchInput = ({
       qs.length > 0 ||
       searchTermParsed.length > 0 ||
       qsParsed.length > 0 ||
-      typeNameParsed.length > 0
+      typeNameParsed.length > 0 ||
+      sortParsed.length > 0
     ) {
       searchTermQs = buildQs([
         ...qs,
@@ -240,6 +242,7 @@ export const SearchInput = ({
               }
 
               setIsOpen(!isOpen)
+              console.log('on clic btn', options)
               if (!options.loading && !options.items) {
                 handleSearch(options.page)
               }
