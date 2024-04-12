@@ -6,28 +6,21 @@ export * from './sharing'
 
 export class ItemModel {
   item: SearchItem | GuillotinaCommonObject
-  url: string
-  constructor(item: SearchItem | GuillotinaCommonObject, url = '') {
+  constructor(item: SearchItem | GuillotinaCommonObject) {
     this.item = item
-    this.url = url
   }
 
   get path() {
+    if ('path' in this.item) {
+      return `${this.item.path}/`
+    }
     // Compat
-    const item = this.item['@id']
+    const itemId: string = this.item['@id']
       ? this.item['@id']
       : this.item['@absolute_url']
-    let path = item.split('//')[1].split('/').splice(1).join('/')
-    path = `/${path}/`
-    if (this.url.length > 0) {
-      if (this.url.startsWith('/')) {
-        path = path.replace(this.url.substring(1), '')
-      } else {
-        path = path.replace(this.url, '')
-      }
-    }
+    const path = itemId.split('//')[1].split('/').splice(3).join('/')
 
-    return path
+    return `/${path}/`
   }
 
   get name() {
@@ -57,7 +50,7 @@ export class ItemModel {
   }
 
   get fullPath() {
-    return this.url + this.id
+    return this.item['@id']
   }
 
   get id() {

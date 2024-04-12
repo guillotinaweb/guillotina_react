@@ -38,7 +38,7 @@ interface RItemProps {
 export function RItem({ item, search, columns }: RItemProps) {
   const [, navigate] = useLocation()
   const traversal = useTraversal()
-  const model = new ItemModel(item, traversal.url)
+  const model = new ItemModel(item)
   const link = () => navigate({ path: model.path }, true)
 
   return (

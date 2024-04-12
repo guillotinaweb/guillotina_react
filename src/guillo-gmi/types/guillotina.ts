@@ -6,9 +6,55 @@ type ItemsPropertyObject = {
   '@type': string
   '@uid': string
   '@absolute_url': string
-  __behaviors__: string[]
-  '@static_behaviors': string[]
+  title: string
+  creation_date: string
+  modification_date: string
+  uuid: string
+  type_name: string
 }
+
+export type GuillotinaCommonObject = {
+  type_name: string
+  uuid: string
+  is_folderish: boolean
+  parent: GuillotinaParentObject
+  length: number
+  __behaviors__?: string[]
+  '@static_behaviors': string[]
+  'guillotina.behaviors.dublincore.IDublinCore'?: IBehaviorDublinCore
+  'guillotina.contrib.workflows.interfaces.IWorkflowBehavior'?: IWorkflowBehavior
+  'guillotina.behaviors.attachment.IAttachment'?: {
+    file: GuillotinaFile
+  }
+  'guillotina.behaviors.attachment.IMultiAttachment'?: {
+    files: {
+      [key: string]: GuillotinaFile
+    }
+  }
+  'guillotina.contrib.image.behaviors.IImageAttachment'?: {
+    image: GuillotinaFile
+  }
+  'guillotina.contrib.image.behaviors.IMultiImageAttachment'?: {
+    images: {
+      [key: string]: GuillotinaFile
+    }
+  }
+  'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment'?: {
+    images: {
+      [key: string]: GuillotinaFile
+    }
+  }
+} & ItemsPropertyObject
+
+export type SearchItem = {
+  id: string
+  parent_uuid: string
+  path: string
+  tid: string
+  description: string
+  access_roles: string[]
+  access_users: string[]
+} & ItemsPropertyObject
 
 export interface IBehaviorDublinCore {
   title: string
@@ -22,6 +68,19 @@ export interface IBehaviorDublinCore {
   publisher: string | null
   contributors: string[]
 }
+
+export interface IWorkflowBehavior {
+  review_state: string
+  history: WorkflowHistory[]
+}
+
+interface GuillotinaParentObject {
+  '@id': string
+  '@name': string
+  '@type': string
+  '@uid': string
+}
+
 export interface GuillotinaSchema {
   title: string
   $schema: string
@@ -63,60 +122,6 @@ export interface GuillotinaSchemaProperty {
   queryPath?: string
 }
 
-interface GuillotinaParentObject {
-  '@id': string
-  '@name': string
-  '@type': string
-  '@uid': string
-}
-export type GuillotinaCommonObject = {
-  creation_date: string
-  modification_date: string
-  title: string
-  type_name: string
-  uuid: string
-  is_folderish: boolean
-  parent: GuillotinaParentObject
-  length: number
-  __behaviors__?: string[]
-  'guillotina.behaviors.dublincore.IDublinCore'?: IBehaviorDublinCore
-  'guillotina.contrib.workflows.interfaces.IWorkflowBehavior'?: {
-    review_state: string
-    history: {
-      actor: string
-      comments: string
-      time: string
-      title: string
-      type: string
-      data: {
-        action: string | null
-        review_state: string
-      }
-    }[]
-  }
-  'guillotina.behaviors.attachment.IAttachment'?: {
-    file: GuillotinaFile
-  }
-  'guillotina.behaviors.attachment.IMultiAttachment'?: {
-    files: {
-      [key: string]: GuillotinaFile
-    }
-  }
-  'guillotina.contrib.image.behaviors.IImageAttachment'?: {
-    image: GuillotinaFile
-  }
-  'guillotina.contrib.image.behaviors.IMultiImageAttachment'?: {
-    images: {
-      [key: string]: GuillotinaFile
-    }
-  }
-  'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment'?: {
-    images: {
-      [key: string]: GuillotinaFile
-    }
-  }
-} & ItemsPropertyObject
-
 export type GuillotinaFile = {
   filename: string
   content_type: string
@@ -124,18 +129,6 @@ export type GuillotinaFile = {
   size: number
   md5: string
 }
-
-export type SearchItem = {
-  id: string
-  parent_uuid: string
-  path: string
-  tid: string
-  uuid: string
-  title: string
-  type_name: string
-  creation_date: string
-  modification_date: string
-} & ItemsPropertyObject
 
 export interface GuillotinaVocabulary {
   '@id': string
@@ -214,20 +207,20 @@ export enum Setting {
 
 export interface Workflow {
   '@id': string
-  history: History[]
+  history: WorkflowHistory[]
   transitions: Transition[]
 }
 
-export interface History {
+export interface WorkflowHistory {
   actor: string
   comments: string
   time: string
   title: string
   type: string
-  data: Data
+  data: WorkflowHistoryData
 }
 
-export interface Data {
+export interface WorkflowHistoryData {
   action: null
   review_state: string
 }
