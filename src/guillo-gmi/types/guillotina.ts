@@ -82,12 +82,36 @@ export type GuillotinaCommonObject = {
   'guillotina.behaviors.dublincore.IDublinCore'?: IBehaviorDublinCore
   'guillotina.contrib.workflows.interfaces.IWorkflowBehavior'?: {
     review_state: string
+    history: {
+      actor: string
+      comments: string
+      time: string
+      title: string
+      type: string
+      data: {
+        action: string | null
+        review_state: string
+      }
+    }[]
   }
   'guillotina.behaviors.attachment.IAttachment'?: {
     file: GuillotinaFile
   }
   'guillotina.behaviors.attachment.IMultiAttachment'?: {
     files: {
+      [key: string]: GuillotinaFile
+    }
+  }
+  'guillotina.contrib.image.behaviors.IImageAttachment'?: {
+    image: GuillotinaFile
+  }
+  'guillotina.contrib.image.behaviors.IMultiImageAttachment'?: {
+    images: {
+      [key: string]: GuillotinaFile
+    }
+  }
+  'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment'?: {
+    images: {
       [key: string]: GuillotinaFile
     }
   }
