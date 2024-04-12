@@ -20,7 +20,7 @@ interface Props {
   errorMessage?: string
   dataTest?: string
   autofocus?: boolean
-  onChange?: (value: string) => void
+  onChange: (value: string) => void | undefined
   type?: string
   value?: string
   required?: boolean
@@ -56,10 +56,10 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     },
     ref
   ) => {
-    let validatorFn = null
+    let validatorFn: ((value: string) => boolean)[] = []
     if (required) {
       validatorFn = Array.isArray(validator)
-        ? validator.push(notEmpty)
+        ? [...validator, notEmpty]
         : [validator, notEmpty]
     }
 
@@ -67,17 +67,23 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     const [uid] = useState(generateUID('input'))
     const [mounted, setMounted] = useState(false)
     // eslint-disable-next-line
-    ref = ref || useRef()
+    const newRef = ref || useRef()
 
     useEffect(() => {
       setMounted(true)
     }, [])
 
     useEffect(() => {
-      if (autofocus && !error && ref != null && typeof ref !== 'function') {
-        ref.current.focus()
+      if (
+        autofocus &&
+        !error &&
+        newRef != null &&
+        typeof newRef !== 'function' &&
+        newRef.current
+      ) {
+        newRef.current.focus()
       }
-    }, [mounted, autofocus, ref, error])
+    }, [mounted, autofocus, newRef, error])
 
     const theError = state.hasError ? errorMessage || 'invalid field' : ''
     const statusClasses = state.hasError ? 'is-danger' : ''

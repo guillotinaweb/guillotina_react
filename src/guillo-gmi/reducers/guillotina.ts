@@ -5,20 +5,21 @@ import { GuillotinaCommonObject } from '../types/guillotina'
 export interface GuillotinaGlobalState {
   path: string
   loading: boolean
-  context: GuillotinaCommonObject
+  context?: GuillotinaCommonObject
   flash: {
-    message: string
-    type: string
+    message?: string
+    type?: string
   }
   action: {
-    action: string
-    params: IndexSignature
+    action?: string
+    params?: IndexSignature
   }
   permissions: IndexSignature
-  errorStatus: number
+  errorStatus?: string
   registry: IndexSignature
-  refresh: number
+  refresh?: number
 }
+
 export const initialState: GuillotinaGlobalState = {
   path: '',
   loading: false,
@@ -31,18 +32,32 @@ export const initialState: GuillotinaGlobalState = {
     action: undefined,
     params: undefined,
   },
-  permissions: undefined,
+  permissions: [],
   errorStatus: undefined,
   registry: {},
   refresh: undefined,
 }
 
-export function guillotinaReducer(state, action) {
+export enum GuillotinaReducerActionTypes {
+  SET_PATH = 'SET_PATH',
+  SET_CONTEXT = 'SET_CONTEXT',
+  SET_ERROR = 'SET_ERROR',
+  SET_FLASH = 'SET_FLASH',
+  CLEAR_FLASH = 'CLEAR_FLASH',
+  SET_ACTION = 'SET_ACTION',
+  CLEAR_ACTION = 'CLEAR_ACTION',
+  REFRESH = 'REFRESH',
+  APPLY = 'APPLY',
+}
+export function guillotinaReducer(
+  state: GuillotinaGlobalState,
+  action: { type: GuillotinaReducerActionTypes; payload: IndexSignature }
+): GuillotinaGlobalState {
   switch (action.type) {
-    case 'SET_PATH':
-      return { ...state, path: action.payload, loading: true }
+    case GuillotinaReducerActionTypes.SET_PATH:
+      return { ...state, path: action.payload.path, loading: true }
 
-    case 'SET_CONTEXT':
+    case GuillotinaReducerActionTypes.SET_CONTEXT:
       return {
         ...state,
         ...action.payload,
@@ -50,13 +65,17 @@ export function guillotinaReducer(state, action) {
         loading: false,
       }
 
-    case 'SET_ERROR':
-      return { ...state, errorStatus: action.payload, loading: false }
+    case GuillotinaReducerActionTypes.SET_ERROR:
+      return {
+        ...state,
+        errorStatus: action.payload.errorStatus,
+        loading: false,
+      }
 
-    case 'SET_FLASH':
+    case GuillotinaReducerActionTypes.SET_FLASH:
       return { ...state, ...action.payload }
 
-    case 'CLEAR_FLASH':
+    case GuillotinaReducerActionTypes.CLEAR_FLASH:
       return {
         ...state,
         flash: {
@@ -64,20 +83,23 @@ export function guillotinaReducer(state, action) {
           type: undefined,
         },
       }
-    case 'SET_ACTION':
+    case GuillotinaReducerActionTypes.SET_ACTION:
       return { ...state, action: action.payload }
-    case 'CLEAR_ACTION':
+    case GuillotinaReducerActionTypes.CLEAR_ACTION:
       return { ...state, action: { action: undefined, params: undefined } }
 
-    case 'REFRESH':
+    case GuillotinaReducerActionTypes.REFRESH:
       return {
         ...state,
         refresh: Date.now(),
         loading: !action.payload.transparent,
       }
 
-    case 'APPLY':
-      return { ...state, context: { ...state.context, ...action.payload } }
+    case GuillotinaReducerActionTypes.APPLY:
+      return {
+        ...state,
+        context: { ...state.context, ...action.payload.context },
+      }
 
     default:
       return state

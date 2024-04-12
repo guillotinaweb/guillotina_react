@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
-const applyValidators = (value, validators) => {
+const applyValidators = (
+  value: string,
+  validators: ((value: string) => boolean)[]
+) => {
   const validation = Array.isArray(validators) ? validators : [validators]
   let result = true
   validation.forEach((func) => {
@@ -11,17 +14,21 @@ const applyValidators = (value, validators) => {
   return result
 }
 
-const useInput = (onChange, value, validator) => {
+const useInput = (
+  onChange: (value: string) => void | undefined,
+  value: string,
+  validators: ((value: string) => boolean)[]
+) => {
   const [state, setState] = useState({ hasError: false, value: value })
 
-  const onUpdate = (ev) => {
-    const value = ev && ev.target ? ev.target.value : ev ? ev : ''
+  const onUpdate = (ev: ChangeEvent<HTMLInputElement>) => {
+    const value: string = ev && ev.target ? ev.target.value : ''
     setState({ value, hasError: false })
     if (onChange) onChange(value)
   }
 
   const onBlur = () => {
-    const hasError = applyValidators(state.value, validator) === false
+    const hasError = applyValidators(state.value, validators) === false
     if (hasError) setState({ value: state.value, hasError })
   }
 

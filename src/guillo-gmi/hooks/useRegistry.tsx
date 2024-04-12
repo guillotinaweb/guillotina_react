@@ -22,8 +22,7 @@ import { IImageAttachment } from '../components/behaviors/iimageattachment'
 import { IMultiImageAttachment } from '../components/behaviors/imultiimageattachment'
 import { IMultiImageOrderedAttachment } from '../components/behaviors/imultiimageorderedattachment'
 import { IWorkflow } from '../components/behaviors/iworkflow'
-import { GroupsCtx } from '../views/groups'
-import { GroupCtx } from '../views/groups'
+import { GroupCtx, GroupsCtx } from '../views/groups'
 import { ErrorBoundary } from '../components/error_boundary'
 import React from 'react'
 import { NotAllowed } from '../components/notallowed'
@@ -31,40 +30,39 @@ import { NotFound } from '../components/notfound'
 import { Path } from '../components/path'
 import { EditComponent } from '../components/fields/editComponent'
 import { RenderFieldComponent } from '../components/fields/renderField'
-import { GuillotinaSchema } from '../types/guillotina'
+import {
+  GuillotinaCommonObject,
+  ItemColumn,
+  RegistrySchema,
+} from '../types/guillotina'
 
 export interface IRegistry {
   paths: {
     [key: string]: React.FC
   }
   views: {
-    [key: string]: React.FC | React.ComponentType
+    [key: string]: React.FC | React.ComponentType<any>
   }
   actions: {
-    [key: string]: React.FC
+    [key: string]: (props: any) => JSX.Element
   }
   forms: {
-    [key: string]: React.FC
+    [key: string]: (props: any) => JSX.Element
   }
   behaviors: {
-    [key: string]: React.FC
+    [key: string]: (props: any | undefined) => JSX.Element | null
   }
   itemsColumn: {
-    [key: string]: () => {
-      label: string
-      key: string
-      isSortable?: boolean
-      child: React.ReactNode
-    }[]
+    [key: string]: () => ItemColumn[]
   }
   schemas: {
-    [key: string]: GuillotinaSchema
+    [key: string]: RegistrySchema
   }
   properties: {
     [key: string]: React.FC
   }
   components: {
-    [key: string]: React.FC
+    [key: string]: (props: any) => React.ReactNode | null | undefined
   }
   searchEngineQueryParamsFunction: {
     [key: string]: string
@@ -140,12 +138,16 @@ const registry: IRegistry = {
   defaultSortValue: {},
 }
 
-const get = (key, param, fallback = undefined) => {
+const get = (key: keyof IRegistry, param: string, fallback = undefined) => {
   if (registry[key]) return registry[key][param] || fallback
   return fallback
 }
 
-const getComponent = (context, path, fallback = undefined) => {
+const getComponent = (
+  context: GuillotinaCommonObject | undefined,
+  path: string,
+  fallback = undefined
+) => {
   if (!context) return
   // console.log("Component for path", path)
   // lookup by path
@@ -162,7 +164,7 @@ const getComponent = (context, path, fallback = undefined) => {
   return defaultComponent(context)
 }
 
-const getItemsColumn = (type) => {
+const getItemsColumn = (type: string) => {
   const funcCols = registry.itemsColumn[type]
   if (funcCols) {
     return funcCols()
@@ -170,11 +172,15 @@ const getItemsColumn = (type) => {
   return undefined
 }
 
-const getForm = (type: string, fallback: React.FC = BaseForm) => {
-  return registry.forms[type] || fallback
+const getView = (name: string) => {
+  return registry.views[name]
 }
 
-const getAction = (type: string, fallback: React.FC = undefined) => {
+const getForm = (type: string, fallback: React.FC) => {
+  return registry.forms[type] || fallback || BaseForm
+}
+
+const getAction = (type: string, fallback?: React.FC) => {
   return registry.actions[type] || fallback
 }
 
@@ -186,41 +192,40 @@ const getProperties = (type: string) => {
   return registry.properties[type] || {}
 }
 
-const getSchemas = (type: string) => {
+const getSchemas = (type: string): RegistrySchema => {
   return registry.schemas[type] || {}
-  /*
-    filters: [
-      {
-        attribute_key: string,
-        label: string,
-        type: 'select' | 'input'
-        vocabulary: string | undefined
-        values: {[key:string]:any}[]
-      }
-    ]
-  */
 }
 
-const getFieldsToFilter = (type: string, fallback) => {
+const getFieldsToFilter = (type: string, fallback: string[] = ['title']) => {
   return registry.fieldsToFilter[type] || fallback
 }
 
-const getDefaultSortValue = (type: string, fallback) => {
+const getDefaultSortValue = (
+  type: string,
+  fallback = {
+    key: 'id',
+    direction: 'des',
+  }
+) => {
   return registry.defaultSortValue[type] || fallback
 }
 
-export const defaultComponent = (context) => {
+export const defaultComponent = (context: GuillotinaCommonObject) => {
   return context.is_folderish ? FolderCtx : ItemCtx
 }
 
-export function useRegistry(data) {
+export function useRegistry(data: IRegistry) {
   // if data is provided we need to merge it into actual registry
   const ref = React.useRef<unknown>()
   if (data && !ref.current) {
     ref.current = true
-    Object.keys(data).map(
-      (key) => (registry[key] = { ...registry[key], ...data[key] })
-    )
+    Object.keys(data).map((key) => {
+      const registryKey = key as keyof IRegistry
+      registry[registryKey] = {
+        ...registry[registryKey],
+        ...data[registryKey],
+      } as any
+    })
   }
 
   return {
@@ -235,6 +240,7 @@ export function useRegistry(data) {
     getFieldsToFilter,
     getDefaultSortValue,
     getSchemas,
+    getView,
   }
 }
 

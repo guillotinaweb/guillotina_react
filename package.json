@@ -1,5 +1,5 @@
 {
-  "version": "0.29.2",
+  "version": "0.30.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:guillotinaweb/guillotina_react.git"
@@ -37,6 +37,7 @@
     "@testing-library/user-event": "12.6.0",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
     "@typescript-eslint/parser": "^6.18.1",
+    "@types/uuid":"9.0.8",
     "babel-plugin-formatjs": "^10.5.10",
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
@@ -45,7 +46,7 @@
     "prettier": "2.2.1",
     "sass": "1.69.5",
     "serialize-javascript": "5.0.1",
-    "typescript": "^5.3.3",
+    "typescript": "5.4.2",
     "vitest": "^0.34.6",
     "@types/react-beautiful-dnd": "13.1.8"
   },

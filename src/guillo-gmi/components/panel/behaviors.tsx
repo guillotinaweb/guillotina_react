@@ -19,13 +19,13 @@ export function PanelBehaviors() {
 
   const [state, setState] = useState(false)
 
-  const enableBehavior = (behavior) => async () => {
+  const enableBehavior = (behavior: string) => async () => {
     await ops.patch({ behavior }, '@behaviors')
     setState(!state)
     Ctx.refresh()
   }
 
-  const disableBehavior = (behavior) => async () => {
+  const disableBehavior = (behavior: string) => async () => {
     await ops.del({ behavior }, '@behaviors')
     setState(!state)
     Ctx.refresh()

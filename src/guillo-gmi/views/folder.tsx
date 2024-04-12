@@ -22,7 +22,7 @@ const tabsPermissions = {
   Permissions: 'guillotina.SeePermissions',
 }
 
-export function FolderCtx(props) {
+export function FolderCtx() {
   const ctx = useTraversal()
   const calculated = ctx.filterTabs(tabs, tabsPermissions)
 
@@ -30,8 +30,7 @@ export function FolderCtx(props) {
     <TabsPanel
       tabs={calculated}
       currentTab="Items"
-      rightToolbar={<ContextToolbar {...props} />}
-      {...props}
+      rightToolbar={<ContextToolbar />}
     />
   )
 }

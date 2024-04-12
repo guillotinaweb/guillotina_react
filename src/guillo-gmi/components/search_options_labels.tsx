@@ -8,12 +8,12 @@ interface Props {
 }
 export function SearchOptionsLabels({ query = 'q', options }: Props) {
   const [location, , del] = useLocation()
-  const [renderValue, setRenderValue] = useState(undefined)
-  const defaultRenderValue = location.get(query)
+  const [renderValue, setRenderValue] = useState<string | undefined>(undefined)
+  const defaultRenderValue = location.get(query) || ''
 
   useEffect(() => {
     let value = defaultRenderValue
-    if ((options ?? []).length > 0) {
+    if (options && (options ?? []).length > 0) {
       const option = options.find((item) => item.value === value)
       if (option) {
         value = option.text

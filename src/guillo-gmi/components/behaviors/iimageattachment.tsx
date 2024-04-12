@@ -15,7 +15,9 @@ import {
 import {
   GuillotinaFile,
   GuillotinaSchemaProperties,
+  GuillotinaSchemaProperty,
 } from '../../types/guillotina'
+import { LightFile } from '../../types/global'
 
 const _sizesImages = ['large', 'preview', 'mini', 'thumb']
 
@@ -31,15 +33,18 @@ export function IImageAttachment({ properties, values }: Props) {
   const Ctx = useTraversal()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
   const sizesImages = cfg.SizeImages || _sizesImages
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState<LightFile | null>(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
+  const [error, setError] = useState<string | undefined>(undefined)
   const [showConfirmToDelete, setShowConfirmToDelete] = useState(false)
 
-  const uploadFile = async (ev) => {
+  const uploadFile = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault()
     setLoading(true)
     setError(undefined)
+    if (!file) {
+      return
+    }
     const endpoint = `${Ctx.path}@upload/image`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
@@ -69,7 +74,7 @@ export function IImageAttachment({ properties, values }: Props) {
       }
     }
 
-    setFile(undefined)
+    setFile(null)
     setLoading(false)
     Ctx.flash(intl.formatMessage(genericFileMessages.image_uploaded), 'success')
     Ctx.refresh()
@@ -119,7 +124,7 @@ export function IImageAttachment({ properties, values }: Props) {
                 field={'image'}
                 value={values['image']}
                 ns="guillotina.behaviors.behaviors.IImageAttachment"
-                schema={properties['image']}
+                schema={properties['image'] as GuillotinaSchemaProperty}
                 modifyContent={false}
               />
               <div className="ml-5">

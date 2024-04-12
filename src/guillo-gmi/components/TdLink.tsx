@@ -9,7 +9,7 @@ interface Props {
   style?: IndexSignature
 }
 export function TdLink({ model, children, style = {} }: Props) {
-  const link = useRef<HTMLAnchorElement>()
+  const link = useRef<HTMLAnchorElement>(null)
 
   function onClick() {
     if (link && link.current) {

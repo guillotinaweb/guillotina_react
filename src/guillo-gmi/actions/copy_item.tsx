@@ -3,10 +3,11 @@ import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { useCrudContext } from '../hooks/useCrudContext'
 import { getNewId } from '../lib/utils'
-import { ItemModel } from '../models'
+import { IndexSignature } from '../types/global'
+import { GuillotinaCommonObject } from '../types/guillotina'
 
 interface Props {
-  item: ItemModel
+  item: GuillotinaCommonObject
 }
 
 export function CopyItem(props: Props) {
@@ -14,7 +15,7 @@ export function CopyItem(props: Props) {
   const { post } = useCrudContext()
   const { item } = props
 
-  async function copyItem(path, form) {
+  async function copyItem(path: string, form: IndexSignature) {
     const input = form[1] || {}
     const { isError, errorMessage } = await post(
       {

@@ -1,12 +1,12 @@
 import { useTraversal } from '../../contexts'
 import { Confirm } from '../modal'
 import { useCrudContext } from '../../hooks/useCrudContext'
-import { ItemModel } from '../../models'
 import { defineMessages, useIntl } from 'react-intl'
 import { useEffect, useState } from 'react'
 
 import { useVocabulary } from '../../hooks/useVocabulary'
 import { get } from '../../lib/utils'
+import { Workflow } from '../../types/guillotina'
 const messages = defineMessages({
   status_changed_ok: {
     id: 'status_changed_ok',
@@ -33,16 +33,16 @@ const messages = defineMessages({
 export function IWorkflow() {
   const intl = useIntl()
   const Ctx = useTraversal()
-  const { post, loading } = useCrudContext()
+  const { post, loading } = useCrudContext<Workflow>()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
-  const [definition, setDefinition] = useState(undefined)
-  const [workflowAction, setWorkflowAction] = useState(null)
-  const model = new ItemModel(Ctx.context)
+  const [definition, setDefinition] = useState<Workflow | undefined>(undefined)
+  const [workflowAction, setWorkflowAction] = useState<string | undefined>(
+    undefined
+  )
   const vocabulary = useVocabulary('workflow_states')
-  const currentState =
-    model.item['guillotina.contrib.workflows.interfaces.IWorkflowBehavior'][
-      'review_state'
-    ]
+  const currentState = Ctx.context[
+    'guillotina.contrib.workflows.interfaces.IWorkflowBehavior'
+  ]!['review_state']
 
   async function loadDefinition() {
     const response = await Ctx.client.get(`${Ctx.path}/@workflow`)
@@ -73,11 +73,12 @@ export function IWorkflow() {
     }
 
     Ctx.refresh()
-    setWorkflowAction(null)
+    setWorkflowAction(undefined)
   }
+
   const getStateTitle = () => {
-    if (vocabulary.data?.items?.length > 0) {
-      const vocabularyValue = vocabulary.data.items.find(
+    if ((vocabulary.data?.items ?? []).length > 0) {
+      const vocabularyValue = vocabulary?.data?.items.find(
         (item) => item.token === currentState
       )
       if (vocabularyValue) {
@@ -109,7 +110,7 @@ export function IWorkflow() {
       {workflowAction && (
         <Confirm
           loading={loading}
-          onCancel={() => setWorkflowAction(null)}
+          onCancel={() => setWorkflowAction(undefined)}
           onConfirm={doWorkflowAction}
           message={intl.formatMessage(messages.confirm_message, {
             title: Ctx.context.title || Ctx.context['@name'],

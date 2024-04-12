@@ -5,8 +5,80 @@ type ItemsPropertyObject = {
   '@name': string
   '@type': string
   '@uid': string
-  __behaviors__: string[]
+  '@absolute_url': string
+  title: string
+  creation_date: string
+  modification_date: string
+  uuid: string
+  type_name: string
+}
+
+export type GuillotinaCommonObject = {
+  type_name: string
+  uuid: string
+  is_folderish: boolean
+  parent: GuillotinaParentObject
+  length: number
+  __behaviors__?: string[]
   '@static_behaviors': string[]
+  'guillotina.behaviors.dublincore.IDublinCore'?: IBehaviorDublinCore
+  'guillotina.contrib.workflows.interfaces.IWorkflowBehavior'?: IWorkflowBehavior
+  'guillotina.behaviors.attachment.IAttachment'?: {
+    file: GuillotinaFile
+  }
+  'guillotina.behaviors.attachment.IMultiAttachment'?: {
+    files: {
+      [key: string]: GuillotinaFile
+    }
+  }
+  'guillotina.contrib.image.behaviors.IImageAttachment'?: {
+    image: GuillotinaFile
+  }
+  'guillotina.contrib.image.behaviors.IMultiImageAttachment'?: {
+    images: {
+      [key: string]: GuillotinaFile
+    }
+  }
+  'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment'?: {
+    images: {
+      [key: string]: GuillotinaFile
+    }
+  }
+} & ItemsPropertyObject
+
+export type SearchItem = {
+  id: string
+  parent_uuid: string
+  path: string
+  tid: string
+  description: string
+  access_roles: string[]
+  access_users: string[]
+} & ItemsPropertyObject
+
+export interface IBehaviorDublinCore {
+  title: string
+  description: string | null
+  creation_date: string
+  modification_date: string
+  effective_date: string | null
+  expiration_date: string | null
+  creators: string[]
+  tags: string[] | null
+  publisher: string | null
+  contributors: string[]
+}
+
+export interface IWorkflowBehavior {
+  review_state: string
+  history: WorkflowHistory[]
+}
+
+interface GuillotinaParentObject {
+  '@id': string
+  '@name': string
+  '@type': string
+  '@uid': string
 }
 
 export interface GuillotinaSchema {
@@ -16,6 +88,10 @@ export interface GuillotinaSchema {
   required: string[]
   definitions: Definitions
   properties: GuillotinaSchemaProperties
+}
+
+export interface GuillotinaSchemaProperties {
+  [key: string]: GuillotinaSchemaProperty | { $ref: string }[]
 }
 
 export interface Definitions {
@@ -28,19 +104,6 @@ export interface Definitions {
   }
 }
 
-export interface GuillotinaItemsProperty {
-  type: string
-  widget?: string
-  properties?: GuillotinaSchemaProperties
-  vocabulary?: string[]
-  vocabularyName?: string
-  queryCondition?: string
-  queryPath?: string
-  labelProperty?: string
-  typeNameQuery?: string
-  items: GuillotinaItemsProperty
-  title: string
-}
 export interface GuillotinaSchemaProperty {
   type: string
   title: string
@@ -49,28 +112,15 @@ export interface GuillotinaSchemaProperty {
   description?: string
   vocabularyName?: string
   vocabulary?: string[]
-  items?: GuillotinaItemsProperty
+  items?: GuillotinaSchemaProperty
   properties?: GuillotinaSchemaProperties
   additionalProperties?: GuillotinaSchemaProperties
   typeNameQuery?: string
   labelProperty?: string
+  enum?: string[]
+  queryCondition?: string
+  queryPath?: string
 }
-export interface GuillotinaSchemaProperties {
-  [key: string]: GuillotinaSchemaProperty | { $ref: string }[]
-}
-
-export type GuillotinaCommonObject = {
-  creation_date: Date
-  modification_date: string
-  title: string
-  type_name: string
-  uuid: string
-  'guillotina.behaviors.attachment.IMultiAttachment'?: {
-    files: {
-      [key: string]: GuillotinaFile
-    }
-  }
-} & ItemsPropertyObject
 
 export type GuillotinaFile = {
   filename: string
@@ -79,18 +129,6 @@ export type GuillotinaFile = {
   size: number
   md5: string
 }
-
-export type SearchItem = {
-  id: string
-  parent_uuid: string
-  path: string
-  tid: string
-  uuid: string
-  title: string
-  type_name: string
-  creation_date: string
-  modification_date: string
-} & ItemsPropertyObject
 
 export interface GuillotinaVocabulary {
   '@id': string
@@ -127,3 +165,133 @@ export interface GuillotinaBehaviors {
   dynamic: string[]
   available: string[]
 }
+
+export interface AllPermissions {
+  [key: string]: AllPermissionsItem
+}
+
+export interface AllPermissionsItem {
+  prinperm?: PrimPerm[]
+  prinrole?: Prinrole[]
+  roleperm?: Roleperm[]
+  perminhe?: Perminhe[]
+}
+
+export interface Prinrole {
+  principal: string
+  role: string
+  setting: Setting
+}
+
+export interface Roleperm {
+  permission: string
+  role: string
+  setting: Setting
+}
+export interface PrimPerm {
+  principal: string
+  permission: string
+  setting: Setting
+}
+export interface Perminhe {
+  permission: string
+  setting: Setting
+}
+
+export enum Setting {
+  Allow = 'Allow',
+  AllowSingle = 'AllowSingle',
+  Deny = 'Deny',
+  Unset = 'Unset',
+}
+
+export interface Workflow {
+  '@id': string
+  history: WorkflowHistory[]
+  transitions: Transition[]
+}
+
+export interface WorkflowHistory {
+  actor: string
+  comments: string
+  time: string
+  title: string
+  type: string
+  data: WorkflowHistoryData
+}
+
+export interface WorkflowHistoryData {
+  action: null
+  review_state: string
+}
+
+export interface Transition {
+  '@id': string
+  title: string
+  metadata: IndexSignature
+}
+
+export interface Addons {
+  available: AddonAvailable[]
+  installed: string[]
+}
+
+export interface AddonAvailable {
+  id: string
+  title: string
+  dependencies: any[]
+}
+
+export interface RegistrySchema {
+  filters: RegistrySchemaFilter[]
+}
+
+export interface RegistrySchemaFilter {
+  attribute_key: string
+  label: string
+  type: string
+  values?: { value: string; text: string }[]
+  vocabulary?: string
+  input_type?: string
+}
+
+export type ReturnSearch<T> = {
+  items: T[]
+  items_total: number
+}
+
+export type ReturnSearchCompatible<T> = {
+  member: T[]
+  items_count: number
+  items: T[]
+  items_total: number
+}
+
+export interface ItemColumn {
+  label: string
+  key: string
+  isSortable?: boolean
+  child: React.ReactNode
+}
+
+export type GuillotinaUser = {
+  user_roles: string[]
+  user_groups: string[]
+  user_permissions: string[]
+  fullname: string
+  email: string
+  username: string
+} & GuillotinaCommonObject
+
+export type GuillotinaGroup = {
+  user_roles: string[]
+  users: string[]
+} & GuillotinaCommonObject
+
+export type GuillotinaApplication = {
+  databases: string[]
+} & GuillotinaCommonObject
+
+export type GuillotinaDatabase = {
+  containers: string[]
+} & GuillotinaCommonObject

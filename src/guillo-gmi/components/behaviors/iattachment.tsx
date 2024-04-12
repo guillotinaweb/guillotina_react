@@ -7,11 +7,13 @@ import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import {
   GuillotinaFile,
-  GuillotinaSchemaProperties,
+  GuillotinaSchemaProperty,
 } from '../../types/guillotina'
 
 interface Props {
-  properties: GuillotinaSchemaProperties
+  properties: {
+    file: GuillotinaSchemaProperty
+  }
   values: {
     file: GuillotinaFile
   }
@@ -38,9 +40,9 @@ export function IAttachment({ properties, values }: Props) {
           <td key={2}>
             <EditableField
               field={key}
-              value={values[key]}
+              value={values.file}
               ns="guillotina.behaviors.attachment.IAttachment"
-              schema={properties[key]}
+              schema={properties.file}
               modifyContent={modifyContent && ['file'].includes(key)}
             />
           </td>

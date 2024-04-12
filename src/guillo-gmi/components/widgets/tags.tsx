@@ -3,20 +3,25 @@ import { Tag } from '../ui/tag'
 import { Loading } from '../ui/loading'
 import { useRef, useState } from 'react'
 
-const prepareAvailable = (items, already, title) => {
+const prepareAvailable = (
+  items: {
+    value: string
+    text: string
+  }[],
+  already: string[],
+  title: string
+) => {
   const def = { value: '', text: `Add ${title}` }
   if (items.length === 0) return []
-  if (items[0] && typeof items[0] === 'string') {
-    return [def]
-      .concat(items.map((x) => ({ value: x, text: x })))
-      .filter((item) => !already.includes(item.value))
-  }
   return [def].concat(items).filter((item) => !already.includes(item.value))
 }
 
 interface Props {
   items: string[]
-  available?: string[]
+  available?: {
+    value: string
+    text: string
+  }[]
   title: string
   noData: string
   onChange: (items: string[]) => void
@@ -30,18 +35,18 @@ export function TagsWidget({
   onChange,
   loading,
 }: Props) {
-  const selectRef = useRef<HTMLSelectElement>()
+  const selectRef = useRef<HTMLSelectElement>(null)
 
   const [result, setResult] = useState(items)
   const availableData = prepareAvailable(available || [], result, title)
 
-  const remove = (value) => {
+  const remove = (value: string) => {
     const items = result.filter((item) => item !== value)
     setResult(items)
     onChange(items)
   }
 
-  const addItem = (value) => {
+  const addItem = (value: string) => {
     if (value === '') return
     const items = result.concat([value])
     setResult(items)
@@ -66,13 +71,13 @@ export function TagsWidget({
         {result.length === 0 && (
           <li style={{ marginBottom: '20px' }}>{noData}</li>
         )}
-        {available.length > 1 && (
+        {(available ?? []).length > 1 && (
           <li className="widget-list-add select is-small">
             <Select
               options={availableData}
               ref={selectRef}
               onChange={(value) => {
-                addItem(value)
+                addItem(value as string)
                 if (selectRef.current) {
                   selectRef.current.value = ''
                 }

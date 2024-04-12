@@ -2,6 +2,7 @@ import usePortal from 'react-useportal'
 import { Button } from './input/button'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
+import { get } from '../lib/utils'
 
 interface ModalProps {
   isActive: boolean
@@ -96,7 +97,7 @@ export function PathTree({
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          onConfirm(e.target[0].value, e.target)
+          onConfirm(get(e, 'target.0.value', ''), e.target)
         }}
       >
         <small style={{ display: 'block', marginTop: 20 }}>

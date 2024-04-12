@@ -22,7 +22,7 @@ export function BaseForm({
   const intl = useIntl()
   const [name, setName] = useState('')
   const [id, setId] = useState('')
-  const [error, setError] = useState(undefined)
+  const [error, setError] = useState<string | undefined>(undefined)
 
   const submit = () => {
     if (name === '') {
@@ -32,7 +32,7 @@ export function BaseForm({
     onSubmit({ title: name, id })
   }
 
-  const setTitle = (value) => {
+  const setTitle = (value: string) => {
     setId(stringToSlug(value))
     setName(value)
   }

@@ -1,3 +1,7 @@
+0.30.0
+------
+- chore: Typescript strict mode
+
 0.29.2
 ------
 - fix: Email input

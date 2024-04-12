@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl'
 interface Props {
   value?: string
   dataTest?: string
-  onChange?: (value: string) => void
+  onChange: (value: string) => void
   placeholder?: string
   id?: string
 }

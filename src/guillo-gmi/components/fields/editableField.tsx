@@ -11,12 +11,14 @@ import {
   genericFileMessages,
   genericMessages,
 } from '../../locales/generic_messages'
+import { EditableFieldValue, LightFile } from '../../types/global'
+import { GuillotinaSchemaProperty } from '../../types/guillotina'
 
 interface Props {
   field: string
-  value: any
+  value: EditableFieldValue
   ns?: string
-  schema?: any
+  schema?: GuillotinaSchemaProperty
   modifyContent?: boolean
   required?: boolean
 }
@@ -48,9 +50,12 @@ export function EditableField({
     }
   })
 
-  const canModified = modifyContent && !get(schema, 'readonly', false)
+  const canModified =
+    schema !== undefined && modifyContent && !get(schema, 'readonly', false)
 
-  const saveField = async (ev) => {
+  const saveField = async (
+    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     if (ev) ev.preventDefault()
 
     if (!field) {
@@ -70,7 +75,8 @@ export function EditableField({
     }
 
     if (schema?.widget === 'file') {
-      const value = val
+      const value = val as LightFile
+
       if (value) {
         value['filename'] = unescape(encodeURIComponent(value['filename']))
       }
@@ -107,7 +113,9 @@ export function EditableField({
     Ctx.refresh()
   }
 
-  const deleteField = async (ev) => {
+  const deleteField = async (
+    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     if (ev) ev.preventDefault()
     if (schema?.widget === 'file') {
       if (!field || (!val && required)) {
@@ -136,7 +144,7 @@ export function EditableField({
       Ctx.refresh()
     } else if (schema?.type === 'string' && schema?.enum) {
       setValue(null)
-    } else if (schema?.type === 'array' && schema?.items.type === 'string') {
+    } else if (schema?.type === 'array' && schema?.items?.type === 'string') {
       setValue([])
     }
   }
@@ -192,7 +200,7 @@ export function EditableField({
                 {intl.formatMessage(genericMessages.cancel)}
               </Button>
             </div>
-            {!required && fieldHaveDeleteButton(schema) && (
+            {!required && schema && fieldHaveDeleteButton(schema) && (
               <div className="control">
                 <Button
                   className="is-small is-danger"

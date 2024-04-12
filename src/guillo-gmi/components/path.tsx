@@ -9,7 +9,7 @@ export function Path() {
   const links = buildPaths(segments)
 
   if (segments.length === 1) {
-    return false
+    return null
   }
 
   return (
@@ -17,7 +17,7 @@ export function Path() {
       <ul>
         {segments.map((item, indx) => {
           const path = links[indx]
-          const onClick = (e) => {
+          const onClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
             if (e.ctrlKey || e.metaKey) return
             e.preventDefault()
             navigate({ path }, true)
@@ -52,9 +52,9 @@ export function Path() {
   )
 }
 
-const buildPaths = (segments) => {
+const buildPaths = (segments: string[]) => {
   let current = ''
-  const results = []
+  const results: string[] = []
   segments.map((item, indx) => {
     if (indx === 0) {
       current += '/'

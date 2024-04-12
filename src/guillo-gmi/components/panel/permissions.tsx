@@ -9,7 +9,7 @@ import { useCrudContext } from '../../hooks/useCrudContext'
 import { useTraversal } from '../../contexts'
 import { defineMessages, useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { GuillotinaSharing } from '../../types/guillotina'
 
 const messages = defineMessages({
@@ -74,8 +74,15 @@ export function PanelPermissions() {
     get('@sharing')
   }, [reset])
 
-  const perms = new Sharing(result)
-
+  const perms = useMemo(() => {
+    if (result) {
+      return new Sharing(result)
+    }
+    return null
+  }, [result])
+  if (perms === null) {
+    return null
+  }
   return (
     <div className="columns">
       {!loading && (
@@ -199,9 +206,9 @@ export function PanelPermissions() {
 }
 
 interface State {
-  permissions: { text: string; value: string }[]
+  permissions?: { text: string; value: string }[]
   roles: { text: string; value: string }[]
-  principals: { text: string; value: string }[]
+  principals?: { text: string; value: string }[]
   current: string
 }
 const initial: State = {
@@ -250,18 +257,18 @@ export function AddPermission({ refresh, reset }: AddPermissionProps) {
 
       const principalsData = await Ctx.client.getPrincipals(Ctx.path)
       const groups = principalsData.groups.map((group) => ({
-        text: group.id,
-        value: group.id,
+        text: group['@name'],
+        value: group['@name'],
       }))
       const users = principalsData.users.map((user) => ({
-        text: user.fullname || user.id,
-        value: user.id,
+        text: user.fullname || user['@name'],
+        value: user['@name'],
       }))
       principals = [...groups, ...users]
 
       const req = await Ctx.client.getRoles(Ctx.path)
       if (req.ok) {
-        roles = (await req.json()).map((role) => ({
+        roles = (await req.json()).map((role: string) => ({
           text: role,
           value: role,
         }))
@@ -280,7 +287,7 @@ export function AddPermission({ refresh, reset }: AddPermissionProps) {
       <p>{intl.formatMessage(messages.select_type)}</p>
       <Select
         options={defaultOptions}
-        onChange={(value: string) => setState({ current: value })}
+        onChange={(value) => setState({ current: value as string })}
         dataTest="selectPermissionTypeTest"
       />
       <hr />

@@ -4,7 +4,7 @@ import { IndexSignature } from '../types/global'
 // Mostly inspired from
 // https://github.com/molefrog/wouter
 
-const setURLParams = (p) => {
+const setURLParams = (p: URLSearchParams) => {
   return window.history.pushState(
     0,
     '0',
@@ -12,7 +12,7 @@ const setURLParams = (p) => {
   )
 }
 
-const clean = (to) => {
+const clean = (to: IndexSignature) => {
   const current = new URLSearchParams()
   Object.keys(to).forEach((_key) => current.set(_key, to[_key]))
   setURLParams(current)
@@ -57,7 +57,7 @@ export const useLocation = (): [
   // the function reference should stay the same between re-renders, so that
   // it can be passed down as an element prop without any performance concerns.
   const navigate = useCallback(
-    (to, replace) => {
+    (to: IndexSignature, replace?: boolean) => {
       if (replace) {
         clean(to)
         return
@@ -70,7 +70,7 @@ export const useLocation = (): [
   )
 
   const remove = useCallback(
-    (param) => {
+    (param: string) => {
       const current = new URLSearchParams(path.toString())
       current.delete(param)
       setURLParams(current)
@@ -91,19 +91,28 @@ let patched = 0
 
 const patchHistoryEvents = () => {
   if (patched) return
-  ;['pushState', 'replaceState'].map((type) => {
-    const original = window.history[type]
 
-    window.history[type] = function (...args) {
-      const result = original.apply(this, args)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const event: any = new Event(type)
-      event.arguments = args
+  const originalPushState = window.history.pushState
+  window.history.pushState = function (...args) {
+    const result = originalPushState.apply(this, args)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const event: any = new Event('pushState')
+    event.arguments = args
 
-      dispatchEvent(event)
-      return result
-    }
-  })
+    dispatchEvent(event)
+    return result
+  }
+
+  const originalReplaceState = window.history.replaceState
+  window.history.replaceState = function (...args) {
+    const result = originalReplaceState.apply(this, args)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const event: any = new Event('replaceState')
+    event.arguments = args
+
+    dispatchEvent(event)
+    return result
+  }
 
   return (patched = 1)
 }

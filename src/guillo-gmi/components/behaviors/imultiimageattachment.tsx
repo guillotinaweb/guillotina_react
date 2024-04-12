@@ -17,7 +17,10 @@ import {
 import {
   GuillotinaFile,
   GuillotinaSchemaProperties,
+  GuillotinaSchemaProperty,
 } from '../../types/guillotina'
+import { LightFile } from '../../types/global'
+import { get } from '../../lib/utils'
 
 const _sizesImages = ['large', 'preview', 'mini', 'thumb']
 
@@ -33,16 +36,18 @@ export function IMultiImageAttachment({ properties, values }: Props) {
   const intl = useIntl()
   const cfg = useConfig()
   const [fileKey, setFileKey] = useState('')
-  const [file, setFile] = useState(null)
-  const [fileKeyToDelete, setFileKeyToDelete] = useState(undefined)
+  const [file, setFile] = useState<LightFile | undefined>(undefined)
+  const [fileKeyToDelete, setFileKeyToDelete] = useState<string | undefined>(
+    undefined
+  )
 
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
+  const [error, setError] = useState<string | undefined>(undefined)
   const { Ctx } = useCrudContext()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
   const sizesImages = cfg.SizeImages || _sizesImages
 
-  const uploadFile = async (ev) => {
+  const uploadFile = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault()
     if (!fileKey && !file) {
       setError(intl.formatMessage(genericFileMessages.error_file_key_name))
@@ -50,6 +55,9 @@ export function IMultiImageAttachment({ properties, values }: Props) {
     }
     setLoading(true)
     setError(undefined)
+    if (!file) {
+      return
+    }
     const endpoint = `${Ctx.path}@upload/images/${fileKey}`
     const req = await Ctx.client.upload(endpoint, file)
     if (req.status !== 200) {
@@ -132,7 +140,13 @@ export function IMultiImageAttachment({ properties, values }: Props) {
                 field={`images/${key}`}
                 value={values['images'][key]}
                 ns="guillotina.contrib.image.behaviors.IMultiImageAttachment.images"
-                schema={properties['images']['additionalProperties']}
+                schema={
+                  get(
+                    properties,
+                    'images.additionalProperties',
+                    {}
+                  ) as GuillotinaSchemaProperty
+                }
                 modifyContent={false}
                 required={false}
               />

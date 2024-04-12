@@ -1,22 +1,29 @@
-import { Dispatch, useContext } from 'react'
-import { createContext } from 'react'
+import { Dispatch, useContext, createContext } from 'react'
 import { GuillotinaClient } from '../lib/client.js'
 import { Auth } from '../lib/auth.js'
 import { IndexSignature } from '../types/global'
-import { GuillotinaGlobalState } from '../reducers/guillotina'
+import {
+  GuillotinaGlobalState,
+  GuillotinaReducerActionTypes,
+} from '../reducers/guillotina'
+import { GuillotinaCommonObject } from '../types/guillotina.js'
 
 export const AuthContext = createContext({})
 
-export const ClientContext = createContext<GuillotinaClient>(null)
+export const ClientContext = createContext<GuillotinaClient | null>(null)
 
 interface PropsTraversal {
   client: GuillotinaClient
   auth: Auth
   state: GuillotinaGlobalState
-  dispatch: Dispatch<{ type: string; payload: IndexSignature }>
+  dispatch: Dispatch<{
+    type: GuillotinaReducerActionTypes
+    payload: IndexSignature
+  }>
   registry: IndexSignature
   flash: (action: string, result: string) => void
   url: string
+  children?: React.ReactNode
 }
 
 export class Traversal {
@@ -38,7 +45,10 @@ export class Traversal {
   }
 
   refresh({ transparent = false } = {}) {
-    this.dispatch({ type: 'REFRESH', payload: { transparent } })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.REFRESH,
+      payload: { transparent },
+    })
   }
 
   get path() {
@@ -49,7 +59,10 @@ export class Traversal {
     return this.state.path.slice(1)
   }
 
-  get context() {
+  get context(): GuillotinaCommonObject {
+    if (this.state.context === undefined) {
+      throw new Error('Context is not loaded')
+    }
     return this.state.context
   }
 
@@ -57,34 +70,49 @@ export class Traversal {
     return this.client.getContainerFromPath(this.path)
   }
 
-  apply(data) {
+  apply(data: IndexSignature) {
     // apply a optimistic update to context
-    this.dispatch({ type: 'APPLY', payload: data })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.APPLY,
+      payload: { context: data },
+    })
   }
 
-  flash(message, type) {
-    this.dispatch({ type: 'SET_FLASH', payload: { flash: { message, type } } })
+  flash(message: string, type: string) {
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.SET_FLASH,
+      payload: { flash: { message, type } },
+    })
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }
 
   clearFlash() {
-    this.dispatch({ type: 'CLEAR_FLASH' })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.CLEAR_FLASH,
+      payload: {},
+    })
   }
 
-  doAction(action, params = {}) {
-    this.dispatch({ type: 'SET_ACTION', payload: { action, params } })
+  doAction(action: string, params = {}) {
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.SET_ACTION,
+      payload: { action, params },
+    })
   }
 
   cancelAction() {
-    this.dispatch({ type: 'CLEAR_ACTION' })
+    this.dispatch({
+      type: GuillotinaReducerActionTypes.CLEAR_ACTION,
+      payload: {},
+    })
   }
 
-  hasPerm(permission) {
+  hasPerm(permission: string) {
     return this.state.permissions[permission] === true
   }
 
-  filterTabs(tabs, tabsPermissions) {
-    const result = {}
+  filterTabs(tabs: IndexSignature, tabsPermissions: IndexSignature) {
+    const result: IndexSignature = {}
     Object.keys(tabs).forEach((item) => {
       const perm = tabsPermissions[item]
       if (perm && this.hasPerm(perm)) {
@@ -97,7 +125,7 @@ export class Traversal {
   }
 }
 
-export const TraversalContext = createContext<Traversal>(null)
+export const TraversalContext = createContext<Traversal | null>(null)
 export function TraversalProvider({
   children,
   ...props
@@ -110,7 +138,11 @@ export function TraversalProvider({
 }
 
 export function useTraversal() {
-  return useContext(TraversalContext)
+  const traversal = useContext(TraversalContext)
+  if (!traversal) {
+    throw new Error('useTraversal must be used within a TraversalProvider')
+  }
+  return traversal
 }
 
 interface PropsClient {
@@ -124,5 +156,9 @@ export function ClientProvider({ children, client }: PropsClient) {
 }
 
 export function useGuillotinaClient() {
-  return useContext(ClientContext)
+  const client = useContext(ClientContext)
+  if (!client) {
+    throw new Error('useGuillotinaClient must be used within a ClientProvider')
+  }
+  return client
 }

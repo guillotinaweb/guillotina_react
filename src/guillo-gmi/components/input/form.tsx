@@ -21,7 +21,7 @@ export const Form = ({
   error,
   dataTest,
 }: Props) => {
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
     onSubmit(event)
   }

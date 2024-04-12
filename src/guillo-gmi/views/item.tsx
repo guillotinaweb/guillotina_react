@@ -18,9 +18,9 @@ const tabsPermissions = {
   Permissions: 'guillotina.SeePermissions',
 }
 
-export function ItemCtx(props) {
+export function ItemCtx() {
   const ctx = useTraversal()
   const calculated = ctx.filterTabs(tabs, tabsPermissions)
 
-  return <TabsPanel tabs={calculated} currentTab="Properties" {...props} />
+  return <TabsPanel tabs={calculated} currentTab="Properties" />
 }

@@ -7,11 +7,11 @@ import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 import { IndexSignature } from '../types/global'
 
-const ignoreFiels = []
+const ignoreFiels: string[] = []
 const extraFields = ['title']
 
 interface Props {
-  onSubmit: (data: { [key: string]: any }) => void
+  onSubmit: (data: IndexSignature) => void
   actionName?: string
   title?: string
   dataTest?: string
@@ -19,9 +19,9 @@ interface Props {
   type: string
 }
 interface State {
-  data: any
+  data?: IndexSignature
   loading: boolean
-  error: any
+  error?: unknown
   formFields: string[]
 }
 export function RequiredFieldsForm({
@@ -38,7 +38,7 @@ export function RequiredFieldsForm({
   const EditComponent = Ctx.registry.get('components', 'EditComponent')
 
   const [formData, setFormData] = useState<IndexSignature>({})
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<IndexSignature<string>>({})
 
   const [schema, setSchema] = useSetState<State>({
     data: undefined,
@@ -67,7 +67,7 @@ export function RequiredFieldsForm({
   }, [schema])
 
   const submit = () => {
-    const currentErrors = {}
+    const currentErrors: IndexSignature<string> = {}
 
     schema.formFields.forEach((key) => {
       if (!formData[key]) {
@@ -92,7 +92,7 @@ export function RequiredFieldsForm({
         !schema.loading &&
         schema.formFields.map((key) => {
           if (!ignoreFiels.includes(key)) {
-            const value = schema.data.properties[key]
+            const value = schema.data?.properties[key]
             return (
               <EditComponent
                 key={key}
@@ -100,21 +100,21 @@ export function RequiredFieldsForm({
                 placeholder={value?.title ?? ''}
                 className=""
                 required
-                schema={schema.data.properties[key]}
-                setValue={(ev) => {
+                schema={schema.data?.properties[key]}
+                setValue={(value: string) => {
                   if (key === 'title') {
                     setFormData({
                       ...formData,
-                      uuid: stringToSlug(ev),
-                      [key]: ev,
+                      uuid: stringToSlug(value),
+                      [key]: value,
                     })
                   } else if (key === 'uuid') {
                     setFormData({
                       ...formData,
-                      uuid: stringToSlug(ev),
+                      uuid: stringToSlug(value),
                     })
                   } else {
-                    setFormData({ ...formData, [key]: ev })
+                    setFormData({ ...formData, [key]: value })
                   }
                 }}
                 error={errors[key]}

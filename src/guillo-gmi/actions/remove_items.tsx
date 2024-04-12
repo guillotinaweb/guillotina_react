@@ -13,18 +13,18 @@ export function RemoveItems(props: Props) {
   const cfg = useConfig()
   const [loading, setLoading] = useState(false)
   const { items = [] } = props
-  const last = items[items.length - 1]['@name']
+  const last = items[items.length - 1].id
   const itemsNames = items
-    .map((item) => item['@name'])
+    .map((item) => item.id)
     .join(', ')
     .replace(`, ${last}`, ` and ${last}`)
 
   async function removeItems() {
-    const errors = []
+    const errors: unknown[] = []
     setLoading(true)
 
     const actions = items.map(async (item) => {
-      const res = await Ctx.client.delete(`${Ctx.path}${item['@name']}`)
+      const res = await Ctx.client.delete(`${Ctx.path}${item.id}`, {})
       if (!res.ok) {
         const err = await res.json()
         errors.push(err)

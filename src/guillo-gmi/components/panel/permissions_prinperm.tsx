@@ -8,14 +8,14 @@ import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
 interface State {
-  principal: string
+  principal?: string
   permission: string[]
-  setting: string
-  error: string
+  setting?: string
+  error?: string
 }
 interface Props {
-  principals: { text: string; value: string }[]
-  permissions: { text: string; value: string }[]
+  principals?: { text: string; value: string }[]
+  permissions?: { text: string; value: string }[]
   operations: { text: string; value: string }[]
   refresh: (value: number) => void
 }
@@ -34,10 +34,6 @@ export function PermissionPrinperm({
     setting: undefined,
     error: undefined,
   })
-
-  const getMultiples = (field, setter) => (values) => {
-    setter({ [field]: values })
-  }
 
   const savePermission = async () => {
     if (!state.principal || !state.setting || state.permission.length === 0) {
@@ -75,8 +71,8 @@ export function PermissionPrinperm({
         </label>
         <Select
           appendDefault
-          options={principals}
-          onChange={(value: string) => setState({ principal: value })}
+          options={principals ?? []}
+          onChange={(value) => setState({ principal: value as string })}
           dataTest="selectPrincipalTest"
         />
       </div>
@@ -85,8 +81,10 @@ export function PermissionPrinperm({
           {intl.formatMessage(genericMessages.select_permissions)}
         </label>
         <Select
-          options={permissions}
-          onChange={getMultiples('permission', setState)}
+          options={permissions ?? []}
+          onChange={(values) => {
+            setState({ permission: values as string[] })
+          }}
           size={5}
           multiple
           dataTest="selectPermissionsTest"
@@ -99,7 +97,7 @@ export function PermissionPrinperm({
         <Select
           appendDefault
           options={operations}
-          onChange={(value: string) => setState({ setting: value })}
+          onChange={(value) => setState({ setting: value as string })}
           dataTest="operationPermissionsTest"
         />
       </div>

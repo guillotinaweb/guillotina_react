@@ -1,13 +1,13 @@
 import { formatDate } from '../lib/utils'
 import { useConfig } from '../hooks/useConfig'
-import { SearchItem } from '../types/guillotina'
+import { GuillotinaCommonObject, SearchItem } from '../types/guillotina'
 
 export * from './sharing'
 
 export class ItemModel {
-  item: SearchItem
+  item: SearchItem | GuillotinaCommonObject
   url: string
-  constructor(item, url = '') {
+  constructor(item: SearchItem | GuillotinaCommonObject, url = '') {
     this.item = item
     this.url = url
   }
@@ -35,7 +35,6 @@ export class ItemModel {
   }
 
   get icon() {
-    // eslint-disable-next-line
     const cfg = useConfig()
     if (cfg.icons && cfg.icons[this.type]) {
       return cfg.icons[this.type]
@@ -58,11 +57,11 @@ export class ItemModel {
   }
 
   get fullPath() {
-    return this.url + this.item.id
+    return this.url + this.id
   }
 
   get id() {
-    if (this.item.id) {
+    if ('id' in this.item) {
       return this.item.id
     }
     const id = this.item['@id'].split('&')[0].split('/')
@@ -73,7 +72,7 @@ export class ItemModel {
     return this.item['@uid']
   }
 
-  get type() {
+  get type(): string {
     return this.item['@type'] || this.item.type_name
   }
 

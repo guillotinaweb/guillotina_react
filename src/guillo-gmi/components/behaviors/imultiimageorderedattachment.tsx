@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import {
   DragDropContext,
   Draggable,
+  DropResult,
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
@@ -22,7 +23,10 @@ import {
 import {
   GuillotinaFile,
   GuillotinaSchemaProperties,
+  GuillotinaSchemaProperty,
 } from '../../types/guillotina'
+import { get } from '../../lib/utils'
+import { LightFile } from '../../types/global'
 
 interface StrictModeDroppableProps {
   children(
@@ -49,7 +53,7 @@ const StrictModeDroppable = ({
   return <Droppable droppableId={droppableId}>{children}</Droppable>
 }
 
-const reorder = (list, startIndex, endIndex) => {
+const reorder = (list: string[], startIndex: number, endIndex: number) => {
   const result: string[] = Array.from(list)
   const [removed] = result.splice(startIndex, 1)
   result.splice(endIndex, 0, removed)
@@ -72,7 +76,9 @@ const messages = defineMessages({
 interface Props {
   properties: GuillotinaSchemaProperties
   values: {
-    images: GuillotinaFile[]
+    images: {
+      [key: string]: GuillotinaFile
+    }
   }
 }
 export function IMultiImageOrderedAttachment({ properties, values }: Props) {
@@ -81,17 +87,19 @@ export function IMultiImageOrderedAttachment({ properties, values }: Props) {
   const [sortedList, setSortedList] = useState<string[]>(
     Object.keys(values['images'])
   )
-  const [file, setFile] = useState(null)
-  const [fileKeyToDelete, setFileKeyToDelete] = useState(undefined)
+  const [file, setFile] = useState<LightFile | undefined>(undefined)
+  const [fileKeyToDelete, setFileKeyToDelete] = useState<string | undefined>(
+    undefined
+  )
 
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
+  const [error, setError] = useState<string | undefined>(undefined)
   const { Ctx } = useCrudContext()
   const modifyContent = Ctx.hasPerm('guillotina.ModifyContent')
 
   const sizesImages = cfg.SizeImages || _sizesImages
 
-  async function onDragEnd(result) {
+  async function onDragEnd(result: DropResult) {
     if (!result.destination) {
       return
     }
@@ -121,7 +129,7 @@ export function IMultiImageOrderedAttachment({ properties, values }: Props) {
     Ctx.refresh()
   }
 
-  const uploadFile = async (ev) => {
+  const uploadFile = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault()
     if (!file) {
       setError(intl.formatMessage(genericFileMessages.error_file_key_name))
@@ -216,7 +224,13 @@ export function IMultiImageOrderedAttachment({ properties, values }: Props) {
                           field={`images/${key}`}
                           value={values['images'][key]}
                           ns="guillotina.contrib.image.behaviors.IMultiImageAttachment.images"
-                          schema={properties['images']['additionalProperties']}
+                          schema={
+                            get(
+                              properties,
+                              'images.additionalProperties',
+                              {}
+                            ) as GuillotinaSchemaProperty
+                          }
                           modifyContent={false}
                           required={false}
                         />

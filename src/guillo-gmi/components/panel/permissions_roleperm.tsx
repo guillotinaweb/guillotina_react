@@ -8,14 +8,14 @@ import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 
 interface State {
-  role: string
+  role?: string
   permission: string[]
-  setting: string
-  error: string
+  setting?: string
+  error?: string
 }
 interface Props {
   roles: { text: string; value: string }[]
-  permissions: { text: string; value: string }[]
+  permissions?: { text: string; value: string }[]
   operations: { text: string; value: string }[]
   refresh: (value: number) => void
 }
@@ -34,10 +34,6 @@ export function PermissionRoleperm({
     setting: undefined,
     error: undefined,
   })
-
-  const getMultiples = (field, setter) => (values) => {
-    setter({ [field]: values })
-  }
 
   const savePermission = async () => {
     if (!state.role || !state.setting || state.permission.length === 0) {
@@ -77,7 +73,7 @@ export function PermissionRoleperm({
         <Select
           appendDefault
           options={roles}
-          onChange={(value: string) => setState({ role: value })}
+          onChange={(value) => setState({ role: value as string })}
           dataTest="selectRoleTest"
         />
       </div>
@@ -86,8 +82,10 @@ export function PermissionRoleperm({
           {intl.formatMessage(genericMessages.select_permissions)}
         </label>
         <Select
-          options={permissions}
-          onChange={getMultiples('permission', setState)}
+          options={permissions ?? []}
+          onChange={(values) => {
+            setState({ permission: values as string[] })
+          }}
           dataTest="selectPermissionsTest"
           size={5}
           multiple
@@ -100,7 +98,7 @@ export function PermissionRoleperm({
         <Select
           appendDefault
           options={operations}
-          onChange={(value: string) => setState({ setting: value })}
+          onChange={(value) => setState({ setting: value as string })}
           dataTest="operationPermissionsTest"
         />
       </div>

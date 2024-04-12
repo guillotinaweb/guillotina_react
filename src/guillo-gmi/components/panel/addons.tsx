@@ -1,7 +1,8 @@
-import { useTraversal } from '../../contexts'
+import { Traversal, useTraversal } from '../../contexts'
 import { useIntl, defineMessages } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
 import { Fragment, useEffect, useState } from 'react'
+import { AddonAvailable, Addons } from '../../types/guillotina'
 
 const messages = defineMessages({
   available_addons: {
@@ -23,7 +24,14 @@ export function PanelAddons() {
   const intl = useIntl()
   const Ctx = useTraversal()
   const [action, setAction] = useState(false)
-  const [state, setState] = useState({
+  const [state, setState] = useState<{
+    data?: {
+      available: AddonAvailable[]
+      installed: AddonAvailable[]
+    }
+    loading: boolean
+    error?: Error
+  }>({
     data: undefined,
     loading: false,
     error: undefined,
@@ -34,23 +42,23 @@ export function PanelAddons() {
       if (!state.loading && !state.data && !state.error) {
         try {
           const response = await Ctx.client.getAddons(Ctx.pathPrefix)
-          const data = await response.json()
+          const data: Addons = await response.json()
           setState({ ...state, loading: false, data: prepareData(data) })
         } catch (err) {
-          setState({ ...state, loading: false, error: err })
+          setState({ ...state, loading: false, error: err as Error })
         }
       }
     }
     getAddons()
   }, [action])
 
-  const installAddon = async (Ctx, key) => {
+  const installAddon = async (Ctx: Traversal, key: string) => {
     await Ctx.client.installAddon(Ctx.pathPrefix, key)
     Ctx.flash(`Addon ${key} installed`, 'success')
     setAction(!action)
   }
 
-  const removeAddon = async (Ctx, key) => {
+  const removeAddon = async (Ctx: Traversal, key: string) => {
     await Ctx.client.removeAddon(Ctx.pathPrefix, key)
     Ctx.flash(`Addon ${key} removed`, 'success')
     setAction(!action)
@@ -126,7 +134,7 @@ export function PanelAddons() {
   )
 }
 
-const prepareData = (result) => {
+const prepareData = (result: Addons) => {
   const addons = arrayToObject(result.available)
   return {
     available: result.available.filter(
@@ -136,8 +144,14 @@ const prepareData = (result) => {
   }
 }
 
-const arrayToObject = (array) =>
+const arrayToObject = (
+  array: AddonAvailable[]
+): {
+  [key: string]: AddonAvailable
+} =>
   array.reduce((obj, item) => {
-    obj[item.id] = item
-    return obj
+    return {
+      ...obj,
+      [item.id]: item,
+    }
   }, {})

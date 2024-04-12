@@ -30,8 +30,8 @@ export const Checkbox = ({
   onChange,
   dataTest,
 }: Props) => {
-  const inputRef = useRef(null)
-  const [state, setState] = useState<boolean>(checked)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [state, setState] = useState<boolean>(!!checked)
 
   useEffect(() => {
     if (inputRef.current) {
@@ -46,13 +46,13 @@ export const Checkbox = ({
 
   return (
     <div className="field">
-      <label htmlFor={id} className={classnames(['checkbox', className])}>
+      <label htmlFor={id} className={classnames(['checkbox', className ?? ''])}>
         <input
           ref={inputRef}
           disabled={disabled || loading}
           id={id}
           type="checkbox"
-          className={classnames(['checkbox', classNameInput])}
+          className={classnames(['checkbox', classNameInput ?? ''])}
           checked={state}
           onChange={updateState}
           data-test={dataTest}
