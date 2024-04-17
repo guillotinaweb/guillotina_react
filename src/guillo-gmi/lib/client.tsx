@@ -113,7 +113,7 @@ export class GuillotinaClient {
 
     result = [
       ...parser(start.toString(), '_from'),
-      ...parser(pageSize.toString(), 'size'),
+      ...parser(pageSize.toString(), '_size'),
       ...parser('*', '_metadata'),
     ]
 

@@ -1,3 +1,7 @@
+0.30.1
+------
+- fix: size param in elasticsearch function
+
 0.30.0
 ------
 - chore: Typescript strict mode
