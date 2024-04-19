@@ -35,7 +35,7 @@ export function RequiredFieldsForm({
   const intl = useIntl()
   const Ctx = useTraversal()
 
-  const EditComponent = Ctx.registry.get('components', 'EditComponent')
+  const EditComponent = Ctx.registry.getComponent(Ctx.context, 'EditComponent')
 
   const [formData, setFormData] = useState<IndexSignature>({})
   const [errors, setErrors] = useState<IndexSignature<string>>({})

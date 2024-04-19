@@ -104,7 +104,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }> = registry.getView('ErrorBoundary')
   const NotAllowed = registry.getView('NotAllowed')
   const NotFound = registry.getView('NotFound')
-  const Path = registry.get('components', 'Path') as React.ComponentType
+  const Path = registry.getComponent(state.context, 'Path')
 
   const contextData = {
     url,

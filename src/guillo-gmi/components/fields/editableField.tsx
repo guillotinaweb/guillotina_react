@@ -13,6 +13,7 @@ import {
 } from '../../locales/generic_messages'
 import { EditableFieldValue, LightFile } from '../../types/global'
 import { GuillotinaSchemaProperty } from '../../types/guillotina'
+import { useTraversal } from '../../contexts'
 
 interface Props {
   field: string
@@ -37,10 +38,14 @@ export function EditableField({
   const [val, setValue] = useState(value)
   const { patch, loading, Ctx } = useCrudContext()
   const { fieldHaveDeleteButton } = useConfig()
+  const traversal = useTraversal()
 
-  const EditComponent = Ctx.registry.get('components', 'EditComponent')
-  const RenderFieldComponent = Ctx.registry.get(
-    'components',
+  const EditComponent = Ctx.registry.getComponent(
+    traversal.context,
+    'EditComponent'
+  )
+  const RenderFieldComponent = Ctx.registry.getComponent(
+    traversal.context,
     'RenderFieldComponent'
   )
 

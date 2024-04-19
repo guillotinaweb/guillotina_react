@@ -41,7 +41,7 @@ export interface IRegistry {
     [key: string]: React.FC
   }
   views: {
-    [key: string]: React.FC | React.ComponentType<any>
+    [key: string]: React.ComponentType<any>
   }
   actions: {
     [key: string]: (props: any) => JSX.Element
@@ -73,10 +73,11 @@ export interface IRegistry {
   defaultSortValue: {
     [key: string]: {
       direction: 'asc' | 'des'
-      field: string
+      key: string
     }
   }
 }
+
 const registry: IRegistry = {
   paths: {},
   views: {
@@ -138,17 +139,36 @@ const registry: IRegistry = {
   defaultSortValue: {},
 }
 
-const get = (key: keyof IRegistry, param: string, fallback = undefined) => {
-  if (registry[key]) return registry[key][param] || fallback
-  return fallback
+export interface IManageRegistry {
+  registry: IRegistry
+  getComponent: (
+    context: GuillotinaCommonObject | undefined,
+    path: string,
+    fallback?: React.FC
+  ) => React.ComponentType<any>
+  getView: (name: string) => React.ComponentType<any>
+  getForm: (type: string, fallback: React.FC) => React.FC
+  getAction: (type: string, fallback?: React.FC) => React.FC
+  getBehavior: (type: string, fallback: React.FC) => React.FC
+  getProperties: (type: string) => React.FC
+  getItemsColumn: (type: string) => ItemColumn[] | undefined
+  getSchemas: (type: string) => RegistrySchema
+  getFieldsToFilter: (type: string, fallback?: string[]) => string[]
+  getDefaultSortValue: (
+    type: string,
+    fallback: { direction: 'asc' | 'des'; key: string }
+  ) => {
+    key: string
+    direction: 'asc' | 'des'
+  }
 }
 
 const getComponent = (
   context: GuillotinaCommonObject | undefined,
   path: string,
-  fallback = undefined
+  fallback: React.FC | undefined = undefined
 ) => {
-  if (!context) return
+  if (!context) return () => null
   // console.log("Component for path", path)
   // lookup by path
   if (registry.paths[path]) {
@@ -214,7 +234,7 @@ export const defaultComponent = (context: GuillotinaCommonObject) => {
   return context.is_folderish ? FolderCtx : ItemCtx
 }
 
-export function useRegistry(data: IRegistry) {
+export function useRegistry(data: IRegistry): IManageRegistry {
   // if data is provided we need to merge it into actual registry
   const ref = React.useRef<unknown>()
   if (data && !ref.current) {
@@ -230,7 +250,6 @@ export function useRegistry(data: IRegistry) {
 
   return {
     registry,
-    get,
     getForm,
     getComponent,
     getAction,
