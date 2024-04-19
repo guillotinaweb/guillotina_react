@@ -1,4 +1,3 @@
-import { ItemModel } from '../models'
 import { IndexSignature } from '../types/global'
 import { GuillotinaCommonObject } from '../types/guillotina'
 
@@ -104,15 +103,4 @@ export function guillotinaReducer(
     default:
       return state
   }
-}
-
-export interface IColumn {
-  key: string
-  label: string
-  isSortable: string
-  child: (
-    model: ItemModel,
-    link: () => void,
-    search: string
-  ) => React.ReactElement
 }
