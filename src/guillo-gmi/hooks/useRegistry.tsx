@@ -244,7 +244,7 @@ export const defaultComponent = (context: GuillotinaCommonObject) => {
   return context.is_folderish ? FolderCtx : ItemCtx
 }
 
-export function useRegistry(data: IRegistry): IManageRegistry {
+export function useRegistry(data: Partial<IRegistry>): IManageRegistry {
   // if data is provided we need to merge it into actual registry
   const ref = React.useRef<unknown>()
   if (data && !ref.current) {

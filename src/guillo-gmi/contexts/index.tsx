@@ -21,7 +21,7 @@ interface PropsTraversal {
     payload: IndexSignature
   }>
   registry: IndexSignature
-  flash: (action: string, result: string) => void
+  flash?: (action: string, result: string) => void
   url: string
   children?: React.ReactNode
 }
