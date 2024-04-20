@@ -157,8 +157,8 @@ export const SearchInputList = ({
       setIsLoadingData(true)
       let searchTermQs = ''
       const searchTermParsed = ['__or', `id=${value.join('%26id=')}`]
-      const { get: getSearch } = traversal.registry
-      const fnName = getSearch('searchEngineQueryParamsFunction', SearchEngine)
+      const { getSearchEngineQueryParamsFunction } = traversal.registry
+      const fnName = getSearchEngineQueryParamsFunction(SearchEngine)
       const qsParsed = traversal.client.getQueryParamsSearchFunction(fnName)({
         path: traversal.path,
         start: 0,

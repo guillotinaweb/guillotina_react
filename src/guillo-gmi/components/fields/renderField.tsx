@@ -91,7 +91,6 @@ export const SearchRenderField = ({
   value,
   modifyContent,
 }: SearchRenderFieldProps) => {
-  console.log('search render fields')
   const intl = useIntl()
   const [valuesLabels, setValuesLabels] = useState<string[]>([])
   const [isLoadingData, setIsLoadingData] = useState(false)
@@ -105,11 +104,8 @@ export const SearchRenderField = ({
       let searchTermQs = ''
 
       const searchTermParsed = ['__or', `id=${valuesToSearch.join('%26id=')}`]
-      const { get: getSearch } = traversal.registry
-      const fnName: string = getSearch(
-        'searchEngineQueryParamsFunction',
-        SearchEngine
-      )
+      const { getSearchEngineQueryParamsFunction } = traversal.registry
+      const fnName = getSearchEngineQueryParamsFunction(SearchEngine)
       const qsParsed = traversal.client.getQueryParamsSearchFunction(fnName)({
         path: traversal.path,
         start: 0,
