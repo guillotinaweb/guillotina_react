@@ -104,7 +104,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }> = registry.getView('ErrorBoundary')
   const NotAllowed = registry.getView('NotAllowed')
   const NotFound = registry.getView('NotFound')
-  const Path = registry.getComponent(state.context, 'Path')
+  const Path = registry.getComponent('Path')
 
   const contextData = {
     url,
@@ -117,7 +117,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }
 
   const { action, errorStatus, permissions } = state
-  const Main = registry.getComponent(state.context, path) as React.FC<{
+  const Main = registry.getPathComponent(state.context, path) as React.FC<{
     state: GuillotinaGlobalState
   }>
   const Action = action.action

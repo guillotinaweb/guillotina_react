@@ -273,15 +273,12 @@ export interface ItemColumn {
   key: string
   label: string
   isSortable?: boolean
-  child: ({
-    model,
-    link,
-    search,
-  }: {
-    model: ItemModel
-    link: () => void
-    search: string
-  }) => React.ReactNode
+  child: ({ model, link, search }: ItemColumnChild) => React.ReactNode
+}
+export interface ItemColumnChild {
+  model: ItemModel
+  link?: () => void
+  search?: string
 }
 
 export type GuillotinaUser = {

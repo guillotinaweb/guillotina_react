@@ -141,11 +141,12 @@ const registry: IRegistry = {
 
 export interface IManageRegistry {
   registry: IRegistry
-  getComponent: (
+  getPathComponent: (
     context: GuillotinaCommonObject | undefined,
     path: string,
     fallback?: React.FC
   ) => React.ComponentType<any>
+  getComponent: (name: string) => React.ComponentType<any>
   getView: (name: string) => React.ComponentType<any>
   getForm: (type: string, fallback: React.FC) => React.FC
   getAction: (type: string, fallback?: React.FC) => React.FC
@@ -161,9 +162,10 @@ export interface IManageRegistry {
     key: string
     direction: 'asc' | 'des'
   }
+  getSearchEngineQueryParamsFunction: (type: string) => string
 }
 
-const getComponent = (
+const getPathComponent = (
   context: GuillotinaCommonObject | undefined,
   path: string,
   fallback: React.FC | undefined = undefined
@@ -190,6 +192,10 @@ const getItemsColumn = (type: string) => {
     return funcCols()
   }
   return undefined
+}
+
+const getComponent = (name: string) => {
+  return registry.components[name]
 }
 
 const getView = (name: string) => {
@@ -230,6 +236,10 @@ const getDefaultSortValue = (
   return registry.defaultSortValue[type] || fallback
 }
 
+const getSearchEngineQueryParamsFunction = (type: string) => {
+  return registry.searchEngineQueryParamsFunction[type]
+}
+
 export const defaultComponent = (context: GuillotinaCommonObject) => {
   return context.is_folderish ? FolderCtx : ItemCtx
 }
@@ -252,6 +262,7 @@ export function useRegistry(data: IRegistry): IManageRegistry {
     registry,
     getForm,
     getComponent,
+    getPathComponent,
     getAction,
     getBehavior,
     getProperties,
@@ -260,6 +271,7 @@ export function useRegistry(data: IRegistry): IManageRegistry {
     getDefaultSortValue,
     getSchemas,
     getView,
+    getSearchEngineQueryParamsFunction,
   }
 }
 

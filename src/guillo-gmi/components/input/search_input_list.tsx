@@ -106,8 +106,8 @@ export const SearchInputList = ({
     if (value !== '') {
       searchTermParsed = parser(`${queryCondition}=${value}`)
     }
-    const { get } = traversal.registry
-    const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
+    const { getSearchEngineQueryParamsFunction } = traversal.registry
+    const fnName = getSearchEngineQueryParamsFunction(SearchEngine)
     const qsParsed = traversal.client.getQueryParamsSearchFunction(fnName)({
       path: traversal.path,
       start: page * PageSize,

@@ -120,8 +120,8 @@ export function PanelItems() {
     if (Ctx.state.loading) return
     const getData = async () => {
       setState({ loading: true, total: Ctx.context.length })
-      const { get } = Ctx.registry
-      const fnName = get('searchEngineQueryParamsFunction', SearchEngine)
+      const { getSearchEngineQueryParamsFunction } = Ctx.registry
+      const fnName = getSearchEngineQueryParamsFunction(SearchEngine)
       if (sortParsed === undefined) {
         const defaultSortValue = Ctx.registry.getDefaultSortValue(
           Ctx.context['@type']
