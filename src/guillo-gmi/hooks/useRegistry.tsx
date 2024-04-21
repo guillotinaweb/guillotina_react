@@ -13,7 +13,7 @@ import { RemoveItems } from '../actions/remove_items'
 import { RemoveItem } from '../actions/remove_item'
 import { AddItem } from '../actions/add_item'
 import { ChangePassword } from '../actions/change_pass'
-import { BaseForm } from '../forms/base'
+import { BaseForm, BaseFormProps } from '../forms/base'
 import { UserForm } from '../forms/users'
 import { IAttachment } from '../components/behaviors/iattachment'
 import { IDublinCore } from '../components/behaviors/idublincore'
@@ -35,7 +35,18 @@ import {
   ItemColumn,
   RegistrySchema,
 } from '../types/guillotina'
+import { buildQs, parser } from '../lib/search'
 
+export interface RegistrySortValue {
+  direction: 'asc' | 'des'
+  key: string
+}
+export interface RegistryProperties {
+  Buttons: React.ReactElement
+  Panels: React.ReactElement
+  default: string[]
+  ignoreField: string[]
+}
 export interface IRegistry {
   paths: {
     [key: string]: React.FC
@@ -59,7 +70,7 @@ export interface IRegistry {
     [key: string]: RegistrySchema
   }
   properties: {
-    [key: string]: React.FC
+    [key: string]: RegistryProperties
   }
   components: {
     [key: string]: (props: any) => React.ReactNode | null | undefined
@@ -70,11 +81,11 @@ export interface IRegistry {
   fieldsToFilter: {
     [key: string]: string[]
   }
+  parsedSearchQueryParam: {
+    [key: string]: (query: string, type: string) => string
+  }
   defaultSortValue: {
-    [key: string]: {
-      direction: 'asc' | 'des'
-      key: string
-    }
+    [key: string]: RegistrySortValue
   }
 }
 
@@ -136,6 +147,7 @@ const registry: IRegistry = {
   fieldsToFilter: {
     UserManager: ['id', 'email', 'user_name'],
   },
+  parsedSearchQueryParam: {},
   defaultSortValue: {},
 }
 
@@ -148,20 +160,18 @@ export interface IManageRegistry {
   ) => React.ComponentType<any>
   getComponent: (name: string) => React.ComponentType<any>
   getView: (name: string) => React.ComponentType<any>
-  getForm: (type: string, fallback: React.FC) => React.FC
+  getForm: (type: string, fallback?: React.FC) => React.FC<BaseFormProps>
   getAction: (type: string, fallback?: React.FC) => React.FC
-  getBehavior: (type: string, fallback: React.FC) => React.FC
-  getProperties: (type: string) => React.FC
+  getBehavior: (type: string, fallback?: React.FC) => React.FC<any>
+  getProperties: (type: string) => RegistryProperties
   getItemsColumn: (type: string) => ItemColumn[] | undefined
   getSchemas: (type: string) => RegistrySchema
   getFieldsToFilter: (type: string, fallback?: string[]) => string[]
+  getParsedSearchQueryParam: (query: string, type: string) => string
   getDefaultSortValue: (
     type: string,
-    fallback: { direction: 'asc' | 'des'; key: string }
-  ) => {
-    key: string
-    direction: 'asc' | 'des'
-  }
+    fallback?: RegistrySortValue
+  ) => RegistrySortValue
   getSearchEngineQueryParamsFunction: (type: string) => string
 }
 
@@ -202,7 +212,7 @@ const getView = (name: string) => {
   return registry.views[name]
 }
 
-const getForm = (type: string, fallback: React.FC) => {
+const getForm = (type: string, fallback?: React.FC<BaseFormProps>) => {
   return registry.forms[type] || fallback || BaseForm
 }
 
@@ -210,7 +220,7 @@ const getAction = (type: string, fallback?: React.FC) => {
   return registry.actions[type] || fallback
 }
 
-const getBehavior = (type: string, fallback: React.FC) => {
+const getBehavior = (type: string, fallback?: React.FC) => {
   return registry.behaviors[type] || fallback
 }
 
@@ -228,7 +238,7 @@ const getFieldsToFilter = (type: string, fallback: string[] = ['title']) => {
 
 const getDefaultSortValue = (
   type: string,
-  fallback = {
+  fallback: RegistrySortValue | undefined = {
     key: 'id',
     direction: 'des',
   }
@@ -238,6 +248,15 @@ const getDefaultSortValue = (
 
 const getSearchEngineQueryParamsFunction = (type: string) => {
   return registry.searchEngineQueryParamsFunction[type]
+}
+
+const getParsedSearchQueryParam = (query: string, type: string) => {
+  const parsedFunction = registry.parsedSearchQueryParam[type]
+  if (!parsedFunction) {
+    const fieldsToFilter = getFieldsToFilter(type)
+    return buildQs(parser(query, fieldsToFilter))
+  }
+  return parsedFunction(query, type)
 }
 
 export const defaultComponent = (context: GuillotinaCommonObject) => {
@@ -268,6 +287,7 @@ export function useRegistry(data: Partial<IRegistry>): IManageRegistry {
     getProperties,
     getItemsColumn,
     getFieldsToFilter,
+    getParsedSearchQueryParam,
     getDefaultSortValue,
     getSchemas,
     getView,

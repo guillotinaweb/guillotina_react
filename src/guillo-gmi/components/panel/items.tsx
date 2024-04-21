@@ -20,12 +20,7 @@ import { Input } from '../input/input'
 import { SelectVocabulary } from '../input/select_vocabulary'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../../locales/generic_messages'
-
-import {
-  ItemColumn,
-  RegistrySchemaFilter,
-  SearchItem,
-} from '../../types/guillotina'
+import { RegistrySchemaFilter, SearchItem } from '../../types/guillotina'
 
 interface InitialState {
   page: number
@@ -124,7 +119,8 @@ export function PanelItems() {
       const fnName = getSearchEngineQueryParamsFunction(SearchEngine)
       if (sortParsed === undefined) {
         const defaultSortValue = Ctx.registry.getDefaultSortValue(
-          Ctx.context['@type']
+          Ctx.context['@type'],
+          undefined
         )
         sortParsed = parser(
           `_sort_${defaultSortValue.direction}=${defaultSortValue.key}`
@@ -339,7 +335,7 @@ export function PanelItems() {
               <th>
                 <AllItemsCheckbox />
               </th>
-              {columns.map((column: ItemColumn) => (
+              {columns.map((column) => (
                 <th
                   key={`table-col-${column.label}`}
                   onClick={() => column.isSortable && onSort(column.key)}

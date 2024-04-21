@@ -10,6 +10,7 @@ import { Auth } from './auth'
 import {
   GuillotinaGroup,
   GuillotinaUser,
+  ItemColumn,
   ItemColumnChild,
   ReturnSearchCompatible,
 } from '../types/guillotina'
@@ -127,12 +128,13 @@ export class GuillotinaClient {
     return result
   }
 
-  getItemsColumn() {
+  getItemsColumn(): ItemColumn[] {
     const smallcss = { width: 25 }
     const mediumcss = { width: 120 }
 
     return [
       {
+        key: 'icon',
         label: '',
         isSortable: false,
         child: ({ model }: ItemColumnChild) => (
