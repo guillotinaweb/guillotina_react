@@ -3,7 +3,7 @@ import { useReducer } from 'react'
 import { useEffect } from 'react'
 import { Flash } from './flash'
 import { TraversalProvider, useGuillotinaClient } from '../contexts'
-import { useConfig } from '../hooks/useConfig'
+import { IConfig, useConfig } from '../hooks/useConfig'
 import { IRegistry, useRegistry } from '../hooks/useRegistry'
 import { useLocation } from '../hooks/useLocation'
 import {
@@ -18,7 +18,6 @@ import langCA from '../locales/compiled/ca.json'
 import langES from '../locales/compiled/es.json'
 import langEN from '../locales/compiled/en.json'
 import { Auth } from '../lib/auth'
-import { IndexSignature } from '../types/global'
 
 function loadLocaleData(locale: string) {
   switch (locale) {
@@ -35,8 +34,8 @@ interface GuillotinaProps {
   auth: Auth
   locale: string
   url: string
-  config: IndexSignature
-  registry: IRegistry
+  config?: Partial<IConfig>
+  registry: Partial<IRegistry>
 }
 export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   const messages = loadLocaleData(locale)
@@ -104,7 +103,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }> = registry.getView('ErrorBoundary')
   const NotAllowed = registry.getView('NotAllowed')
   const NotFound = registry.getView('NotFound')
-  const Path = registry.get('components', 'Path') as React.ComponentType
+  const Path = registry.getComponent('Path')
 
   const contextData = {
     url,
@@ -117,7 +116,7 @@ export function Guillotina({ auth, locale, ...props }: GuillotinaProps) {
   }
 
   const { action, errorStatus, permissions } = state
-  const Main = registry.getComponent(state.context, path) as React.FC<{
+  const Main = registry.getPathComponent(state.context, path) as React.FC<{
     state: GuillotinaGlobalState
   }>
   const Action = action.action

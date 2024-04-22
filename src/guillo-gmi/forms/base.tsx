@@ -5,12 +5,13 @@ import { stringToSlug } from '../lib/helpers'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 
-interface Props {
+export interface BaseFormProps {
   onSubmit: (data: { title: string; id: string }) => void
   actionName?: string
   title?: string
   dataTest?: string
   loading?: boolean
+  type: string
 }
 export function BaseForm({
   onSubmit,
@@ -18,7 +19,7 @@ export function BaseForm({
   title,
   dataTest,
   loading,
-}: Props) {
+}: BaseFormProps) {
   const intl = useIntl()
   const [name, setName] = useState('')
   const [id, setId] = useState('')

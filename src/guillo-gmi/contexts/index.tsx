@@ -7,6 +7,7 @@ import {
   GuillotinaReducerActionTypes,
 } from '../reducers/guillotina'
 import { GuillotinaCommonObject } from '../types/guillotina.js'
+import { IManageRegistry } from '../hooks/useRegistry.js'
 
 export const AuthContext = createContext({})
 
@@ -20,8 +21,8 @@ interface PropsTraversal {
     type: GuillotinaReducerActionTypes
     payload: IndexSignature
   }>
-  registry: IndexSignature
-  flash: (action: string, result: string) => void
+  registry: IManageRegistry
+  flash?: (action: string, result: string) => void
   url: string
   children?: React.ReactNode
 }

@@ -5,11 +5,13 @@ import { toQueryString } from './helpers'
 import { RestClient } from './rest'
 import { parser } from './search'
 import { IndexSignature, LightFile } from '../types/global'
-import { ItemModel } from '../models'
+
 import { Auth } from './auth'
 import {
   GuillotinaGroup,
   GuillotinaUser,
+  ItemColumn,
+  ItemColumnChild,
   ReturnSearchCompatible,
 } from '../types/guillotina'
 
@@ -24,7 +26,7 @@ export class GuillotinaClient {
     this.pathContainsContainer = pathContainsContainer
   }
 
-  getContainerFromPath = (path: string) => {
+  getContainerFromPath(path: string) {
     if (this.pathContainsContainer) {
       if (path.startsWith('/')) {
         path = path.substring(1)
@@ -35,7 +37,7 @@ export class GuillotinaClient {
     return ''
   }
 
-  clearContainerFromPath = (path: string) => {
+  clearContainerFromPath(path: string) {
     if (this.pathContainsContainer) {
       return `/${this.cleanPath(path)}`
     }
@@ -126,25 +128,26 @@ export class GuillotinaClient {
     return result
   }
 
-  getItemsColumn() {
+  getItemsColumn(): ItemColumn[] {
     const smallcss = { width: 25 }
     const mediumcss = { width: 120 }
 
     return [
       {
+        key: 'icon',
         label: '',
         isSortable: false,
-        child: (m: ItemModel) => (
-          <td style={smallcss}>{<Icon icon={m.icon} />}</td>
+        child: ({ model }: ItemColumnChild) => (
+          <td style={smallcss}>{<Icon icon={model.icon} />}</td>
         ),
       },
       {
         label: 'type',
         key: 'type_name',
         isSortable: false,
-        child: (m: ItemModel) => (
-          <TdLink style={smallcss} model={m}>
-            <span className="tag">{m.type}</span>
+        child: ({ model }: ItemColumnChild) => (
+          <TdLink style={smallcss} model={model}>
+            <span className="tag">{model.type}</span>
           </TdLink>
         ),
       },
@@ -152,13 +155,13 @@ export class GuillotinaClient {
         label: 'id/name',
         key: 'title',
         isSortable: true,
-        child: (m: ItemModel, _navigate: () => void, search: boolean) => (
-          <TdLink model={m}>
-            {m.name}
+        child: ({ model, search }: ItemColumnChild) => (
+          <TdLink model={model}>
+            {model.name}
             {search && (
               <React.Fragment>
                 <br />
-                <span className="is-size-7 tag is-light">{m.path}</span>
+                <span className="is-size-7 tag is-light">{model.path}</span>
               </React.Fragment>
             )}
           </TdLink>
@@ -168,10 +171,10 @@ export class GuillotinaClient {
         label: 'created',
         key: 'creation_date',
         isSortable: true,
-        child: (m: ItemModel) => {
+        child: ({ model }: ItemColumnChild) => {
           return (
             <td style={mediumcss} className="is-size-7 is-vcentered">
-              {m.created}
+              {model.created}
             </td>
           )
         },
@@ -180,9 +183,9 @@ export class GuillotinaClient {
         label: 'modified',
         key: 'modification_date',
         isSortable: true,
-        child: (m: ItemModel) => (
+        child: ({ model }: ItemColumnChild) => (
           <td style={mediumcss} className="is-size-7 is-vcentered">
-            {m.updated}
+            {model.updated}
           </td>
         ),
       },

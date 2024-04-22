@@ -1,3 +1,4 @@
+import { ItemModel } from '../models'
 import { IndexSignature } from './global'
 
 type ItemsPropertyObject = {
@@ -51,6 +52,7 @@ export type SearchItem = {
   parent_uuid: string
   path: string
   tid: string
+  depth: number
   description: string
   access_roles: string[]
   access_users: string[]
@@ -268,10 +270,15 @@ export type ReturnSearchCompatible<T> = {
 }
 
 export interface ItemColumn {
-  label: string
   key: string
+  label: string
   isSortable?: boolean
-  child: React.ReactNode
+  child: ({ model, link, search }: ItemColumnChild) => React.ReactNode
+}
+export interface ItemColumnChild {
+  model: ItemModel
+  link?: () => void
+  search?: string
 }
 
 export type GuillotinaUser = {

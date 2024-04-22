@@ -9,6 +9,9 @@ import {
   RequiredFieldsForm,
   Icon,
   TdLink,
+  ItemColumnChild,
+  GuillotinaClient,
+  SearchItem,
 } from 'react-gmi'
 import { Fragment, useState, useEffect } from 'react'
 import '../node_modules/react-gmi/dist/css/style.css'
@@ -107,7 +110,9 @@ const filtersConfig = [
 ]
 function App() {
   const [currentSchema, setCurrentSchema] = useState('/')
-  const [clientInstance, setClientInstance] = useState(undefined)
+  const [clientInstance, setClientInstance] = useState<
+    GuillotinaClient | undefined
+  >(undefined)
   const [isLogged, setLogged] = useState(auth.isLogged)
 
   useEffect(() => {
@@ -122,8 +127,7 @@ function App() {
     setLogged(false)
   }
 
-  auth.onLogout = onLogout
-  if (clientInstance == undefined) {
+  if (clientInstance === undefined) {
     return null
   }
 
@@ -160,18 +164,19 @@ function App() {
                   return [
                     {
                       label: '',
+                      key: '',
                       isSortable: false,
-                      child: (m: any) => (
-                        <td style={smallcss}>{<Icon icon={m.icon} />}</td>
+                      child: ({ model }: ItemColumnChild) => (
+                        <td style={smallcss}>{<Icon icon={model.icon} />}</td>
                       ),
                     },
                     {
                       label: 'type',
                       key: 'type_name',
                       isSortable: false,
-                      child: (m: any) => (
-                        <TdLink style={smallcss} model={m}>
-                          <span className="tag">{m.type}</span>
+                      child: ({ model }: ItemColumnChild) => (
+                        <TdLink style={smallcss} model={model}>
+                          <span className="tag">{model.type}</span>
                         </TdLink>
                       ),
                     },
@@ -179,21 +184,14 @@ function App() {
                       label: 'id/name',
                       key: 'title',
                       isSortable: true,
-                      child: (
-                        m: {
-                          name: any
-                          path: string
-                        },
-                        _navigate: any,
-                        search: any
-                      ) => (
-                        <TdLink model={m}>
-                          {m.name}
+                      child: ({ model, search }: ItemColumnChild) => (
+                        <TdLink model={model}>
+                          {model.name}
                           {search && (
                             <Fragment>
                               <br />
                               <span className="is-size-7 tag is-light">
-                                {m.path}
+                                {model.path}
                               </span>
                             </Fragment>
                           )}
@@ -204,13 +202,13 @@ function App() {
                       label: 'created',
                       key: 'creation_date',
                       isSortable: true,
-                      child: (m: { created: string }) => {
+                      child: ({ model }: ItemColumnChild) => {
                         return (
                           <td
                             style={mediumcss}
                             className="is-size-7 is-vcentered"
                           >
-                            {m.created}
+                            {model.created}
                           </td>
                         )
                       },
@@ -219,16 +217,12 @@ function App() {
                       label: 'depth',
                       key: 'depth',
                       isSortable: false,
-                      child: (m: {
-                        item: {
-                          depth: number
-                        }
-                      }) => (
+                      child: ({ model }: ItemColumnChild) => (
                         <td
                           style={mediumcss}
                           className="is-size-7 is-vcentered"
                         >
-                          {m.item.depth}
+                          {(model.item as SearchItem).depth}
                         </td>
                       ),
                     },
@@ -236,12 +230,12 @@ function App() {
                       label: 'modified',
                       key: 'modification_date',
                       isSortable: true,
-                      child: (m: { updated: string }) => (
+                      child: ({ model }: ItemColumnChild) => (
                         <td
                           style={mediumcss}
                           className="is-size-7 is-vcentered"
                         >
-                          {m.updated}
+                          {model.updated}
                         </td>
                       ),
                     },

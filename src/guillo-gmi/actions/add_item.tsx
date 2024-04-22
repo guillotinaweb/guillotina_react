@@ -13,7 +13,7 @@ export function AddItem(props: Props) {
   const { type } = props
   const { getForm } = Ctx.registry
 
-  const Form = getForm(type)
+  const Form = getForm(type, undefined)
 
   const setActive = () => {
     Ctx.cancelAction()

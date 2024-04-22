@@ -18,7 +18,7 @@ export const Permissions: string[] = [
   'guillotina.swagger.View',
 ]
 
-interface IConfig {
+export interface IConfig {
   DisabledTypes: string[]
   PageSize: number
   DelayActions: number
@@ -29,6 +29,7 @@ interface IConfig {
   properties_default?: string[]
   properties_ignore_fields?: string[]
   fieldHaveDeleteButton: (schema: GuillotinaSchemaProperty) => boolean
+  flash?: (message: string, type: string) => void
 }
 
 export const defaultConfig: IConfig = {

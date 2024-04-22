@@ -1,3 +1,25 @@
+0.31.0
+------
+- chore: Improve typing in registry
+- refactor: Add getPathComponent function in registry, to separate from generic getComponent function
+- feat: add parseSearchQueryParamFunction in registry
+- feat: Modify getItemsColumns function in client
+- fix: Default value checkbox
+
+Breaking changes:
+
+In items columns properties, updated the child prop. 
+
+Before:
+
+(m: ItemModel, _navigate: () => void, search: boolean) => React.ReactNode
+
+After:
+
+({ model, search, link }: ItemColumnChild) => React.ReactNode
+
+
+
 0.30.1
 ------
 - fix: size param in elasticsearch function

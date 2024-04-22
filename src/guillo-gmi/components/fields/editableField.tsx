@@ -38,11 +38,8 @@ export function EditableField({
   const { patch, loading, Ctx } = useCrudContext()
   const { fieldHaveDeleteButton } = useConfig()
 
-  const EditComponent = Ctx.registry.get('components', 'EditComponent')
-  const RenderFieldComponent = Ctx.registry.get(
-    'components',
-    'RenderFieldComponent'
-  )
+  const EditComponent = Ctx.registry.getComponent('EditComponent')
+  const RenderFieldComponent = Ctx.registry.getComponent('RenderFieldComponent')
 
   useEffect(() => {
     if (isEdit && ref.current) {

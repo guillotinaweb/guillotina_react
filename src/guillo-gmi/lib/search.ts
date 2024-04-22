@@ -2,7 +2,10 @@ const SEP = '='
 const DEFAULT_FIELD = 'title__in'
 const CLEANER = '||'
 
-export function parser(qs: string, defaultField = DEFAULT_FIELD): string[][] {
+export function parser(
+  qs: string,
+  defaultField: string | string[] | undefined = DEFAULT_FIELD
+): string[][] {
   if (qs.includes(SEP) && Array.isArray(defaultField)) {
     throw new Error('This option is not supported')
   }

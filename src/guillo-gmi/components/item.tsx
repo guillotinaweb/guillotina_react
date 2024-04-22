@@ -6,8 +6,7 @@ import { useTraversal } from '../contexts'
 import { Icon } from './ui/icon'
 import { ItemCheckbox } from './selected_items_actions'
 import { Delete } from './ui'
-import { IColumn } from '../reducers/guillotina'
-import { SearchItem } from '../types/guillotina'
+import { ItemColumn, SearchItem } from '../types/guillotina'
 
 interface ItemProps {
   item: { id: string; path: string }
@@ -33,7 +32,7 @@ const smallcss = {
 interface RItemProps {
   item: SearchItem
   search: string
-  columns: IColumn[]
+  columns: ItemColumn[]
 }
 export function RItem({ item, search, columns }: RItemProps) {
   const [, navigate] = useLocation()
@@ -48,7 +47,7 @@ export function RItem({ item, search, columns }: RItemProps) {
       </td>
       {columns.map((i) => (
         <React.Fragment key={i.label}>
-          {i.child(model, link, search)}
+          {i.child({ model, link, search })}
         </React.Fragment>
       ))}
       <td style={smallcss}>
