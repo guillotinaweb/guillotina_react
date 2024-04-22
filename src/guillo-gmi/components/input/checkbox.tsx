@@ -34,6 +34,12 @@ export const Checkbox = ({
   const [state, setState] = useState<boolean>(!!checked)
 
   useEffect(() => {
+    if (state !== checked) {
+      setState(!!checked)
+    }
+  }, [checked])
+
+  useEffect(() => {
     if (inputRef.current) {
       inputRef.current.indeterminate = indeterminate
     }
