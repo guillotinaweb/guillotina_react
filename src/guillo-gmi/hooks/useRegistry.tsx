@@ -81,7 +81,7 @@ export interface IRegistry {
   fieldsToFilter: {
     [key: string]: string[]
   }
-  parsedSearchQueryParam: {
+  parseSearchQueryParamFunction: {
     [key: string]: (query: string, type: string) => string
   }
   defaultSortValue: {
@@ -147,7 +147,7 @@ const registry: IRegistry = {
   fieldsToFilter: {
     UserManager: ['id', 'email', 'user_name'],
   },
-  parsedSearchQueryParam: {},
+  parseSearchQueryParamFunction: {},
   defaultSortValue: {},
 }
 
@@ -251,7 +251,7 @@ const getSearchEngineQueryParamsFunction = (type: string) => {
 }
 
 const getParsedSearchQueryParam = (query: string, type: string) => {
-  const parsedFunction = registry.parsedSearchQueryParam[type]
+  const parsedFunction = registry.parseSearchQueryParamFunction[type]
   if (!parsedFunction) {
     const fieldsToFilter = getFieldsToFilter(type)
     return buildQs(parser(query, fieldsToFilter))
