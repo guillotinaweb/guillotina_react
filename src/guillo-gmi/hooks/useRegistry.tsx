@@ -36,6 +36,8 @@ import {
   RegistrySchema,
 } from '../types/guillotina'
 import { buildQs, parser } from '../lib/search'
+import { MessageDescriptor } from 'react-intl'
+import { getActionsObject } from '../lib/helpers'
 
 export interface RegistrySortValue {
   direction: 'asc' | 'des'
@@ -86,6 +88,17 @@ export interface IRegistry {
   }
   defaultSortValue: {
     [key: string]: RegistrySortValue
+  }
+  actionsList: {
+    [key: string]: (
+      multiple: boolean
+    ) => {
+      [key: string]: {
+        text: MessageDescriptor
+        perms: string[]
+        action: string
+      }
+    }
   }
 }
 
@@ -149,6 +162,7 @@ const registry: IRegistry = {
   },
   parseSearchQueryParamFunction: {},
   defaultSortValue: {},
+  actionsList: {},
 }
 
 export interface IManageRegistry {
@@ -173,6 +187,16 @@ export interface IManageRegistry {
     fallback?: RegistrySortValue
   ) => RegistrySortValue
   getSearchEngineQueryParamsFunction: (type: string) => string
+  getActionsList: (
+    type: string,
+    multiple: boolean
+  ) => {
+    [key: string]: {
+      text: MessageDescriptor
+      perms: string[]
+      action: string
+    }
+  }
 }
 
 const getPathComponent = (
@@ -259,6 +283,23 @@ const getParsedSearchQueryParam = (query: string, type: string) => {
   return parsedFunction(query, type)
 }
 
+const getActionsList = (
+  type: string,
+  multiple: boolean
+): {
+  [key: string]: {
+    text: MessageDescriptor
+    perms: string[]
+    action: string
+  }
+} => {
+  const funcActionsList = registry.actionsList[type]
+  if (funcActionsList) {
+    return funcActionsList(multiple)
+  }
+  return getActionsObject(multiple)
+}
+
 export const defaultComponent = (context: GuillotinaCommonObject) => {
   return context.is_folderish ? FolderCtx : ItemCtx
 }
@@ -292,6 +333,7 @@ export function useRegistry(data: Partial<IRegistry>): IManageRegistry {
     getSchemas,
     getView,
     getSearchEngineQueryParamsFunction,
+    getActionsList,
   }
 }
 
