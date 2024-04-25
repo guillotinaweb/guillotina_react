@@ -34,7 +34,7 @@ export function Modal(props: ModalProps) {
 }
 
 interface ConfirmProps {
-  message?: string
+  message?: React.ReactNode
   onCancel: () => void
   onConfirm: () => void
   loading?: boolean

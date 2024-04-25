@@ -1,3 +1,7 @@
+0.32.1
+------
+- fix: Confirm component, message type
+
 0.32.0
 ------
 - feat: Add to registry the possibility to override the default actions in items list. 
