@@ -3,7 +3,6 @@ import Dropdown from './input/dropdown'
 import { Checkbox } from './input/checkbox'
 import { useTraversal } from '../contexts'
 import { useIntl } from 'react-intl'
-import { getActionsObject } from '../lib/helpers'
 import { SearchItem } from '../types/guillotina'
 
 const ItemsActionsCtx = createContext<{
@@ -32,9 +31,11 @@ export function ItemsActionsProvider({
   items,
   children,
 }: PropsItemsActionsProvider) {
-  const intl = useIntl()
-  const actions = getActionsObject(intl, true)
   const traversal = useTraversal()
+  const actions = traversal.registry.getActionsList(
+    traversal.context['@type'],
+    true
+  )
   const [selected, setSelected] = useState<{
     all: boolean
     [key: string]: boolean
@@ -134,12 +135,15 @@ export function ItemCheckbox({ item, dataTest }: PropsItemCheckbox) {
  */
 export function ItemsActionsDropdown() {
   const intl = useIntl()
-  const ACTIONS_OBJECT = getActionsObject(intl, true)
   const traversal = useTraversal()
+  const ACTIONS_OBJECT = traversal.registry.getActionsList(
+    traversal.context['@type'],
+    true
+  )
   const { selected, onAction } = useItemsActions()
   const disabled = Object.values(selected).every((v) => !v)
   const options = Object.keys(ACTIONS_OBJECT).map((action) => ({
-    text: ACTIONS_OBJECT[action].text,
+    text: intl.formatMessage(ACTIONS_OBJECT[action].text),
     value: action,
   }))
 

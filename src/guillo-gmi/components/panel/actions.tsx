@@ -1,12 +1,14 @@
 import { useTraversal } from '../../contexts'
 import { useIntl } from 'react-intl'
-import { getActionsObject } from '../../lib/helpers'
 import { Fragment } from 'react'
 
 export function PanelActions() {
   const traversal = useTraversal()
   const intl = useIntl()
-  const ACTIONS_OBJECT = getActionsObject(intl)
+  const ACTIONS_OBJECT = traversal.registry.getActionsList(
+    traversal.context['@type'],
+    false
+  )
 
   const hasPerm = (perms: string[]) => {
     return perms.some((perm) => traversal.hasPerm(perm))
@@ -32,7 +34,7 @@ export function PanelActions() {
                 onAction(actionKeyTyped)
               }}
             >
-              {actionObject.text}
+              {intl.formatMessage(actionObject.text)}
             </button>
           )
         }

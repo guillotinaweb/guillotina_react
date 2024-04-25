@@ -1,4 +1,4 @@
-import { IntlShape } from 'react-intl'
+import { MessageDescriptor } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 import { IndexSignature } from '../types/global'
 
@@ -59,27 +59,26 @@ export function sleep(ms: number): Promise<void> {
 }
 
 export const getActionsObject = (
-  intl: IntlShape,
-  multiple = false
+  multiple: boolean
 ): {
   [key: string]: {
-    text: string
+    text: MessageDescriptor
     perms: string[]
     action: string
   }
 } => ({
   DELETE: {
-    text: intl.formatMessage(genericMessages.delete),
+    text: genericMessages.delete,
     perms: ['guillotina.DeleteContent'],
     action: multiple ? 'removeItems' : 'removeItem',
   },
   MOVE: {
-    text: intl.formatMessage(genericMessages.move_to),
+    text: genericMessages.move_to,
     perms: ['guillotina.MoveContent'],
     action: multiple ? 'moveItems' : 'moveItem',
   },
   COPY: {
-    text: intl.formatMessage(genericMessages.copy_to),
+    text: genericMessages.copy_to,
     perms: ['guillotina.DuplicateContent'],
     action: multiple ? 'copyItems' : 'copyItem',
   },

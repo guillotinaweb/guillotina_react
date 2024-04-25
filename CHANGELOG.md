@@ -1,3 +1,7 @@
+0.32.0
+------
+- feat: Add to registry the possibility to override the default actions in items list. 
+
 0.31.0
 ------
 - chore: Improve typing in registry
