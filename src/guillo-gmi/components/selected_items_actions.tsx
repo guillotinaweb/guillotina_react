@@ -5,7 +5,7 @@ import { useTraversal } from '../contexts'
 import { useIntl } from 'react-intl'
 import { SearchItem } from '../types/guillotina'
 
-const ItemsActionsCtx = createContext<{
+export const ItemsActionsCtx = createContext<{
   selected: {
     all: boolean
     [key: string]: boolean
@@ -84,7 +84,7 @@ export function ItemsActionsProvider({
   )
 }
 
-const useItemsActions = () => {
+export const useItemsActions = () => {
   const { onAction, onSelectOneItem, onSelectAllItems, selected } = useContext(
     ItemsActionsCtx
   )

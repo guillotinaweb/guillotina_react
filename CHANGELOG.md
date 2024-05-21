@@ -1,3 +1,7 @@
+0.32.2
+------
+- fix: export items actions context
+
 0.32.1
 ------
 - fix: Confirm component, message type
