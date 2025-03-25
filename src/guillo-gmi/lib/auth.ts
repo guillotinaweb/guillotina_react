@@ -113,7 +113,7 @@ export class Auth {
 
   willExpire(expiration: string) {
     const now = new Date().getTime()
-    if (parseInt(expiration) * 1000 < now + 10 * 1000) {
+    if (parseInt(expiration) < now + 10) {
       return true
     }
     return false
@@ -121,7 +121,7 @@ export class Auth {
 
   isExpired(expiration: string) {
     const now = new Date().getTime()
-    if (parseInt(expiration) * 1000 > now) {
+    if (parseInt(expiration) > now) {
       return false
     }
     return true
