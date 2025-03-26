@@ -1,3 +1,7 @@
+0.32.3
+------
+- fix: expiration token
+
 0.32.2
 ------
 - fix: export items actions context
