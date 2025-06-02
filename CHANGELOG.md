@@ -1,3 +1,8 @@
+0.33.0
+------
+- feat: Improve typing
+- chore: Add react 19 to peerDependencies
+
 0.32.3
 ------
 - fix: expiration token
