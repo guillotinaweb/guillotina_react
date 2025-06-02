@@ -4,9 +4,10 @@ import { sleep } from '../lib/helpers'
 import { useConfig } from '../hooks/useConfig'
 import { ItemModel } from '../models'
 import { useState } from 'react'
+import { GuillotinaCommonObject, SearchItem } from '../types/guillotina'
 
 interface Props {
-  items: ItemModel[]
+  items: ItemModel<SearchItem | GuillotinaCommonObject>[]
 }
 export function RemoveItems(props: Props) {
   const Ctx = useTraversal()

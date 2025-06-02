@@ -1,11 +1,13 @@
 import { PathTree } from '../components/modal'
 import { useTraversal } from '../contexts'
 import { ItemModel } from '../models'
+import { GuillotinaCommonObject } from '../types/guillotina'
+import { SearchItem } from '../types/guillotina'
 
 const withError = (res: Response) => res.status >= 300
 
 interface Props {
-  items: ItemModel[]
+  items: ItemModel<SearchItem | GuillotinaCommonObject>[]
 }
 export function MoveItems(props: Props) {
   const Ctx = useTraversal()
