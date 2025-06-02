@@ -8,11 +8,13 @@ import { IndexSignature, LightFile } from '../types/global'
 
 import { Auth } from './auth'
 import {
+  GuillotinaCommonObject,
   GuillotinaGroup,
   GuillotinaUser,
   ItemColumn,
   ItemColumnChild,
   ReturnSearchCompatible,
+  SearchItem,
 } from '../types/guillotina'
 
 const cacheTypes: IndexSignature = {}
@@ -128,7 +130,9 @@ export class GuillotinaClient {
     return result
   }
 
-  getItemsColumn(): ItemColumn[] {
+  getItemsColumn<
+    T extends SearchItem | GuillotinaCommonObject
+  >(): ItemColumn<T>[] {
     const smallcss = { width: 25 }
     const mediumcss = { width: 120 }
 
@@ -137,7 +141,7 @@ export class GuillotinaClient {
         key: 'icon',
         label: '',
         isSortable: false,
-        child: ({ model }: ItemColumnChild) => (
+        child: ({ model }: ItemColumnChild<T>) => (
           <td style={smallcss}>{<Icon icon={model.icon} />}</td>
         ),
       },
@@ -145,7 +149,7 @@ export class GuillotinaClient {
         label: 'type',
         key: 'type_name',
         isSortable: false,
-        child: ({ model }: ItemColumnChild) => (
+        child: ({ model }: ItemColumnChild<T>) => (
           <TdLink style={smallcss} model={model}>
             <span className="tag">{model.type}</span>
           </TdLink>
@@ -155,7 +159,7 @@ export class GuillotinaClient {
         label: 'id/name',
         key: 'title',
         isSortable: true,
-        child: ({ model, search }: ItemColumnChild) => (
+        child: ({ model, search }: ItemColumnChild<T>) => (
           <TdLink model={model}>
             {model.name}
             {search && (
@@ -171,7 +175,7 @@ export class GuillotinaClient {
         label: 'created',
         key: 'creation_date',
         isSortable: true,
-        child: ({ model }: ItemColumnChild) => {
+        child: ({ model }: ItemColumnChild<T>) => {
           return (
             <td style={mediumcss} className="is-size-7 is-vcentered">
               {model.created}
@@ -183,7 +187,7 @@ export class GuillotinaClient {
         label: 'modified',
         key: 'modification_date',
         isSortable: true,
-        child: ({ model }: ItemColumnChild) => (
+        child: ({ model }: ItemColumnChild<T>) => (
           <td style={mediumcss} className="is-size-7 is-vcentered">
             {model.updated}
           </td>

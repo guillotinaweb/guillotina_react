@@ -1,9 +1,10 @@
 import { useLocation } from '../hooks/useLocation'
 import { ItemModel } from '../models'
+import { GuillotinaCommonObject, SearchItem } from '../types/guillotina'
 
 interface Props {
   aRef?: React.Ref<HTMLAnchorElement>
-  model: ItemModel
+  model: ItemModel<SearchItem | GuillotinaCommonObject>
   children: React.ReactNode
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }

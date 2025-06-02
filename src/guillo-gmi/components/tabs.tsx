@@ -6,19 +6,25 @@ function FallbackTab({ title }: { title: string }) {
   return <div>Tab &apos;{title}&apos; not found</div>
 }
 
-interface Props {
+interface TabsPanelProps {
   tabs: IndexSignature
   currentTab: string
   rightToolbar?: React.ReactNode
   fallback?: React.ComponentType<{ title: string }>
 }
 
-export function TabsPanel({
+type TabsPanelPropsWithChildren<T = Record<string, unknown>> = TabsPanelProps &
+  T
+
+export function TabsPanel<
+  T extends Record<string, unknown> = Record<string, unknown>
+>({
   tabs,
   currentTab,
   rightToolbar,
   fallback = FallbackTab,
-}: Props) {
+  ...restProps
+}: TabsPanelPropsWithChildren<T>) {
   const [location, setLocation] = useLocation()
 
   currentTab = location.get('tab') || Object.keys(tabs)[0]
@@ -68,7 +74,7 @@ export function TabsPanel({
         {rightToolbar && <div className="level-right">{rightToolbar}</div>}
       </div>
       <div className="container">
-        <CurrentComp title={current} />
+        <CurrentComp title={current} {...restProps} />
       </div>
     </div>
   )

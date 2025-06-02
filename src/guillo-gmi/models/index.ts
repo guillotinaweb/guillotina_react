@@ -4,10 +4,14 @@ import { GuillotinaCommonObject, SearchItem } from '../types/guillotina'
 
 export * from './sharing'
 
-export class ItemModel {
-  item: SearchItem | GuillotinaCommonObject
+export class ItemModel<
+  T extends SearchItem | GuillotinaCommonObject =
+    | SearchItem
+    | GuillotinaCommonObject
+> {
+  item: T
   url: string
-  constructor(item: SearchItem | GuillotinaCommonObject, url = '') {
+  constructor(item: T, url = '') {
     this.item = item
     this.url = url
   }

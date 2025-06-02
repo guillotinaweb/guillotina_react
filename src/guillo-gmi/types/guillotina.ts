@@ -56,6 +56,9 @@ export type SearchItem = {
   description: string
   access_roles: string[]
   access_users: string[]
+  contributors: string[]
+  tags: string[]
+  creators: string[]
 } & ItemsPropertyObject
 
 export interface IBehaviorDublinCore {
@@ -269,14 +272,22 @@ export type ReturnSearchCompatible<T> = {
   items_total: number
 }
 
-export interface ItemColumn {
+export interface ItemColumn<
+  T extends SearchItem | GuillotinaCommonObject =
+    | SearchItem
+    | GuillotinaCommonObject
+> {
   key: string
   label: string
   isSortable?: boolean
-  child: ({ model, link, search }: ItemColumnChild) => React.ReactNode
+  child: ({ model, link, search }: ItemColumnChild<T>) => React.ReactNode
 }
-export interface ItemColumnChild {
-  model: ItemModel
+export interface ItemColumnChild<
+  T extends SearchItem | GuillotinaCommonObject =
+    | SearchItem
+    | GuillotinaCommonObject
+> {
+  model: ItemModel<T>
   link?: () => void
   search?: string
 }

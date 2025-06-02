@@ -4,11 +4,13 @@ import { useTraversal } from '../contexts'
 import { getNewId } from '../lib/utils'
 import { ItemModel } from '../models'
 import { IndexSignature } from '../types/global'
+import { GuillotinaCommonObject } from '../types/guillotina'
+import { SearchItem } from '../types/guillotina'
 
 const withError = (res: Response) => res.status >= 300
 
 interface Props {
-  items: Array<ItemModel>
+  items: Array<ItemModel<SearchItem | GuillotinaCommonObject>>
 }
 export function CopyItems(props: Props) {
   const Ctx = useTraversal()

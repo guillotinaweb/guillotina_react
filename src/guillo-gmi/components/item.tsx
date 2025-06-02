@@ -6,7 +6,11 @@ import { useTraversal } from '../contexts'
 import { Icon } from './ui/icon'
 import { ItemCheckbox } from './selected_items_actions'
 import { Delete } from './ui'
-import { ItemColumn, SearchItem } from '../types/guillotina'
+import {
+  GuillotinaCommonObject,
+  ItemColumn,
+  SearchItem,
+} from '../types/guillotina'
 
 interface ItemProps {
   item: { id: string; path: string }
@@ -32,7 +36,7 @@ const smallcss = {
 interface RItemProps {
   item: SearchItem
   search: string
-  columns: ItemColumn[]
+  columns: ItemColumn<SearchItem | GuillotinaCommonObject>[]
 }
 export function RItem({ item, search, columns }: RItemProps) {
   const [, navigate] = useLocation()
