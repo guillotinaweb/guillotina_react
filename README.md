@@ -127,8 +127,6 @@ yarn start
 
 ## Sponsors
 
-This project is sponsored by <a href="https://www.vinissimus.com">Vinissimus Wine Shop</a> and <a href="https://iskra.cat">Iskra</a>
+This project is sponsored by <a href="https://iskra.cat">Iskra</a>
 
-<a href="https://www.vinissimus.com"><img src="https://cdn.vinissimus.com/front/static/images/vinissimus-logo.svg" /></a>
-<br/>
 <a href="https://iskra.cat"><img src="https://storage.googleapis.com/iskra/iskra-logo.png" /></a>
