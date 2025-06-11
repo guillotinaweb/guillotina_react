@@ -2,10 +2,10 @@ import { useRef } from 'react'
 import { Link } from './Link'
 import { ItemModel } from '../models'
 import { IndexSignature } from '../types/global'
-import { GuillotinaCommonObject, SearchItem } from '../types/guillotina'
+import { SearchOrCommonObject } from '../types/guillotina'
 
-interface Props {
-  model: ItemModel<SearchItem | GuillotinaCommonObject>
+interface Props<T extends SearchOrCommonObject = SearchOrCommonObject> {
+  model: ItemModel<T>
   children: React.ReactNode
   style?: IndexSignature
 }
