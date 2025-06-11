@@ -272,10 +272,10 @@ export type ReturnSearchCompatible<T> = {
   items_total: number
 }
 
+export type SearchOrCommonObject = SearchItem | GuillotinaCommonObject
+
 export interface ItemColumn<
-  T extends SearchItem | GuillotinaCommonObject =
-    | SearchItem
-    | GuillotinaCommonObject
+  T extends SearchOrCommonObject = SearchOrCommonObject
 > {
   key: string
   label: string
@@ -283,9 +283,7 @@ export interface ItemColumn<
   child: ({ model, link, search }: ItemColumnChild<T>) => React.ReactNode
 }
 export interface ItemColumnChild<
-  T extends SearchItem | GuillotinaCommonObject =
-    | SearchItem
-    | GuillotinaCommonObject
+  T extends SearchOrCommonObject = SearchOrCommonObject
 > {
   model: ItemModel<T>
   link?: () => void

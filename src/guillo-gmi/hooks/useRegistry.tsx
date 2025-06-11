@@ -34,7 +34,7 @@ import {
   GuillotinaCommonObject,
   ItemColumn,
   RegistrySchema,
-  SearchItem,
+  SearchOrCommonObject,
 } from '../types/guillotina'
 import { buildQs, parser } from '../lib/search'
 import { MessageDescriptor } from 'react-intl'
@@ -67,7 +67,9 @@ export interface IRegistry {
     [key: string]: (props: any | undefined) => JSX.Element | null
   }
   itemsColumn: {
-    [key: string]: () => ItemColumn<SearchItem | GuillotinaCommonObject>[]
+    [key: string]: <
+      T extends SearchOrCommonObject = SearchOrCommonObject
+    >() => ItemColumn<T>[]
   }
   schemas: {
     [key: string]: RegistrySchema
@@ -179,9 +181,9 @@ export interface IManageRegistry {
   getAction: (type: string, fallback?: React.FC) => React.FC
   getBehavior: (type: string, fallback?: React.FC) => React.FC<any>
   getProperties: (type: string) => RegistryProperties
-  getItemsColumn: (
+  getItemsColumn: <T extends SearchOrCommonObject = SearchOrCommonObject>(
     type: string
-  ) => ItemColumn<SearchItem | GuillotinaCommonObject>[] | undefined
+  ) => ItemColumn<T>[] | undefined
   getSchemas: (type: string) => RegistrySchema
   getFieldsToFilter: (type: string, fallback?: string[]) => string[]
   getParsedSearchQueryParam: (query: string, type: string) => string

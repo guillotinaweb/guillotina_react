@@ -9,6 +9,7 @@ interface Props {
   onChange: (value: string) => void
   placeholder?: string
   id?: string
+  required?: boolean
 }
 export const EmailInput = ({
   value = '',
@@ -16,6 +17,7 @@ export const EmailInput = ({
   placeholder,
   id,
   onChange,
+  required,
 }: Props) => {
   const intl = useIntl()
   return (
@@ -32,6 +34,7 @@ export const EmailInput = ({
       id={id}
       placeholder={placeholder}
       onChange={onChange}
+      required={required}
     />
   )
 }
