@@ -248,4 +248,53 @@ export const genericFileMessages = defineMessages({
     id: 'upload_a_file',
     defaultMessage: 'Upload a file',
   },
+  // Edit form messages
+  edit_form_title: {
+    id: 'edit_form_title',
+    defaultMessage: 'Edit Properties',
+  },
+  save_all_changes: {
+    id: 'save_all_changes',
+    defaultMessage: 'Save All Changes',
+  },
+  discard_changes: {
+    id: 'discard_changes',
+    defaultMessage: 'Discard Changes',
+  },
+  fields_modified: {
+    id: 'fields_modified',
+    defaultMessage: '{count} field(s) modified',
+  },
+  edit_form_success: {
+    id: 'edit_form_success',
+    defaultMessage: '{count} field(s) updated successfully',
+  },
+  edit_form_error: {
+    id: 'edit_form_error',
+    defaultMessage: 'Error saving changes',
+  },
+  unsaved_changes_warning: {
+    id: 'unsaved_changes_warning',
+    defaultMessage: 'You have unsaved changes. Are you sure you want to leave?',
+  },
+  unsaved_changes_confirm: {
+    id: 'unsaved_changes_confirm',
+    defaultMessage: 'You have unsaved changes. Do you want to discard them?',
+  },
+  no_modify_permission: {
+    id: 'no_modify_permission',
+    defaultMessage: 'You do not have permission to modify this content.',
+  },
+  schema_load_error: {
+    id: 'schema_load_error',
+    defaultMessage: 'Error loading schema',
+  },
+  no_editable_properties: {
+    id: 'no_editable_properties',
+    defaultMessage: 'No editable properties found for this content type.',
+  },
+  readonly: {
+    id: 'readonly',
+    defaultMessage: 'Read-only',
+  },
 })

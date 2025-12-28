@@ -7,11 +7,12 @@ interface Props {
   onChange: (value: string[]) => void
   dataTest?: string
   id?: string
+  disabled?: boolean
 }
 export const InputList = forwardRef<
   HTMLInputElement,
   InputHTMLAttributes<HTMLInputElement> & Props
->(({ value, onChange, dataTest, id }, ref) => {
+>(({ value, onChange, dataTest, id, disabled }, ref) => {
   const intl = useIntl()
   const [inputValue, setInputValue] = useState('')
   const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -37,6 +38,7 @@ export const InputList = forwardRef<
               <button
                 className="delete is-small"
                 type="button"
+                disabled={disabled}
                 onClick={() =>
                   onChange([
                     ...value.filter((tag) => value.indexOf(tag) !== index),
@@ -59,6 +61,7 @@ export const InputList = forwardRef<
         value={inputValue}
         ref={ref}
         dataTest={dataTest}
+        disabled={disabled}
         onChange={(value) => {
           setInputValue(value)
         }}

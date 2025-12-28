@@ -15,6 +15,7 @@ interface Props {
   appendDefault?: boolean
   id?: string
   placeholder?: string
+  disabled?: boolean
 }
 export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
   (
@@ -28,6 +29,7 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
       onChange,
       id,
       placeholder,
+      disabled,
     },
     ref
   ) => {
@@ -81,6 +83,7 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
         onChange={onChange}
         id={id}
         placeholder={placeholder}
+        disabled={disabled}
       />
     )
   }
