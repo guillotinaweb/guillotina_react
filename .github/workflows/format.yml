@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
@@ -42,7 +42,7 @@ jobs:
           node-version: '20.x'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Check formatting
         run: pnpm format:check
