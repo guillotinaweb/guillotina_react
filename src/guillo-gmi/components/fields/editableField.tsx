@@ -32,7 +32,7 @@ export function EditableField({
   required,
 }: Props) {
   const intl = useIntl()
-  const ref = useRef<HTMLElement>()
+  const ref = useRef<HTMLElement>(null)
   const [isEdit, setEdit] = useState(false)
   const [val, setValue] = useState(value)
   const { patch, loading, Ctx } = useCrudContext()

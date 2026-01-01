@@ -1,31 +1,86 @@
-# e2e Cypress
+# E2E Tests (Cypress)
 
-e2e for guillotina react
+End-to-end tests for `@guillotinaweb/react-gmi` using Cypress.
 
-## Run tests
+## Prerequisites
 
+1. **PostgreSQL** running on port 5432
+2. **Guillotina** running on port 8080
+3. **Playground** built and served on port 4173
+
+## Quick Start
+
+From the **project root**:
+
+```bash
+# Run all E2E tests (builds playground automatically)
+pnpm test:e2e
 ```
-# Run postgres
-docker run \
+
+## Manual Setup
+
+### 1. Start PostgreSQL
+
+```bash
+docker run -d \
+    --name postgres \
     -e POSTGRES_DB=guillotina \
     -e POSTGRES_USER=guillotina \
     -e POSTGRES_HOST_AUTH_METHOD=trust \
     -p 127.0.0.1:5432:5432 \
-    --name postgres \
-    postgres:12.17
-
-# Run guillotina
-docker run --rm -it -v $PWD/e2e/g_conf/:/g_conf/ \
-    --link=postgres -p 127.0.0.1:8080:8080 \
-    plone/guillotina:latest \
-    g -c /g_conf/config.yaml
-
-# Install modules
-yarn
-
-# Open cypress test runner
-yarn run cypress open
-
-# Run cypress test on headless mode
-yarn run cypress run
+    postgres:15
 ```
+
+### 2. Start Guillotina
+
+```bash
+docker run --rm -it \
+    --link=postgres \
+    -p 127.0.0.1:8080:8080 \
+    -v $PWD/guillotina_example/guillotina_react_app:/app/guillotina_react_app \
+    plone/guillotina:latest \
+    g -c /app/guillotina_react_app/config-e2e.yaml
+```
+
+### 3. Build and Serve Playground
+
+From project root:
+
+```bash
+pnpm build:playground
+pnpm preview
+```
+
+### 4. Run Cypress
+
+```bash
+cd e2e
+pnpm install
+
+# Interactive mode
+pnpm cypress:open:guillotina
+
+# Headless mode
+pnpm cypress:run:guillotina
+```
+
+## Configuration
+
+The Cypress configuration (`cypress.config.js`) uses:
+- **baseUrl**: `http://localhost:4173/?path=`
+- **Guillotina API**: `http://localhost:8080`
+- **Test container**: `container_test`
+
+## Writing Tests
+
+Tests are located in `cypress/integration/`. They use:
+- Custom selectors in `cypress/elements/`
+- Support commands in `cypress/support/`
+
+## Troubleshooting
+
+### Tests failing to connect
+
+Make sure both Guillotina and the preview server are running:
+- Guillotina: http://localhost:8080
+- Preview: http://localhost:4173

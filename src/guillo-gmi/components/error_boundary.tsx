@@ -47,7 +47,10 @@ class ErrorBoundaryComponent extends Component<
   }
 }
 
-export const ErrorBoundary: React.ComponentType<{
-  intl: IntlShape
-  children: React.ReactNode
-}> = injectIntl(ErrorBoundaryComponent)
+// @ts-expect-error - injectIntl from react-intl has type incompatibility with React 19
+// The HOC returns a component that accepts { children: React.ReactNode } but TypeScript
+// can't infer this correctly due to version mismatches between @types/react versions.
+// This is a known issue with react-intl and newer React types.
+const ErrorBoundaryWithIntl = injectIntl(ErrorBoundaryComponent)
+export const ErrorBoundary: React.ComponentType<{ children: React.ReactNode }> =
+  ErrorBoundaryWithIntl

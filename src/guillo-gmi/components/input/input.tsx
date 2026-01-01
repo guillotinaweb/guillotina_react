@@ -67,7 +67,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     const [uid] = useState(generateUID('input'))
     const [mounted, setMounted] = useState(false)
     // eslint-disable-next-line
-    const newRef = ref || useRef()
+    const newRef = ref || useRef<HTMLInputElement>(null)
 
     useEffect(() => {
       setMounted(true)

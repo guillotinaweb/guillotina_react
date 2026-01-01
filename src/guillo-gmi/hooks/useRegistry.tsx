@@ -39,14 +39,15 @@ import {
 import { buildQs, parser } from '../lib/search'
 import { MessageDescriptor } from 'react-intl'
 import { getActionsObject } from '../lib/helpers'
+import { Traversal } from '../contexts'
 
 export interface RegistrySortValue {
   direction: 'asc' | 'des'
   key: string
 }
 export interface RegistryProperties {
-  Buttons: React.ReactElement
-  Panels: React.ReactElement
+  Buttons: React.ReactElement<{ Ctx?: Traversal }>
+  Panels: React.ReactElement<{ Ctx?: Traversal }>
   default: string[]
   ignoreField: string[]
 }
@@ -311,7 +312,7 @@ export const defaultComponent = (context: GuillotinaCommonObject) => {
 
 export function useRegistry(data: Partial<IRegistry>): IManageRegistry {
   // if data is provided we need to merge it into actual registry
-  const ref = React.useRef<unknown>()
+  const ref = React.useRef<unknown>(undefined)
   if (data && !ref.current) {
     ref.current = true
     Object.keys(data).map((key) => {

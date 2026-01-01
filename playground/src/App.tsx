@@ -12,15 +12,14 @@ import {
   ItemColumnChild,
   GuillotinaClient,
   SearchItem,
-} from 'react-gmi'
+} from '@guillotinaweb/react-gmi'
 import { Fragment, useState, useEffect } from 'react'
-import '../node_modules/react-gmi/dist/css/style.css'
+import '../../src/guillo-gmi/scss/styles.sass'
 
 // guillotina url
-const url = 'http://localhost:8080'
-const schemas = ['/', '/db/container_test/']
+const url = 'http://127.0.0.1:8080'
+const schemas = ['/', '/db/container/', '/db/container_test/']
 const auth = new Auth(url)
-// const client = getClient(url, schema, auth)
 
 const filtersConfig = [
   {
@@ -28,30 +27,12 @@ const filtersConfig = [
     label: 'Choice field',
     type: 'select',
     values: [
-      {
-        value: 'date',
-        text: 'Date',
-      },
-      {
-        value: 'integer',
-        text: 'Integer',
-      },
-      {
-        value: 'text',
-        text: 'Text',
-      },
-      {
-        value: 'float',
-        text: 'Float',
-      },
-      {
-        value: 'keyword',
-        text: 'Keyword',
-      },
-      {
-        value: 'boolean',
-        text: 'Boolean',
-      },
+      { value: 'date', text: 'Date' },
+      { value: 'integer', text: 'Integer' },
+      { value: 'text', text: 'Text' },
+      { value: 'float', text: 'Float' },
+      { value: 'keyword', text: 'Keyword' },
+      { value: 'boolean', text: 'Boolean' },
     ],
   },
   {
@@ -82,14 +63,8 @@ const filtersConfig = [
     label: 'Boolean field',
     type: 'select',
     values: [
-      {
-        value: 'true',
-        text: 'Yes',
-      },
-      {
-        value: 'false',
-        text: 'No',
-      },
+      { value: 'true', text: 'Yes' },
+      { value: 'false', text: 'No' },
     ],
   },
   {
@@ -97,17 +72,12 @@ const filtersConfig = [
     label: 'Workflow state',
     type: 'select',
     values: [
-      {
-        value: 'private',
-        text: 'Private',
-      },
-      {
-        value: 'public',
-        text: 'Public',
-      },
+      { value: 'private', text: 'Private' },
+      { value: 'public', text: 'Public' },
     ],
   },
 ]
+
 function App() {
   const [currentSchema, setCurrentSchema] = useState('/')
   const [clientInstance, setClientInstance] = useState<
@@ -145,12 +115,8 @@ function App() {
             url={currentSchema}
             registry={{
               schemas: {
-                Folder: {
-                  filters: filtersConfig,
-                },
-                Container: {
-                  filters: filtersConfig,
-                },
+                Folder: { filters: filtersConfig },
+                Container: { filters: filtersConfig },
               },
               forms: {
                 GMI: RequiredFieldsForm,
@@ -202,16 +168,14 @@ function App() {
                       label: 'created',
                       key: 'creation_date',
                       isSortable: true,
-                      child: ({ model }: ItemColumnChild) => {
-                        return (
-                          <td
-                            style={mediumcss}
-                            className="is-size-7 is-vcentered"
-                          >
-                            {model.created}
-                          </td>
-                        )
-                      },
+                      child: ({ model }: ItemColumnChild) => (
+                        <td
+                          style={mediumcss}
+                          className="is-size-7 is-vcentered"
+                        >
+                          {model.created}
+                        </td>
+                      ),
                     },
                     {
                       label: 'depth',
