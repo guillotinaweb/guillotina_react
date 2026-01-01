@@ -131,7 +131,7 @@ export class GuillotinaClient {
   }
 
   getItemsColumn<
-    T extends SearchItem | GuillotinaCommonObject
+    T extends SearchItem | GuillotinaCommonObject,
   >(): ItemColumn<T>[] {
     const smallcss = { width: 25 }
     const mediumcss = { width: 120 }
@@ -318,9 +318,7 @@ export class GuillotinaClient {
     return await this.rest.get(endpoint)
   }
 
-  async getPrincipals(
-    path: string
-  ): Promise<{
+  async getPrincipals(path: string): Promise<{
     groups: GuillotinaGroup[]
     users: GuillotinaUser[]
   }> {

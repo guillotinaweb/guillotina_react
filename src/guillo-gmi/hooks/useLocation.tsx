@@ -21,7 +21,7 @@ const clean = (to: IndexSignature) => {
 export const useLocation = (): [
   URLSearchParams,
   (to: IndexSignature, replace?: boolean) => void,
-  (param: string) => void
+  (param: string) => void,
 ] => {
   const [path, update] = useState(currentSearchParams())
   const prevPath = useRef(path)

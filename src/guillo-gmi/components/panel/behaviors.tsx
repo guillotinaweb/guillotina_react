@@ -8,13 +8,8 @@ import { GuillotinaBehaviors } from '../../types/guillotina'
 
 export function PanelBehaviors() {
   const intl = useIntl()
-  const {
-    Ctx,
-    get,
-    result,
-    loading,
-    isError,
-  } = useCrudContext<GuillotinaBehaviors>()
+  const { Ctx, get, result, loading, isError } =
+    useCrudContext<GuillotinaBehaviors>()
   const ops = useCrudContext()
 
   const [state, setState] = useState(false)

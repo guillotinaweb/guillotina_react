@@ -85,9 +85,8 @@ export function ItemsActionsProvider({
 }
 
 export const useItemsActions = () => {
-  const { onAction, onSelectOneItem, onSelectAllItems, selected } = useContext(
-    ItemsActionsCtx
-  )
+  const { onAction, onSelectOneItem, onSelectAllItems, selected } =
+    useContext(ItemsActionsCtx)
   if (!onAction || !onSelectOneItem || !onSelectAllItems || !selected) {
     throw new Error('useItemsActions must be used inside ItemsActionsProvider')
   }

@@ -69,7 +69,7 @@ export interface IRegistry {
   }
   itemsColumn: {
     [key: string]: <
-      T extends SearchOrCommonObject = SearchOrCommonObject
+      T extends SearchOrCommonObject = SearchOrCommonObject,
     >() => ItemColumn<T>[]
   }
   schemas: {
@@ -94,9 +94,7 @@ export interface IRegistry {
     [key: string]: RegistrySortValue
   }
   actionsList: {
-    [key: string]: (
-      multiple: boolean
-    ) => {
+    [key: string]: (multiple: boolean) => {
       [key: string]: {
         text: MessageDescriptor
         perms: string[]
@@ -145,8 +143,10 @@ const registry: IRegistry = {
     'guillotina.behaviors.attachment.IAttachment': IAttachment,
     'guillotina.behaviors.attachment.IMultiAttachment': IMultiAttachment,
     'guillotina.contrib.image.behaviors.IImageAttachment': IImageAttachment,
-    'guillotina.contrib.image.behaviors.IMultiImageAttachment': IMultiImageAttachment,
-    'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment': IMultiImageOrderedAttachment,
+    'guillotina.contrib.image.behaviors.IMultiImageAttachment':
+      IMultiImageAttachment,
+    'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment':
+      IMultiImageOrderedAttachment,
     'guillotina.contrib.workflows.interfaces.IWorkflowBehavior': IWorkflow,
   },
   itemsColumn: {},

@@ -7,7 +7,7 @@ export * from './sharing'
 export class ItemModel<
   T extends SearchItem | GuillotinaCommonObject =
     | SearchItem
-    | GuillotinaCommonObject
+    | GuillotinaCommonObject,
 > {
   item: T
   url: string
