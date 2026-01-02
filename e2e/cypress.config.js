@@ -24,12 +24,12 @@ module.exports = defineConfig({
     requestTimeout: 10000,
     defaultCommandTimeout: 8000,
     env: {
-      GUILLOTINA: 'http://localhost:8080',
+      GUILLOTINA: 'http://127.0.0.1:8080',
       GUILLOTINA_DB: 'db',
       GUILLOTINA_CONTAINER: 'container_test',
     },
     retries: {
-      runMode: 2,
+      runMode: 1,
       openMode: 1,
     },
     supportFile: 'cypress/support/index.js',

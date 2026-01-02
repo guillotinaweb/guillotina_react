@@ -71,7 +71,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'containerLogin',
   function ({ username, password, api_url, language = 'en' } = {}) {
-    cy.intercept('POST', `/@login`).as('login')
     const url = api_url || Cypress.env('GUILLOTINA')
     const user = username || 'root'
     const pw = password || 'root'

@@ -14,29 +14,6 @@ export default defineConfig({
   server: {
     host: '127.0.0.1',
     port: 5173,
-    proxy: {
-      '/db': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
-      // Guillotina API endpoints específics
-      '/@search': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
-      '/@canido': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
-      '/@types': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
-      '/@vocabularies': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
-    },
   },
   build: {
     outDir: 'dist',
