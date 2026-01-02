@@ -6,9 +6,9 @@
   "author": "Pol Sanlorenzo",
   "license": "MIT",
   "dependencies": {
-    "cypress": "13.6.1",
+    "cypress": "15.8.1",
     "eslint-plugin-cypress": "2.15.1",
-    "@testing-library/cypress": "10.0.1"
+    "@testing-library/cypress": "10.1.0"
   },
   "scripts": {
     "cypress:run:guillotina": "CYPRESS_API=guillotina cypress run",

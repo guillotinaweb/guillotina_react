@@ -89,7 +89,7 @@ LOGIN_TYPES.forEach((loginType) => {
       cy.get(PERMISSIONS_SELECTORS.selectPrincipal).select('group_view_content')
       cy.get(PERMISSIONS_SELECTORS.selectRole).select([
         'guillotina.Reader',
-        'guillotina.Member',
+        'guillotina.Editor',
       ])
       cy.get(PERMISSIONS_SELECTORS.operationPermissions).select('Allow')
       cy.get(PERMISSIONS_SELECTORS.btnSubmitPermissions).click()
@@ -97,7 +97,7 @@ LOGIN_TYPES.forEach((loginType) => {
       cy.get(NOTIFICATION_SELECTOR).should('contain', 'Permission updated!')
       cy.get(PERMISSIONS_SELECTORS.containerPermissionsInfo).within(() => {
         cy.contains('guillotina.Reader')
-        cy.contains('guillotina.Member')
+        cy.contains('guillotina.Editor')
         cy.contains('group_view_content')
       })
 
