@@ -49,7 +49,7 @@ jobs:
             -e POSTGRES_USER=guillotina \
             -e POSTGRES_HOST_AUTH_METHOD=trust \
             -p 127.0.0.1:5532:5432 \
-            postgres:12.17
+            postgres:18
 
       - name: Build Guillotina Docker image
         run: docker build -t guillotina_e2e .
