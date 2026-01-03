@@ -11,8 +11,8 @@ on:
       - main
 
 jobs:
-  cypress-run:
-    name: Run Cypress E2E tests
+  playwright-run:
+    name: Run Playwright E2E tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -70,36 +70,18 @@ jobs:
         run: pnpm install
         working-directory: e2e
 
-      - name: Build playground
-        run: pnpm build:playground
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+        working-directory: e2e
 
-      - name: Start preview server
-        run: pnpm preview &
-        working-directory: playground
+      - name: Run Playwright tests
+        run: pnpm playwright:test
+        working-directory: e2e
 
-      - name: Wait for preview server
-        run: |
-          timeout 60 bash -c 'until curl -f http://localhost:4173; do sleep 2; done'
-
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: e2e
-          wait-on: 'http://localhost:4173'
-          wait-on-timeout: 120
-
-      - name: Upload Cypress videos
+      - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos
-          path: e2e/cypress/videos
-          retention-days: 7
-
-      - name: Upload Cypress screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: e2e/cypress/screenshots
+          name: playwright-report
+          path: e2e/playwright-report
           retention-days: 7

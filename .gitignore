@@ -30,6 +30,8 @@ yarn-error.log*
 e2e/node_modules
 e2e/cypress/screenshots
 e2e/cypress/videos
+e2e/playwright-report
+e2e/test-results
 
 # playground
 /playground/dist
@@ -44,3 +46,4 @@ pnpm-lock.yaml
 __pycache__
 
 .vscode
+

@@ -10,8 +10,16 @@
     "eslint-plugin-cypress": "2.15.1",
     "@testing-library/cypress": "10.1.0"
   },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1"
+  },
   "scripts": {
     "cypress:run:guillotina": "CYPRESS_API=guillotina cypress run",
-    "cypress:open:guillotina": "CYPRESS_API=guillotina cypress open"
+    "cypress:open:guillotina": "CYPRESS_API=guillotina cypress open",
+    "playwright:test": "pnpm exec playwright test --config playwright.config.js",
+    "playwright:headed": "HEADED=true pnpm exec playwright test --config playwright.config.js",
+    "playwright:ui": "pnpm exec playwright test --config playwright.config.js --ui",
+    "playwright:debug": "PWDEBUG=1 pnpm exec playwright test --config playwright.config.js",
+    "init-test-data": "node init-test-data.js"
   }
 }

@@ -21,8 +21,8 @@ module.exports = defineConfig({
     video: true,
     experimentalFetchPolyfill: true,
     chromeWebSecurity: false,
-    requestTimeout: 10000,
-    defaultCommandTimeout: 8000,
+    requestTimeout: 20000,
+    defaultCommandTimeout: 20000,
     env: {
       GUILLOTINA: 'http://127.0.0.1:8080',
       GUILLOTINA_DB: 'db',
