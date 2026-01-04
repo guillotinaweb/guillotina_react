@@ -144,6 +144,7 @@ for (const loginType of LOGIN_TYPES) {
       await page.selectOption(PERMISSIONS_SELECTORS.selectRole, [
         'guillotina.Reader',
         'guillotina.Editor',
+        'guillotina.Searcher',
       ])
       await page.selectOption(
         PERMISSIONS_SELECTORS.operationPermissions,
@@ -165,6 +166,7 @@ for (const loginType of LOGIN_TYPES) {
       const info = page.locator(PERMISSIONS_SELECTORS.containerPermissionsInfo)
       await expect(info).toContainText('guillotina.Reader')
       await expect(info).toContainText('guillotina.Editor')
+      await expect(info).toContainText('guillotina.Searcher')
       await expect(info).toContainText('group_view_content')
 
       // Logout and login as default user to verify permissions work

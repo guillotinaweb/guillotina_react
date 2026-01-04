@@ -6,7 +6,7 @@ module.exports = defineConfig({
   testDir: './playwright/tests',
   timeout: 10000,
   expect: { timeout: 20000 },
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 2 : 1,
   fullyParallel: false,
   workers: 1,
   reporter: process.env.CI

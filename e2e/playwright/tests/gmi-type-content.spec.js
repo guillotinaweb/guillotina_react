@@ -187,12 +187,14 @@ for (const loginType of LOGIN_TYPES) {
       )
       await page.getByText(/Current state: Private/).waitFor()
 
-      await page
-        .locator("[data-test='formMultiimageOrderedAttachmentTest']")
+      const multiImageForm = page.locator(
+        "[data-test='formMultiimageOrderedAttachmentTest']"
+      )
+      await multiImageForm
         .locator('input[type=file]')
         .setInputFiles(getFixturePath('image_example.jpg'))
       await page.getByText('image_example.jpg').waitFor()
-      await page.getByText('Upload', { exact: true }).click()
+      await multiImageForm.getByRole('button', { name: 'Upload' }).click()
       await expect(page.locator(NOTIFICATION_SELECTOR)).toContainText(
         'Image uploaded!'
       )

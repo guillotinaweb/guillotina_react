@@ -2,10 +2,10 @@
 
 /**
  * Manual test data initialization script
- * 
+ *
  * This script initializes Guillotina with test data for manual testing.
  * It replicates the setupGuillotina function from utils.js
- * 
+ *
  * Usage:
  *   node init-test-data.js
  *   GUILLOTINA_URL=http://localhost:8080 node init-test-data.js
@@ -13,7 +13,10 @@
  */
 
 const env = {
-  guillotina: process.env.GUILLOTINA_URL || process.env.GUILLOTINA || 'http://127.0.0.1:8080',
+  guillotina:
+    process.env.GUILLOTINA_URL ||
+    process.env.GUILLOTINA ||
+    'http://127.0.0.1:8080',
   db: process.env.GUILLOTINA_DB || 'db',
   container: process.env.GUILLOTINA_CONTAINER || 'container_test',
 }
@@ -68,12 +71,17 @@ const headers = {
 /**
  * Make an HTTP request and handle the response
  */
-async function makeRequest(method, url, data = null, allowedStatuses = [200, 201]) {
+async function makeRequest(
+  method,
+  url,
+  data = null,
+  allowedStatuses = [200, 201]
+) {
   const options = {
     method,
     headers,
   }
-  
+
   if (data) {
     options.body = JSON.stringify(data)
   }
@@ -81,23 +89,23 @@ async function makeRequest(method, url, data = null, allowedStatuses = [200, 201
   try {
     const response = await fetch(url, options)
     const status = response.status
-    
+
     if (allowedStatuses.includes(status)) {
       return { success: true, status, response }
     }
-    
+
     const body = await response.text()
-    return { 
-      success: false, 
-      status, 
+    return {
+      success: false,
+      status,
       error: `Unexpected status ${status}: ${body}`,
-      response 
+      response,
     }
   } catch (error) {
-    return { 
-      success: false, 
+    return {
+      success: false,
       error: error.message,
-      response: null 
+      response: null,
     }
   }
 }
@@ -105,13 +113,20 @@ async function makeRequest(method, url, data = null, allowedStatuses = [200, 201
 /**
  * Guard response - throw error if status not allowed
  */
-async function guardResponse(method, url, data = null, allowedStatuses = [200, 201, 409]) {
+async function guardResponse(
+  method,
+  url,
+  data = null,
+  allowedStatuses = [200, 201, 409]
+) {
   const result = await makeRequest(method, url, data, allowedStatuses)
-  
+
   if (!result.success) {
-    throw new Error(result.error || `Request failed with status ${result.status}`)
+    throw new Error(
+      result.error || `Request failed with status ${result.status}`
+    )
   }
-  
+
   return result
 }
 
@@ -126,6 +141,20 @@ async function setupGuillotina() {
   console.log(`  Container: ${env.container}\n`)
 
   try {
+    // 0. Delete container if it exists (to ensure clean state)
+    console.log('🗑️  Deleting existing container (if any)...')
+    const deleteResult = await makeRequest(
+      'DELETE',
+      containerApi,
+      null,
+      [200, 204, 404]
+    )
+    if (deleteResult.success && deleteResult.status !== 404) {
+      console.log('✅ Existing container deleted\n')
+    } else {
+      console.log('ℹ️  No existing container found\n')
+    }
+
     // 1. Create container
     console.log('📦 Creating container...')
     await guardResponse('POST', apiBase, {
@@ -179,8 +208,15 @@ async function setupGuillotina() {
 
     // 7. Create 50 GMI items
     console.log('📝 Creating 50 GMI items...')
-    const choiceFields = ['date', 'integer', 'text', 'float', 'keyword', 'boolean']
-    
+    const choiceFields = [
+      'date',
+      'integer',
+      'text',
+      'float',
+      'keyword',
+      'boolean',
+    ]
+
     for (let i = 0; i < 50; i++) {
       await guardResponse('POST', `${containerApi}/gmi_folder`, {
         '@type': 'GMI',
@@ -190,7 +226,7 @@ async function setupGuillotina() {
         choice_field_vocabulary: ['plone', 'guillotina'][i % 2],
         choice_field: choiceFields[i % 6],
       })
-      
+
       if ((i + 1) % 10 === 0) {
         console.log(`  Created ${i + 1}/50 items...`)
       }
@@ -206,7 +242,6 @@ async function setupGuillotina() {
     console.log(`  - Folder: gmi_folder`)
     console.log(`  - GMI Items: 50 items in gmi_folder`)
     console.log(`\n🔗 Access your container at: ${containerApi}`)
-    
   } catch (error) {
     console.error('\n❌ Error during initialization:')
     console.error(error.message)
@@ -217,7 +252,9 @@ async function setupGuillotina() {
 // Check if fetch is available (Node.js 18+)
 if (typeof fetch === 'undefined') {
   console.error('❌ Error: fetch is not available.')
-  console.error('This script requires Node.js 18+ or you need to install node-fetch.')
+  console.error(
+    'This script requires Node.js 18+ or you need to install node-fetch.'
+  )
   console.error('\nTo install node-fetch:')
   console.error('  npm install node-fetch')
   console.error('\nThen modify this script to import it:')
@@ -231,4 +268,3 @@ setupGuillotina().catch((error) => {
   console.error(error)
   process.exit(1)
 })
-
