@@ -17,7 +17,7 @@ Guillotina React is a **framework-first React UI layer** for [Guillotina](https:
 | Framework | React (16.12+, 17, 18, 19) |
 | Styling | Bulma CSS + Sass |
 | Build Tool | Vite |
-| Test Framework | Vitest (unit), Cypress (E2E) |
+| Test Framework | Vitest (unit), Playwright (E2E) |
 | Package Manager | pnpm |
 
 ## Strategic Architectural Decisions
@@ -40,7 +40,7 @@ UI elements render based on Guillotina permissions. Tabs, actions, and fields ap
 | Microbundle | Multiple outputs (CJS, ESM, UMD) for any build system |
 | Bulma CSS + Sass | Extensible CSS without JS dependencies |
 | react-intl | Industry standard i18n |
-| Vitest + Cypress | Fast unit tests + E2E validation |
+| Vitest + Playwright | Fast unit tests + E2E validation |
 
 ## Essential Commands
 
@@ -399,13 +399,15 @@ describe('parser', () => {
 })
 ```
 
-### E2E Tests (Cypress)
+### E2E Tests (Playwright)
 ```bash
 pnpm test:e2e                 # Run E2E tests (headless)
 # Or manually:
 cd e2e
-pnpm cypress:open:guillotina  # Interactive mode
-pnpm cypress:run:guillotina   # Headless mode
+pnpm playwright:test          # Headless mode
+pnpm playwright:headed        # Headed (browser) mode
+pnpm playwright:ui            # UI mode
+pnpm playwright:debug         # Debug mode
 ```
 
 Requires running Guillotina server (see `e2e/README.md`).

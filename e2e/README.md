@@ -1,6 +1,6 @@
-# E2E Tests (Playwright + Cypress)
+# E2E Tests (Playwright)
 
-End-to-end tests for `@guillotinaweb/react-gmi` using Playwright (primary) and Cypress.
+End-to-end tests for `@guillotinaweb/react-gmi` using Playwright.
 
 ## Prerequisites
 
@@ -15,12 +15,6 @@ From the **project root**:
 ```bash
 # Run all E2E tests (builds playground automatically)
 pnpm test:e2e
-```
-
-To keep the Cypress suite around:
-
-```bash
-pnpm test:e2e:cypress
 ```
 
 ## Manual Setup
@@ -61,19 +55,12 @@ pnpm playwright:test
 
 # Headed (browser) mode
 pnpm playwright:headed
-```
 
-### 4. Run Cypress
+# UI mode
+pnpm playwright:ui
 
-```bash
-cd e2e
-pnpm install
-
-# Interactive mode
-pnpm cypress:open:guillotina
-
-# Headless mode
-pnpm cypress:run:guillotina
+# Debug mode
+pnpm playwright:debug
 ```
 
 ## Configuration
@@ -83,18 +70,11 @@ The Playwright configuration (`playwright.config.js`) uses:
 - **Guillotina API**: `http://localhost:8080`
 - **Test container**: `container_test`
 
-The Cypress configuration (`cypress.config.js`) uses:
-- **baseUrl**: `http://localhost:4173/?path=`
-- **Guillotina API**: `http://localhost:8080`
-- **Test container**: `container_test`
-
 ## Writing Tests
 
-Playwright tests are located in `playwright/tests/`.
-
-Cypress tests are located in `cypress/integration/`. They use:
-- Custom selectors in `cypress/elements/`
-- Support commands in `cypress/support/`
+Playwright tests are located in `playwright/tests/`. They use:
+- Utility functions in `playwright/utils.js`
+- Fixtures in `playwright/fixtures/`
 
 ## Troubleshooting
 

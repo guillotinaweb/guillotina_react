@@ -113,7 +113,7 @@ Or simply open the playground and navigate through the UI to create them.
 | `pnpm dev` | Start playground with HMR |
 | `pnpm build` | Build the library (JS + CSS) |
 | `pnpm test` | Run unit tests (Vitest) |
-| `pnpm test:e2e` | Run E2E tests (Cypress) |
+| `pnpm test:e2e` | Run E2E tests (Playwright) |
 | `pnpm lint` | Run ESLint |
 | `pnpm format` | Format code with Prettier |
 
@@ -133,16 +133,16 @@ E2E tests require:
 3. Playground built and in preview mode
 
 ```bash
-# Option 1: All-in-one
+# Option 1: All-in-one (Playwright builds playground automatically)
 pnpm test:e2e
 
-# Option 2: Interactive mode
-pnpm build:playground
-pnpm preview &
-
+# Option 2: Manual mode
 cd e2e
 pnpm install
-pnpm cypress:open:guillotina
+pnpm playwright:test          # Headless mode
+pnpm playwright:headed        # Headed (browser) mode
+pnpm playwright:ui            # UI mode
+pnpm playwright:debug         # Debug mode
 ```
 
 ### Building the Library
@@ -163,7 +163,7 @@ This generates:
 guillotina_react/
 ├── src/guillo-gmi/     # Library source code
 ├── playground/          # Development app (Vite + React 19)
-├── e2e/                 # Cypress E2E tests
+├── e2e/                 # Playwright E2E tests
 ├── examples/            # Example apps for consumers
 ├── docs/                # Documentation
 ├── vite.config.ts       # Library build config

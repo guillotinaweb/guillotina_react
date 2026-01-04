@@ -399,7 +399,7 @@ async function expectTableRowCount(page, tableSelector, total) {
 }
 
 function getFixturePath(filename) {
-  return path.join(__dirname, '..', 'cypress', 'fixtures', filename)
+  return path.join(__dirname, 'fixtures', filename)
 }
 
 module.exports = {
