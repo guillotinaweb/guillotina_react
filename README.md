@@ -28,7 +28,7 @@ pnpm add @guillotinaweb/react-gmi
 `App.tsx`
 
 ```tsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Layout,
   Auth,
@@ -36,17 +36,25 @@ import {
   Login,
   getClient,
   ClientProvider,
+  GuillotinaClient,
 } from '@guillotinaweb/react-gmi'
-import '@guillotinaweb/react-gmi/dist/css/style.css'
+import '@guillotinaweb/react-gmi/css/style.css'
 
 // Guillotina server URL
 const url = 'http://localhost:8080'
-const schema = '/'
+const schemas = ['/db/container/']
 const auth = new Auth(url)
-const client = getClient(url, schema, auth)
 
 function App() {
+  const [currentSchema, setCurrentSchema] = useState('/db/container/')
+  const [clientInstance, setClientInstance] = useState<
+    GuillotinaClient | undefined
+  >(undefined)
   const [isLogged, setLogged] = useState(auth.isLogged)
+
+  useEffect(() => {
+    setClientInstance(getClient(url, currentSchema, auth))
+  }, [currentSchema])
 
   const onLogin = () => {
     setLogged(true)
@@ -56,19 +64,30 @@ function App() {
     setLogged(false)
   }
 
-  auth.onLogout = onLogout
+  if (clientInstance === undefined) {
+    return null
+  }
 
   return (
-    <ClientProvider client={client}>
+    <ClientProvider client={clientInstance}>
       <Layout auth={auth} onLogout={onLogout}>
-        {isLogged && <Guillotina auth={auth} url={schema} />}
+        {isLogged && (
+          <Guillotina
+            auth={auth}
+            url={currentSchema}
+            locale="en"
+            registry={{}}
+          />
+        )}
         {!isLogged && (
           <div className="columns is-centered">
-            <div className="columns is-half">
+            <div className="column is-half">
               <Login
                 onLogin={onLogin}
                 auth={auth}
-                currentSchema={schema}
+                schemas={schemas}
+                currentSchema={currentSchema}
+                setCurrentSchema={setCurrentSchema}
               />
             </div>
           </div>

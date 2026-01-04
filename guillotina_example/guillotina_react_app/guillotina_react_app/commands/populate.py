@@ -30,9 +30,13 @@ class PopulateData(Command):
             await addons.install(container, "dbusers")
             await addons.install(container, "image")
 
-            # Create group
-            await create_content_in_container(
-                container,
+            # Get groups and users folders (created by dbusers addon)
+            groups_folder = await container.async_get("groups")
+            users_folder = await container.async_get("users")
+
+            # Create group in groups folder
+            group = await create_content_in_container(
+                groups_folder,
                 "Group",
                 "group_view_content",
                 id="group_view_content",
@@ -42,9 +46,9 @@ class PopulateData(Command):
                 check_constraints=False,
             )
 
-            # Create user
+            # Create user in users folder
             await create_content_in_container(
-                container,
+                users_folder,
                 "User",
                 "default",
                 id="default",
@@ -56,6 +60,15 @@ class PopulateData(Command):
                 contributors=("root",),
                 check_constraints=False,
             )
+
+            # Add user to group (update group's users property)
+            # Get the group again to ensure we have the latest version
+            group = await groups_folder.async_get("group_view_content")
+            if not hasattr(group, "users") or group.users is None:
+                group.users = []
+            if "default" not in group.users:
+                group.users.append("default")
+            group.register()
 
             # Create folder
             folder = await create_content_in_container(

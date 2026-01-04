@@ -1,6 +1,6 @@
 {
   "name": "@guillotinaweb/react-gmi",
-  "version": "0.34.1",
+  "version": "0.34.2",
   "description": "React framework for building Guillotina admin interfaces",
   "repository": {
     "type": "git",
@@ -21,7 +21,8 @@
       "import": "./dist/react-gmi.modern.js",
       "require": "./dist/react-gmi.js",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./css/style.css": "./dist/css/style.css"
   },
   "scripts": {
     "dev": "vite --config playground/vite.config.ts",
