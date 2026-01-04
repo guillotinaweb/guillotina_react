@@ -4,7 +4,8 @@ import pytest
 pytestmark = [pytest.mark.asyncio]
 
 
-async def test_install(guillotina_react_app_requester):  # noqa
-    async with guillotina_react_app_requester as requester:
-        response, _ = await requester('GET', '/db/guillotina/@addons')
-        assert 'guillotina_react_app' in response['installed']
+async def test_install(app_react_app):
+    guillotina = app_react_app
+    resp, status = await guillotina("GET", "/db/container/@addons")
+    assert status == 200
+    assert "dbusers" in resp["installed"]

@@ -11,39 +11,6 @@ from guillotina.content import create_content_in_container
 from guillotina.events import ObjectAddedEvent
 from guillotina.event import notify
 
-items = [
-    {
-        "id":"first_item",
-        "title":"First item",
-        "@type": "GMI",
-        "text_richtext_field":"<p>Item</p>",
-        "text_field": "Text field",
-        "number_field": 4,
-        "boolean_field":True,
-        "list_field":["item"],
-        "choice_field":"plone"
-    },
-    {
-        "id":"second_item",
-        "title":"Second item",
-        "@type": "GMI",
-        "text_richtext_field":"<p>Item</p>",
-        "text_field": "Second item text field",
-        "number_field": 2,
-        "boolean_field":True,
-        "choice_field":"guillotina"
-    },
-    {
-        "id":"third_item",
-        "title":"Third item",
-        "@type": "GMI",
-        "text_richtext_field":"<p>Item</p>",
-        "text_field": "Third item text field",
-        "number_field": 2,
-        "boolean_field":False,
-        "choice_field":"guillotina"
-    }
-]
 
 class PopulateData(Command):
     def get_parser(self):
@@ -51,7 +18,7 @@ class PopulateData(Command):
         parser.add_argument("--container_id", help="container_id", required=True)
         return parser
 
-    async def run(self, arguments, settings, app):
+    async def run(self, arguments, _settings, _app):
         container_id = arguments.container_id
         async with transaction(db=await get_database("db")) as txn:
             root = await txn.manager.get_root()
@@ -63,30 +30,64 @@ class PopulateData(Command):
             await addons.install(container, "dbusers")
             await addons.install(container, "image")
 
-            folder = await create_content_in_container(
+            # Create group
+            await create_content_in_container(
                 container,
-                "Folder",
-                "folder_with_gmi",
-                id="folder_with_gmi",
+                "Group",
+                "group_view_content",
+                id="group_view_content",
                 creators=("root",),
                 contributors=("root",),
-                title="Folder with gmi",
+                title="group_view_content",
                 check_constraints=False,
             )
 
-            for item in items:
+            # Create user
+            await create_content_in_container(
+                container,
+                "User",
+                "default",
+                id="default",
+                username="default",
+                password="default",
+                email="default@test.com",
+                user_groups=["group_view_content"],
+                creators=("root",),
+                contributors=("root",),
+                check_constraints=False,
+            )
+
+            # Create folder
+            folder = await create_content_in_container(
+                container,
+                "Folder",
+                "gmi_folder",
+                id="gmi_folder",
+                creators=("root",),
+                contributors=("root",),
+                title="GMI Folder",
+                check_constraints=False,
+            )
+
+            # Create 50 GMI items
+            choice_fields = ["date", "integer", "text", "float", "keyword", "boolean"]
+            vocabulary_choices = ["plone", "guillotina"]
+
+            for i in range(50):
+                item_data = {
+                    "title": f"Test GMI item {i}",
+                    "number_field": i,
+                    "boolean_field": i % 2 == 0,
+                    "choice_field_vocabulary": vocabulary_choices[i % 2],
+                    "choice_field": choice_fields[i % 6],
+                }
                 obj = await create_content_in_container(
-                    parent=folder, 
-                    type_="GMI", 
+                    parent=folder,
+                    type_="GMI",
                     creators=("root",),
                     contributors=("root",),
-                    check_security=False, 
-                    id_=item['id'], 
-                    **item
+                    check_security=False,
+                    id_=f"test_gmi_item_{i}",
+                    **item_data,
                 )
-                await notify(ObjectAddedEvent(obj, folder, obj.id, payload=item))
-                
-                
-
-
-
+                await notify(ObjectAddedEvent(obj, folder, obj.id, payload=item_data))

@@ -15,3 +15,11 @@ start-guillotina:
 
 populate-guillotina:
 	guillotina -c config.yaml populate --container_id=container
+
+tests:
+	DATABASE=postgres pytest -s -x guillotina_react_app/tests/
+
+format:
+	flake8 guillotina_react_app --config=setup.cfg
+	black guillotina_react_app
+	isort guillotina_react_app
