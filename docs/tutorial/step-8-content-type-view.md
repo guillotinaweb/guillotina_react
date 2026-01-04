@@ -1,21 +1,20 @@
 ## 8. Content type view
 
-Go to demoType object view, you can see the same as the folder type. Let's modify it.
+Go to the DemoType object view. You can see the same as the folder type. Let's modify it.
 
-Create `gmi_demo/src/views/demoType.js`
+Create `gmi_demo/src/views/demoType.tsx`:
 
-```jsx
-  import React from "react";
-  import {
-    TabsPanel,
-    ContextToolbar,
-    PanelItems,
-    PanelActions,
-    useTraversal,
-    PanelProperties,
-    PanelPermissions,
-    PanelBehaviors,
-  } from "@guillotinaweb/react-gmi";
+```tsx
+import {
+  TabsPanel,
+  ContextToolbar,
+  PanelItems,
+  PanelActions,
+  useTraversal,
+  PanelProperties,
+  PanelPermissions,
+  PanelBehaviors,
+} from '@guillotinaweb/react-gmi'
 
   const tabs = {
     Items: PanelItems,
@@ -48,7 +47,7 @@ Create `gmi_demo/src/views/demoType.js`
 
 ```
 
-Now we will define which view we want in DemoType object. Modify `App.js`
+Now we will define which view we want for DemoType objects. Modify `gmi_demo/src/App.tsx`:
 
 ```diff
 
@@ -71,9 +70,9 @@ const registry = {
 
 ```
 
- You can add more tabs in our custom view.
+You can add more tabs to your custom view.
 
-`demoType.js`
+`demoType.tsx`
 
 ```diff
 
@@ -104,9 +103,9 @@ const tabsPermissions = {
 
 ### Modify list columns
 
-We have our custom view of new custom content type. Now let's modify list columns. 
+We have our custom view for the new custom content type. Now let's modify the list columns. 
 
-Create `gmi_dmeo/src/components/columns/demoType.js`
+Create `gmi_demo/src/components/columns/demoType.tsx`
 
 ```jsx
 import React from "react";
@@ -175,7 +174,7 @@ export const ColumnsDemoType = () => {
 Here we have added the path column.
 
 
-Open again `App.js`:
+Open again `App.tsx`:
 
 
 ```diff
@@ -204,16 +203,16 @@ const registry = {
 
 ### Properties fields
 
-Guillotina exposes a json schema of each content type. In GMI we use this schema to auto generate all fields. The handler to get schema information and create the appropiate fields is `EditableField` component. In `EditableField` there are two main components, `EditComponent` and `RenderFieldComponent` both of them can be overrided. 
+Guillotina exposes a JSON schema for each content type. In GMI, we use this schema to automatically generate all fields. The handler to get schema information and create the appropriate fields is the `EditableField` component. In `EditableField`, there are two main components: `EditComponent` and `RenderFieldComponent`. Both of them can be overridden. 
 
-`EditComponent` returns input component according to the schema information. For example, if the type is `number` it returns a number input type.
-`RenderFieldComponent` renders field value depending on the type ( or other property ). If you want to render the formatted value you can overided it. 
+`EditComponent` returns an input component according to the schema information. For example, if the type is `number`, it returns a number input type.
+`RenderFieldComponent` renders the field value depending on the type (or other property). If you want to render the formatted value, you can override it. 
 
 Demo content type has a rich text field, this property is a `Text` but we have defined a widget called `richtext`. By default, GMI renders `Text` type in textarea. Let's modify it to render another component. 
 
 ## Edit component
 
-Create `gmi_demo/src/components/fields/EditComponent.js`, this is the default EditComponent. You can see when widget is textarea or richtext, we render `Textarea` component. 
+Create `gmi_demo/src/components/fields/EditComponent.tsx`, this is the default EditComponent. You can see when widget is textarea or richtext, we render `Textarea` component. 
 
 ```jsx
 import React from "react";
@@ -324,17 +323,13 @@ export default EditComponent
 ```
 
 
-Install tinymce:
+Install TinyMCE:
 
-```
-npm install --save @tinymce/tinymce-react
-```
-or 
-```
-yarn add -s @tinymce/tinymce-react
+```bash
+pnpm add @tinymce/tinymce-react
 ```
 
-Create rich text edit component `src/components/fields/RichText.js`
+Create rich text edit component `src/components/fields/RichText.tsx`
 
 ```jsx
 import { Editor } from "@tinymce/tinymce-react";
@@ -372,7 +367,7 @@ export const RichText = ({ val, setValue, id, placeholder }) => {
 };
 ```
 
-Now modify `EditComponent.js` 
+Now modify `EditComponent.tsx` 
 
 
 ```diff
@@ -411,7 +406,7 @@ if (schema?.widget === 'textarea' || schema?.widget === 'richtext') {
 
 ```
 
-Finally update `App.js`
+Finally update `App.tsx`
 
 ```diff
 
@@ -447,7 +442,7 @@ But it is not finished because after updating the field, we see html and not par
 
 ### Render field component
 
-Create `src/components/fields/RenderFieldComponent.js`
+Create `src/components/fields/RenderFieldComponent.tsx`
 
 ```jsx
 import { DownloadField, RenderField } from "@guillotinaweb/react-gmi";
@@ -486,7 +481,7 @@ export function RenderFieldComponent({ schema, field, val, modifyContent }) {
 
 ```
 
-As always, update registry in `App.js`
+As always, update registry in `App.tsx`
 
 ```diff
 

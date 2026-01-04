@@ -1,42 +1,51 @@
-## 6. Configure main app to login in root or in any container.
+## 6. Configure main app to log in to root or any container
 
-### Configure differents schemas
+### Configure different schemas
 
-Modify App.js to be able to choose diferent schemas when login
+Modify `App.tsx` to be able to choose different schemas when logging in:
 
-```jsx
+```tsx
+import { useState, useEffect } from 'react'
+import {
+  Layout,
+  Auth,
+  Guillotina,
+  Login,
+  getClient,
+  ClientProvider,
+} from '@guillotinaweb/react-gmi'
 
-// same imports
-
-// guillotina url
-let url = "http://127.0.0.1:8080";
-const schemas = ["/", "/db/container/"];
-const auth = new Auth(url);
+// Guillotina server URL
+const url = 'http://127.0.0.1:8080'
+const schemas = ['/', '/db/container/']
+const auth = new Auth(url)
 
 function App() {
   const [currentSchema, setCurrentSchema] = useState(
-    localStorage.getItem("currentSchema") ?? "/"
-  );
-  const [clientInstance, setClientInstance] = useState(undefined);
-  const [isLogged, setLogged] = useState(auth.isLogged);
+    localStorage.getItem('currentSchema') ?? '/'
+  )
+  const [clientInstance, setClientInstance] = useState<
+    ReturnType<typeof getClient> | undefined
+  >(undefined)
+  const [isLogged, setLogged] = useState(auth.isLogged)
 
   useEffect(() => {
-    setClientInstance(getClient(url, currentSchema, auth));
-  }, [currentSchema]);
+    setClientInstance(getClient(url, currentSchema, auth))
+  }, [currentSchema])
 
   const onLogin = () => {
-    localStorage.setItem("currentSchema", currentSchema);
-    setLogged(true);
-  };
+    localStorage.setItem('currentSchema', currentSchema)
+    setLogged(true)
+  }
 
   const onLogout = () => {
-    localStorage.removeItem("currentSchema");
-    setCurrentSchema("/");
-    setLogged(false);
-  };
+    localStorage.removeItem('currentSchema')
+    setCurrentSchema('/')
+    setLogged(false)
+  }
 
   if (clientInstance === undefined) {
-    return null;
+    return null
   }
 
   return (
@@ -45,7 +54,7 @@ function App() {
         {isLogged && <Guillotina auth={auth} url={currentSchema} />}
         {!isLogged && (
           <div className="columns is-centered">
-            <div className="columns is-half">s
+            <div className="columns is-half">
               <Login
                 onLogin={onLogin}
                 auth={auth}
@@ -58,38 +67,38 @@ function App() {
         )}
       </Layout>
     </ClientProvider>
-  );
+  )
 }
 
-export default App;
+export default App
 ```
 
-We can choose in which places we will login. Root user can login in both places but new user can only login in the new container.
-After logging in as the new user, you can not acces to the container. To give access content and view content permissions, login as root user and go to container permissions tab.
+We can choose in which places we will log in. The root user can log in to both places, but a new user can only log in to the new container.
+After logging in as the new user, you cannot access the container. To grant access to content and view content permissions, log in as the root user and go to the container permissions tab.
 
 
-### Users permissions
+### User permissions
 
 Go to permissions tab.
 
-In right section, choose `Principal Roles` option, then select principal, in this case our user. Then select guillotina.Reader and guillotina.Member roles and finally `Allow` operation.
+In the right section, choose the `Principal Roles` option, then select a principal (in this case, our user). Then select the guillotina.Reader and guillotina.Member roles and finally click the `Allow` operation.
 
-If you want, you could add user in some group and do the same action with it. 
+If you want, you could add the user to a group and perform the same action with it. 
 
 > More info about permissions in <a href="https://guillotina.readthedocs.io/en/latest/developer/security.html"> guillotina docs. </a>
 
-Retry to login as the new user. Now you can see the container. 
+Try logging in as the new user again. Now you can see the container. 
 
-### Create new permission to acces in GMI. 
+### Create new permission to access GMI 
 
 Now we will create a new permission to allow/deny users to login. Create new file `guillotina_demo/guillotina_demo/permissions.py`
 
 ```py
 from guillotina import configure
 
-configure.permission("guillotina_demo.AccesGMI", "Acces to GMI")
+configure.permission("guillotina_demo.AccesGMI", "Access to GMI")
 
-configure.role("guillotina_demo.GMIUser", "GMIUser", "Have acces to GMI", True)
+configure.role("guillotina_demo.GMIUser", "GMIUser", "Have access to GMI", True)
 
 configure.grant(permission="guillotina_demo.AccesGMI", role="guillotina_demo.GMIUser")
 ```
@@ -117,10 +126,10 @@ def includeme(root):
 
 Now we will modify the login function in GMI
 
-Create `gmi_demo/src/lib/auth.js`
+Create `gmi_demo/src/lib/auth.ts`:
 
-```js
-import { Auth } from "@guillotinaweb/react-gmi";
+```ts
+import { Auth } from '@guillotinaweb/react-gmi'
 
 export class CustomAuth extends Auth {
   async login(username, password) {
@@ -177,7 +186,7 @@ export class CustomAuth extends Auth {
 
 ```
 
-Finally update `gmi_demo/src/App.js` to use customAuth class
+Finally update `gmi_demo/src/App.tsx` to use CustomAuth class
 
 
 ```diff
@@ -194,9 +203,9 @@ Finally update `gmi_demo/src/App.js` to use customAuth class
 
 ```
 
-At this point, you can only login as the `root` user, you need to add the users that you want to have acces to GMI in Permission tab in container view.
+At this point, you can only log in as the `root` user. You need to add the users that you want to have access to GMI in the Permissions tab in the container view.
 
-The role and permission than you have created should appear in selects. 
+The role and permission that you have created should appear in the selects. 
 
 ![](screenshots/new-permissions.png)
 

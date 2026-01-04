@@ -28,7 +28,7 @@ UI elements render based on Guillotina permissions. Tabs, actions, and fields ap
 | Vite | Fast build tool with HMR, generates CJS and ESM outputs |
 | Bulma CSS + Sass | Extensible CSS without JS dependencies |
 | react-intl | Industry standard i18n |
-| Vitest + Cypress | Fast unit tests + E2E validation |
+| Vitest + Playwright | Fast unit tests + E2E validation |
 | pnpm | Fast, disk-efficient package manager |
 
 ## AI Decision Framework

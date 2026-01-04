@@ -195,13 +195,15 @@ pnpm test --watch  # Watch mode
 
 Test files: `*.test.ts` or `*.test.tsx` alongside source files.
 
-### E2E Tests (Cypress)
+### E2E Tests (Playwright)
 ```bash
 pnpm test:e2e                 # Run E2E tests (headless)
 # Or manually:
 cd e2e
-pnpm cypress:open:guillotina  # Interactive mode
-pnpm cypress:run:guillotina   # Headless mode
+pnpm playwright:test          # Headless mode
+pnpm playwright:headed        # Headed (browser) mode
+pnpm playwright:ui            # UI mode
+pnpm playwright:debug         # Debug mode
 ```
 
 Requires running Guillotina server (see `e2e/README.md`).

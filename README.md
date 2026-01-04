@@ -1,48 +1,46 @@
 # 🔌 Guillotina Management Interface
 
-It's build around the idea of a framework to roll you own GMI.
+A **framework-first React UI layer** for [Guillotina](https://guillotina.io/), enabling developers to build custom content management interfaces. It's built around the idea of a framework to roll your own GMI.
 
 Provides an interface to access all Guillotina content depending on user permissions and allowing you to apply actions like create/modify/remove content, UI interactions like displaying flash messages, etc.
 
-All this with the flexibility to build it your way, adding your own content with your forms, your icons, etc. It's build around the idea to act as a framework,
-layer that could be extended from outside.
+All this with the flexibility to build it your way, adding your own content with your forms, your icons, etc. It's built around the idea to act as a framework layer that could be extended from outside via the **registry pattern**.
 
 ## Prerequisites
 
-- React +16.12.0
+- React 16.12+ / 17 / 18 / 19
+- Node.js 20+
+- TypeScript 5.4+
 
 ## Status
 
-Alpha version. The app is usable, but still needs some love.
+Stable version. Actively maintained and used in production.
 
-## Roll your own guillotina
-
-### With create react app
+## Quick Start
 
 ```bash
-
-npx create-react-app gmi_demo
+npm create vite@latest gmi_demo -- --template react-ts
 cd gmi_demo
-
-yarn add @guillotinaweb/react-gmi
-
+pnpm install
+pnpm add @guillotinaweb/react-gmi
 ```
 
-App.js
+`App.tsx`
 
-```jsx
-import React from 'react'
-import { Layout } from '@guillotinaweb/react-gmi'
-import { Auth } from '@guillotinaweb/react-gmi'
-import { Guillotina } from '@guillotinaweb/react-gmi'
-import { Login } from '@guillotinaweb/react-gmi'
-import { getClient } from '@guillotinaweb/react-gmi'
-import { ClientProvider } from '@guillotinaweb/react-gmi'
+```tsx
 import { useState } from 'react'
+import {
+  Layout,
+  Auth,
+  Guillotina,
+  Login,
+  getClient,
+  ClientProvider,
+} from '@guillotinaweb/react-gmi'
 import '@guillotinaweb/react-gmi/dist/css/style.css'
 
-// guillotina url
-let url = 'http://localhost:8080'
+// Guillotina server URL
+const url = 'http://localhost:8080'
 const schema = '/'
 const auth = new Auth(url)
 const client = getClient(url, schema, auth)
@@ -53,10 +51,10 @@ function App() {
   const onLogin = () => {
     setLogged(true)
   }
-  
+
   const onLogout = () => {
-    setLogged(false);
-  };
+    setLogged(false)
+  }
 
   auth.onLogout = onLogout
 
@@ -67,7 +65,7 @@ function App() {
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-               <Login
+              <Login
                 onLogin={onLogin}
                 auth={auth}
                 currentSchema={schema}
@@ -80,44 +78,85 @@ function App() {
   )
 }
 
-
 export default App
 ```
 
-### To add icons:
+### Adding Icons
 
-Add the icons to the default public/index.html header
+Add Font Awesome icons to your HTML:
 
-```diff
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-+ <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-<meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+```html
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 ```
 
-- Copy guillotina logo to your public
+### Extending with Registry Pattern
+
+The framework uses a registry system that allows you to override views, forms, actions, and behaviors:
+
+```tsx
+<Guillotina
+  auth={auth}
+  url={schema}
+  registry={{
+    views: {
+      MyCustomType: MyCustomView,
+    },
+    forms: {
+      MyCustomType: MyCustomForm,
+    },
+    actions: {
+      myAction: MyActionModal,
+    },
+    behaviors: {
+      'my.behavior.Interface': MyBehaviorPanel,
+    },
+  }}
+/>
+```
+
+See the [Extension Guide](docs/extend.md) for detailed examples.
+
+## Documentation
+
+- [Getting Started - Step by Step](docs/tutorial/tutorial.md) - Complete tutorial
+- [Development Setup](docs/development-setup.md) - Set up your local environment
+- [Extension Guide](docs/extend.md) - How to extend and customize
+- [API Documentation](docs/api.md) - Component and hook reference
+
+## Development
+
+### Prerequisites
+
+- Node.js 20+
+- pnpm 9+ (`npm install -g pnpm`)
+- Docker (for running Guillotina)
+
+### Quick Start
 
 ```bash
-curl https://raw.githubusercontent.com/guillotinaweb/guillotina_react/master/public/logo.svg > public/logo.svg
+# Clone and install
+git clone git@github.com:guillotinaweb/guillotina_react.git
+cd guillotina_react
+pnpm install
 
+# Start Guillotina backend (see docs/development-setup.md for details)
+docker run -d --name postgres -e POSTGRES_DB=guillotina -e POSTGRES_USER=guillotina -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 postgres:18
+docker run --rm -it --link=postgres -p 8080:8080 plone/guillotina:latest
+
+# Start development server
+pnpm dev
 ```
 
-## Docs?
+### Available Scripts
 
-- [Howto Extend Guillotina React form outside?](docs/extend.md)
-- [Narrative Docs](docs/api.md)
-- [Getting Started - Step by Step](docs/tutorial/tutorial.md)
-
-## Develop
-
-```
-run a local guillotina
-yarn
-yarn start
-
-```
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start playground with HMR (Vite) |
+| `pnpm build` | Build the library (JS + CSS) using Vite |
+| `pnpm test` | Run unit tests (Vitest) |
+| `pnpm test:e2e` | Run E2E tests (Playwright) |
+| `pnpm lint` | Run ESLint |
+| `pnpm format` | Format with Prettier |
 
 ## Screenshots
 
@@ -130,3 +169,4 @@ yarn start
 This project is sponsored by <a href="https://iskra.cat">Iskra</a>
 
 <a href="https://iskra.cat"><img src="https://storage.googleapis.com/iskra/iskra-logo.png" /></a>
+

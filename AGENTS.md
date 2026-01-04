@@ -37,7 +37,7 @@ UI elements render based on Guillotina permissions. Tabs, actions, and fields ap
 |------------|------------|
 | TypeScript 5.4+ (strict) | Framework reliability and type-safe extensions |
 | React 16.12+ - 19 | Wide compatibility for consumer applications |
-| Microbundle | Multiple outputs (CJS, ESM, UMD) for any build system |
+| Vite | Fast build tool with HMR, generates CJS and ESM outputs |
 | Bulma CSS + Sass | Extensible CSS without JS dependencies |
 | react-intl | Industry standard i18n |
 | Vitest + Playwright | Fast unit tests + E2E validation |

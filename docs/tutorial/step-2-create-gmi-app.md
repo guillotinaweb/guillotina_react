@@ -1,52 +1,52 @@
 
 
-## 2. Create GMI application with create react app
+## 2. Create GMI application with Vite and TypeScript
 
-Create folder at the same level than guillotina app
+Create folder at the same level as the Guillotina app.
 
 ```bash
 cd tutorial-gmi
-npx create-react-app gmi_demo
+npm create vite@latest gmi_demo -- --template react-ts
 cd gmi_demo
-
-yarn add -s @guillotinaweb/react-gmi
-
+pnpm install
+pnpm add @guillotinaweb/react-gmi
 ```
 
-### Modify App.js
+### Modify App.tsx
 
 
-```jsx
-import React from 'react'
-import { Layout } from '@guillotinaweb/react-gmi'
-import { useLocation } from '@guillotinaweb/react-gmi'
-import { Auth } from '@guillotinaweb/react-gmi'
-import { Guillotina } from '@guillotinaweb/react-gmi'
-import { Login } from '@guillotinaweb/react-gmi'
-import { getClient } from '@guillotinaweb/react-gmi'
-import { ClientProvider } from '@guillotinaweb/react-gmi'
+```tsx
 import { useState } from 'react'
+import {
+  Layout,
+  useLocation,
+  Auth,
+  Guillotina,
+  Login,
+  getClient,
+  ClientProvider,
+} from '@guillotinaweb/react-gmi'
 import '@guillotinaweb/react-gmi/dist/css/style.css'
 
-// guillotina url
-let url = 'http://localhost:8080'
+// Guillotina server URL
+const url = 'http://localhost:8080'
 const schema = '/'
 const auth = new Auth(url)
 const client = getClient(url, schema, auth)
 
 function App() {
-  const [, , remove] = useLocation();
+  const [, , remove] = useLocation()
   const [isLogged, setLogged] = useState(auth.isLogged)
 
   const onLogin = () => {
     setLogged(true)
   }
-  
+
   const onLogout = () => {
-    setLogged(false);
-    remove("tab");
-    remove("path");
-  };
+    setLogged(false)
+    remove('tab')
+    remove('path')
+  }
 
   auth.onLogout = onLogout
 
@@ -57,7 +57,7 @@ function App() {
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-               <Login
+              <Login
                 onLogin={onLogin}
                 auth={auth}
                 currentSchema={schema}
@@ -70,15 +70,14 @@ function App() {
   )
 }
 
-
 export default App
 ```
 
-Client provider allows us to get guillotina client by `useGuillotinaClient` hook in whereever we want.
+The `ClientProvider` allows us to access the Guillotina client using the `useGuillotinaClient` hook wherever we want.
 
-`Guillotina` component is the main component, it is de base context that uses, on traversal, and it exposes an API for managening and sharing actions on screens.
+The `Guillotina` component is the main component. It is the base context that uses traversal and exposes an API for managing and sharing actions on screens.
 
-### To add icons:
+### Adding icons
 
 Add the icons to the default public/index.html header
 
@@ -87,22 +86,24 @@ Add the icons to the default public/index.html header
 + <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Web site created using Vite"
     />
 ```
 
-- Copy guillotina logo to your public
+- Copy the Guillotina logo to your public folder
 
 ```bash
 curl https://raw.githubusercontent.com/guillotinaweb/guillotina_react/master/public/logo.svg > public/logo.svg
 
 ```
 
-### Start server
+### Start development server
 
+```bash
+pnpm dev
 ```
-npm run start
-```
+
+The application will be available at `http://127.0.0.1:5173`.
 
 
 [Previous step](step-1-install-guillotina.md) 

@@ -23,7 +23,7 @@ pnpm install
 pnpm dev
 ```
 
-The playground will be available at `http://localhost:5173`
+The playground will be available at `http://127.0.0.1:5173`
 
 ## Setting up Guillotina
 
@@ -78,15 +78,21 @@ docker run -d \
     -e POSTGRES_USER=guillotina \
     -e POSTGRES_HOST_AUTH_METHOD=trust \
     -p 127.0.0.1:5432:5432 \
-    postgres:15
+    postgres:18
 
 # Run Guillotina
-g -c guillotina_example/guillotina_react_app/config.yaml
+guillotina -c guillotina_example/guillotina_react_app/config.yaml
 ```
 
 ## Initial Setup in Guillotina
 
-After starting Guillotina for the first time, you need to create a database and container:
+After starting Guillotina for the first time, you need to create a database and container.
+
+### Option 1: Using GUI (Recommended for first-time setup)
+
+Simply open the playground at `http://127.0.0.1:5173` and navigate through the UI to create the database and container.
+
+### Option 2: Using curl commands
 
 ```bash
 # Create database (if not exists)
@@ -102,7 +108,32 @@ curl -X POST http://localhost:8080/db \
     -d '{"@type": "Container", "id": "container_test", "title": "Test Container"}'
 ```
 
-Or simply open the playground and navigate through the UI to create them.
+### Option 3: Using Guillotina populate command
+
+The example app includes a `populate` command that creates a container with test data (users, groups, folders, and sample content):
+
+```bash
+# Using Docker (from project root)
+docker run --rm \
+    --link=pg_guillotina_react \
+    -v $PWD/guillotina_example/guillotina_react_app:/app/guillotina_react_app \
+    plone/guillotina:latest \
+    g -c /app/guillotina_react_app/config-e2e.yaml populate --container_id=container
+
+# Using local installation (after activating venv)
+cd guillotina_example/guillotina_react_app
+guillotina populate -c config-e2e.yaml --container_id=container
+```
+
+The populate command creates:
+- A container with the specified ID
+- Installs `dbusers` and `image` addons
+- Creates a test group (`group_view_content`)
+- Creates a test user (`default` / `default`)
+- Creates a folder (`gmi_folder`)
+- Creates 50 sample GMI items with various field types
+
+This is useful for quickly setting up test data for development and testing.
 
 ## Development Workflow
 
@@ -110,10 +141,12 @@ Or simply open the playground and navigate through the UI to create them.
 
 | Command | Description |
 |---------|-------------|
-| `pnpm dev` | Start playground with HMR |
-| `pnpm build` | Build the library (JS + CSS) |
+| `pnpm dev` | Start playground with HMR (Vite dev server) |
+| `pnpm build` | Build the library (JS + CSS) using Vite |
+| `pnpm build:playground` | Build playground for preview/testing |
+| `pnpm preview` | Preview built playground (port 4173) |
 | `pnpm test` | Run unit tests (Vitest) |
-| `pnpm test:e2e` | Run E2E tests (Playwright) |
+| `pnpm test:e2e` | Run E2E tests (Playwright, auto-builds playground) |
 | `pnpm lint` | Run ESLint |
 | `pnpm format` | Format code with Prettier |
 
@@ -128,15 +161,16 @@ pnpm test
 #### E2E Tests
 
 E2E tests require:
-1. PostgreSQL running
-2. Guillotina running
-3. Playground built and in preview mode
+1. PostgreSQL running on port 5432
+2. Guillotina running on port 8080
+3. Playwright automatically builds and serves the playground on port 4173
 
 ```bash
-# Option 1: All-in-one (Playwright builds playground automatically)
+# Option 1: All-in-one (from project root)
+# Playwright builds playground and starts preview server automatically
 pnpm test:e2e
 
-# Option 2: Manual mode
+# Option 2: Manual mode (from e2e directory)
 cd e2e
 pnpm install
 pnpm playwright:test          # Headless mode
@@ -144,6 +178,8 @@ pnpm playwright:headed        # Headed (browser) mode
 pnpm playwright:ui            # UI mode
 pnpm playwright:debug         # Debug mode
 ```
+
+**Note**: The Playwright config (`e2e/playwright.config.js`) includes a `webServer` that automatically builds and serves the playground, so you don't need to manually build it.
 
 ### Building the Library
 
@@ -184,26 +220,46 @@ When using the provided Guillotina configuration:
 ### Port already in use
 
 ```bash
-# Find process using port 8080
-lsof -i :8080
+# Find process using a specific port
+lsof -i :8080  # Guillotina
+lsof -i :5432  # PostgreSQL
+lsof -i :5173  # Vite dev server
+lsof -i :4173  # Vite preview server
 
-# Kill PostgreSQL container
+# Stop and remove Docker containers
+docker stop pg_guillotina_react && docker rm pg_guillotina_react
 docker stop postgres && docker rm postgres
 ```
 
 ### CORS issues
 
 Make sure your Guillotina config includes the development URLs in `cors.allow_origin`:
-- `http://localhost:5173` (dev server)
-- `http://localhost:4173` (preview server)
+- `http://127.0.0.1:5173` or `http://localhost:5173` (dev server)
+- `http://127.0.0.1:4173` or `http://localhost:4173` (preview server)
+
+The playground is configured to use `127.0.0.1` by default, but both work.
 
 ### TypeScript errors in playground
 
-The playground uses path aliases to import from the library source. Make sure you have the latest dependencies:
+The playground uses path aliases (`@guillotinaweb/react-gmi`) to import from the library source directly. If you see TypeScript errors:
 
+1. Make sure you have the latest dependencies:
 ```bash
 pnpm install
 ```
+
+2. Restart the TypeScript server in your IDE
+
+3. Verify the alias is working in `playground/vite.config.ts`
+
+### E2E tests failing
+
+If E2E tests fail to connect:
+
+1. **Check Guillotina is running**: `curl http://localhost:8080`
+2. **Check PostgreSQL is running**: `docker ps | grep postgres`
+3. **Check preview server**: Playwright should start it automatically, but verify `http://localhost:4173` is accessible
+4. **Check container exists**: Make sure `container_test` exists in Guillotina (see Initial Setup section)
 
 ## Additional Resources
 
