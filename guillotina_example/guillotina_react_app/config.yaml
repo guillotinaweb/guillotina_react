@@ -46,3 +46,9 @@ jwt:
   secret: foobar
   algorithm: HS256
   token_expiration: 86400
+
+load_catalog: true
+load_utilities:
+  catalog:
+    provides: guillotina.interfaces.ICatalogUtility
+    factory: guillotina.contrib.catalog.pg.utility.PGSearchUtility
