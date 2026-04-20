@@ -2,11 +2,13 @@ import datetime
 import pytest
 import json
 
+from guillotina_react_app.tests.fixtures import NOT_POSTGRES
+
 pytestmark = pytest.mark.asyncio
 today = datetime.date.today()
 year = today.year
 
-
+@pytest.mark.skipif(NOT_POSTGRES, reason="Skipping test because not using PostgreSQL") 
 async def test_security(app_react_app_with_test_data):
     guillotina = app_react_app_with_test_data
     _, status = await guillotina(
@@ -44,9 +46,6 @@ async def test_security(app_react_app_with_test_data):
         "GET", "/db/container/@search?depth=1", headers={"Authorization": f"Bearer {token}"}, authenticated=False
     )
     assert status == 200
-    import pdb
-
-    pdb.set_trace()
     assert resp["items_total"] == 3
 
     _, status = await guillotina(
