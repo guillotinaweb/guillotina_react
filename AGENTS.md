@@ -1,6 +1,6 @@
-# AGENTS.md - AI Agent Instructions
+# AGENTS.md
 
-This file contains instructions and context for AI agents working on the Guillotina React project. Compatible with both Cursor and VSCode AI assistants.
+Single source of truth for AI coding agents working on the Guillotina React project.
 
 ## Business Purpose
 
@@ -660,11 +660,3 @@ refactor/strict-mode
 - [Tutorial](docs/tutorial/tutorial.md)
 - [Contributing Guide](CONTRIBUTING.md)
 - [Guillotina Documentation](https://guillotina.readthedocs.io/)
-
-## Related Instruction Files
-
-For more detailed context, see:
-- [Functional Context](.github/instructions/project-functional.instructions.md) - Domain concepts, Guillotina integration
-- [Technical Guidelines](.github/instructions/project-technical.instructions.md) - Code patterns, testing, build
-- [Git Conventions](.github/instructions/git-commit.instructions.md) - Commit standards, branch naming
-- [Copilot Instructions](.github/copilot-instructions.md) - Strategic overview and decision framework
