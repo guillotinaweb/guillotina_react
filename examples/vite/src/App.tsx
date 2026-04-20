@@ -14,7 +14,7 @@ import {
   TdLink,
 } from '@guillotinaweb/react-gmi'
 import { Fragment, useState, useEffect } from 'react'
-import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
+import '@guillotinaweb/react-gmi/css/style.css'
 
 // guillotina url
 const url = 'http://localhost:8080'

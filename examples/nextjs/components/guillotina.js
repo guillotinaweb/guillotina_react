@@ -9,7 +9,7 @@ import {
   Layout,
 } from '@guillotinaweb/react-gmi'
 
-import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
+import '@guillotinaweb/react-gmi/css/style.css'
 
 const url = 'http://localhost:8080'
 const schema = '/'
