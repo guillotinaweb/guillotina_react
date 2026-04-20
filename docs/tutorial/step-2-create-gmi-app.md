@@ -26,7 +26,7 @@ import {
   getClient,
   ClientProvider,
 } from '@guillotinaweb/react-gmi'
-import '@guillotinaweb/react-gmi/dist/css/style.css'
+import '@guillotinaweb/react-gmi/css/style.css'
 
 // Guillotina server URL
 const url = 'http://localhost:8080'

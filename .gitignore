@@ -37,9 +37,6 @@ e2e/test-results
 /playground/dist
 /playground/node_modules
 
-# pnpm
-pnpm-lock.yaml
-
 # Guillotina
 .python-version
 *.egg-info

@@ -1,4 +1,4 @@
-name: Format Check
+name: Lint
 
 on:
   push:
@@ -11,8 +11,8 @@ on:
       - main
 
 jobs:
-  format-check:
-    name: Check code formatting
+  lint:
+    name: Run ESLint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -33,5 +33,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check formatting
-        run: pnpm format:check
+      - name: Run ESLint
+        run: pnpm lint

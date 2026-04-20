@@ -23,23 +23,14 @@ jobs:
         with:
           version: 9.15.0
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+          cache: 'pnpm'
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            e2e/pnpm-lock.yaml
 
       - name: Start PostgreSQL
         run: |
@@ -63,11 +54,22 @@ jobs:
             --name guillotina \
             guillotina_e2e:latest
 
+      - name: Wait for Guillotina
+        run: |
+          for i in {1..60}; do
+            if curl -s http://127.0.0.1:8080 > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs guillotina
+          exit 1
+
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Install E2E dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
         working-directory: e2e
 
       - name: Install Playwright browsers
