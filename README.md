@@ -142,7 +142,13 @@ See the [Extension Guide](docs/extend.md) for detailed examples.
 - [Extension Guide](docs/extend.md) - How to extend and customize
 - [API Documentation](docs/api.md) - Component and hook reference
 
-## Development
+## Contributing
+
+Contributions are welcome. Before opening a PR, please read [CONTRIBUTING.md](CONTRIBUTING.md) and the full [Development Setup](docs/development-setup.md) guide.
+
+To start the project locally for development, follow the quick start below. Before submitting changes, run `pnpm lint`, `pnpm test`, and `pnpm build`.
+
+## Development Setup
 
 ### Prerequisites
 
@@ -157,14 +163,16 @@ See the [Extension Guide](docs/extend.md) for detailed examples.
 git clone git@github.com:guillotinaweb/guillotina_react.git
 cd guillotina_react
 pnpm install
+pnpm e2e:install
 
-# Start Guillotina backend (see docs/development-setup.md for details)
-docker run -d --name postgres -e POSTGRES_DB=guillotina -e POSTGRES_USER=guillotina -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 postgres:18
-docker run --rm -it --link=postgres -p 8080:8080 plone/guillotina:latest
+# Start Guillotina + Postgres (Docker Compose; see docs/development-setup.md)
+pnpm guillotina:up
 
-# Start development server
+# Start development server (separate terminal)
 pnpm dev
 ```
+
+The playground will be available at `http://127.0.0.1:5173`.
 
 ### Available Scripts
 
@@ -174,6 +182,10 @@ pnpm dev
 | `pnpm build` | Build the library (JS + CSS) using Vite |
 | `pnpm test` | Run unit tests (Vitest) |
 | `pnpm test:e2e` | Run E2E tests (Playwright) |
+| `pnpm e2e:install` | Install E2E deps + Playwright browsers |
+| `pnpm guillotina:up` | Start Postgres + example Guillotina (Compose, detached) |
+| `pnpm guillotina:logs` | Tail Compose logs |
+| `pnpm guillotina:down` | Stop Compose stack |
 | `pnpm lint` | Run ESLint |
 | `pnpm format` | Format with Prettier |
 

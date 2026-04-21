@@ -74,7 +74,12 @@ for (const loginType of LOGIN_TYPES) {
       ])
       // Wait for search results to appear and click
       await page.getByText('Test GMI item 9').click()
-      await page.getByRole('button', { name: 'Save' }).click()
+      await page
+        .locator(
+          `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-brother_gmi']`
+        )
+        .locator(EDITABLE_FORM_SELECTORS.btnSave)
+        .click({ force: true })
       await expect(page.locator(NOTIFICATION_SELECTOR)).toContainText(
         'Field brother_gmi, updated!'
       )
@@ -89,7 +94,12 @@ for (const loginType of LOGIN_TYPES) {
       ])
       // Wait for search results to appear and click
       await page.getByText('Test GMI item 6').click()
-      await page.getByRole('button', { name: 'Save' }).click()
+      await page
+        .locator(
+          `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-brother_gmi']`
+        )
+        .locator(EDITABLE_FORM_SELECTORS.btnSave)
+        .click({ force: true })
       await expect(page.locator(NOTIFICATION_SELECTOR)).toContainText(
         'Field brother_gmi, updated!'
       )
@@ -108,7 +118,7 @@ for (const loginType of LOGIN_TYPES) {
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
         )
         .locator(EDITABLE_FORM_SELECTORS.btnSave)
-        .click()
+        .click({ force: true })
       await expect(page.locator(NOTIFICATION_SELECTOR)).toContainText(
         'Field multiple_choice_field, updated!'
       )
@@ -127,7 +137,7 @@ for (const loginType of LOGIN_TYPES) {
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
         )
         .locator(EDITABLE_FORM_SELECTORS.btnSave)
-        .click()
+        .click({ force: true })
       await expect(page.locator(NOTIFICATION_SELECTOR)).toContainText(
         'Field multiple_choice_field_vocabulary, updated!'
       )
@@ -146,7 +156,7 @@ for (const loginType of LOGIN_TYPES) {
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-choice_field_vocabulary']`
         )
         .locator(EDITABLE_FORM_SELECTORS.btnSave)
-        .click()
+        .click({ force: true })
       await expect(page.locator(NOTIFICATION_SELECTOR)).toContainText(
         'Field choice_field_vocabulary, updated!'
       )
@@ -168,7 +178,7 @@ for (const loginType of LOGIN_TYPES) {
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-list_field']`
         )
         .locator(EDITABLE_FORM_SELECTORS.btnSave)
-        .click()
+        .click({ force: true })
       await expect(page.locator(NOTIFICATION_SELECTOR)).toContainText(
         'Field list_field, updated!'
       )

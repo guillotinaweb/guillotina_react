@@ -13,7 +13,8 @@ module.exports = defineConfig({
     ? [['list'], ['html', { outputFolder: 'playwright-report', open: 'never' }]]
     : 'list',
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:4173',
+    // Use 127.0.0.1 (same as playground App.tsx API URL) to avoid localhost vs IPv6 / CORS edge cases
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:4173',
     viewport: { width: 1536, height: 960 },
     trace: 'on-first-retry',
     // Enable headed mode via env variable or debug mode
@@ -23,7 +24,7 @@ module.exports = defineConfig({
   },
   webServer: {
     command: 'pnpm -C .. build:playground && pnpm -C .. preview',
-    url: 'http://localhost:4173',
+    url: 'http://127.0.0.1:4173',
     reuseExistingServer: true,
     timeout: 120000,
   },
