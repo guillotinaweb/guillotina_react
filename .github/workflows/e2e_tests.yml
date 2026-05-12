@@ -32,53 +32,33 @@ jobs:
             pnpm-lock.yaml
             e2e/pnpm-lock.yaml
 
-      - name: Start PostgreSQL
-        run: |
-          docker run -d \
-            --name postgres \
-            -e POSTGRES_DB=guillotina \
-            -e POSTGRES_USER=guillotina \
-            -e POSTGRES_HOST_AUTH_METHOD=trust \
-            -p 127.0.0.1:5532:5432 \
-            postgres:18
-
-      - name: Build Guillotina Docker image
-        run: docker build -t guillotina_e2e .
-        working-directory: guillotina_example/guillotina_react_app
-
-      - name: Run Guillotina
-        run: |
-          docker run -d \
-            --link=postgres \
-            -p 0.0.0.0:8080:8080 \
-            --name guillotina \
-            guillotina_e2e:latest
+      - name: Start Guillotina services
+        run: pnpm guillotina:up
 
       - name: Wait for Guillotina
         run: |
-          for i in {1..60}; do
-            if curl -s http://127.0.0.1:8080 > /dev/null; then
+          # Wait until @login succeeds (same path the app uses), not only until the port accepts TCP.
+          for i in {1..90}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+              -H 'Content-Type: application/json' \
+              -d '{"username":"root","password":"root"}' \
+              http://127.0.0.1:8080/@login || echo "000")
+            if [ "$code" = "200" ]; then
               exit 0
             fi
             sleep 2
           done
-          docker logs guillotina
+          docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml logs guillotina
           exit 1
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install E2E dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: e2e
-
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps
-        working-directory: e2e
+      - name: Install E2E dependencies and browsers
+        run: pnpm e2e:install
 
       - name: Run Playwright tests
-        run: pnpm playwright:test
-        working-directory: e2e
+        run: pnpm test:e2e
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4

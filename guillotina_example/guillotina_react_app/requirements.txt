@@ -1,4 +1,4 @@
-guillotina==7.0.6
+guillotina==7.1.0
 pillow==9.5
 flake8==6.1.0
 black==22.3.0

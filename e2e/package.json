@@ -15,5 +15,6 @@
     "playwright:ui": "pnpm exec playwright test --config playwright.config.js --ui",
     "playwright:debug": "PWDEBUG=1 pnpm exec playwright test --config playwright.config.js",
     "init-test-data": "node init-test-data.js"
-  }
+  },
+  "packageManager": "pnpm@9.15.0"
 }

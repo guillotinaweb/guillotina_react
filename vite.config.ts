@@ -26,12 +26,13 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'react-intl'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'jsxRuntime',
+          'react-intl': 'ReactIntl',
         },
         preserveModules: false,
       },

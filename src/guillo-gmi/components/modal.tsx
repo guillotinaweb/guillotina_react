@@ -1,4 +1,4 @@
-import usePortal from 'react-useportal'
+import { createPortal } from 'react-dom'
 import { Button } from './input/button'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
@@ -13,11 +13,10 @@ interface ModalProps {
 
 export function Modal(props: ModalProps) {
   const { isActive, setActive, children } = props
-  const { Portal } = usePortal()
 
   const css = 'modal ' + (isActive ? 'is-active ' : '') + props.className
-  return (
-    <Portal>
+  return createPortal(
+    <>
       <div className={css}>
         <div className="modal-background" onClick={() => setActive(false)} />
         <div className="modal-content">
@@ -29,7 +28,8 @@ export function Modal(props: ModalProps) {
           onClick={() => setActive(false)}
         />
       </div>
-    </Portal>
+    </>,
+    document.body
   )
 }
 

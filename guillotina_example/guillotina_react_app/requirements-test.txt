@@ -6,7 +6,7 @@ pytest-flake8==1.1.1
 coverage>=6.3.3
 docker==7.1.0
 docker-pycreds==0.4.0
-pytest-docker-fixtures>=1.4.3
+pytest-docker-fixtures>=1.4.4
 pytest-rerunfailures==10.2
 async-asgi-testclient==1.4.11
 vcrpy==4.1.1
