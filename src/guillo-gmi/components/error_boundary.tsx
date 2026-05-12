@@ -50,7 +50,5 @@ class ErrorBoundaryComponent extends Component<
 export function ErrorBoundary({ children }: { children: React.ReactNode }) {
   const intl = useIntl()
 
-  return (
-    <ErrorBoundaryComponent intl={intl}>{children}</ErrorBoundaryComponent>
-  )
+  return <ErrorBoundaryComponent intl={intl}>{children}</ErrorBoundaryComponent>
 }
