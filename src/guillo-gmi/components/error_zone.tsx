@@ -6,11 +6,7 @@ interface Props {
   className?: string
 }
 
-export default function ErrorZone({
-  children,
-  id,
-  className = '',
-}: Props) {
+export default function ErrorZone({ children, id, className = '' }: Props) {
   return (
     <p className={classnames(['help is-danger', className])} id={id}>
       {children}
