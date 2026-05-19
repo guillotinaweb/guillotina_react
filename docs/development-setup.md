@@ -4,7 +4,7 @@ This guide will help you set up a local development environment for contributing
 
 ## Prerequisites
 
-- **Node.js**: 20 or higher
+- **Node.js**: 22.13 or higher (required by pnpm 11)
 - **pnpm**: 11.x — run `corepack enable` once; version is pinned in `package.json` (`packageManager`) and enforced in CI
 - **Docker**: For running Guillotina and PostgreSQL
 

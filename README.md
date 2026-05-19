@@ -9,7 +9,7 @@ All this with the flexibility to build it your way, adding your own content with
 ## Prerequisites
 
 - React 16.12+ / 17 / 18 / 19
-- Node.js 20+
+- Node.js 22.13+
 - TypeScript 5.4+
 
 ## Status
@@ -152,7 +152,7 @@ To start the project locally for development, follow the quick start below. Befo
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 22.13+
 - pnpm 11+ (`corepack enable` or `npm install -g pnpm`)
 - Docker (for running Guillotina)
 

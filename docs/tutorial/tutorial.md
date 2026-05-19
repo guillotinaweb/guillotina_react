@@ -6,7 +6,7 @@ All this with the flexibility to build it your way, adding your own content with
 
 ### Prerequisites
 - **Python**: 3.11 or higher
-- **Node.js**: 20 or higher
+- **Node.js**: 22.13 or higher
 - **pnpm**: 9.x (`npm install -g pnpm`)
 - **Docker**: For running PostgreSQL
 
