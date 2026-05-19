@@ -511,7 +511,7 @@ import { EditableField } from '@guillotinaweb/react-gmi'
 
 Is is in charge of renders edit component according schema information when EditableField is in `EditMode`. You can override it from the registry to change the input to render according to JSON schema.
 
-[Default component](../src/guillo-gmi/components/fields/editComponent.js)
+[Default component](../src/guillo-gmi/components/fields/editComponent.tsx)
 
 How to override:
 
@@ -531,7 +531,7 @@ const registry = {
 
 Is is in charge of renders the value when EditableField is in `ViewMode`. You can override it from the registry to change the input to render according to JSON schema
 
-[Default component](../src/guillo-gmi/components/fields/renderField.js#44)
+[Default component](../src/guillo-gmi/components/fields/renderField.tsx#L219)
 
 How to override:
 
