@@ -59,13 +59,13 @@ export interface IRegistry {
     [key: string]: React.ComponentType<any>
   }
   actions: {
-    [key: string]: (props: any) => JSX.Element
+    [key: string]: (props: any) => React.ReactElement
   }
   forms: {
-    [key: string]: (props: any) => JSX.Element
+    [key: string]: (props: any) => React.ReactElement
   }
   behaviors: {
-    [key: string]: (props: any | undefined) => JSX.Element | null
+    [key: string]: (props: any | undefined) => React.ReactElement | null
   }
   itemsColumn: {
     [key: string]: <

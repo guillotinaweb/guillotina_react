@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useState } from 'react'
+import { forwardRef, useRef, useState, type ReactElement } from 'react'
 import { classnames, generateUID } from '../../lib/helpers'
 import ErrorZone from '../error_zone'
 import useInput from '../../hooks/useInput'
@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 const noop = () => true
 interface Props {
   name?: string
-  icon?: JSX.Element
+  icon?: ReactElement
   iconPosition?: 'has-icons-left' | 'has-icons-right'
   error?: string
   errorZoneClassName?: string
