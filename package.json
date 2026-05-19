@@ -108,8 +108,9 @@
     "semi": false,
     "singleQuote": true
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@11.1.3",
   "engines": {
-    "node": ">=20"
+    "node": ">=20",
+    "pnpm": ">=11.1.3"
   }
 }
