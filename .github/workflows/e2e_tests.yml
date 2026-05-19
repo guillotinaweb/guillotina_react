@@ -28,9 +28,7 @@ jobs:
         with:
           node-version: '22.x'
           cache: 'pnpm'
-          cache-dependency-path: |
-            pnpm-lock.yaml
-            e2e/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Start Guillotina services
         run: pnpm guillotina:up
