@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "vite --config playground/vite.config.ts",
     "build": "vite build && pnpm build:css",
-    "build:css": "rm -rf ./dist/css && mkdir -p ./dist/css && sass ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
+    "build:css": "rm -rf ./dist/css && mkdir -p ./dist/css && sass --load-path=node_modules ./src/guillo-gmi/scss/styles.sass ./dist/css/style.css",
     "build:playground": "vite build --config playground/vite.config.ts --outDir ../playground/dist",
     "preview": "vite preview --config playground/vite.config.ts",
     "test": "vitest run",
@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
-    "bulma": "0.9.4",
+    "bulma": "^1.0.4",
     "jwt-decode": "^4.0.0",
     "uuid": "^14.0.0"
   },
