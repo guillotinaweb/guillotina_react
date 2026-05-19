@@ -153,7 +153,7 @@ To start the project locally for development, follow the quick start below. Befo
 ### Prerequisites
 
 - Node.js 20+
-- pnpm 9+ (`npm install -g pnpm`)
+- pnpm 11+ (`corepack enable` or `npm install -g pnpm`)
 - Docker (for running Guillotina)
 
 ### Quick Start
