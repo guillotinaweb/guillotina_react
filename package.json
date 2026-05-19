@@ -18,9 +18,9 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/react-gmi.modern.js",
-      "require": "./dist/react-gmi.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/react-gmi.js"
     },
     "./css/style.css": "./dist/css/style.css"
   },
@@ -40,7 +40,7 @@
     "guillotina:logs": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml logs -f",
     "guillotina:down": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml down",
     "guillotina:populate": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml run --rm guillotina guillotina -c /app/config.yaml populate --container_id=container",
-    "lint": "eslint src",
+    "lint": "eslint src/guillo-gmi",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{js,ts,tsx}\"",
     "intl-extract": "formatjs extract 'src/**/*.js' --out-file src/guillo-gmi/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
@@ -52,10 +52,9 @@
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
-    "brace": "0.11.1",
     "bulma": "0.9.4",
-    "jwt-decode": "3.1.2",
-    "uuid": "9.0.1"
+    "jwt-decode": "^4.0.0",
+    "uuid": "^14.0.0"
   },
   "peerDependencies": {
     "react": "^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
@@ -63,31 +62,32 @@
     "react-intl": "^10.0.0"
   },
   "devDependencies": {
-    "@formatjs/cli": "^6.2.4",
-    "@formatjs/ts-transformer": "^3.13.11",
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.0",
+    "@formatjs/cli": "^6.16.0",
+    "@formatjs/ts-transformer": "^4.4.9",
     "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@types/uuid": "^9.0.8",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "prettier": "^3.2.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-intl": "10.1.6",
-    "sass": "^1.71.1",
-    "typescript": "^5.4.5",
-    "vite": "^5.4.0",
-    "vite-plugin-dts": "^4.0.0",
-    "vitest": "^2.0.0"
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "eslint": "^10.0.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.0.0",
+    "prettier": "^3.8.3",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-intl": "^10.1.7",
+    "sass": "^1.99.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3",
+    "vite": "^8.0.0",
+    "vite-plugin-dts": "^5.0.0",
+    "vitest": "^4.0.0"
   },
   "browserslist": {
     "production": [

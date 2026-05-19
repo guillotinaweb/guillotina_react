@@ -26,7 +26,9 @@ export default function useClickAway(
   useEffect(() => {
     const handler = (event: Event) => {
       const { current: el } = ref
-      el && !el.contains(event.target as Node) && savedCallback.current(event)
+      if (el && !el.contains(event.target as Node)) {
+        savedCallback.current(event)
+      }
     }
 
     for (const eventName of events) {

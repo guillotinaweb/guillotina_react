@@ -9,7 +9,7 @@ import { useLocation } from '../hooks/useLocation'
 import { Select } from './input/select'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
-import { FilterFormElement } from '../types/global'
+import { getFilterInputValue } from '../types/global'
 
 interface CreateButtonProps {
   types: string[]
@@ -81,10 +81,10 @@ export function ContextToolbar({ AddButton }: Props) {
     setSearchValue(searchText)
   }, [searchText])
 
-  const onSearchQuery = (event: React.FormEvent<FilterFormElement>) => {
+  const onSearchQuery = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLocation({
-      q: event.currentTarget.elements.filterInput.value,
+      q: getFilterInputValue(event.currentTarget),
       tab: 'Items',
       page: 0,
     })
@@ -112,6 +112,7 @@ export function ContextToolbar({ AddButton }: Props) {
                 placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
                 id="filterInput"
+                name="filterInput"
               />
             </div>
             <div className="control">

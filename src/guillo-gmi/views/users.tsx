@@ -13,7 +13,7 @@ import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 import { useEffect, useRef, useState } from 'react'
 import { GuillotinaUser, SearchItem } from '../types/guillotina'
-import { FilterFormElement, IndexSignature } from '../types/global'
+import { getFilterInputValue, IndexSignature } from '../types/global'
 
 const tabs = {
   Users: PanelItems,
@@ -26,9 +26,9 @@ export function UsersToolbar() {
   const [location, setLocation] = useLocation()
   const searchText = location.get('q')
 
-  const onSearchQuery = (event: React.FormEvent<FilterFormElement>) => {
+  const onSearchQuery = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setLocation({ q: event.currentTarget.elements.filterInput.value, page: 0 })
+    setLocation({ q: getFilterInputValue(event.currentTarget), page: 0 })
   }
 
   // cleanup form on state.search change
@@ -51,6 +51,7 @@ export function UsersToolbar() {
                 placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
                 id="filterInput"
+                name="filterInput"
               />
             </div>
             <div className="control">

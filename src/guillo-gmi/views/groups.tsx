@@ -13,7 +13,7 @@ import { EditableField } from '../components/fields/editableField'
 import { useLocation } from '../hooks/useLocation'
 import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
-import { FilterFormElement } from '../types/global'
+import { getFilterInputValue } from '../types/global'
 import { GuillotinaGroup } from '../types/guillotina'
 import { processResponse } from '../lib/processResponse'
 
@@ -28,9 +28,9 @@ export function GroupToolbar() {
   const [location, setLocation] = useLocation()
   const searchText = location.get('q')
 
-  const onSearchQuery = (event: React.FormEvent<FilterFormElement>) => {
+  const onSearchQuery = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setLocation({ q: event.currentTarget.elements.filterInput.value, page: 0 })
+    setLocation({ q: getFilterInputValue(event.currentTarget), page: 0 })
   }
 
   // cleanup form on state.search change
@@ -53,6 +53,7 @@ export function GroupToolbar() {
                 placeholder={intl.formatMessage(genericMessages.search)}
                 data-test="inputFilterTest"
                 id="filterInput"
+                name="filterInput"
               />
             </div>
             <div className="control">

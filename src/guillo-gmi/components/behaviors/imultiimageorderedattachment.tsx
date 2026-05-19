@@ -152,7 +152,7 @@ export function IMultiImageOrderedAttachment({ properties, values }: Props) {
       try {
         const req = await Ctx.client.upload(endpointSize, file)
         if (req.status !== 200) hasError = true
-      } catch (err) {
+      } catch (_err) {
         hasError = true
       }
 
