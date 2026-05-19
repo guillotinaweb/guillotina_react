@@ -2,6 +2,7 @@ from guillotina import configure
 from guillotina import content
 from guillotina_react_app.gmi.interface import IGMI
 
+
 @configure.contenttype(
     type_name="GMI",
     schema=IGMI,
@@ -12,7 +13,7 @@ from guillotina_react_app.gmi.interface import IGMI
         "guillotina.contrib.workflows.interfaces.IWorkflowBehavior",
         "guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment",
     ],
-    add_permission="guillotina.AddContent"
+    add_permission="guillotina.AddContent",
 )
 class GMI(content.Folder):
     pass

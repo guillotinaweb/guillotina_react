@@ -1,0 +1,14 @@
+pytest==7.4.4
+pytest-aiohttp==1.0.4
+pytest-asyncio==0.18.0
+pytest-cov==3.0.0
+pytest-flake8==1.1.1
+coverage>=6.3.3
+docker==7.1.0
+docker-pycreds==0.4.0
+pytest-docker-fixtures>=1.4.4
+pytest-rerunfailures==10.2
+async-asgi-testclient==1.4.11
+vcrpy==4.1.1
+pytest-xdist==2.5.0
+psycopg2-binary>=2.9.11

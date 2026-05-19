@@ -13,7 +13,7 @@ import {
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
-} from 'react-beautiful-dnd'
+} from '@hello-pangea/dnd'
 import { v4 as uuidv4 } from 'uuid'
 import { defineMessages, useIntl } from 'react-intl'
 import {

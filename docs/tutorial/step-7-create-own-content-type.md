@@ -1,4 +1,4 @@
-## 7. Create own content type
+## 7. Create your own content type
 
 Create a `guillotina_demo/guillotina_demo/content.py` file and create the content type.
 
@@ -34,7 +34,7 @@ class IDemoType(IFolder):
 
     index_field("choice_field", type="keyword")
     choice_field = schema.Choice(
-        title="Choce field",
+        title="Choice field",
         values=("plone", "guillotina", "other"),
         required=True,
     )
@@ -101,7 +101,7 @@ Now you can add a Demo type object. Click on plus icon in container view and try
 
 ### Define custom form
 
-Modify `gmi_demo/App.js`
+Modify `gmi_demo/src/App.tsx`
 
 ```diff
 
@@ -130,9 +130,9 @@ function App() {
 
 ```
 
-Here we have defined the registry. In registry we can override diferent components by each content type. More information in - [Narrative Docs](../api.md)
+Here we have defined the registry. In the registry, we can override different components for each content type. More information is available in the [API Documentation](../api.md).
 
-After this, we can create a new DemoType object doing the same process. Now, we can see all the requried files. 
+After this, we can create a new DemoType object using the same process. Now, we can see all the required fields. 
 
 Add it!
 

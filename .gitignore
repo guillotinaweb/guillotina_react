@@ -30,13 +30,12 @@ yarn-error.log*
 e2e/node_modules
 e2e/cypress/screenshots
 e2e/cypress/videos
-e2e/example/node_modules
-e2e/example/.next
+e2e/playwright-report
+e2e/test-results
 
-# gmi
-/gmi/dist
-/gmi/build
-/gmi/guillotina_gmi/gmi
+# playground
+/playground/dist
+/playground/node_modules
 
 # Guillotina
 .python-version
@@ -44,3 +43,4 @@ e2e/example/.next
 __pycache__
 
 .vscode
+

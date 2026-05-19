@@ -7,16 +7,10 @@ from guillotina.fields import CloudFileField
 JSON_EXAMPLE_SCHEMA = json.dumps(
     {
         "title": "My Json Field",
-        "type": "object", 
+        "type": "object",
         "properties": {
-            "items": {
-                "type": "array",
-                "title": "Array in json"
-            },
-            "text": {
-                "type": "string", 
-                "title": "Text in json"
-            },
+            "items": {"type": "array", "title": "Array in json"},
+            "text": {"type": "string", "title": "Text in json"},
             "second_level": {
                 "type": "object",
                 "title": "Two levels",
@@ -27,9 +21,11 @@ JSON_EXAMPLE_SCHEMA = json.dumps(
                     },
                 },
             },
-        }
+        },
     }
 )
+
+
 class IGMIAllRequired(interfaces.IFolder):
 
     json_example = schema.JSONField(schema=JSON_EXAMPLE_SCHEMA, required=False)
@@ -43,7 +39,6 @@ class IGMIAllRequired(interfaces.IFolder):
     index_field("textarea_field", type="searchabletext")
     textarea_field = schema.Text(title="Text area field", required=True, widget="textarea")
 
-
     text_line_field = schema.TextLine(title="Text line field", required=True)
     index_field("number_field", type="int")
     number_field = schema.Int(title="Number field", required=True)
@@ -51,7 +46,7 @@ class IGMIAllRequired(interfaces.IFolder):
     boolean_field = schema.Bool(title="Boolean field")
     cloud_file_field = CloudFileField(title="Cloud file field")
     list_field = schema.List(title="List field", value_type=schema.TextLine(), missing_value=[], required=True)
-    
+
     index_field("datetime_field", type="date")
     datetime_field = schema.Datetime(title="Datetime field", required=True)
 
@@ -62,11 +57,7 @@ class IGMIAllRequired(interfaces.IFolder):
     date_field = schema.Date(title="Date field", required=True)
 
     index_field("choice_field_vocabulary", type="keyword")
-    choice_field_vocabulary = schema.Choice(
-        title="Choice field vocabulary",
-        vocabulary="gmi_vocabulary",
-        required=True
-    )
+    choice_field_vocabulary = schema.Choice(title="Choice field vocabulary", vocabulary="gmi_vocabulary", required=True)
 
     index_field("choice_field", type="keyword")
     choice_field = schema.Choice(
@@ -77,25 +68,25 @@ class IGMIAllRequired(interfaces.IFolder):
 
     index_field("multiple_choice_field", type="keyword")
     multiple_choice_field = schema.List(
-        title="Multiple choice field", 
+        title="Multiple choice field",
         value_type=schema.Choice(
             title="Choice field",
             values=["date", "integer", "text", "float", "keyword", "boolean"],
-        ), 
+        ),
         missing_value=[],
-        required=True
+        required=True,
     )
 
     index_field("multiple_choice_field_vocabulary", type="keyword")
     multiple_choice_field_vocabulary = schema.List(
-        title="Multiple choice field vocabulary", 
+        title="Multiple choice field vocabulary",
         value_type=schema.Choice(
             title="Choice field vocabulary",
             vocabulary="gmi_vocabulary",
             required=True,
-        ), 
+        ),
         missing_value=[],
-        required=True
+        required=True,
     )
 
     gmi_ids = schema.List(
@@ -107,13 +98,9 @@ class IGMIAllRequired(interfaces.IFolder):
         widget="search_list",
         labelProperty="title",
         typeNameQuery="GMI",
-        required=True
+        required=True,
     )
 
     brother_gmi = schema.Text(
-        title="Brother GMI", 
-        widget="search",
-        typeNameQuery="GMI",
-        labelProperty="title",
-        required=True
+        title="Brother GMI", widget="search", typeNameQuery="GMI", labelProperty="title", required=True
     )

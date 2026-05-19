@@ -9,7 +9,7 @@ import {
   Layout,
 } from '@guillotinaweb/react-gmi'
 
-import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
+import '@guillotinaweb/react-gmi/css/style.css'
 
 const url = 'http://localhost:8080'
 const schema = '/'
@@ -18,6 +18,7 @@ const client = getClient(url, schema, auth)
 
 export default function App() {
   const [isLogged, setLogged] = React.useState(auth.isLogged)
+  const [currentSchema, setCurrentSchema] = React.useState(schema)
 
   const onLogin = () => {
     setLogged(true)
@@ -29,11 +30,24 @@ export default function App() {
   return (
     <ClientProvider client={client}>
       <Layout auth={auth} onLogout={onLogout}>
-        {isLogged && <Guillotina auth={auth} url={schema} />}
+        {isLogged && (
+          <Guillotina
+            auth={auth}
+            url={currentSchema}
+            locale="en"
+            registry={{}}
+          />
+        )}
         {!isLogged && (
           <div className="columns is-centered">
-            <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth} currentSchema={schema} />
+            <div className="column is-half">
+              <Login
+                onLogin={onLogin}
+                auth={auth}
+                currentSchema={currentSchema}
+                setCurrentSchema={setCurrentSchema}
+                schemas={[schema]}
+              />
             </div>
           </div>
         )}

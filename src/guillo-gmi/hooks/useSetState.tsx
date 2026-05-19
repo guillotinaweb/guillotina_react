@@ -14,11 +14,9 @@ function useSetState<T extends object>(initialState: T): [T, TSetState<T>] {
   // Function which accepts a partial state to merge
   const setCustomState = useCallback((newPartialState: Partial<T>) => {
     try {
-      setState(
-        (prevState): T => {
-          return { ...prevState, ...newPartialState }
-        }
-      )
+      setState((prevState): T => {
+        return { ...prevState, ...newPartialState }
+      })
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)

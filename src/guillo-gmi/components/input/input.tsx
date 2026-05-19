@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useState } from 'react'
+import { forwardRef, useRef, useState, type ReactElement } from 'react'
 import { classnames, generateUID } from '../../lib/helpers'
 import ErrorZone from '../error_zone'
 import useInput from '../../hooks/useInput'
@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 const noop = () => true
 interface Props {
   name?: string
-  icon?: JSX.Element
+  icon?: ReactElement
   iconPosition?: 'has-icons-left' | 'has-icons-right'
   error?: string
   errorZoneClassName?: string
@@ -67,7 +67,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     const [uid] = useState(generateUID('input'))
     const [mounted, setMounted] = useState(false)
     // eslint-disable-next-line
-    const newRef = ref || useRef()
+    const newRef = ref || useRef<HTMLInputElement>(null)
 
     useEffect(() => {
       setMounted(true)

@@ -1,28 +1,27 @@
 
-## 1. Install guillotina
+## 1. Install Guillotina
 
 ```bash
 mkdir tutorial-gmi
 cd tutorial-gmi
-python3.8 -m venv genv
+python3.11 -m venv genv
 source ./genv/bin/activate
 pip install guillotina
 pip install cookiecutter
 ```
 
+### Start PostgreSQL Database
 
-### Up database
+- Run PostgreSQL
 
-- Run postgres
-
-```
+```bash
 docker run -d \
     -e POSTGRES_DB=guillotina \
     -e POSTGRES_USER=guillotina \
     -e POSTGRES_PASSWORD=guillotina \
-    -p 127.0.0.1:5444:5432 \
+    -p 127.0.0.1:5432:5432 \
     --name postgres_gmi \
-    postgres:13.4
+    postgres:18
 ```
 
 ### Create and run guillotina application
@@ -57,13 +56,14 @@ pip install -e guillotina_demo
 
  ```diff
 -dsn: postgresql://postgres@localhost:5432/guillotina
-+dsn: postgresql://guillotina:guillotina@localhost:5444/guillotina
++dsn: postgresql://guillotina:guillotina@localhost:5432/guillotina
 ```
 
  ```diff
 allow_origin:
   - http://localhost:8080
-+ - http://localhost:3000
++ - http://127.0.0.1:5173
++ - http://localhost:5173
   - "chrome-extension://*"
 ```
 

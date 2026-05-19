@@ -1,9 +1,7 @@
 from guillotina import configure
 
-_gmi_vocabulary = {
-    "plone": "Plone",
-    "guillotina": "Guillotina text"
-}
+_gmi_vocabulary = {"plone": "Plone", "guillotina": "Guillotina text"}
+
 
 @configure.vocabulary(name="gmi_vocabulary")
 class GMIVocabulary:

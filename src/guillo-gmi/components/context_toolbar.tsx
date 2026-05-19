@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import Dropdown from './input/dropdown'
-import useSetState from '../hooks/useSetState'
 import { Button } from './input/button'
 import { Icon } from './ui/icon'
 import { useTraversal } from '../contexts'
@@ -12,55 +11,40 @@ import { useIntl } from 'react-intl'
 import { genericMessages } from '../locales/generic_messages'
 import { FilterFormElement } from '../types/global'
 
-interface State {
+interface CreateButtonProps {
   types: string[]
-  isActive?: boolean
 }
-const initialState = { types: [] }
 
-export function CreateButton() {
+export function CreateButton({ types }: CreateButtonProps) {
   const intl = useIntl()
-  const [state, setState] = useSetState<State>(initialState)
   const Ctx = useTraversal()
-  const Config = useConfig()
-  useEffect(() => {
-    async function anyNameFunction() {
-      const types: string[] = await Ctx.client.getTypes(Ctx.path)
-      setState({
-        types: types.filter((item) => !Config.DisabledTypes.includes(item)),
-      })
-    }
-    anyNameFunction()
-  }, [Ctx.path])
 
   const doAction = (item: string) => {
     Ctx.doAction('addItem', { type: item })
-    setState({ isActive: false })
   }
 
-  if (state.types && state.types.length === 1) {
+  if (types.length === 0) {
+    return null
+  }
+
+  if (types.length === 1) {
     return (
       <Button
         className={'is-small is-success'}
-        onClick={() => doAction(state.types[0])}
+        onClick={() => doAction(types[0])}
         dataTest="itemAddTypeTest"
       >
-        {intl.formatMessage(genericMessages.add_type, { type: state.types[0] })}
+        {intl.formatMessage(genericMessages.add_type, { type: types[0] })}
       </Button>
     )
   }
 
-  if (state.types && state.types.length === 0) {
-    return null
-  }
-
-  // Implement some kind of filtering
   return (
     <Dropdown
       id="dropdown-menu"
       isRight
       onChange={doAction}
-      options={(state.types || []).map((item) => ({ text: item, value: item }))}
+      options={types.map((item) => ({ text: item, value: item }))}
     >
       <span className="icon" data-test="itemAddTypeTest">
         <i className="fas fa-plus"></i>
@@ -70,11 +54,11 @@ export function CreateButton() {
 }
 
 interface Props {
-  AddButton?: React.FC
+  AddButton?: React.FC<CreateButtonProps>
 }
 export function ContextToolbar({ AddButton }: Props) {
   const intl = useIntl()
-  const [state, setState] = useSetState<State>(initialState)
+  const [types, setTypes] = useState<string[]>([])
   const [location, setLocation, del] = useLocation()
   const traversal = useTraversal()
   const Config = useConfig()
@@ -82,19 +66,20 @@ export function ContextToolbar({ AddButton }: Props) {
   const [searchValue, setSearchValue] = useState(searchText || '')
 
   useEffect(() => {
+    async function loadTypes() {
+      const fetchedTypes: string[] = await traversal.client.getTypes(
+        traversal.path
+      )
+      setTypes(
+        fetchedTypes.filter((item) => !Config.DisabledTypes.includes(item))
+      )
+    }
     loadTypes()
   }, [traversal.path])
 
   useEffect(() => {
     setSearchValue(searchText)
   }, [searchText])
-
-  async function loadTypes() {
-    const types: string[] = await traversal.client.getTypes(traversal.path)
-    setState({
-      types: types.filter((item) => !Config.DisabledTypes.includes(item)),
-    })
-  }
 
   const onSearchQuery = (event: React.FormEvent<FilterFormElement>) => {
     event.preventDefault()
@@ -146,7 +131,7 @@ export function ContextToolbar({ AddButton }: Props) {
           appendDefault
           dataTest="selectFilterTypeTest"
           classWrap="is-size-7"
-          options={(state.types || []).map((item) => ({
+          options={types.map((item) => ({
             text: item,
             value: item,
           }))}
@@ -155,7 +140,11 @@ export function ContextToolbar({ AddButton }: Props) {
       </div>
       {traversal.hasPerm('guillotina.AddContent') && (
         <div className="level-item">
-          {AddButton !== undefined ? <AddButton /> : <CreateButton />}
+          {AddButton !== undefined ? (
+            <AddButton types={types} />
+          ) : (
+            <CreateButton types={types} />
+          )}
         </div>
       )}
     </>

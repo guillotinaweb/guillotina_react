@@ -27,7 +27,7 @@ export default function Dropdown({
     ? `dropdown ${position} is-active`
     : `dropdown ${position}`
 
-  useClickAway(ref, () => {
+  useClickAway(ref as React.RefObject<HTMLElement>, () => {
     setIsActive(false)
   })
 
