@@ -11,8 +11,8 @@ export default defineConfig({
     react(),
     dts({
       include: ['src/guillo-gmi'],
-      outDir: 'dist',
-      rollupTypes: true,
+      outDirs: 'dist',
+      bundleTypes: true,
       insertTypesEntry: true,
     }),
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@guillotinaweb/react-gmi",
-  "version": "0.35.0",
+  "version": "0.35.2",
   "description": "React framework for building Guillotina admin interfaces",
   "repository": {
     "type": "git",
