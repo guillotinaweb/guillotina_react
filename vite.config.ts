@@ -1,7 +1,9 @@
-import { defineConfig } from 'vite'
+import { defineConfig, esmExternalRequirePlugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+
+const peerDeps = ['react', 'react-dom', 'react/jsx-runtime', 'react-intl']
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,8 +11,8 @@ export default defineConfig({
     react(),
     dts({
       include: ['src/guillo-gmi'],
-      outDir: 'dist',
-      rollupTypes: true,
+      outDirs: 'dist',
+      bundleTypes: true,
       insertTypesEntry: true,
     }),
   ],
@@ -25,8 +27,13 @@ export default defineConfig({
         return `react-gmi.${format}.js`
       },
     },
-    rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'react-intl'],
+    rolldownOptions: {
+      // esmExternalRequirePlugin replaces __require("react") with ESM imports (needed for Vite 8 consumers).
+      plugins: [
+        esmExternalRequirePlugin({
+          external: peerDeps,
+        }),
+      ],
       output: {
         globals: {
           react: 'React',

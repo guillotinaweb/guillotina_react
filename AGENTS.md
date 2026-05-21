@@ -13,7 +13,7 @@ Guillotina React is a **framework-first React UI layer** for [Guillotina](https:
 | Item | Value |
 |------|-------|
 | Package Name | `@guillotinaweb/react-gmi` |
-| Language | TypeScript 5.4+ (strict) |
+| Language | TypeScript 6.0+ (strict) |
 | Framework | React (16.12+, 17, 18, 19) |
 | Styling | Bulma CSS + Sass |
 | Build Tool | Vite |
@@ -35,7 +35,7 @@ UI elements render based on Guillotina permissions. Tabs, actions, and fields ap
 
 | Technology | Why Chosen |
 |------------|------------|
-| TypeScript 5.4+ (strict) | Framework reliability and type-safe extensions |
+| TypeScript 6.0+ (strict) | Framework reliability and type-safe extensions |
 | React 16.12+ - 19 | Wide compatibility for consumer applications |
 | Vite | Fast build tool with HMR, generates CJS and ESM outputs |
 | Bulma CSS + Sass | Extensible CSS without JS dependencies |

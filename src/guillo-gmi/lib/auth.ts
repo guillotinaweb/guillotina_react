@@ -1,4 +1,4 @@
-import jwt_decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { IndexSignature } from '../types/global'
 
 export class Auth {
@@ -40,7 +40,7 @@ export class Auth {
       } else {
         this.errors = 'invalid_credentials'
       }
-    } catch (e) {
+    } catch (_e) {
       this.errors = 'failed_to_fetch'
       return false
     }
@@ -68,7 +68,7 @@ export class Auth {
       return false
     }
     const [token] = this._getToken()
-    const data: IndexSignature = jwt_decode(token as string)
+    const data: IndexSignature = jwtDecode(token as string)
     console.log(token)
     return data.id
   }

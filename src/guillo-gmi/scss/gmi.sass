@@ -1,5 +1,11 @@
+@use "bulma/sass/utilities/derived-variables" as dv
+@use "bulma/sass/utilities/initial-variables" as iv
+
 .navbar-item img
   max-height: 3.5em
+
+html
+  color-scheme: light
 
 body
   background-color: #f3f3f3
@@ -16,11 +22,11 @@ section.main
   cursor: pointer
 
 .breadcrumb ul li:last-child a
-  color: $text
+  color: dv.$text
 
 .user-props
   label
-    color: $grey-light
+    color: iv.$grey-light
     display: inline-block
     width: 120px
   p
