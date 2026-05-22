@@ -4,6 +4,7 @@ import { FileUpload } from '../input/upload'
 import { Select } from '../input/select'
 import { Input } from '../input/input'
 import { InputList } from '../input/input_list'
+import { MultipleChoice } from '../input/multiple_choice'
 import { get } from '../../lib/utils'
 import { SelectVocabulary } from '../input/select_vocabulary'
 import { SearchInputList } from '../input/search_input_list'
@@ -29,6 +30,7 @@ interface Props {
   placeholder?: string
   id?: string
   required?: boolean
+  disabled?: boolean
 }
 
 export const EditComponent = forwardRef(
@@ -42,6 +44,7 @@ export const EditComponent = forwardRef(
       placeholder,
       id,
       required,
+      disabled,
     }: Props,
     ref
   ) => {
@@ -63,6 +66,7 @@ export const EditComponent = forwardRef(
               schema?.labelProperty ? schema.labelProperty : 'title'
             }
             typeNameQuery={schema?.typeNameQuery}
+            disabled={disabled}
           />
         </>
       )
@@ -82,6 +86,7 @@ export const EditComponent = forwardRef(
               schema?.labelProperty ? schema.labelProperty : 'title'
             }
             typeNameQuery={schema?.typeNameQuery}
+            disabled={disabled}
           />
         </>
       )
@@ -95,6 +100,7 @@ export const EditComponent = forwardRef(
           dataTest={dataTest}
           placeholder={placeholder}
           id={id}
+          disabled={disabled}
         />
       )
     } else if (schema?.type === 'boolean') {
@@ -104,6 +110,8 @@ export const EditComponent = forwardRef(
           className={className}
           onChange={(ev) => setValue(ev)}
           dataTest={dataTest}
+          disabled={disabled}
+          variant="switch"
         />
       )
     } else if (schema?.type === 'array') {
@@ -120,14 +128,13 @@ export const EditComponent = forwardRef(
               multiple
               placeholder={placeholder}
               id={id}
+              disabled={disabled}
             />
           )
         } else if (schema?.items?.vocabulary) {
           return (
-            <Select
+            <MultipleChoice
               value={(val || []) as string[]}
-              className={className}
-              classWrap="is-fullwidth"
               dataTest={dataTest}
               options={schema?.items.vocabulary.map((item) => {
                 return {
@@ -135,10 +142,8 @@ export const EditComponent = forwardRef(
                   value: item,
                 }
               })}
-              multiple
               onChange={setValue}
-              placeholder={placeholder}
-              id={id}
+              disabled={disabled}
             />
           )
         }
@@ -152,6 +157,7 @@ export const EditComponent = forwardRef(
             onChange={(val) => setValue(val as string[])}
             ref={ref as Ref<HTMLInputElement>}
             dataTest={dataTest}
+            disabled={disabled}
           />
         </>
       )
@@ -162,6 +168,7 @@ export const EditComponent = forwardRef(
           onChange={(ev) => setValue(ev as LightFile)}
           label={get(value, 'filename', undefined)}
           dataTest={dataTest}
+          disabled={disabled}
         />
       )
     } else if (schema?.widget === 'select' && schema.type === 'string') {
@@ -177,6 +184,7 @@ export const EditComponent = forwardRef(
             vocabularyName={get(schema, 'vocabularyName', '')}
             placeholder={placeholder}
             id={id}
+            disabled={disabled}
           />
         )
       }
@@ -197,6 +205,7 @@ export const EditComponent = forwardRef(
           onChange={setValue}
           placeholder={placeholder}
           id={id}
+          disabled={disabled}
         />
       )
     } else if (schema?.type === 'object' && schema.widget !== 'file') {
@@ -224,6 +233,7 @@ export const EditComponent = forwardRef(
                   setValue({ ...value, [key]: ev } as IndexSignature)
                 }}
                 dataTest={`${key}TestInput`}
+                disabled={disabled}
               />
             )
           })}
@@ -255,6 +265,7 @@ export const EditComponent = forwardRef(
         required={required}
         placeholder={placeholder}
         id={id}
+        disabled={disabled}
       />
     )
   }

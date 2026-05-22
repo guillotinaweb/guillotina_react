@@ -1,4 +1,5 @@
 import { Select } from './select'
+import { MultipleChoice } from './multiple_choice'
 import { get } from '../../lib/utils'
 import { useVocabulary } from '../../hooks/useVocabulary'
 import { forwardRef } from 'react'
@@ -15,6 +16,7 @@ interface Props {
   appendDefault?: boolean
   id?: string
   placeholder?: string
+  disabled?: boolean
 }
 export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
   (
@@ -28,6 +30,7 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
       onChange,
       id,
       placeholder,
+      disabled,
     },
     ref
   ) => {
@@ -71,6 +74,18 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
       return <div />
     }
 
+    if (multiple) {
+      return (
+        <MultipleChoice
+          value={(val || []) as string[]}
+          options={getOptions()}
+          dataTest={dataTest}
+          onChange={(value) => onChange?.(value)}
+          disabled={disabled}
+        />
+      )
+    }
+
     return (
       <Select
         {...getProps()}
@@ -81,6 +96,7 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
         onChange={onChange}
         id={id}
         placeholder={placeholder}
+        disabled={disabled}
       />
     )
   }

@@ -7,8 +7,9 @@ interface Props {
   label?: string
   dataTest?: string
   onChange: (file: LightFile) => void
+  disabled?: boolean
 }
-export function FileUpload({ label, onChange, dataTest }: Props) {
+export function FileUpload({ label, onChange, dataTest, disabled }: Props) {
   const intl = useIntl()
   const changed = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -26,6 +27,7 @@ export function FileUpload({ label, onChange, dataTest }: Props) {
           name="file"
           onChange={changed}
           data-test={dataTest}
+          disabled={disabled}
         />
         <span className="file-cta">
           <span className="file-icon">

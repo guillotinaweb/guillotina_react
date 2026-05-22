@@ -81,6 +81,15 @@ export interface IRegistry {
   components: {
     [key: string]: (props: any) => React.ReactNode | null | undefined
   }
+  /**
+   * Custom edit form panels per content type.
+   * Allows overriding the default PanelEditForm for specific types.
+   */
+  editPanels: {
+    [key: string]: React.ComponentType<{
+      onDirtyChange?: (isDirty: boolean) => void
+    }>
+  }
   searchEngineQueryParamsFunction: {
     [key: string]: string
   }
@@ -152,6 +161,7 @@ const registry: IRegistry = {
   itemsColumn: {},
   schemas: {},
   properties: {},
+  editPanels: {},
   components: {
     Path: Path,
     EditComponent: EditComponent,
@@ -182,6 +192,14 @@ export interface IManageRegistry {
   getAction: (type: string, fallback?: React.FC) => React.FC
   getBehavior: (type: string, fallback?: React.FC) => React.FC<any>
   getProperties: (type: string) => RegistryProperties
+  getEditPanel: (
+    type: string,
+    fallback?: React.ComponentType<{
+      onDirtyChange?: (isDirty: boolean) => void
+    }>
+  ) =>
+    | React.ComponentType<{ onDirtyChange?: (isDirty: boolean) => void }>
+    | undefined
   getItemsColumn: <T extends SearchOrCommonObject = SearchOrCommonObject>(
     type: string
   ) => ItemColumn<T>[] | undefined
@@ -258,6 +276,13 @@ const getProperties = (type: string) => {
   return registry.properties[type] || {}
 }
 
+const getEditPanel = (
+  type: string,
+  fallback?: React.ComponentType<{ onDirtyChange?: (isDirty: boolean) => void }>
+) => {
+  return registry.editPanels[type] || fallback
+}
+
 const getSchemas = (type: string): RegistrySchema => {
   return registry.schemas[type] || {}
 }
@@ -332,6 +357,7 @@ export function useRegistry(data: Partial<IRegistry>): IManageRegistry {
     getAction,
     getBehavior,
     getProperties,
+    getEditPanel,
     getItemsColumn,
     getFieldsToFilter,
     getParsedSearchQueryParam,

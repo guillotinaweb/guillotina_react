@@ -28,6 +28,7 @@ export interface IConfig {
   icons?: { [key: string]: string }
   properties_default?: string[]
   properties_ignore_fields?: string[]
+  properties_ignore_behaviors?: string[]
   fieldHaveDeleteButton: (schema: GuillotinaSchemaProperty) => boolean
   flash?: (message: string, type: string) => void
 }
