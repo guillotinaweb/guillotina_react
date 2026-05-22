@@ -258,7 +258,19 @@ for (const loginType of LOGIN_TYPES) {
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
         )
         .locator(EDITABLE_FORM_SELECTORS.field)
-        .selectOption(['float', 'integer'])
+        .locator('.multiple-choice-option')
+        .filter({ hasText: 'float' })
+        .locator('label')
+        .click()
+      await page
+        .locator(
+          `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
+        )
+        .locator(EDITABLE_FORM_SELECTORS.field)
+        .locator('.multiple-choice-option')
+        .filter({ hasText: 'integer' })
+        .locator('label')
+        .click()
       await page
         .locator(
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field']`
@@ -277,7 +289,19 @@ for (const loginType of LOGIN_TYPES) {
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
         )
         .locator(EDITABLE_FORM_SELECTORS.field)
-        .selectOption(['plone', 'guillotina'])
+        .locator('.multiple-choice-option')
+        .filter({ hasText: 'Plone' })
+        .locator('label')
+        .click()
+      await page
+        .locator(
+          `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
+        )
+        .locator(EDITABLE_FORM_SELECTORS.field)
+        .locator('.multiple-choice-option')
+        .filter({ hasText: 'Guillotina text' })
+        .locator('label')
+        .click()
       await page
         .locator(
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-multiple_choice_field_vocabulary']`
@@ -314,7 +338,7 @@ for (const loginType of LOGIN_TYPES) {
         .locator(
           `[data-test='${EDITABLE_FORM_SELECTORS.prefixEditableField}-list_field']`
         )
-        .locator(EDITABLE_FORM_SELECTORS.field)
+        .getByPlaceholder('Value')
       await listField.fill('first item')
       await listField.press('Enter')
       await listField.fill('second item')
