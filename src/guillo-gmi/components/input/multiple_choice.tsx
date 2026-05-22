@@ -27,9 +27,7 @@ export function MultipleChoice({
 
     if (checked) {
       onChange(
-        selected.includes(optionValue)
-          ? selected
-          : selected.concat(optionValue)
+        selected.includes(optionValue) ? selected : selected.concat(optionValue)
       )
       return
     }

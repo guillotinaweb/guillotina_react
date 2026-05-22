@@ -186,18 +186,15 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
     }
   }, [isDirty, onDirtyChange])
 
-  const {
-    showConfirmModal,
-    confirmLeave,
-    cancelLeave,
-  } = useUnsavedChangesGuard({
-    isDirty,
-    message: intl.formatMessage({
-      id: 'unsaved_changes_warning',
-      defaultMessage:
-        'You have unsaved changes. Are you sure you want to leave?',
-    }),
-  })
+  const { showConfirmModal, confirmLeave, cancelLeave } =
+    useUnsavedChangesGuard({
+      isDirty,
+      message: intl.formatMessage({
+        id: 'unsaved_changes_warning',
+        defaultMessage:
+          'You have unsaved changes. Are you sure you want to leave?',
+      }),
+    })
 
   // Load schema
   useEffect(() => {
