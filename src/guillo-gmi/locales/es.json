@@ -242,6 +242,18 @@
   "press_enter_to_add_value": {
     "defaultMessage": "Presiona enter para añadir valor"
   },
+  "list_value_placeholder": {
+    "defaultMessage": "Valor"
+  },
+  "add_list_value": {
+    "defaultMessage": "Añadir"
+  },
+  "input_list_help": {
+    "defaultMessage": "Añade un valor cada vez."
+  },
+  "remove_list_value": {
+    "defaultMessage": "Eliminar {value}"
+  },
   "principal_permissions": {
     "defaultMessage": "Usuario - Permisos"
   },

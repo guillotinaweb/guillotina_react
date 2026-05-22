@@ -101,91 +101,330 @@ section.main
   .tags, .tag
     margin-bottom: 0px
 
+.switch-control
+  display: inline-flex
+  align-items: center
+  gap: 0.65rem
+  min-height: 40px
+  cursor: pointer
+
+  &.is-disabled
+    cursor: not-allowed
+    opacity: 0.55
+
+  .switch-input
+    position: absolute
+    width: 1px
+    height: 1px
+    overflow: hidden
+    clip: rect(0 0 0 0)
+    white-space: nowrap
+
+    &:focus-visible + .switch-track
+      box-shadow: 0 0 0 3px rgba(72, 95, 199, 0.22)
+
+  .switch-track
+    width: 48px
+    height: 28px
+    border-radius: 999px
+    background: #d9dee7
+    border: 1px solid #c9d0dc
+    display: inline-flex
+    align-items: center
+    padding: 3px
+    transition: background 0.18s ease, border-color 0.18s ease
+    flex-shrink: 0
+
+  .switch-thumb
+    width: 20px
+    height: 20px
+    border-radius: 50%
+    background: white
+    box-shadow: 0 1px 3px rgba(10, 10, 10, 0.22)
+    transform: translateX(0)
+    transition: transform 0.18s ease
+
+  &.is-checked
+    .switch-track
+      background: #48c78e
+      border-color: #48c78e
+
+    .switch-thumb
+      transform: translateX(20px)
+
+  .switch-label
+    color: #4a4a4a
+    font-size: 0.9rem
+
+.multiple-choice
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr))
+  gap: 0.5rem
+
+.multiple-choice-option
+  border: 1px solid #e1e5ec
+  border-radius: 6px
+  background: #fbfcfe
+  transition: border-color 0.15s ease, background 0.15s ease
+
+  &:hover
+    border-color: #cbd3df
+    background: white
+
+  &.is-selected
+    border-color: #48c78e
+    background: #f2fbf7
+
+  .field
+    margin-bottom: 0
+
+  label.checkbox
+    display: flex
+    align-items: center
+    width: 100%
+    min-height: 40px
+    padding: 0.55rem 0.7rem
+    margin: 0
+
+    input[type="checkbox"]
+      width: 1rem
+      height: 1rem
+      margin: 0 0.6rem 0 0
+      accent-color: #48c78e
+      flex-shrink: 0
+
+.input-list
+  width: 100%
+
+.input-list-values
+  margin-bottom: 0.5rem
+
+.input-list-add
+  margin-bottom: 0.25rem
+
+  > .control
+    margin-bottom: 0
+
+    > .field
+      margin-bottom: 0
+
+  .button
+    height: 40px
+
+.input-list-help
+  color: #7a7a7a
+
 // Edit Form Panel Styles
-.edit-form-field-card
+.edit-form
+  max-width: none
+
+.edit-form-header
+  position: sticky
+  top: 0
+  z-index: 5
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 1rem
   background: white
   border: 1px solid #e8e8e8
   border-radius: 8px
-  padding: 1rem 1.25rem
-  transition: all 0.2s ease
-  height: 100%
-  
+  padding: 0.9rem 1rem
+  margin-bottom: 1rem
+  box-shadow: 0 1px 8px rgba(10, 10, 10, 0.06)
+
+.edit-form-title
+  display: flex
+  align-items: center
+  gap: 0.75rem
+  min-width: 0
+
+  .title
+    max-width: 40rem
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+.edit-form-summary
+  color: #7a7a7a
+  font-size: 0.82rem
+  margin: 0
+
+.edit-form-actions
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  gap: 0.5rem
+  flex-shrink: 0
+
+.edit-form-grid
+  display: grid
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr)
+  gap: 0.75rem
+
+.edit-form-field-row
+  display: grid
+  grid-template-columns: minmax(0, 1fr)
+  align-items: start
+  gap: 0.7rem
+  background: white
+  border: 1px solid #e8e8e8
+  border-radius: 6px
+  padding: 0.85rem 1rem
+  transition: border-color 0.2s ease, box-shadow 0.2s ease
+
   &:hover
-    border-color: #dbdbdb
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06)
-  
+    border-color: #d3d3d3
+    box-shadow: 0 1px 6px rgba(10, 10, 10, 0.05)
+
+  &.is-wide
+    grid-column: 1 / -1
+
   &.is-modified
-    border-color: #ffdd57
-    background: linear-gradient(to right, #fffbeb 0%, white 100%)
-    
+    border-left: 4px solid #ffdd57
+    background: #fffdf4
+
   &.is-readonly
     background: #fafafa
-    border-style: dashed
-    
+
   .field-header
+    min-width: 0
+
+  .field-heading
+    display: flex
+    align-items: flex-start
+    gap: 0.55rem
+    min-width: 0
+
+  .field-icon
+    width: 28px
+    height: 28px
+    border-radius: 6px
     display: flex
     align-items: center
-    gap: 0.5rem
-    margin-bottom: 0.75rem
-    
-    .field-icon
-      width: 32px
-      height: 32px
-      border-radius: 6px
-      display: flex
-      align-items: center
-      justify-content: center
-      font-size: 0.875rem
-      flex-shrink: 0
-      
-      &.icon-text
-        background: #e8f4fd
-        color: #3298dc
-      &.icon-number
-        background: #effaf5
-        color: #48c78e
-      &.icon-boolean
-        background: #f5effb
-        color: #b86bff
-      &.icon-date
-        background: #fff4e6
-        color: #ff9f43
-      &.icon-file
-        background: #fef0f0
-        color: #f14668
-      &.icon-list
-        background: #e8f4fd
-        color: #485fc7
-      &.icon-object
-        background: #f0f0f0
-        color: #4a4a4a
-      &.icon-select
-        background: #effaf5
-        color: #00947e
-        
-    .field-title
-      flex: 1
-      min-width: 0
-      
-      .label
-        margin-bottom: 0
-        font-size: 0.9rem
-        white-space: nowrap
-        overflow: hidden
-        text-overflow: ellipsis
-        
-  .field-description
+    justify-content: center
     font-size: 0.8rem
-    color: #7a7a7a
-    margin-bottom: 0.75rem
-    padding-left: 2.5rem
-    
-  .field-control
-    padding-left: 0
+    flex-shrink: 0
 
-.edit-form-header
-  background: white
-  border-radius: 8px
-  padding: 1rem 1.5rem
-  margin-bottom: 1.5rem
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08)
+    &.icon-text
+      background: #e8f4fd
+      color: #3298dc
+    &.icon-number
+      background: #effaf5
+      color: #48c78e
+    &.icon-boolean
+      background: #f5effb
+      color: #b86bff
+    &.icon-date
+      background: #fff4e6
+      color: #ff9f43
+    &.icon-file
+      background: #fef0f0
+      color: #f14668
+    &.icon-list
+      background: #eef2ff
+      color: #485fc7
+    &.icon-object
+      background: #f0f0f0
+      color: #4a4a4a
+    &.icon-select
+      background: #effaf5
+      color: #00947e
+
+  .field-title
+    min-width: 0
+
+    .label
+      margin-bottom: 0.15rem
+      font-size: 0.9rem
+      line-height: 1.25
+
+  .field-key
+    display: block
+    color: #9a9a9a
+    font-size: 0.72rem
+    line-height: 1.2
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+  .field-description
+    color: #7a7a7a
+    font-size: 0.8rem
+    line-height: 1.35
+    margin: 0.45rem 0 0 2.2rem
+
+  .field-control
+    min-width: 0
+
+    > *
+      width: 100%
+
+    > .field
+      margin-bottom: 0
+
+    .field,
+    .control,
+    .file,
+    .file-label,
+    .file-cta,
+    .dropdown,
+    .dropdown-trigger,
+    .dropdown-trigger .button
+      width: 100%
+
+    .dropdown-trigger .button
+      justify-content: space-between
+
+    .textarea
+      min-height: 8rem
+
+    .select,
+    .select select,
+    .input,
+    .textarea,
+    input,
+    textarea,
+    select
+      width: 100%
+
+    .button
+      max-width: 100%
+
+    .search-input,
+    .search-input-list
+      width: 100%
+
+    .switch-control
+      width: auto
+
+      .switch-input
+        width: 1px
+
+@media (max-width: 1024px)
+  .edit-form-grid
+    grid-template-columns: 1fr
+
+@media (max-width: 768px)
+  .edit-form-header
+    position: static
+    align-items: stretch
+    flex-direction: column
+
+  .edit-form-title
+    align-items: flex-start
+    justify-content: space-between
+
+    .title
+      white-space: normal
+
+  .edit-form-actions
+    justify-content: stretch
+
+    .button
+      flex: 1
+
+  .edit-form-field-row,
+  .edit-form-field-row.is-wide
+    grid-template-columns: 1fr
+    gap: 0.65rem

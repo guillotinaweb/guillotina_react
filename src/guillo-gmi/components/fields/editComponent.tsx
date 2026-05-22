@@ -4,6 +4,7 @@ import { FileUpload } from '../input/upload'
 import { Select } from '../input/select'
 import { Input } from '../input/input'
 import { InputList } from '../input/input_list'
+import { MultipleChoice } from '../input/multiple_choice'
 import { get } from '../../lib/utils'
 import { SelectVocabulary } from '../input/select_vocabulary'
 import { SearchInputList } from '../input/search_input_list'
@@ -110,6 +111,7 @@ export const EditComponent = forwardRef(
           onChange={(ev) => setValue(ev)}
           dataTest={dataTest}
           disabled={disabled}
+          variant="switch"
         />
       )
     } else if (schema?.type === 'array') {
@@ -131,10 +133,8 @@ export const EditComponent = forwardRef(
           )
         } else if (schema?.items?.vocabulary) {
           return (
-            <Select
+            <MultipleChoice
               value={(val || []) as string[]}
-              className={className}
-              classWrap="is-fullwidth"
               dataTest={dataTest}
               options={schema?.items.vocabulary.map((item) => {
                 return {
@@ -142,10 +142,7 @@ export const EditComponent = forwardRef(
                   value: item,
                 }
               })}
-              multiple
               onChange={setValue}
-              placeholder={placeholder}
-              id={id}
               disabled={disabled}
             />
           )

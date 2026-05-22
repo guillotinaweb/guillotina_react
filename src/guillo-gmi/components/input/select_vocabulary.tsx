@@ -1,4 +1,5 @@
 import { Select } from './select'
+import { MultipleChoice } from './multiple_choice'
 import { get } from '../../lib/utils'
 import { useVocabulary } from '../../hooks/useVocabulary'
 import { forwardRef } from 'react'
@@ -71,6 +72,18 @@ export const SelectVocabulary = forwardRef<HTMLSelectElement, Props>(
 
     if (vocabulary.data === undefined || vocabulary.loading) {
       return <div />
+    }
+
+    if (multiple) {
+      return (
+        <MultipleChoice
+          value={(val || []) as string[]}
+          options={getOptions()}
+          dataTest={dataTest}
+          onChange={(value) => onChange?.(value)}
+          disabled={disabled}
+        />
+      )
     }
 
     return (

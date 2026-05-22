@@ -69,6 +69,32 @@ const getFieldIcon = (
   return { icon: 'fas fa-font', className: 'icon-text' }
 }
 
+const isWideField = (schema: GuillotinaSchemaProperty) => {
+  return (
+    schema.type === 'object' ||
+    schema.type === 'array' ||
+    schema.widget === 'textarea' ||
+    schema.widget === 'richtext' ||
+    schema.widget === 'file' ||
+    schema.widget === 'cloudfile' ||
+    schema.widget === 'search_list'
+  )
+}
+
+const EMPTY_ARRAY: string[] = []
+
+const getFormValue = (
+  context: IndexSignature,
+  key: string,
+  fieldSchema: GuillotinaSchemaProperty
+) => {
+  const value = get(context, key, '')
+  if (fieldSchema.type === 'array' && (value == null || value === '')) {
+    return EMPTY_ARRAY
+  }
+  return value
+}
+
 interface SchemaState {
   data?: GuillotinaSchema
   loading: boolean
@@ -123,8 +149,8 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
   // Build initial values from context
   const initialValues = useMemo(() => {
     const values: IndexSignature = {}
-    editableProperties.forEach(({ key }) => {
-      values[key] = get(Ctx.context, key, '')
+    editableProperties.forEach(({ key, schema: fieldSchema }) => {
+      values[key] = getFormValue(Ctx.context, key, fieldSchema)
     })
     return values
   }, [editableProperties, Ctx.context])
@@ -133,6 +159,7 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
     formData,
     setFieldValue,
     isDirty,
+    isFieldDirty,
     getChangedFields,
     resetForm,
     resetFormWithValues,
@@ -145,8 +172,8 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
   useEffect(() => {
     if (schema.data && editableProperties.length > 0) {
       const newValues: IndexSignature = {}
-      editableProperties.forEach(({ key }) => {
-        newValues[key] = get(Ctx.context, key, '')
+      editableProperties.forEach(({ key, schema: fieldSchema }) => {
+        newValues[key] = getFormValue(Ctx.context, key, fieldSchema)
       })
       resetFormWithValues(newValues)
     }
@@ -249,7 +276,7 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
           } else {
             successCount++
           }
-        } catch (err) {
+        } catch {
           hasError = true
           Ctx.flash(
             intl.formatMessage(
@@ -348,99 +375,103 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
     )
   }
 
+  const editTitle =
+    Ctx.context.title ||
+    intl.formatMessage({
+      id: 'edit_form_title',
+      defaultMessage: 'Edit Properties',
+    })
+
   return (
-    <div className="container">
+    <div className="container edit-form">
       <form onSubmit={handleSubmit}>
         <div className="edit-form-header">
-          <div className="level mb-0">
-            <div className="level-left">
-              <div className="level-item">
-                <h3 className="title is-5 mb-0">
-                  {intl.formatMessage({
-                    id: 'edit_form_title',
-                    defaultMessage: 'Edit Properties',
-                  })}
-                </h3>
-              </div>
-              {isDirty && (
-                <div className="level-item">
-                  <span className="tag is-warning is-medium">
-                    <span className="icon is-small mr-1">
-                      <i className="fas fa-pen"></i>
-                    </span>
-                    {intl.formatMessage(
-                      {
-                        id: 'fields_modified',
-                        defaultMessage: '{count} field(s) modified',
-                      },
-                      { count: changedFieldsCount }
-                    )}
-                  </span>
-                </div>
-              )}
+          <div className="edit-form-title">
+            <div>
+              <h3 className="title is-5 mb-1">{editTitle}</h3>
+              <p className="edit-form-summary">
+                {intl.formatMessage(
+                  {
+                    id: 'editable_fields_count',
+                    defaultMessage: '{count} editable field(s)',
+                  },
+                  { count: editableProperties.length }
+                )}
+              </p>
             </div>
-            <div className="level-right">
-              <div className="level-item">
-                <button
-                  type="button"
-                  className="button is-light"
-                  onClick={handleReset}
-                  disabled={!isDirty || patchLoading}
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-undo"></i>
-                  </span>
-                  <span>
-                    {intl.formatMessage({
-                      id: 'discard_changes',
-                      defaultMessage: 'Discard Changes',
-                    })}
-                  </span>
-                </button>
-              </div>
-              <div className="level-item">
-                <Button
-                  type="submit"
-                  className="is-primary"
-                  loading={patchLoading}
-                  disabled={!isDirty}
-                  dataTest="btnSaveAllTest"
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-save"></i>
-                  </span>
-                  <span>
-                    {intl.formatMessage({
-                      id: 'save_all_changes',
-                      defaultMessage: 'Save All Changes',
-                    })}
-                  </span>
-                </Button>
-              </div>
-            </div>
+            {isDirty && (
+              <span className="tag is-warning">
+                <span className="icon is-small mr-1">
+                  <i className="fas fa-pen"></i>
+                </span>
+                {intl.formatMessage(
+                  {
+                    id: 'fields_modified',
+                    defaultMessage: '{count} field(s) modified',
+                  },
+                  { count: changedFieldsCount }
+                )}
+              </span>
+            )}
+          </div>
+          <div className="edit-form-actions">
+            <button
+              type="button"
+              className="button is-light"
+              onClick={handleReset}
+              disabled={!isDirty || patchLoading}
+            >
+              <span className="icon is-small">
+                <i className="fas fa-undo"></i>
+              </span>
+              <span>
+                {intl.formatMessage({
+                  id: 'discard_changes',
+                  defaultMessage: 'Discard Changes',
+                })}
+              </span>
+            </button>
+            <Button
+              type="submit"
+              className="is-primary"
+              loading={patchLoading}
+              disabled={!isDirty}
+              dataTest="btnSaveAllTest"
+            >
+              <span className="icon is-small">
+                <i className="fas fa-save"></i>
+              </span>
+              <span>
+                {intl.formatMessage({
+                  id: 'save_all_changes',
+                  defaultMessage: 'Save All Changes',
+                })}
+              </span>
+            </Button>
           </div>
         </div>
 
         {editableProperties.length > 0 ? (
-          <div className="columns is-multiline">
+          <div className="edit-form-grid">
             {editableProperties.map(({ key, schema: fieldSchema }) => {
               const isReadonly = fieldSchema.readonly === true
               const isRequired = (schema.data?.required ?? []).includes(key)
-              const isModified = isDirty && formData[key] !== initialValues[key]
+              const isModified = isFieldDirty(key)
               const fieldIcon = getFieldIcon(fieldSchema)
 
-              const cardClasses = [
-                'edit-form-field-card',
+              const rowClasses = [
+                'edit-form-field-row',
                 isModified ? 'is-modified' : '',
                 isReadonly ? 'is-readonly' : '',
+                isWideField(fieldSchema) ? 'is-wide' : '',
               ]
                 .filter(Boolean)
                 .join(' ')
 
               return (
-                <div key={key} className="column is-half">
-                  <div className={cardClasses}>
-                    <div className="field-header">
+                <div key={key} className={rowClasses}>
+                  <div className="field-header">
+                    <div className="field-heading">
                       <div className={`field-icon ${fieldIcon.className}`}>
                         <i className={fieldIcon.icon}></i>
                       </div>
@@ -458,6 +489,7 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
                             </span>
                           )}
                         </label>
+                        <span className="field-key">{key}</span>
                       </div>
                     </div>
                     {fieldSchema.description && (
@@ -465,19 +497,19 @@ export function PanelEditForm({ onDirtyChange }: PanelEditFormProps) {
                         {fieldSchema.description}
                       </p>
                     )}
-                    <div className="field-control">
-                      <EditComponent
-                        id={`field-${key}`}
-                        schema={fieldSchema}
-                        val={formData[key] as EditableFieldValue}
-                        setValue={(value: EditableFieldValue) =>
-                          setFieldValue(key, value)
-                        }
-                        dataTest={`editForm-${key}`}
-                        required={isRequired}
-                        disabled={isReadonly}
-                      />
-                    </div>
+                  </div>
+                  <div className="field-control">
+                    <EditComponent
+                      id={`field-${key}`}
+                      schema={fieldSchema}
+                      val={formData[key] as EditableFieldValue}
+                      setValue={(value: EditableFieldValue) =>
+                        setFieldValue(key, value)
+                      }
+                      dataTest={`editForm-${key}`}
+                      required={isRequired}
+                      disabled={isReadonly}
+                    />
                   </div>
                 </div>
               )
