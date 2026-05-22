@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+// Bulma 1 build: 0.9.4 palette + light theme only (no prefers-color-scheme dark)
+@use "bulma-v09-theme" as v09;
+
+@use "bulma/sass/utilities" with (
+  $scheme-h: v09.$scheme-h,
+  $scheme-s: v09.$scheme-s,
+  $black: v09.$black,
+  $black-bis: v09.$black-bis,
+  $black-ter: v09.$black-ter,
+  $grey-darker: v09.$grey-darker,
+  $grey-dark: v09.$grey-dark,
+  $grey: v09.$grey,
+  $grey-light: v09.$grey-light,
+  $grey-lighter: v09.$grey-lighter,
+  $grey-lightest: v09.$grey-lightest,
+  $white-ter: v09.$white-ter,
+  $white-bis: v09.$white-bis,
+  $white: v09.$white,
+  $orange: v09.$orange,
+  $yellow: v09.$yellow,
+  $green: v09.$green,
+  $turquoise: v09.$turquoise,
+  $cyan: v09.$cyan,
+  $blue: v09.$blue,
+  $purple: v09.$purple,
+  $red: v09.$red,
+  $family-sans-serif: v09.$family-sans-serif,
+  $family-monospace: v09.$family-monospace,
+  $radius-small: v09.$radius-small,
+  $radius: v09.$radius,
+  $radius-large: v09.$radius-large
+);
+
+@forward "bulma/sass/base";
+@forward "bulma/sass/elements";
+@forward "bulma/sass/form";
+@forward "bulma/sass/components";
+@forward "bulma/sass/grid";
+@forward "bulma/sass/layout";
+@forward "bulma/sass/base/skeleton";
+@forward "bulma/sass/helpers";
+
+@use "bulma/sass/utilities/initial-variables" as iv;
+@use "bulma/sass/themes/light";
+@use "bulma/sass/themes/setup";
+
+#{iv.$variables-host} {
+  @include light.light-theme;
+  @include setup.setup-theme;
+}

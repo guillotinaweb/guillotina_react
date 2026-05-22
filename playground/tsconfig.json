@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@guillotinaweb/react-gmi": ["../src/guillo-gmi"]
+    }
+  },
+  "include": ["src"]
+}

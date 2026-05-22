@@ -1,8 +1,8 @@
-## 3. Firsts steps with GMI UI
+## 3. First steps with GMI UI
 
-### Login as root  
+### Log in as root
 
-Go to http://locahost:3000 and do login with root credentials:
+Go to `http://127.0.0.1:5173` and log in with root credentials:
 
 ```
 username: root
@@ -11,9 +11,9 @@ password: root
 
 ### Create first container
 
-After login you are in the data base view.
-In this view, there is a list of all contaniers where you can create a new contanier. 
-Do click in `db` and then create the first container called `container`. Then go to `container` view.
+After logging in, you are in the database view.
+In this view, there is a list of all containers where you can create a new container. 
+Click on `db` and then create the first container called `container`. Then go to the `container` view.
 
 ### Container view
 
@@ -32,10 +32,10 @@ We can see some tabs, this is the default view for content type `Container`.
 ### Traversal
 
 
-Through the traversal context we have access to the Guillotina content and to some UI actions / helpers.
-We defined this in `path` query param. For example, container view woulde be:
+Through the traversal context, we have access to the Guillotina content and to some UI actions and helpers.
+We define this in the `path` query parameter. For example, the container view would be:
 
-`http://localhost:3000?path=/db/container`
+`http://127.0.0.1:5173?path=/db/container`
 
 
 

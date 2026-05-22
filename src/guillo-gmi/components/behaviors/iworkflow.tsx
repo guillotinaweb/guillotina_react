@@ -40,9 +40,10 @@ export function IWorkflow() {
     undefined
   )
   const vocabulary = useVocabulary('workflow_states')
-  const currentState = Ctx.context[
-    'guillotina.contrib.workflows.interfaces.IWorkflowBehavior'
-  ]!['review_state']
+  const currentState =
+    Ctx.context['guillotina.contrib.workflows.interfaces.IWorkflowBehavior']![
+      'review_state'
+    ]
 
   async function loadDefinition() {
     const response = await Ctx.client.get(`${Ctx.path}/@workflow`)

@@ -67,7 +67,7 @@ export const SearchInputList = ({
 }: Props) => {
   const intl = useIntl()
   const [options, setOptions] = useSetState<State>(initialState)
-  const [valuesLabel, setValuesLabels] = useState<IndexSignature | undefined>(
+  const [valuesLabels, setValuesLabels] = useState<IndexSignature | undefined>(
     undefined
   )
   const [isOpen, setIsOpen] = useState(false)
@@ -79,7 +79,7 @@ export const SearchInputList = ({
 
   const [uid] = useState(generateUID('search_input'))
 
-  useClickAway(wrapperRef, () => {
+  useClickAway(wrapperRef as React.RefObject<HTMLElement>, () => {
     setIsOpen(false)
   })
 
@@ -227,7 +227,7 @@ export const SearchInputList = ({
     }
   }, [path, options.loading, options.items])
 
-  if (isLoadingData || valuesLabel === undefined) {
+  if (isLoadingData || valuesLabels === undefined) {
     return <div className="spinner" />
   }
 
@@ -241,7 +241,7 @@ export const SearchInputList = ({
             key={`input_list_${tag}_${index}`}
             className="tag is-info is-medium"
           >
-            {get(valuesLabel, tag, tag)}
+            {get(valuesLabels, tag, tag)}
             <button
               className="delete is-small"
               onClick={(ev) => {
@@ -328,7 +328,7 @@ export const SearchInputList = ({
                       ev.preventDefault()
                       if (onChange && !value.includes(item.id)) {
                         setValuesLabels({
-                          ...valuesLabel,
+                          ...valuesLabels,
                           [item.id]: get(item, labelProperty, item.id),
                         })
                         onChange([...value, item.id])

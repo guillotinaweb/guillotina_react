@@ -13,7 +13,7 @@ import {
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
-} from 'react-beautiful-dnd'
+} from '@hello-pangea/dnd'
 import { v4 as uuidv4 } from 'uuid'
 import { defineMessages, useIntl } from 'react-intl'
 import {
@@ -152,7 +152,7 @@ export function IMultiImageOrderedAttachment({ properties, values }: Props) {
       try {
         const req = await Ctx.client.upload(endpointSize, file)
         if (req.status !== 200) hasError = true
-      } catch (err) {
+      } catch (_err) {
         hasError = true
       }
 

@@ -12,6 +12,10 @@ export function Layout({ children, onLogout, auth }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const doLogout = () => {
     auth.logout()
+    // Clear query parameters from URL
+    if (window.location.search) {
+      window.history.replaceState({}, '', window.location.pathname)
+    }
     onLogout()
   }
 

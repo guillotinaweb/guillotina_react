@@ -1,8 +1,8 @@
 ### Behaviors
 
-In properties tab there are individual properties and behaviors, each behavior can have its own component to render it. You can override this in registry or if you create a new behavior in Guillotina you can map it with a new component in registry too. 
+In the properties tab, there are individual properties and behaviors. Each behavior can have its own component to render it. You can override this in the registry, or if you create a new behavior in Guillotina, you can map it with a new component in the registry too. 
 
-Guillotina react provide default components to IAttachment, IDublincore and IMultiAttachment behaviors. But Guillotina provide us more default behaviors like IImageAttachment and IMultiImageAttachment. Now we going to create a component to IMultiImageAttachment
+Guillotina React provides default components for IAttachment, IDublinCore, and IMultiAttachment behaviors. However, Guillotina provides us with more default behaviors like IImageAttachment and IMultiImageAttachment. Now we're going to create a component for IMultiImageAttachment.
 
 Modify Guillotina to add behavior:
 
@@ -43,18 +43,16 @@ Install Pillow
 pip install Pillow
 ```
 
-Restart Guillotina
+Restart Guillotina.
 
-Install image addon to guillotina
+Install the image addon in Guillotina.
 
-Now modify we going to create IMultiImageAttachment component and add it in GMI registry.
+Now we're going to create an IMultiImageAttachment component and add it to the GMI registry.
 
-Create `gmi_demo/components/behaviors/IMultiImageAttachment.js`
+Create `gmi_demo/src/components/behaviors/IMultiImageAttachment.tsx`:
 
-
-```jsx
-import React, { useState } from 'react'
-
+```tsx
+import { useState } from 'react'
 import {
   Input,
   FileUpload,
@@ -214,7 +212,7 @@ export function IMultiImageAttachment({ properties, values }) {
 
 Finally update GMI registry
 
-`App.js`
+`App.tsx`
 
 ```diff
 

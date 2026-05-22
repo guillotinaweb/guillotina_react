@@ -1,4 +1,3 @@
-import React from 'react'
 import { Layout } from './guillo-gmi'
 import { Auth } from './guillo-gmi'
 import { Guillotina } from './guillo-gmi'
@@ -25,11 +24,8 @@ const schemas = [
 ]
 */
 
-let url = 'http://localhost:8080'
+const url = import.meta.env.PROD ? '/' : 'http://localhost:8080'
 const schema = '/'
-if (process.env.NODE_ENV === 'production') {
-  url = '/'
-}
 
 const auth = new Auth(url)
 const client = getClient(url, schema, auth)

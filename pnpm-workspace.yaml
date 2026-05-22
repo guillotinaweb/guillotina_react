@@ -1,0 +1,7 @@
+# pnpm 11+ project settings (https://pnpm.io/configuring)
+packages:
+  - 'e2e'
+autoInstallPeers: false
+allowBuilds:
+  esbuild: true
+  '@parcel/watcher': true

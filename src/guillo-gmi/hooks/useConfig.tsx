@@ -87,7 +87,7 @@ function isPlainObject(value: any): value is object {
 }
 
 export function useConfig(cfg = {}) {
-  const ref = useRef<IConfig>()
+  const ref = useRef<IConfig | undefined>(undefined)
   if (cfg && !ref.current) {
     calculated = addConfig(cfg, calculated)
     ref.current = calculated

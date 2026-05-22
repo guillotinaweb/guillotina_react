@@ -76,7 +76,7 @@ export const SearchInput = ({
   )
   const [uid] = useState(generateUID('search_input'))
 
-  useClickAway(wrapperRef, () => {
+  useClickAway(wrapperRef as React.RefObject<HTMLElement>, () => {
     setIsOpen(false)
   })
 

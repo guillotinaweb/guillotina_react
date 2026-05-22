@@ -140,7 +140,9 @@ const prepareData = (result: Addons) => {
     available: result.available.filter(
       (item) => !result.installed.includes(item.id)
     ),
-    installed: result.installed.map((id) => addons[id]),
+    installed: result.installed.map(
+      (id) => addons[id] ?? { id, title: id, dependencies: [] }
+    ),
   }
 }
 

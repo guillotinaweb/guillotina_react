@@ -39,14 +39,15 @@ import {
 import { buildQs, parser } from '../lib/search'
 import { MessageDescriptor } from 'react-intl'
 import { getActionsObject } from '../lib/helpers'
+import { Traversal } from '../contexts'
 
 export interface RegistrySortValue {
   direction: 'asc' | 'des'
   key: string
 }
 export interface RegistryProperties {
-  Buttons: React.ReactElement
-  Panels: React.ReactElement
+  Buttons: React.ReactElement<{ Ctx?: Traversal }>
+  Panels: React.ReactElement<{ Ctx?: Traversal }>
   default: string[]
   ignoreField: string[]
 }
@@ -58,17 +59,17 @@ export interface IRegistry {
     [key: string]: React.ComponentType<any>
   }
   actions: {
-    [key: string]: (props: any) => JSX.Element
+    [key: string]: (props: any) => React.ReactElement
   }
   forms: {
-    [key: string]: (props: any) => JSX.Element
+    [key: string]: (props: any) => React.ReactElement
   }
   behaviors: {
-    [key: string]: (props: any | undefined) => JSX.Element | null
+    [key: string]: (props: any | undefined) => React.ReactElement | null
   }
   itemsColumn: {
     [key: string]: <
-      T extends SearchOrCommonObject = SearchOrCommonObject
+      T extends SearchOrCommonObject = SearchOrCommonObject,
     >() => ItemColumn<T>[]
   }
   schemas: {
@@ -102,9 +103,7 @@ export interface IRegistry {
     [key: string]: RegistrySortValue
   }
   actionsList: {
-    [key: string]: (
-      multiple: boolean
-    ) => {
+    [key: string]: (multiple: boolean) => {
       [key: string]: {
         text: MessageDescriptor
         perms: string[]
@@ -153,8 +152,10 @@ const registry: IRegistry = {
     'guillotina.behaviors.attachment.IAttachment': IAttachment,
     'guillotina.behaviors.attachment.IMultiAttachment': IMultiAttachment,
     'guillotina.contrib.image.behaviors.IImageAttachment': IImageAttachment,
-    'guillotina.contrib.image.behaviors.IMultiImageAttachment': IMultiImageAttachment,
-    'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment': IMultiImageOrderedAttachment,
+    'guillotina.contrib.image.behaviors.IMultiImageAttachment':
+      IMultiImageAttachment,
+    'guillotina.contrib.image.behaviors.IMultiImageOrderedAttachment':
+      IMultiImageOrderedAttachment,
     'guillotina.contrib.workflows.interfaces.IWorkflowBehavior': IWorkflow,
   },
   itemsColumn: {},
@@ -336,7 +337,7 @@ export const defaultComponent = (context: GuillotinaCommonObject) => {
 
 export function useRegistry(data: Partial<IRegistry>): IManageRegistry {
   // if data is provided we need to merge it into actual registry
-  const ref = React.useRef<unknown>()
+  const ref = React.useRef<unknown>(undefined)
   if (data && !ref.current) {
     ref.current = true
     Object.keys(data).map((key) => {

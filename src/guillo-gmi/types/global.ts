@@ -22,9 +22,7 @@ export type EditableFieldValue =
   | undefined
   | null
 
-interface FormElements extends HTMLFormControlsCollection {
-  filterInput: HTMLInputElement
-}
-export interface FilterFormElement extends HTMLFormElement {
-  readonly elements: FormElements
+export function getFilterInputValue(form: HTMLFormElement): string {
+  const input = form.elements.namedItem('filterInput')
+  return input instanceof HTMLInputElement ? input.value : ''
 }

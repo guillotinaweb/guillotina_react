@@ -1,5 +1,5 @@
 import { Component, ErrorInfo } from 'react'
-import { IntlShape, injectIntl } from 'react-intl'
+import { IntlShape, useIntl } from 'react-intl'
 
 const style = { color: '#F44336', fontSize: 20, paddingBottom: 20 }
 
@@ -47,7 +47,8 @@ class ErrorBoundaryComponent extends Component<
   }
 }
 
-export const ErrorBoundary: React.ComponentType<{
-  intl: IntlShape
-  children: React.ReactNode
-}> = injectIntl(ErrorBoundaryComponent)
+export function ErrorBoundary({ children }: { children: React.ReactNode }) {
+  const intl = useIntl()
+
+  return <ErrorBoundaryComponent intl={intl}>{children}</ErrorBoundaryComponent>
+}

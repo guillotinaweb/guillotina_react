@@ -7,7 +7,7 @@ export * from './sharing'
 export class ItemModel<
   T extends SearchItem | GuillotinaCommonObject =
     | SearchItem
-    | GuillotinaCommonObject
+    | GuillotinaCommonObject,
 > {
   item: T
   url: string
@@ -39,6 +39,7 @@ export class ItemModel<
   }
 
   get icon() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- legacy class getter; refactor with context
     const cfg = useConfig()
     if (cfg.icons && cfg.icons[this.type]) {
       return cfg.icons[this.type]

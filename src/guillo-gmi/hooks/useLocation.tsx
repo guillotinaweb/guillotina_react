@@ -21,7 +21,7 @@ const clean = (to: IndexSignature) => {
 export const useLocation = (): [
   URLSearchParams,
   (to: IndexSignature, replace?: boolean) => void,
-  (param: string) => void
+  (param: string) => void,
 ] => {
   const [path, update] = useState(currentSearchParams())
   const prevPath = useRef(path)
@@ -35,7 +35,10 @@ export const useLocation = (): [
     // that's why we store the last pathname in a ref.
     const checkForUpdates = () => {
       const pathname = currentSearchParams()
-      prevPath.current !== pathname && update((prevPath.current = pathname))
+      if (prevPath.current !== pathname) {
+        prevPath.current = pathname
+        update(pathname)
+      }
     }
 
     const events = ['popstate', 'pushState', 'replaceState']

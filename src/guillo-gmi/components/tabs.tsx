@@ -23,7 +23,7 @@ type TabsPanelPropsWithChildren<T = Record<string, unknown>> = TabsPanelProps &
   T
 
 export function TabsPanel<
-  T extends Record<string, unknown> = Record<string, unknown>
+  T extends Record<string, unknown> = Record<string, unknown>,
 >({
   tabs,
   currentTab,
