@@ -23,6 +23,12 @@
       "value": "Add Group"
     }
   ],
+  "add_list_value": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
   "add_permissions": [
     {
       "type": 0,
@@ -387,6 +393,12 @@
       "value": "Images sorted"
     }
   ],
+  "input_list_help": [
+    {
+      "type": 0,
+      "value": "Add one value at a time."
+    }
+  ],
   "install": [
     {
       "type": 0,
@@ -415,6 +427,12 @@
     {
       "type": 0,
       "value": "Invalid form data"
+    }
+  ],
+  "list_value_placeholder": [
+    {
+      "type": 0,
+      "value": "Value"
     }
   ],
   "load_more": [
@@ -595,6 +613,16 @@
     {
       "type": 0,
       "value": "Remove"
+    }
+  ],
+  "remove_list_value": [
+    {
+      "type": 0,
+      "value": "Remove "
+    },
+    {
+      "type": 1,
+      "value": "value"
     }
   ],
   "role": [

@@ -43,6 +43,7 @@ interface Props {
   renderTextItemOption?: (item: SearchItem) => string
   typeNameQuery?: string
   labelProperty?: string
+  disabled?: boolean
 }
 
 export const SearchInput = ({
@@ -61,6 +62,7 @@ export const SearchInput = ({
   renderTextItemOption = undefined,
   typeNameQuery = undefined,
   labelProperty = 'id',
+  disabled = false,
 }: Props) => {
   const intl = useIntl()
   const [options, setOptions] = useSetState<State>(initialState)
@@ -78,17 +80,25 @@ export const SearchInput = ({
     setIsOpen(false)
   })
 
-  const getHeight = () => {
-    if (wrapperRef && wrapperRef.current) {
-      return {
-        maxHeight: `${
-          window.innerHeight -
-          wrapperRef.current.getBoundingClientRect().top -
-          100
-        }px`,
-      }
+  // Calculate if dropdown should open upward (flip) based on available space
+  const getDropdownPosition = () => {
+    if (!wrapperRef?.current) {
+      return { shouldFlip: false, maxHeight: 'auto' }
     }
-    return { maxHeight: 'auto' }
+
+    const rect = wrapperRef.current.getBoundingClientRect()
+    const spaceBelow = window.innerHeight - rect.bottom
+    const spaceAbove = rect.top
+    const minDropdownHeight = 200 // Minimum useful height for dropdown
+
+    // Flip if there's not enough space below but enough space above
+    const shouldFlip = spaceBelow < minDropdownHeight && spaceAbove > spaceBelow
+
+    const maxHeight = shouldFlip
+      ? `${spaceAbove - 20}px`
+      : `${spaceBelow - 20}px`
+
+    return { shouldFlip, maxHeight }
   }
 
   const delayedQuery = useCallback<(value: string) => void>(
@@ -216,12 +226,16 @@ export const SearchInput = ({
     return <div className="spinner" />
   }
 
+  const { shouldFlip, maxHeight } = getDropdownPosition()
+
   return (
     <>
       <div
         data-test={dataTestWrapper}
         ref={wrapperRef}
-        className={`dropdown mb-2 ${isOpen ? 'is-active' : ''}`}
+        className={`dropdown mb-2 ${isOpen ? 'is-active' : ''} ${
+          shouldFlip && isOpen ? 'is-up' : ''
+        }`}
         onBlur={(ev) => {
           if (!ev.currentTarget.contains(ev.relatedTarget)) {
             if (searchTerm !== '') {
@@ -249,6 +263,7 @@ export const SearchInput = ({
             }}
             aria-haspopup="true"
             aria-controls="dropdown-menu"
+            disabled={disabled}
           >
             <span>
               {value
@@ -264,7 +279,7 @@ export const SearchInput = ({
           className="dropdown-menu"
           id="dropdown-menu"
           role="menu"
-          style={getHeight()}
+          style={{ maxHeight }}
         >
           <div className="dropdown-content">
             <div className="dropdown-item">

@@ -193,7 +193,7 @@ export const VocabularyRenderField = ({
         []
       ).find((item) => item.token === value)
       renderProps['value'] = vocabularyValue?.title ?? ''
-    } else {
+    } else if (value !== '' && Array.isArray(value)) {
       renderProps['value'] = ((renderProps['value'] as string[]) ?? []).map(
         (value: string) => {
           return (

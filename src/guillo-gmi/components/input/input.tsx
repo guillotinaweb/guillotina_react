@@ -28,6 +28,7 @@ interface Props {
   placeholder?: string
   disabled?: boolean
   onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>(
@@ -53,6 +54,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
       dataTest = 'testInput',
       disabled,
       onKeyUp,
+      onKeyDown,
     },
     ref
   ) => {
@@ -111,6 +113,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
             required={required}
             data-test={dataTest}
             onKeyUp={onKeyUp}
+            onKeyDown={onKeyDown}
             {...handlers}
           />
           {icon && icon}

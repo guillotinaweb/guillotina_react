@@ -13,6 +13,7 @@ interface Props {
   errorZoneClassName?: string
   placeholder?: string
   id?: string
+  disabled?: boolean
 }
 export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
   (
@@ -27,6 +28,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
       errorZoneClassName,
       placeholder,
       id,
+      disabled,
     },
     ref
   ) => {
@@ -54,6 +56,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
             value={value}
             data-test={dataTest}
             ref={ref}
+            disabled={disabled}
           />
         </div>
         <ErrorZone className={errorZoneClassName} id={uid}>

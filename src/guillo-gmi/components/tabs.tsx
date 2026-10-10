@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useLocation } from '../hooks/useLocation'
 import { IndexSignature } from '../types/global'
 
@@ -11,6 +11,12 @@ interface TabsPanelProps {
   currentTab: string
   rightToolbar?: React.ReactNode
   fallback?: React.ComponentType<{ title: string }>
+  /**
+   * Optional callback called before changing tabs.
+   * If it returns false (or a Promise resolving to false), the tab change is prevented.
+   * Useful for warning about unsaved changes.
+   */
+  onBeforeTabChange?: (newTab: string) => boolean | Promise<boolean>
 }
 
 type TabsPanelPropsWithChildren<T = Record<string, unknown>> = TabsPanelProps &
@@ -23,6 +29,7 @@ export function TabsPanel<
   currentTab,
   rightToolbar,
   fallback = FallbackTab,
+  onBeforeTabChange,
   ...restProps
 }: TabsPanelPropsWithChildren<T>) {
   const [location, setLocation] = useLocation()
@@ -43,9 +50,18 @@ export function TabsPanel<
     }
   }, [currentTab, tabs])
 
-  const changeTab = (tab: string) => {
-    setLocation({ tab: tab })
-  }
+  const changeTab = useCallback(
+    async (tab: string) => {
+      if (onBeforeTabChange) {
+        const canChange = await onBeforeTabChange(tab)
+        if (!canChange) {
+          return
+        }
+      }
+      setLocation({ tab: tab })
+    },
+    [onBeforeTabChange, setLocation]
+  )
 
   return (
     <div className="container">

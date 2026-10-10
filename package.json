@@ -39,7 +39,7 @@
     "guillotina:up": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml up -d --build",
     "guillotina:logs": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml logs -f",
     "guillotina:down": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml down",
-    "guillotina:populate": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml run --rm guillotina guillotina -c /app/config.yaml populate --container_id=container",
+    "guillotina:populate": "docker compose -f guillotina_example/guillotina_react_app/docker-compose.yml run --rm guillotina guillotina -c /app/config-docker.yaml populate --container_id=container",
     "lint": "eslint src/guillo-gmi",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{js,ts,tsx}\"",
